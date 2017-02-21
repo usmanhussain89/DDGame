@@ -1,4 +1,4 @@
-package game.models;
+package soen.game.dd.models;
 
 /**
  * Class representing an Item.
