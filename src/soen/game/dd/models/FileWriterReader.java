@@ -69,7 +69,7 @@ public class FileWriterReader {
 	
 	public Map loadMap() throws FileNotFoundException, IOException, ClassNotFoundException{
 		
-		ObjectInputStream in=new ObjectInputStream(new FileInputStream("characters.txt"));
+		ObjectInputStream in=new ObjectInputStream(new FileInputStream("map.txt"));
 		Map map = (Map)in.readObject();
 		System.out.println("<info> : the Loading of the Map "+ map.getMapName()+" was secusseful"); 
 		return map;
