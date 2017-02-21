@@ -1,5 +1,7 @@
 package game.models;
 
+import java.io.Serializable;
+
 /**
  * This class represents a map of the game.
  * Maps can be created using the Dungeon Master
@@ -9,7 +11,7 @@ package game.models;
  * @param height Height of the map
  */
 
-public class Map {
+public class Map implements Serializable {
 	
 	
 	private String mapName;

@@ -11,6 +11,8 @@ import java.io.Serializable;
 
 public class Character implements Serializable {
 
+	private String name;
+	private String description;
 	private int level;
 	private int abilityScores;
 	private int abilityModifier;
@@ -19,6 +21,7 @@ public class Character implements Serializable {
 	private int attackBonus;
 	private int damageBonus;
 	private int multipleAttacks;
+	
 	private ItemType armore;
 	private ItemType ring;
 	private ItemType helmet;
