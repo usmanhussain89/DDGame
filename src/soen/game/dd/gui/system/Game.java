@@ -29,7 +29,7 @@ public class Game extends Canvas {
 	
 	/**
 	 * This is the Constructor of class Game
-	 * initialize Jfram and set properties of the Component
+	 * initialize object of Jframe class and set properties of the Component
 	 */
 	private Game(){
 		

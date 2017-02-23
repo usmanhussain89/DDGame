@@ -5,13 +5,41 @@ package soen.game.dd.models;
  * Maps can be created using the Dungeon Master
  * 
  * @author kelbadawi
- * @param width Width of the map
- * @param height Height of the map
+ * 
  */
 
 public class Map {
 	
-	public Map(int width, int height){
+	int mapWidth;
+	int mapHeight;
+	public int mapGridSelection[][];
+	
+	/**
+	 * Default constructor
+	 */
+	public Map(){
+		
+	}
+	
+	public Map(int mapWidth, int mapHeight){
+		this.mapWidth = mapWidth;
+		this.mapHeight = mapHeight;
+	}
+	
+	public void setMapWidth(int mapWidth){
+		this.mapWidth = mapWidth;
+	}
+	
+	public void setMapHeight(int mapHeight){
+		this.mapHeight = mapHeight;
+	}
+	
+	public int getMapWidth(){
+		return mapWidth;
+	}
+	
+	public int getMapHeight(){
+		return mapHeight;
 	}
 	
 	public void saveToFile(){
