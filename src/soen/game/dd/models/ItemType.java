@@ -1,7 +1,7 @@
 package soen.game.dd.models;
 
 /**
- * Represents each item: Helmet, Armor, Shield, etc. Each item type must define
+ * Represents each item type: Helmet, Armor, Shield, etc. Each item type must define
  * within it the attributes it is allowed to change. Helmet is shown as an
  * example.
  * 

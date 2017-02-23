@@ -29,7 +29,11 @@ public class Game extends Canvas {
 	
 	/**
 	 * This is the Constructor of class Game
+<<<<<<< HEAD
 	 * initialize object of Jframe class and set properties of the Component
+=======
+	 * initialize Jframe and set properties of the Component
+>>>>>>> WIP
 	 */
 	private Game(){
 		
@@ -61,6 +65,5 @@ public class Game extends Canvas {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Game Start");
-		Game g = new Game();
 	}
 }

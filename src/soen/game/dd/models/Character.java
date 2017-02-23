@@ -233,6 +233,7 @@ public class Character implements Serializable {
 	public void setShield(ItemType shield) {
 		this.shield = shield;
 	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
