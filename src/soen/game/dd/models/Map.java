@@ -1,5 +1,7 @@
 package soen.game.dd.models;
 
+import java.io.Serializable;
+
 /**
  * This class represents a map of the game.
  * Maps can be created using the Dungeon Master
@@ -8,8 +10,9 @@ package soen.game.dd.models;
  * 
  */
 
-public class Map {
+public class Map implements Serializable {
 	
+	String mapName;
 	int mapWidth;
 	int mapHeight;
 	public int mapGridSelection[][];
@@ -25,33 +28,58 @@ public class Map {
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
 	}
-	
-	public void setMapWidth(int mapWidth){
-		this.mapWidth = mapWidth;
+
+	/**
+	 * @return the mapName
+	 */
+	public String getMapName() {
+		return mapName;
 	}
-	
-	public void setMapHeight(int mapHeight){
-		this.mapHeight = mapHeight;
+
+	/**
+	 * @param mapName the mapName to set
+	 */
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
 	}
-	
-	public int getMapWidth(){
+
+	/**
+	 * @return the width
+	 */
+	public int getMapWidth() {
 		return mapWidth;
 	}
-	
-	public int getMapHeight(){
+
+	/**
+	 * @param width the width to set
+	 */
+	public void setMapWidth(int width) {
+		this.mapWidth = width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public int getMapHeight() {
 		return mapHeight;
 	}
-	
-	public void saveToFile(){
-	}
-	
+
 	/**
-	 * Load from file would load a previous saved map from a file
-	 * @return Returns a Map object
+	 * @param height the height to set
 	 */
-	public static Map loadFromFile(String filename){
-		return null;
+	public void setMapHeight(int height) {
+		this.mapHeight = height;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Map [mapName=" + mapName + ", width=" + mapWidth + ", height=" + mapHeight + "]";
+	}
+	
+	
 
 
 }
