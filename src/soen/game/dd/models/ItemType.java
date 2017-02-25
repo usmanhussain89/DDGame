@@ -1,5 +1,9 @@
 package soen.game.dd.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Represents each item type: Helmet, Armor, Shield, etc. Each item type must define
  * within it the attributes it is allowed to change. Helmet is shown as an
@@ -9,34 +13,49 @@ package soen.game.dd.models;
  *
  */
 public enum ItemType {
+	HELMET(new ArrayList<CharacterAttribute>(Arrays.asList(
+						CharacterAttribute.INTELLIGENCE,
+						CharacterAttribute.WISDOM,
+						CharacterAttribute.ARMOR_CLASS
+						))),
 
-	HELMET() {
+	ARMOR(new ArrayList<CharacterAttribute>(Arrays.asList(
+			CharacterAttribute.ARMOR_CLASS
+			))),
 
-		CharacterAttribute[] attributes = { CharacterAttribute.INTELLIGENCE, CharacterAttribute.WISDOM,
-				CharacterAttribute.ARMOR_CLASS };
+	SHIELD(new ArrayList<CharacterAttribute>(Arrays.asList(
+			CharacterAttribute.ARMOR_CLASS
+			))),
 
-	},
+	RING(new ArrayList<CharacterAttribute>(Arrays.asList(
+			CharacterAttribute.ARMOR_CLASS,
+			CharacterAttribute.WISDOM,
+			CharacterAttribute.CHARISMA
+			))),
 
-	ARMOR() {
-		CharacterAttribute[] attributes = { CharacterAttribute.ARMOR_CLASS };
-	},
+	BELT(new ArrayList<CharacterAttribute>(Arrays.asList(
+			CharacterAttribute.CONSTITUTION,
+			CharacterAttribute.STRENGTH
+			))),
 
-	SHIELD() {
-		CharacterAttribute[] attributes = { CharacterAttribute.ARMOR_CLASS };
-	},
+	BOOTS(new ArrayList<CharacterAttribute>(Arrays.asList(
+			CharacterAttribute.ARMOR_CLASS,
+			CharacterAttribute.DEXTERITY
+			))),
 
-	RING() {
-		CharacterAttribute[] attributes = { CharacterAttribute.ARMOR_CLASS, CharacterAttribute.CONSTITUTION,
-				CharacterAttribute.WISDOM, CharacterAttribute.CHARISMA };
-	},
-	BELT() {
-		CharacterAttribute[] attributes = { CharacterAttribute.CONSTITUTION, CharacterAttribute.STRENGTH };
-	},
-	BOOTS() {
-		CharacterAttribute[] attributes = { CharacterAttribute.ARMOR_CLASS, CharacterAttribute.DEXTERITY };
-	},
-	WEAPON() {
-		CharacterAttribute[] attributes = { CharacterAttribute.ATTACK_BONUS, CharacterAttribute.DAMAGE_BONUS };
-	},
+	WEAPON(new ArrayList<CharacterAttribute>(Arrays.asList(
+			CharacterAttribute.ATTACK_BONUS,
+			CharacterAttribute.DAMAGE_BONUS
+			)));
+
+	private List<CharacterAttribute> allowedAttributes;
+
+	ItemType(List<CharacterAttribute> aA){
+		allowedAttributes = aA;
+	}
+	
+	List<CharacterAttribute> getAllowedAttributes(){
+		return allowedAttributes;
+	}
 
 }
