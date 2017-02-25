@@ -61,6 +61,5 @@ public class Game extends Canvas {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Game Start");
-		Game g = new Game();
 	}
 }
