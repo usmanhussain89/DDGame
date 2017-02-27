@@ -14,7 +14,7 @@ public class Item {
 	private int bonusAmount;
 	private String name;
 
-	public Item(ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount, String name){
+	public Item( String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount){
 		this.itemType = itemType;
 		this.enhancedAttribute = enhancedAttribute;
 		this.bonusAmount = bonusAmount;
