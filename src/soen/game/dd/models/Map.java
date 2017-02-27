@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class Map implements Serializable {
 	
-	String mapName;
+	String name;
 	int mapWidth;
 	int mapHeight;
 	public int mapGridSelection[][];
@@ -33,14 +33,14 @@ public class Map implements Serializable {
 	 * @return the mapName
 	 */
 	public String getMapName() {
-		return mapName;
+		return name;
 	}
 
 	/**
 	 * @param mapName the mapName to set
 	 */
 	public void setMapName(String mapName) {
-		this.mapName = mapName;
+		this.name = mapName;
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class Map implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Map [mapName=" + mapName + ", width=" + mapWidth + ", height=" + mapHeight + "]";
+		return "Map [mapName=" + name + ", width=" + mapWidth + ", height=" + mapHeight + "]";
 	}
 	
 	

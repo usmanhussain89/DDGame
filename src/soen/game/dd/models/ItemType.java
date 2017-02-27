@@ -6,10 +6,9 @@ import java.util.List;
 
 /**
  * Represents each item type: Helmet, Armor, Shield, etc. Each item type must define
- * within it the attributes it is allowed to change. Helmet is shown as an
- * example.
+ * within it the attributes it is allowed to change. 
  * 
- * @author kelbadawi
+ * @author fyounis
  *
  */
 public enum ItemType {

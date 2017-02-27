@@ -33,8 +33,35 @@ public class Character implements Serializable {
 	private ItemType belt;
 	private ItemType sword;
 	private ItemType shield;
-	private List<Item> backpack = new ArrayList<Item>(Arrays.asList());
+	private List<Item> backpack;
 	
+	
+	
+	
+	public Character(String name, String description, int level, int abilityScores, int abilityModifier, int hitPoint,
+			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, ItemType armore, ItemType ring,
+			ItemType helmet, ItemType boots, ItemType belt, ItemType sword, ItemType shield) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.level = level;
+		this.abilityScores = abilityScores;
+		this.abilityModifier = abilityModifier;
+		this.hitPoint = hitPoint;
+		this.armorClass = armorClass;
+		this.attackBonus = attackBonus;
+		this.damageBonus = damageBonus;
+		this.multipleAttacks = multipleAttacks;
+		this.armore = armore;
+		this.ring = ring;
+		this.helmet = helmet;
+		this.boots = boots;
+		this.belt = belt;
+		this.sword = sword;
+		this.shield = shield;
+		backpack = new ArrayList<Item>(Arrays.asList());
+	}
+
 	/**
 	 * @param Item the Item to add into backpack
 	 */

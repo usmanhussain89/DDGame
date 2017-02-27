@@ -37,5 +37,43 @@ public class Item {
 		}
 		return true;
 	}
+
+	
+	/**
+	 * @return the itemType
+	 */
+	public ItemType getItemType() {
+		return itemType;
+	}
+
+	/**
+	 * @return the enhancedAttribute
+	 */
+	public CharacterAttribute getEnhancedAttribute() {
+		return enhancedAttribute;
+	}
+
+	/**
+	 * @return the bonusAmount
+	 */
+	public int getBonusAmount() {
+		return bonusAmount;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Item [itemType=" + itemType + ", enhancedAttribute=" + enhancedAttribute + ", bonusAmount="
+				+ bonusAmount + ", name=" + name + "]";
+	}
 	
 }
