@@ -6,5 +6,13 @@ package soen.game.dd.models;
  *
  */
 public class Campaign {
+	
+	private String name;
+
+	
+	public String getName() {
+		// TODO Auto-generated method stub
+		return name;
+	}
 
 }
