@@ -1,14 +1,18 @@
-/**
- * This class for creating and modifying all the Character fighter or Monster
- * Implement  Serializable in the interface so the objects of this class can be saved into file
- * @author fyounis
- */
+
 
 package soen.game.dd.models;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+/**
+ * This class for creating and modifying all the Character fighter or Monster
+ * Implement  Serializable in the interface so the objects of this class can be saved into file
+ * @author fyounis
+ */
 public class Character implements Serializable {
 
 	private String name;
@@ -29,30 +33,42 @@ public class Character implements Serializable {
 	private ItemType belt;
 	private ItemType sword;
 	private ItemType shield;
+	private List<Item> backpack = new ArrayList<Item>(Arrays.asList());
+	
+	/**
+	 * @param Item the Item to add into backpack
+	 */
+	
+	public void addItemIntoBackpack(Item item){
+		if(backpack.size() < 10){
+		backpack.add(item);
+		}
+		else {
+			System.out.println("The Maximum backpack size is reached: "+backpack.size());
+			}
+	}
+	
+	/**
+	 * @return the backpack list of items
+	 */
+	
+	public List<Item> getItemIntoBackpack(){
+		return backpack;
+	}
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	/**
 	 * @return the description
 	 */
 	public String getDescription() {
 		return description;
 	}
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	
 	/**
 	 * @return the level
 	 */

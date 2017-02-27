@@ -3,7 +3,7 @@ package soen.game.dd.models;
 import java.util.Arrays;
 
 /**
- * Class representing an Item.
+ * Class representing an Item. 
  * @author kelbadawi
  *
  */
@@ -12,11 +12,13 @@ public class Item {
 	private ItemType itemType;
 	private CharacterAttribute enhancedAttribute;
 	private int bonusAmount;
+	private String name;
 
-	public Item(ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount){
+	public Item(ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount, String name){
 		this.itemType = itemType;
 		this.enhancedAttribute = enhancedAttribute;
 		this.bonusAmount = bonusAmount;
+		this.name = name;
 	}
 
 	/**
