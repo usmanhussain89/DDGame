@@ -3,18 +3,19 @@ package soen.game.dd.models;
 import java.util.Arrays;
 
 /**
- * Class representing an Item. 
+ * Class representing an Item.
+ * 
  * @author kelbadawi
  *
  */
 public class Item {
-	
+
 	private ItemType itemType;
 	private CharacterAttribute enhancedAttribute;
 	private int bonusAmount;
 	private String name;
 
-	public Item( String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount){
+	public Item(String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount) {
 		this.itemType = itemType;
 		this.enhancedAttribute = enhancedAttribute;
 		this.bonusAmount = bonusAmount;
@@ -22,23 +23,28 @@ public class Item {
 	}
 
 	/**
-	 * Checks if the item is valid. For an item to be valid:
-	 * - it needs to enhance an attribute that this particular item type
-	 * - it can only enhance between 1 and 5
+	 * Checks if the item is valid. For an item to be valid: - it needs to
+	 * enhance an attribute that this particular item type - it can only enhance
+	 * between 1 and 5
 	 *
 	 * @return true if item is valid, false otherwise
 	 */
-	public boolean isValid(){
-		if (this.bonusAmount > 5 || this.bonusAmount < 1){
+	public boolean isValid() {
+		if (this.bonusAmount > 5 || this.bonusAmount < 1) {
+			System.out.println("Bounus Amount: " + this.bonusAmount + " is not correct");
 			return false;
 		}
-		if (!Arrays.asList(this.itemType.getAllowedAttributes()).contains(this.enhancedAttribute)){
+
+		if (!Arrays.asList(this.itemType.getAllowedAttributes()).contains(this.enhancedAttribute)) {
+			System.out.println(
+					"item type: " + this.enhancedAttribute + " does not belong to this Item Type");
 			return false;
 		}
+		System.out.println("Item is valid");
 		return true;
+
 	}
 
-	
 	/**
 	 * @return the itemType
 	 */
@@ -67,7 +73,9 @@ public class Item {
 		return name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -75,5 +83,5 @@ public class Item {
 		return "Item [itemType=" + itemType + ", enhancedAttribute=" + enhancedAttribute + ", bonusAmount="
 				+ bonusAmount + ", name=" + name + "]";
 	}
-	
+
 }
