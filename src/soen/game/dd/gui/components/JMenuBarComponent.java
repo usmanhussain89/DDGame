@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -45,8 +47,8 @@ public class JMenuBarComponent {
 		
 		JMenuItem menuItemCreateMap = new JMenuItem(GameStatics.MENU_ITEM_CREATE_MAP);
 		menuFile.add(menuItemCreateMap);
-		JMenuItem menuItemLoadMap = new JMenuItem(GameStatics.MENU_ITEM_LOAD_MAP);
-		menuFile.add(menuItemLoadMap);
+		JMenuItem menuItemOpenMap = new JMenuItem(GameStatics.MENU_ITEM_OPEN_MAP);
+		menuFile.add(menuItemOpenMap);
 		JMenuItem menuItemCreateCharacter = new JMenuItem(GameStatics.MENU_ITEM_CREATE_CHARACTER);
 		menuFile.add(menuItemCreateCharacter);
 		JMenuItem menuItemLoadCharacter = new JMenuItem(GameStatics.MENU_ITEM_LOAD_CHARACTER);
@@ -115,7 +117,34 @@ public class JMenuBarComponent {
 						
 					}
 				}
-				if(e.getSource().equals(menuItemCreateCharacter))
+				else if (e.getSource().equals(menuItemOpenMap)) {
+					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
+					int result = fileChooser.showOpenDialog(new_jframe);
+					if (result == JFileChooser.APPROVE_OPTION) {
+						File file = fileChooser.getSelectedFile();
+						Map mapModel = null;
+						try {
+							mapModel = new FileWriterReader().loadMap(file);
+						} catch (FileNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						if (mapModel != null) {
+								new MapEditor(new_jframe, GameStatics.TITLE_MAP_EDITOR,
+										GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+										GameStatics.CHILD_POPUP_WINDOW_HEIGHT, mapModel, E_MapEditorMode.Open);
+						} 
+						else {
+							JOptionPane.showMessageDialog(null, GameStatics.MSG_UNABLE_TO_OPEN_FILE);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
+					}
+				}
+				else if(e.getSource().equals(menuItemCreateCharacter))
 				{
 					
 				}
@@ -123,6 +152,7 @@ public class JMenuBarComponent {
 		}
 		
 		menuItemCreateMap.addActionListener(new MenuItemAction());
+		menuItemOpenMap.addActionListener(new MenuItemAction());
 		return menuBar;
 	}
 	

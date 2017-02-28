@@ -33,10 +33,11 @@ public class JFileChooserComponent {
 		
 		if (new_fileChooserMode == E_JFileChooserMode.MapSave) {
 			fileChooser.setDialogTitle("Dungron and Dragons Map Save");
-			fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Dungron and Dragons Map", "ddm"));
 		}
-
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		else if (new_fileChooserMode == E_JFileChooserMode.MapOpen) {
+			fileChooser.setDialogTitle("Dungron and Dragons Map file");
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		}
 
 		return fileChooser;
 	}

@@ -50,11 +50,18 @@ public class JPanelComponent {
 		JPanel panel;
 		GridLayout gridLayout;
 		
-		panel = new JPanel();
+		//panel = new JPanel();
 		// When Create Mode Initialize the mapGridSelection to new
 		if (E_MapEditorMode.Create == mapEditorMode) {
 			new_mapModel.mapGridSelection = new int[new_mapModel.getMapHeight()][new_mapModel.getMapWidth()];
-			//panel = new JPanel();
+			panel = new JPanel();
+			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
+			panel.setLayout(gridLayout);
+		}
+		
+		else
+		{
+			panel = new JPanel();
 			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 			panel.setLayout(gridLayout);
 		}
@@ -79,6 +86,35 @@ public class JPanelComponent {
 				if (E_MapEditorMode.Create == mapEditorMode) {
 					new_mapModel.mapGridSelection[i][j] = 0;
 					mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
+					// Click event
+					addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
+					// Right Click Event
+					addMouseClickOnButtonEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
+				}
+				
+				else if (E_MapEditorMode.Open == mapEditorMode) {
+
+					if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_PATH_POINT) {
+						mapButtonsGrid2DArray[i][j].setBackground(Color.green);
+					} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT) {
+						mapButtonsGrid2DArray[i][j].setBackground(Color.red);
+						mapButtonsGrid2DArray[i][j].setText("Entry");
+					} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_EXIT_POINT) {
+						mapButtonsGrid2DArray[i][j].setBackground(Color.red);
+						mapButtonsGrid2DArray[i][j].setText("Exit");
+					} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT) {
+						mapButtonsGrid2DArray[i][j].setBackground(Color.white);
+						mapButtonsGrid2DArray[i][j].setText("Character");
+					} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT) {
+						mapButtonsGrid2DArray[i][j].setBackground(Color.blue);
+						mapButtonsGrid2DArray[i][j].setText("Opponent");
+					} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHEST_POINT) {
+						mapButtonsGrid2DArray[i][j].setBackground(Color.orange);
+						mapButtonsGrid2DArray[i][j].setText("Chest");
+					} else {
+						mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
+					}
+
 					// Click event
 					addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
 					// Right Click Event

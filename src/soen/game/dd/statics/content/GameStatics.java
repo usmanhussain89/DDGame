@@ -18,7 +18,7 @@ public class GameStatics {
 	// MENU Items
 	public static final String MENU_FILE = "FILE";
 	public static final String MENU_ITEM_CREATE_MAP = "Create Map";
-	public static final String MENU_ITEM_LOAD_MAP = "Load Map";
+	public static final String MENU_ITEM_OPEN_MAP = "Open Map";
 	public static final String MENU_ITEM_CREATE_CHARACTER = "Create Character";
 	public static final String MENU_ITEM_LOAD_CHARACTER = "Load Character";
 	public static final String MENU_ITEM_EXIT = "Exit";
@@ -60,4 +60,6 @@ public class GameStatics {
 	
 	//Prompt Messages
 	public static final String MSG_MAP_FILE_LOADED_SAVED = "Map file %s successfully!";
+	public static final String MSG_UNABLE_TO_OPEN_FILE = "Unable to open file";
+	public static final String MSG_NO_FILE_SELECTED = "No file selected";
 }
