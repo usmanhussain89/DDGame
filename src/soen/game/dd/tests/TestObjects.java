@@ -29,22 +29,22 @@ public class TestObjects {
 		System.out.println(redHelmet.toString());
 		
 		Item redHelmet1= new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 7);
-		assertFalse("The Item: "+redHelmet.getName()+" is not a valid Item",redHelmet.isValid());
+		assertFalse("The Item: "+redHelmet1.getName()+" is not a valid Item",redHelmet1.isValid());
 		System.out.println(" The Item: "+redHelmet.getName()+" was created ");
 		System.out.println(redHelmet.toString());
 		
 		Item redHelmet2= new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 0);
-		assertFalse("The Item: "+redHelmet.getName()+" is not a valid Item",redHelmet.isValid());
+		assertFalse("The Item: "+redHelmet2.getName()+" is not a valid Item",redHelmet2.isValid());
 		System.out.println(" The Item: "+redHelmet.getName()+" was created ");
 		System.out.println(redHelmet.toString());
 		
 		Item redHelmet3= new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, -5);
-		assertFalse("The Item: "+redHelmet.getName()+" is not a valid Item",redHelmet.isValid());
+		assertFalse("The Item: "+redHelmet3.getName()+" is not a valid Item",redHelmet3.isValid());
 		System.out.println(" The Item: "+redHelmet.getName()+" was created ");
 		System.out.println(redHelmet.toString());
 		
 		Item redHelmet4= new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.DAMAGE_BONUS, 4);
-		assertFalse("The Item: "+redHelmet.getBonusAmount()+" is not a valid Item",redHelmet.isValid());
+		assertFalse("The Item: "+redHelmet4.getBonusAmount()+" is not a valid Item",redHelmet4.isValid());
 		System.out.println(" The Item: "+redHelmet.getName()+" was created ");
 		System.out.println(redHelmet.toString());
 		
