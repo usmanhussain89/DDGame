@@ -16,8 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import soen.game.dd.logic.MapValidation;
 import soen.game.dd.gui.system.MapEditor;
+import soen.game.dd.logic.MapValidation;
 import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameEnums.E_JFileChooserMode;

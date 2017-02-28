@@ -126,9 +126,10 @@ public class FileWriterReader {
 
 		try {
 
-			String link = String.format("item_%.txt", item.getName());
-
-			FileOutputStream fout = new FileOutputStream(link);
+			
+//			String link = String.format("item_%.ser", item.getName());
+//			System.out.println(link);
+			FileOutputStream fout = new FileOutputStream("item_"+item.getName()+".txt");
 			ObjectOutputStream out = new ObjectOutputStream(fout);
 
 			out.writeObject(item);
@@ -154,9 +155,10 @@ public class FileWriterReader {
 	 */
 	public Item loadItem(String name) throws FileNotFoundException, IOException, ClassNotFoundException {
 
-		String link = String.format("item_%.txt", name);
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream(link));
+//		String link = String.format("item_%.txt", name);
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("item_"+name+".ser"));
 		Item item = (Item) in.readObject();
+		System.out.println("Item: "+item.getName()+" is loading");
 		return item;
 	}
 	
