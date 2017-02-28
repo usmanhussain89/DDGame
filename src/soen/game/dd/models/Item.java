@@ -35,9 +35,8 @@ public class Item {
 			return false;
 		}
 
-		if (!Arrays.asList(this.itemType.getAllowedAttributes()).contains(this.enhancedAttribute)) {
-			System.out.println(
-					"item type: " + this.enhancedAttribute + " does not belong to this Item Type");
+		
+		if (!this.itemType.getAllowedAttributes().contains(this.enhancedAttribute)) {
 			return false;
 		}
 		System.out.println("Item is valid");

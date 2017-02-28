@@ -18,7 +18,7 @@ public class GameStatics {
 	// MENU Items
 	public static final String MENU_FILE = "FILE";
 	public static final String MENU_ITEM_CREATE_MAP = "Create Map";
-	public static final String MENU_ITEM_LOAD_MAP = "Load Map";
+	public static final String MENU_ITEM_OPEN_MAP = "Open Map";
 	public static final String MENU_ITEM_CREATE_CHARACTER = "Create Character";
 	public static final String MENU_ITEM_LOAD_CHARACTER = "Load Character";
 	public static final String MENU_ITEM_CREATE_ITEM = "Create Item";
@@ -39,4 +39,31 @@ public class GameStatics {
 	public static final String MAP_MODE_CREATE = "(CREATE)";
 	public static final String MAP_MODE_OPEN = "(OPEN)";
 	public static final String TITLE_MAP_EDITOR = "MAP EDITOR";
+	
+	//Map Tiles Variables
+	public static final int MAP_ENTRY_POINT = 2;
+	public static final int MAP_EXIT_POINT = 3;
+	public static final int MAP_PATH_POINT = 1;
+	public static final int MAP_WALL_POINT = 0;
+	public static final int MAP_CHARACTER_POINT = 4;
+	public static final int MAP_OPPONENT_POINT = 5;
+	public static final int MAP_CHEST_POINT = 6;
+	
+	//Map Chest Items
+	public static final String TITLE_ADD_CHEST_ITEMS = "Add Chest Items";
+	public static final String MAP_CHEST_CONFIRM_DIALOG = "Do you want to add items to the chest ?";
+	public static final int CHEST_ITEM_POPUP_WINDOW_WIDTH = (int) CHILD_POPUP_WINDOW_WIDTH - 250;
+	public static final int CHEST_ITEM_WINDOW_HEIGHT = (int) CHILD_POPUP_WINDOW_HEIGHT - 250;
+	
+	//Map Variables
+	public static String MAP_ROUT_PATH;
+	public static String MAP_PATH_BOUNDARY_BUTTONS_NAME = "";
+	
+	// Status
+	public static final String STATUS_SUCCESS = "SUCCESS";
+	
+	//Prompt Messages
+	public static final String MSG_MAP_FILE_LOADED_SAVED = "Map file %s successfully!";
+	public static final String MSG_UNABLE_TO_OPEN_FILE = "Unable to open file";
+	public static final String MSG_NO_FILE_SELECTED = "No file selected";
 }

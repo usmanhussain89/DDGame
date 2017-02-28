@@ -19,6 +19,7 @@ import soen.game.dd.statics.content.GameStatics;
  */
 public class Game extends Canvas {
 	
+	private static final long serialVersionUID = 389032861536682696L;
 	private JFrame frame;
 	private int height;
 	private int width;
