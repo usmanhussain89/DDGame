@@ -1,5 +1,6 @@
 package soen.game.dd.models;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -72,22 +73,25 @@ public class FileWriterReader {
 	 * @author fyounis
 	 * @param map 
 	 */
-	public void saveMap(Map map) {
+	public String saveMap(File file, Map map) {
 
 		try {
 
-			String link = String.format("characters_%.txt", map.getMapName());
+			//String link = String.format("map_%s.txt", map.getMapName());
+			String link = file.getPath() + ".txt";
 			FileOutputStream fout = new FileOutputStream(link);
 			ObjectOutputStream out = new ObjectOutputStream(fout);
-
+			
 			out.writeObject(map);
 			out.flush();
 			out.close();
 			System.out.println("<info> : The Map : " + map.getMapName() + " is saved");
+			return "SUCCESS";
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "ERROR";
 		}
 
 	}

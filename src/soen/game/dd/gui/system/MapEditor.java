@@ -5,8 +5,6 @@ import java.awt.Point;
 
 import javax.swing.JFrame;
 
-import org.omg.CORBA.portable.ApplicationException;
-
 import soen.game.dd.gui.components.JMenuBarComponent;
 import soen.game.dd.gui.components.JPanelComponent;
 import soen.game.dd.models.Map;

@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,8 +14,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import soen.game.dd.logic.MapValidation;
 import soen.game.dd.gui.system.MapEditor;
+import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Map;
+import soen.game.dd.statics.content.GameEnums.E_JFileChooserMode;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 import soen.game.dd.statics.content.GameStatics;
 
@@ -110,6 +115,10 @@ public class JMenuBarComponent {
 						
 					}
 				}
+				if(e.getSource().equals(menuItemCreateCharacter))
+				{
+					
+				}
 			}
 		}
 		
@@ -132,7 +141,77 @@ public class JMenuBarComponent {
 		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
 		menuFile.add(menuItemExit);
 		
+		class MenuItemAction implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent new_event) {
+				if (new_event.getSource().equals(menuItemSave)) {
+					String MapValidationStatus = (new MapValidation()).mapValidations(new_mapModel);
+
+					if (MapValidationStatus != null) {
+						JOptionPane.showMessageDialog(null, MapValidationStatus);
+					} else {
+						JFileChooser fileChooser = new JFileChooserComponent()
+								.getJFileChooser(E_JFileChooserMode.MapSave);
+						int result = fileChooser.showSaveDialog(null);
+						if (result == JFileChooser.APPROVE_OPTION) {
+							File file = fileChooser.getSelectedFile();
+							
+							new_mapModel.setMapName(file.getName());
+							new_mapModel.setMapRoutPath(GameStatics.MAP_ROUT_PATH);
+							new_mapModel.setMapRoutBoundaries(GameStatics.MAP_PATH_BOUNDARY_BUTTONS_NAME);
+							new_mapModel.getMapRoutPathList();
+
+							String msg = new FileWriterReader().saveMap(file, new_mapModel);
+							if (msg.contains(GameStatics.STATUS_SUCCESS)) {
+								JOptionPane.showMessageDialog(null,
+										String.format(GameStatics.MSG_MAP_FILE_LOADED_SAVED, "saved"));
+								closeFrame(new_jframe);
+							} else {
+								JOptionPane.showMessageDialog(null, msg);
+							}
+						}
+					}
+				}
+
+				else if (new_event.getSource().equals(menuItemExit)) {
+					closeFrame(new_jframe);
+				}
+
+			}
+
+		}
+		menuItemSave.addActionListener(new MenuItemAction());
+		menuItemExit.addActionListener(new MenuItemAction());
 		menuBar.add(menuFile);
 		return menuBar;
+	}
+	
+	/**
+	 * This method create Menu for Chest Items Window
+	 * 
+	 * @param new_jframe
+	 * @return JMenu for Chest Menu 
+	 */
+	public JMenuBar getMapChestItemJMenuBar(JFrame new_jframe) {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
+		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
+		menuFile.add(menuItemSave);
+		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
+		menuFile.add(menuItemExit);
+		
+		menuBar.add(menuFile);
+		return menuBar;
+	}
+	
+	/**
+	 * This method closes the frame of the application
+	 * 
+	 * @param new_jframe
+	 *            the frame of the application
+	 */
+	public void closeFrame(JFrame new_jframe) {
+		new_jframe.dispose();
 	}
 }
