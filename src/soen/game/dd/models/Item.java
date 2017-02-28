@@ -24,8 +24,8 @@ public class Item {
 
 	/**
 	 * Checks if the item is valid. For an item to be valid: - it needs to
-	 * enhance an attribute that this particular item type - it can only enhance
-	 * between 1 and 5
+	 * enhance an attribute that this particular item type had - it can only enhance
+	 * between 1 and 5 bonus point
 	 *
 	 * @return true if item is valid, false otherwise
 	 */

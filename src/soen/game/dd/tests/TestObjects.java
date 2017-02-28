@@ -23,7 +23,7 @@ public class TestObjects {
 		System.out.println("The item_Create_Test is running");
 		
 		Item redHelmet= new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 2);
-		redHelmet.isValid();
+		System.out.println(redHelmet.isValid());
 		assertTrue("The Item: "+redHelmet.getName()+" is not a valid Item",redHelmet.isValid());
 		System.out.println(" The Item: "+redHelmet.getName()+" was created ");
 		System.out.println(redHelmet.toString());

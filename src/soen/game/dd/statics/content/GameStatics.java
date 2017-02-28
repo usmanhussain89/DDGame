@@ -21,6 +21,10 @@ public class GameStatics {
 	public static final String MENU_ITEM_LOAD_MAP = "Load Map";
 	public static final String MENU_ITEM_CREATE_CHARACTER = "Create Character";
 	public static final String MENU_ITEM_LOAD_CHARACTER = "Load Character";
+	public static final String MENU_ITEM_CREATE_ITEM = "Create Item";
+	public static final String MENU_ITEM_LOAD_ITEM = "Load Item";
+	public static final String MENU_ITEM_CREATE_CAMPAIGN = "Create Item";
+	public static final String MENU_ITEM_LOAD_CAMPAIGN = "Load Item";
 	public static final String MENU_ITEM_EXIT = "Exit";
 	public static final String MENU_ITEM_SAVE = "SAVE";
 	
