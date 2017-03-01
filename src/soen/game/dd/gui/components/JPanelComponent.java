@@ -3,18 +3,24 @@ package soen.game.dd.gui.components;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Point;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import soen.game.dd.gui.system.ChestItemWindow;
+import soen.game.dd.models.CharacterAttribute;
+import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
+import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 import soen.game.dd.statics.content.GameStatics;
 
@@ -25,32 +31,32 @@ import soen.game.dd.statics.content.GameStatics;
  *
  */
 public class JPanelComponent {
-	
+
 	private E_MapEditorMode mapEditorMode;
-	//2D Array of JButton
+	private E_ItemEditorMode itemEditorMode;
+	// 2D Array of JButton
 	private JButton mapButtonsGrid2DArray[][];
 	private JButton jButtonEntry;
 	private JButton jButtonExit;
 	private JButton jButtonCharacter;
 	private JButton jButtonOpponent;
 	private JButton jButtonChest;
-	
+
 	/**
-	 * This method create the JPanel for the Map Editor
-	 * and return JPanel which set Content Pane for the frame
+	 * This method create the JPanel for the Map Editor and return JPanel which
+	 * set Content Pane for the frame
 	 * 
 	 * @param new_mapModel
 	 * @param new_parentDimension
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getMapEditorGridPanel(Map new_mapModel, Dimension new_parentDimension,
-			E_MapEditorMode new_mode) {
+	public JPanel getMapEditorGridPanel(Map new_mapModel, Dimension new_parentDimension, E_MapEditorMode new_mode) {
 		mapEditorMode = new_mode;
 		JPanel panel;
 		GridLayout gridLayout;
-		
-		//panel = new JPanel();
+
+		// panel = new JPanel();
 		// When Create Mode Initialize the mapGridSelection to new
 		if (E_MapEditorMode.Create == mapEditorMode) {
 			new_mapModel.mapGridSelection = new int[new_mapModel.getMapHeight()][new_mapModel.getMapWidth()];
@@ -58,9 +64,8 @@ public class JPanelComponent {
 			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 			panel.setLayout(gridLayout);
 		}
-		
-		else
-		{
+
+		else {
 			panel = new JPanel();
 			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 			panel.setLayout(gridLayout);
@@ -91,7 +96,7 @@ public class JPanelComponent {
 					// Right Click Event
 					addMouseClickOnButtonEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
 				}
-				
+
 				else if (E_MapEditorMode.Open == mapEditorMode) {
 
 					if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_PATH_POINT) {
@@ -129,7 +134,7 @@ public class JPanelComponent {
 
 		return panel;
 	}
-	
+
 	/**
 	 * Actually Map Grid contains buttons inside each cell of grid and on click
 	 * of these button we perform certain actions this method implements logic
@@ -301,25 +306,23 @@ public class JPanelComponent {
 							new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_CHEST_POINT;
 							new_mapModel.setChestPoint(new Point(_i, _j));
 							new_mapModel.isChestDone = true;
-							
-							int option = JOptionPane.showConfirmDialog(null, GameStatics.MAP_CHEST_CONFIRM_DIALOG, GameStatics.TITLE_ADD_CHEST_ITEMS, JOptionPane.OK_CANCEL_OPTION);
-							
+
+							int option = JOptionPane.showConfirmDialog(null, GameStatics.MAP_CHEST_CONFIRM_DIALOG,
+									GameStatics.TITLE_ADD_CHEST_ITEMS, JOptionPane.OK_CANCEL_OPTION);
+
 							if (option == JOptionPane.OK_OPTION) {
 								new ChestItemWindow();
 							}
-							
+
 						} else if (!new_mapModel.isCharacterDone || !new_mapModel.isOpponentDone) {
-							if (!new_mapModel.isCharacterDone)
-							{
+							if (!new_mapModel.isCharacterDone) {
 								btn.setBackground(Color.WHITE);
 								btn.setText("Character");
 								jButtonCharacter = btn;
 								new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_CHARACTER_POINT;
 								new_mapModel.setCharacterPoint(new Point(_i, _j));
 								new_mapModel.isCharacterDone = true;
-							}
-							else if (!new_mapModel.isOpponentDone)
-							{
+							} else if (!new_mapModel.isOpponentDone) {
 								btn.setBackground(Color.BLUE);
 								btn.setText("Opponent");
 								jButtonOpponent = btn;
@@ -327,12 +330,61 @@ public class JPanelComponent {
 								new_mapModel.setOpponentPoint(new Point(_i, _j));
 								new_mapModel.isOpponentDone = true;
 							}
-						}  else {
+						} else {
 							JOptionPane.showMessageDialog(null, "All Points Already Selected");
 						}
 					}
 				}
 			}
 		});
+	}
+
+	/**
+	 * This method create the JPanel for the Item Editor and return JPanel which
+	 * set Content Pane for the frame
+	 * 
+	 * @param new_mode
+	 * @return JPanel
+	 */
+	public JPanel getItemEditorGridPanel(E_ItemEditorMode new_mode) {
+		itemEditorMode = new_mode;
+		JPanel panel;
+		GridLayout flowLayout;
+
+		panel = new JPanel();
+		flowLayout = new GridLayout(4, 2);
+		panel.setLayout(flowLayout);
+
+		JLabel lblItemName = new JLabel();
+		lblItemName.setText("Item Name: ");
+
+		JTextField txtItemName = new JTextField(20);
+
+		JLabel lblItemType = new JLabel();
+		lblItemType.setText("Item Type: ");
+
+		JComboBox txtComboBox = new JComboBox(ItemType.values());
+
+		JLabel lblCharacterAttr = new JLabel();
+		lblCharacterAttr.setText("Character Attribute: ");
+
+		JComboBox cbCharacterAttr = new JComboBox(CharacterAttribute.values());
+
+		JLabel lblBonusAmount = new JLabel();
+		lblBonusAmount.setText("Bonus Amount: ");
+
+		Integer[] bonuses = new Integer[] { 1, 2, 3, 4, 5 };
+		JComboBox cbBonusAmount = new JComboBox(bonuses);
+
+		panel.add(lblItemName);
+		panel.add(txtItemName);
+		panel.add(lblItemType);
+		panel.add(txtComboBox);
+		panel.add(lblCharacterAttr);
+		panel.add(cbCharacterAttr);
+		panel.add(lblBonusAmount);
+		panel.add(cbBonusAmount);
+
+		return panel;
 	}
 }
