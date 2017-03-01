@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import soen.game.dd.gui.components.JMenuBarComponent;
 import soen.game.dd.gui.components.JPanelComponent;
+import soen.game.dd.models.Item;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 import soen.game.dd.statics.content.GameStatics;
 
@@ -31,6 +32,7 @@ public class ItemEditor extends JFrame {
 			Point p = frame.getLocation();
 			setLocation(p.x + frameSize.width / 4, p.y + frameSize.height / 4);
 		}
+		Item item = new Item();
 
 		this.itemEditorMode = itemEditorMode;
 
@@ -51,9 +53,9 @@ public class ItemEditor extends JFrame {
 		this.setVisible(true);
 
 		// MenuBar for Map Editor
-		this.setJMenuBar((new JMenuBarComponent()).getItemEditorJMenuBar(this));
+		this.setJMenuBar((new JMenuBarComponent()).getItemEditorJMenuBar(item, this));
 
 		// load Map Grid from Component
-		this.setContentPane((new JPanelComponent()).getItemEditorGridPanel(itemEditorMode));
+		this.setContentPane((new JPanelComponent()).getItemEditorGridPanel(item, null, itemEditorMode));
 	}
 }

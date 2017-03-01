@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -15,9 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import soen.game.dd.gui.system.ChestItemWindow;
 import soen.game.dd.models.CharacterAttribute;
+import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
@@ -346,7 +351,9 @@ public class JPanelComponent {
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getItemEditorGridPanel(E_ItemEditorMode new_mode) {
+	public JPanel getItemEditorGridPanel(Item item, Dimension new_parentDimension, E_ItemEditorMode new_mode) {
+		
+		
 		itemEditorMode = new_mode;
 		JPanel panel;
 		GridLayout flowLayout;
@@ -359,22 +366,55 @@ public class JPanelComponent {
 		lblItemName.setText("Item Name: ");
 
 		JTextField txtItemName = new JTextField(20);
+		txtItemName.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				item.setName(txtItemName.getText());
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				item.setName(txtItemName.getText());
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				item.setName(txtItemName.getText());
+			}
+		
+		});
 
 		JLabel lblItemType = new JLabel();
 		lblItemType.setText("Item Type: ");
 
 		JComboBox txtComboBox = new JComboBox(ItemType.values());
+		txtComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				item.setItemType((ItemType) txtComboBox.getSelectedItem());
+			}
+		});
 
 		JLabel lblCharacterAttr = new JLabel();
 		lblCharacterAttr.setText("Character Attribute: ");
 
 		JComboBox cbCharacterAttr = new JComboBox(CharacterAttribute.values());
+		cbCharacterAttr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				item.setCharacterAttribute((CharacterAttribute) cbCharacterAttr.getSelectedItem());
+			}
+		});
 
 		JLabel lblBonusAmount = new JLabel();
 		lblBonusAmount.setText("Bonus Amount: ");
 
 		Integer[] bonuses = new Integer[] { 1, 2, 3, 4, 5 };
 		JComboBox cbBonusAmount = new JComboBox(bonuses);
+		cbBonusAmount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				item.setBonusAmount((Integer) cbBonusAmount.getSelectedItem());
+			}
+		});
 
 		panel.add(lblItemName);
 		panel.add(txtItemName);

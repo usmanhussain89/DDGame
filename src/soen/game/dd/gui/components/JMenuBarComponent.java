@@ -242,13 +242,22 @@ public class JMenuBarComponent {
 
 			@Override
 			public void actionPerformed(ActionEvent new_event) {
+				System.out.println("hi");
 				if (new_event.getSource().equals(menuItemSave)) {
-					if (item.getName() != null)
+					if (item.getName() != null){
+						if (item.isValid()){
+
+						} else {
+							JOptionPane.showMessageDialog(null, "Error in saving the Item. Please verify all fields");
+						}
+					}
 				}
 			}
 		}
-
+		
+		menuItemSave.addActionListener(new MenuItemAction());
 		menuBar.add(menuFile);
+		System.out.println("I'm here");
 		return menuBar;
 	}
 

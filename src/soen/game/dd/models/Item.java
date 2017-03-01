@@ -22,6 +22,10 @@ public class Item {
 		this.name = name;
 	}
 
+	public Item() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Checks if the item is valid. For an item to be valid: - it needs to
 	 * enhance an attribute that this particular item type had - it can only enhance
@@ -71,6 +75,10 @@ public class Item {
 	public String getName() {
 		return name;
 	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -81,6 +89,20 @@ public class Item {
 	public String toString() {
 		return "Item [itemType=" + itemType + ", enhancedAttribute=" + enhancedAttribute + ", bonusAmount="
 				+ bonusAmount + ", name=" + name + "]";
+	}
+
+	public void setBonusAmount(Integer bonusAmount) {
+		this.bonusAmount = bonusAmount;
+		
+	}
+
+	public void setCharacterAttribute(CharacterAttribute characterAttribute) {
+		this.enhancedAttribute = characterAttribute;
+		
+	}
+
+	public void setItemType(ItemType itemType) {
+		this.itemType = itemType;
 	}
 
 }
