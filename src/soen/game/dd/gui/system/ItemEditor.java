@@ -11,8 +11,14 @@ import soen.game.dd.models.Item;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 import soen.game.dd.statics.content.GameStatics;
 
+/**
+ * This class implement jframe for items.
+ * @author Usman
+ *
+ */
 public class ItemEditor extends JFrame {
 
+	private static final long serialVersionUID = -5651767974169426284L;
 	E_ItemEditorMode itemEditorMode;// enum
 
 	/**

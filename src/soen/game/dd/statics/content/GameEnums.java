@@ -1,5 +1,10 @@
 package soen.game.dd.statics.content;
-
+/**
+ * This class contains all the Enums of overall Game
+ * 
+ * @author Usman
+ *
+ */
 public class GameEnums {
 
 	/**
@@ -23,7 +28,7 @@ public class GameEnums {
 	 * 
 	 */
 	public enum E_JFileChooserMode {
-		MapOpen, MapSave
+		MapOpen, MapSave, CampaignSave, CampaignOpen
 	}
 
 	/**
@@ -40,6 +45,14 @@ public class GameEnums {
 	 * 
 	 */
 	public enum E_ItemEditorMode {
+		Create, Open
+	}
+	
+	/**
+	 * Enumerators to express Campaign Editor Mode
+	 * 
+	 */
+	public enum E_CampaignEditorMode {
 		Create, Open
 	}
 }

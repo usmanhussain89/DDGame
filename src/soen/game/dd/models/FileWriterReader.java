@@ -170,11 +170,12 @@ public class FileWriterReader {
 	 * @param campaign
 	 */
 
-	public void saveCampaign(Campaign campaign) {
+	public String saveCampaign(File file, Campaign campaign) {
 
 		try {
 
-			String link = String.format("Campaign_%.txt", campaign.getName());
+			//String link = String.format("Campaign_%.txt", campaign.getCampaignName());
+			String link = file.getPath() + ".txt";
 
 			FileOutputStream fout = new FileOutputStream(link);
 			ObjectOutputStream out = new ObjectOutputStream(fout);
@@ -182,11 +183,13 @@ public class FileWriterReader {
 			out.writeObject(campaign);
 			out.flush();
 			out.close();
-			System.out.println("<info> : The Item: " + campaign.getName() + " is saved");
+			System.out.println("<info> : The Item: " + campaign.getCampaignName() + " is saved");
+			return "SUCCESS";
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "ERROR";
 		}
 
 	}
@@ -200,10 +203,10 @@ public class FileWriterReader {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public Campaign loadCampaign(String name) throws FileNotFoundException, IOException, ClassNotFoundException {
+	public Campaign loadCampaign(File file) throws FileNotFoundException, IOException, ClassNotFoundException {
 
-		String link = String.format("campaign_%.txt", name);
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream(link));
+		//String link = String.format("campaign_%.txt", name);
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream(file.getPath()));
 		Campaign campaign = (Campaign) in.readObject();
 		return campaign;
 	}

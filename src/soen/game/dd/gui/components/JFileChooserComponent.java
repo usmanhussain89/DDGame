@@ -38,7 +38,13 @@ public class JFileChooserComponent {
 			fileChooser.setDialogTitle("Dungron and Dragons Map file");
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		}
-
+		else if (new_fileChooserMode == E_JFileChooserMode.CampaignSave) {
+			fileChooser.setDialogTitle("Dungron and Dragons Campaign Save");
+		}
+		else if (new_fileChooserMode == E_JFileChooserMode.CampaignOpen) {
+			fileChooser.setDialogTitle("Dungron and Dragons Campaign file");
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		}
 		return fileChooser;
 	}
 

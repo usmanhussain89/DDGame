@@ -20,11 +20,11 @@ public class GameStatics {
 	public static final String MENU_ITEM_CREATE_MAP = "Create Map";
 	public static final String MENU_ITEM_OPEN_MAP = "Open Map";
 	public static final String MENU_ITEM_CREATE_CHARACTER = "Create Character";
-	public static final String MENU_ITEM_LOAD_CHARACTER = "Load Character";
+	public static final String MENU_ITEM_OPEN_CHARACTER = "Open Character";
 	public static final String MENU_ITEM_CREATE_ITEM = "Create Item";
-	public static final String MENU_ITEM_LOAD_ITEM = "Load Item";
-	public static final String MENU_ITEM_CREATE_CAMPAIGN = "Create Item";
-	public static final String MENU_ITEM_LOAD_CAMPAIGN = "Load Item";
+	public static final String MENU_ITEM_OPEN_ITEM = "Open Item";
+	public static final String MENU_ITEM_CREATE_CAMPAIGN = "Create Campaign";
+	public static final String MENU_ITEM_OPEN_CAMPAIGN = "Open Campaign";
 	public static final String MENU_ITEM_EXIT = "Exit";
 	public static final String MENU_ITEM_SAVE = "SAVE";
 
@@ -42,6 +42,7 @@ public class GameStatics {
 	public static final String ITEM_MODE_CREATE = "(CREATE)";
 	public static final String ITEM_MODE_OPEN = "(OPEN)";
 	public static final String TITLE_ITEM_EDITOR = "ITEM EDITOR";
+	public static final String TITLE_CAMPAIGN_EDITOR = "CAMPAIGN EDITOR";
 
 	// Map Tiles Variables
 	public static final int MAP_ENTRY_POINT = 2;
@@ -69,4 +70,7 @@ public class GameStatics {
 	public static final String MSG_MAP_FILE_LOADED_SAVED = "Map file %s successfully!";
 	public static final String MSG_UNABLE_TO_OPEN_FILE = "Unable to open file";
 	public static final String MSG_NO_FILE_SELECTED = "No file selected";
+	public static final String MSG_NO_CAMPAIGN_CREATED = "No Campaign created";
+	public static final String MSG_SELECT_MORE_MAP = "Select more than one Map";
+	public static final String MSG_CAMPAIGN_FILE_LOADED_SAVED = "Campaign file %s successfully!";
 }

@@ -3,6 +3,7 @@ package soen.game.dd.gui.components;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.List;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,10 +11,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,11 +29,16 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import soen.game.dd.gui.system.ChestItemWindow;
+import soen.game.dd.gui.system.MapEditor;
+import soen.game.dd.models.Campaign;
 import soen.game.dd.models.CharacterAttribute;
+import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
+import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
+import soen.game.dd.statics.content.GameEnums.E_JFileChooserMode;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 import soen.game.dd.statics.content.GameStatics;
 
@@ -39,6 +52,7 @@ public class JPanelComponent {
 
 	private E_MapEditorMode mapEditorMode;
 	private E_ItemEditorMode itemEditorMode;
+	private E_CampaignEditorMode campaignEditorMode;
 	// 2D Array of JButton
 	private JButton mapButtonsGrid2DArray[][];
 	private JButton jButtonEntry;
@@ -46,6 +60,7 @@ public class JPanelComponent {
 	private JButton jButtonCharacter;
 	private JButton jButtonOpponent;
 	private JButton jButtonChest;
+	private Map mapModel = null;
 
 	/**
 	 * This method create the JPanel for the Map Editor and return JPanel which
@@ -425,6 +440,130 @@ public class JPanelComponent {
 		panel.add(lblBonusAmount);
 		panel.add(cbBonusAmount);
 
+		return panel;
+	}
+	
+	/**
+	 * This method create the JPanel for the Campaign Editor and return JPanel which
+	 * set Content Pane for the frame
+	 * 
+	 * @param new_mode
+	 * @return JPanel
+	 */
+	public JPanel getCampaignEditorGridPanel(Campaign campaign, E_CampaignEditorMode new_mode, JFrame frame) {
+		
+		campaignEditorMode = new_mode;
+		JPanel panel;
+
+		panel = new JPanel();
+		panel.setLayout(null);
+		
+		JLabel lblCampaignName = new JLabel("Campaign Name: ");
+		lblCampaignName.setBounds(40, 30, 100, 25);
+		panel.add(lblCampaignName);
+		
+		JTextField txtCampaignName = new JTextField(30);
+		txtCampaignName.setBounds(160, 30, 150, 25);
+		panel.add(txtCampaignName);
+		
+		JLabel lblSelectMap = new JLabel("Select Map: ");
+		lblSelectMap.setBounds(40, 75, 100, 25);
+		panel.add(lblSelectMap);
+		
+		JTextField txtBrowseFile = new JTextField(30);
+		txtBrowseFile.setBounds(160, 75, 150, 25);
+		panel.add(txtBrowseFile);
+		
+		JButton btnBrowseFile = new JButton("Browse");
+		btnBrowseFile.setBounds(320, 75, 80, 25);
+		panel.add(btnBrowseFile);
+		
+		JButton btnAddMap = new JButton("Add Map");
+		btnAddMap.setBounds(420, 75, 90, 25);
+		btnAddMap.setVisible(false);
+		panel.add(btnAddMap);
+		
+		JLabel lblSelectedMap = new JLabel("Selected Map: ");
+		lblSelectedMap.setBounds(40, 120, 100, 25);
+		panel.add(lblSelectedMap);
+		
+		List mapList = new List();
+		mapList.setBounds(160,120,150,150);
+		panel.add(mapList);
+		
+		JButton btnRemoveMap = new JButton("Remove Map");
+		btnRemoveMap.setBounds(160,290,130,25);
+		btnRemoveMap.setVisible(true);
+		panel.add(btnRemoveMap);
+		
+		class PanelAction implements ActionListener
+		{
+			Map new_mapModel = null;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (e.getSource().equals(btnBrowseFile)) {
+					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
+					int result = fileChooser.showOpenDialog(frame);
+					if (result == JFileChooser.APPROVE_OPTION) {
+						File file = fileChooser.getSelectedFile();
+						try {
+							new_mapModel = new FileWriterReader().loadMap(file);
+						} catch (FileNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						if (new_mapModel != null) {
+							mapModel = new_mapModel;
+							txtBrowseFile.setText(new_mapModel.getMapName());
+							btnAddMap.setVisible(true);
+						} else {
+							btnAddMap.setVisible(false);
+							JOptionPane.showMessageDialog(null, GameStatics.MSG_UNABLE_TO_OPEN_FILE);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
+					}
+				}
+				
+				else if (e.getSource().equals(btnAddMap)) {
+					if(mapModel != null){
+						campaign.setCampaignList(mapModel);
+						campaign.setCampaignName(txtCampaignName.getText());
+						mapList.add(mapModel.getMapName());
+						btnAddMap.setVisible(false);
+						txtBrowseFile.setText("");
+					}
+				}
+				
+				else if (e.getSource().equals(btnRemoveMap)) {
+					if(mapList.getSelectedIndex() >= 0)
+					{
+						int index = mapList.getSelectedIndex();
+						mapList.remove(index);
+						campaign.removeMapFromList(index);
+					}
+				}
+			}
+			
+		}
+		btnBrowseFile.addActionListener(new PanelAction());
+		btnAddMap.addActionListener(new PanelAction());
+		btnRemoveMap.addActionListener(new PanelAction());
+		
+		if(E_CampaignEditorMode.Open == new_mode)
+		{
+			txtCampaignName.setText(campaign.getCampaignName());
+			
+			for (Map map : campaign.getCampaignList())
+			{
+				mapList.add(map.getMapName());
+			}
+		}
+		
 		return panel;
 	}
 }

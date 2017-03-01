@@ -13,7 +13,8 @@ import java.util.ArrayList;
  */
 
 public class Map implements Serializable {
-	
+
+	private static final long serialVersionUID = -8107798234290328083L;
 	String name;
 	int mapWidth;
 	int mapHeight;

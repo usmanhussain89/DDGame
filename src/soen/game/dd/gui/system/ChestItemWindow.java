@@ -8,6 +8,12 @@ import javax.swing.JFrame;
 import soen.game.dd.gui.components.JMenuBarComponent;
 import soen.game.dd.statics.content.GameStatics;
 
+/**
+ * This class implements JFrame for chest items
+ * 
+ * @author usman
+ *
+ */
 public class ChestItemWindow extends JFrame{
 
 	private static final long serialVersionUID = -116918410514404414L;

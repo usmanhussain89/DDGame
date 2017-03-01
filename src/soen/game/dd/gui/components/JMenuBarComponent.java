@@ -16,12 +16,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import soen.game.dd.gui.system.CampaignEditor;
 import soen.game.dd.gui.system.ItemEditor;
 import soen.game.dd.gui.system.MapEditor;
 import soen.game.dd.logic.MapValidation;
+import soen.game.dd.models.Campaign;
 import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
+import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_JFileChooserMode;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
@@ -56,13 +59,21 @@ public class JMenuBarComponent {
 
 		JMenuItem menuItemCreateCharacter = new JMenuItem(GameStatics.MENU_ITEM_CREATE_CHARACTER);
 		menuFile.add(menuItemCreateCharacter);
-		JMenuItem menuItemLoadCharacter = new JMenuItem(GameStatics.MENU_ITEM_LOAD_CHARACTER);
-		menuFile.add(menuItemLoadCharacter);
+		JMenuItem menuItemOpenCharacter = new JMenuItem(GameStatics.MENU_ITEM_OPEN_CHARACTER);
+		menuFile.add(menuItemOpenCharacter);
 
 		JMenuItem menuItemCreateItem = new JMenuItem(GameStatics.MENU_ITEM_CREATE_ITEM);
 		menuFile.add(menuItemCreateItem);
-		JMenuItem menuItemLoadItem = new JMenuItem(GameStatics.MENU_ITEM_LOAD_ITEM);
-		menuFile.add(menuItemLoadItem);
+		JMenuItem menuItemOpenItem = new JMenuItem(GameStatics.MENU_ITEM_OPEN_ITEM);
+		menuFile.add(menuItemOpenItem);
+		
+		JMenuItem menuItemCreateCampaign = new JMenuItem(GameStatics.MENU_ITEM_CREATE_CAMPAIGN);
+		menuFile.add(menuItemCreateCampaign);
+		JMenuItem menuItemOpenCampaign = new JMenuItem(GameStatics.MENU_ITEM_OPEN_CAMPAIGN);
+		menuFile.add(menuItemOpenCampaign);
+		
+		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
+		menuFile.add(menuItemExit);
 		/**
 		 * This class handle the menu Item on click events
 		 */
@@ -149,9 +160,53 @@ public class JMenuBarComponent {
 					} else {
 						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
 					}
-				} else if (e.getSource().equals(menuItemCreateItem)) {
+				} 
+				
+				else if (e.getSource().equals(menuItemCreateItem)) {
 					new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
 							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create);
+				}
+				
+				else if (e.getSource().equals(menuItemOpenItem)){
+					
+				}
+				
+				else if (e.getSource().equals(menuItemCreateCampaign)){
+					new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, null, E_CampaignEditorMode.Create);
+				}
+				
+				else if (e.getSource().equals(menuItemOpenCampaign)){
+
+					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.CampaignOpen);
+					int result = fileChooser.showOpenDialog(new_jframe);
+					if (result == JFileChooser.APPROVE_OPTION) {
+						File file = fileChooser.getSelectedFile();
+						Campaign campaignModel = null;
+						try {
+							campaignModel = new FileWriterReader().loadCampaign(file);
+						} catch (FileNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						if (campaignModel != null) {
+							new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+									GameStatics.CHILD_POPUP_WINDOW_HEIGHT,campaignModel, E_CampaignEditorMode.Open);					
+							
+						} else {
+							JOptionPane.showMessageDialog(null, GameStatics.MSG_UNABLE_TO_OPEN_FILE);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
+					}
+				}
+				
+				else
+				{
+					closeFrame(new_jframe);
 				}
 			}
 		}
@@ -159,6 +214,10 @@ public class JMenuBarComponent {
 		menuItemCreateMap.addActionListener(new MenuItemAction());
 		menuItemOpenMap.addActionListener(new MenuItemAction());
 		menuItemCreateItem.addActionListener(new MenuItemAction());
+		menuItemOpenItem.addActionListener(new MenuItemAction());
+		menuItemCreateCampaign.addActionListener(new MenuItemAction());
+		menuItemOpenCampaign.addActionListener(new MenuItemAction());
+		menuItemExit.addActionListener(new MenuItemAction());
 		return menuBar;
 	}
 
@@ -258,6 +317,64 @@ public class JMenuBarComponent {
 		menuItemSave.addActionListener(new MenuItemAction());
 		menuBar.add(menuFile);
 		System.out.println("I'm here");
+		return menuBar;
+	}
+	
+	/**
+	 * This method create Menu for Campaign Editor Window
+	 * 
+	 * @param new_campaignModel
+	 * @param new_jframe
+	 * @return JMenu for Campaign Editor
+	 */
+	public JMenuBar getCampaignEditorJMenuBar(Campaign campaign, JFrame new_jframe) {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
+		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
+		menuFile.add(menuItemSave);
+		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
+		menuFile.add(menuItemExit);
+
+		class MenuItemAction implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent new_event) {
+				if (new_event.getSource().equals(menuItemSave)) {
+					if (campaign != null){
+						if(campaign.getCampaignList().size() > 0)
+						{
+							JFileChooser fileChooser = new JFileChooserComponent()
+									.getJFileChooser(E_JFileChooserMode.CampaignSave);
+							int result = fileChooser.showSaveDialog(null);
+							if (result == JFileChooser.APPROVE_OPTION) {
+								File file = fileChooser.getSelectedFile();
+
+								String msg = new FileWriterReader().saveCampaign(file, campaign);
+								if (msg.contains(GameStatics.STATUS_SUCCESS)) {
+									JOptionPane.showMessageDialog(null,
+											String.format(GameStatics.MSG_CAMPAIGN_FILE_LOADED_SAVED, "saved"));
+									closeFrame(new_jframe);
+								} else {
+									JOptionPane.showMessageDialog(null, msg);
+								}
+							}
+						}
+						
+						else
+						{
+							JOptionPane.showMessageDialog(null, GameStatics.MSG_SELECT_MORE_MAP);
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_CAMPAIGN_CREATED);
+					}
+				}
+			}
+		}
+		
+		menuItemSave.addActionListener(new MenuItemAction());
+		menuBar.add(menuFile);
 		return menuBar;
 	}
 
