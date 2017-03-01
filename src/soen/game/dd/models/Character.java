@@ -26,21 +26,20 @@ public class Character implements Serializable {
 	private int damageBonus;
 	private int multipleAttacks;
 	
-	private ItemType armore;
-	private ItemType ring;
-	private ItemType helmet;
-	private ItemType boots;
-	private ItemType belt;
-	private ItemType sword;
-	private ItemType shield;
+	private Item armore;
+	private Item ring;
+	private Item helmet;
+	private Item boots;
+	private Item belt;
+	private Item sword;
+	private Item shield;
 	private List<Item> backpack;
 	
 	
 	
-	
 	public Character(String name, String description, int level, int abilityScores, int abilityModifier, int hitPoint,
-			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, ItemType armore, ItemType ring,
-			ItemType helmet, ItemType boots, ItemType belt, ItemType sword, ItemType shield) {
+			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armore, Item ring,
+			Item helmet, Item boots, Item belt, Item sword, Item shield) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -195,85 +194,85 @@ public class Character implements Serializable {
 	/**
 	 * @return the armore
 	 */
-	public ItemType getArmore() {
+	public Item getArmore() {
 		return armore;
 	}
 	/**
 	 * @param armore the armore to set
 	 */
-	public void setArmore(ItemType armore) {
+	public void setArmore(Item armore) {
 		this.armore = armore;
 	}
 	/**
 	 * @return the ring
 	 */
-	public ItemType getRing() {
+	public Item getRing() {
 		return ring;
 	}
 	/**
 	 * @param ring the ring to set
 	 */
-	public void setRing(ItemType ring) {
+	public void setRing(Item ring) {
 		this.ring = ring;
 	}
 	/**
 	 * @return the helmet
 	 */
-	public ItemType getHelmet() {
+	public Item getHelmet() {
 		return helmet;
 	}
 	/**
 	 * @param helmet the helmet to set
 	 */
-	public void setHelmet(ItemType helmet) {
+	public void setHelmet(Item helmet) {
 		this.helmet = helmet;
 	}
 	/**
 	 * @return the boots
 	 */
-	public ItemType getBoots() {
+	public Item getBoots() {
 		return boots;
 	}
 	/**
 	 * @param boots the boots to set
 	 */
-	public void setBoots(ItemType boots) {
+	public void setBoots(Item boots) {
 		this.boots = boots;
 	}
 	/**
 	 * @return the belt
 	 */
-	public ItemType getBelt() {
+	public Item getBelt() {
 		return belt;
 	}
 	/**
 	 * @param belt the belt to set
 	 */
-	public void setBelt(ItemType belt) {
+	public void setBelt(Item belt) {
 		this.belt = belt;
 	}
 	/**
 	 * @return the sword
 	 */
-	public ItemType getSword() {
+	public Item getSword() {
 		return sword;
 	}
 	/**
 	 * @param sword the sword to set
 	 */
-	public void setSword(ItemType sword) {
+	public void setSword(Item sword) {
 		this.sword = sword;
 	}
 	/**
 	 * @return the shield
 	 */
-	public ItemType getShield() {
+	public Item getShield() {
 		return shield;
 	}
 	/**
 	 * @param shield the shield to set
 	 */
-	public void setShield(ItemType shield) {
+	public void setShield(Item shield) {
 		this.shield = shield;
 	}
 	
