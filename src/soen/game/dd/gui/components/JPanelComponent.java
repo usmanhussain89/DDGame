@@ -338,7 +338,16 @@ public class JPanelComponent {
 									GameStatics.TITLE_ADD_CHEST_ITEMS, JOptionPane.OK_CANCEL_OPTION);
 
 							if (option == JOptionPane.OK_OPTION) {
-								new ChestItemWindow(new_mapModel);
+								ArrayList<Item> items = new ArrayList<Item>();
+								
+								items = new FileWriterReader().loadItems();
+								if (items != null)
+									new ChestItemWindow(new_mapModel, items);
+								
+								else
+								{
+									JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
+								}
 							}
 
 						} else if (!new_mapModel.isCharacterDone || !new_mapModel.isOpponentDone) {
@@ -782,19 +791,59 @@ public class JPanelComponent {
 	 * @param new_mapModel
 	 * @return JPanel
 	 */
-	public JPanel getMapEditorGridPanel(Map new_mapModel) {
+	public JPanel getMapChestGridPanel(Map new_mapModel, ArrayList<Item> items) {
 		JPanel panel = new JPanel();
-		ArrayList<Item> items = new ArrayList<Item>();
+		//ArrayList<Item> items = new ArrayList<Item>();
+		int index = 0;
 		
-		items = new FileWriterReader().loadItems();
+		//items = new FileWriterReader().loadItems();
 		
-		if(items != null) {
-			new_mapModel.mapSelectedItem = items;
-		}
+		//if(items != null) {
+			JLabel lblItemName = new JLabel("Item Name: ");
+			lblItemName.setBounds(40, 30, 80, 25);
+			panel.add(lblItemName);
+
+			JComboBox<String> cbItemName = new JComboBox<String>();
+			cbItemName.setBounds(170, 30, 120, 25);
+			cbItemName.setEditable(true);
+			for(Item i : items)
+			{
+				if(i != null)
+				{
+						cbItemName.addItem(i.getName());
+						cbItemName.setName("" + index);
+						index++;
+				}
+			}
+				
+			panel.add(cbItemName);
+			
+			List mapList = new List();
+			mapList.setBounds(160,75,150,150);
+			panel.add(mapList);
+			
+			JButton btnAddItem = new JButton("Add Item");
+			btnAddItem.setBounds(40, 245, 100, 25);
+			panel.add(btnAddItem);
+			
+			btnAddItem.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(cbItemName.getSelectedItem() != null)
+					{
+						mapList.add((String)cbItemName.getSelectedItem());
+						if (items.get(cbItemName.getSelectedIndex()) == null)
+							System.out.println("Null");
+						new_mapModel.mapSelectedItem.add(items.get(cbItemName.getSelectedIndex()));
+					}
+				}
+			});
+		/*}
 		else
 		{
 			JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
-		}
+		}*/
 		
 		return panel;
 	}

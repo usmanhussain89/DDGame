@@ -2,11 +2,14 @@ package soen.game.dd.gui.system;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.net.ssl.ManagerFactoryParameters;
 import javax.swing.JFrame;
 
 import soen.game.dd.gui.components.JMenuBarComponent;
+import soen.game.dd.gui.components.JPanelComponent;
+import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
 
@@ -25,7 +28,7 @@ public class ChestItemWindow extends JFrame{
 	 * Initialize the new frame for the Map Editor
 	 * 
 	 */
-	public ChestItemWindow(Map mapModel) {
+	public ChestItemWindow(Map mapModel, ArrayList<Item> items) {
 		
 		// --- Set Map Editor Windows Properties
 		this.setTitle(GameStatics.TITLE_ADD_CHEST_ITEMS);
@@ -41,6 +44,6 @@ public class ChestItemWindow extends JFrame{
 		this.setJMenuBar((new JMenuBarComponent()).getMapChestItemJMenuBar(this));
 		
 		//load Map Grid from Component
-		//this.setContentPane((new JPanelComponent()).getMapEditorGridPanel(map, null, mapEditorMode));
+		this.setContentPane((new JPanelComponent()).getMapChestGridPanel(mapModel, items));
 	}
 }
