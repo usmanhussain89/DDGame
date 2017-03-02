@@ -664,7 +664,7 @@ public class JPanelComponent {
 			E_CharacterEditorMode characterEditorMode, JFrame frame) {
 		JPanel panel;
 		Character character = pCharacter;
-		ArrayList<Item> items = new FileWriterReader().loadItem();
+		ArrayList<Item> items = new FileWriterReader().loadItems();
 		
 		
 		class ItemComboItem {
