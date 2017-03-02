@@ -55,4 +55,12 @@ public class GameEnums {
 	public enum E_CampaignEditorMode {
 		Create, Open
 	}
+	
+	/**
+	 * Enumerators to express Character Editor Mode
+	 * 
+	 */
+	public enum E_CharacterEditorMode {
+		Create, Open
+	}
 }
