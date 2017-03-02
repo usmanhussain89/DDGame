@@ -53,7 +53,7 @@ public enum ItemType {
 		allowedAttributes = aA;
 	}
 	
-	List<CharacterAttribute> getAllowedAttributes(){
+	public List<CharacterAttribute> getAllowedAttributes(){
 		return allowedAttributes;
 	}
 

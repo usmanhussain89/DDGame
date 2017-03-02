@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -164,11 +165,22 @@ public class JMenuBarComponent {
 				
 				else if (e.getSource().equals(menuItemCreateItem)) {
 					new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create);
+							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create, null);
 				}
 				
 				else if (e.getSource().equals(menuItemOpenItem)){
+					ArrayList<Item> items = new ArrayList<Item>();
 					
+					items = new FileWriterReader().loadItem();
+					
+					if(items != null) {
+						new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Open, items);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
+					}
 				}
 				
 				else if (e.getSource().equals(menuItemCreateCampaign)){
@@ -301,20 +313,10 @@ public class JMenuBarComponent {
 
 			@Override
 			public void actionPerformed(ActionEvent new_event) {
-				System.out.println("hi");
-				if (new_event.getSource().equals(menuItemSave)) {
-					if (item.getName() != null){
-						if (item.isValid()){
-
-						} else {
-							JOptionPane.showMessageDialog(null, "Error in saving the Item. Please verify all fields");
-						}
-					}
-				}
+				
 			}
 		}
 		
-		menuItemSave.addActionListener(new MenuItemAction());
 		menuBar.add(menuFile);
 		System.out.println("I'm here");
 		return menuBar;

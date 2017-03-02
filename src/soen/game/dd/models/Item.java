@@ -1,6 +1,6 @@
 package soen.game.dd.models;
 
-import java.util.Arrays;
+import java.io.Serializable;
 
 /**
  * Class representing an Item.
@@ -8,8 +8,9 @@ import java.util.Arrays;
  * @author kelbadawi
  *
  */
-public class Item {
-
+public class Item implements Serializable{
+	
+	private static final long serialVersionUID = -3013661310703782558L;
 	private ItemType itemType;
 	private CharacterAttribute enhancedAttribute;
 	private int bonusAmount;

@@ -45,6 +45,9 @@ public class JFileChooserComponent {
 			fileChooser.setDialogTitle("Dungron and Dragons Campaign file");
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		}
+		else if (new_fileChooserMode == E_JFileChooserMode.ItemSave) {
+			fileChooser.setDialogTitle("Dungron and Dragons Item Save");
+		}
 		return fileChooser;
 	}
 

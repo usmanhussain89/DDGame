@@ -73,4 +73,5 @@ public class GameStatics {
 	public static final String MSG_NO_CAMPAIGN_CREATED = "No Campaign created";
 	public static final String MSG_SELECT_MORE_MAP = "Select more than one Map";
 	public static final String MSG_CAMPAIGN_FILE_LOADED_SAVED = "Campaign file %s successfully!";
+	public static final String MSG_ITEM_FILE_LOADED_SAVED = "Item %s successfully!";
 }

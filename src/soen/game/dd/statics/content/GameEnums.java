@@ -28,7 +28,7 @@ public class GameEnums {
 	 * 
 	 */
 	public enum E_JFileChooserMode {
-		MapOpen, MapSave, CampaignSave, CampaignOpen
+		MapOpen, MapSave, CampaignSave, CampaignOpen, ItemSave, ItemOpen
 	}
 
 	/**

@@ -77,9 +77,9 @@ public class TestObjects {
 		fileWriterReader.saveItem(blackHelmet);
 		System.out.println("Flag3\n");
 		// load Item Object
-		Item item = fileWriterReader.loadItem("Black Helmet");
+		/*Item item = fileWriterReader.loadItem("Black Helmet");
 		System.out.println(item.toString() + "\n");
-		assertEquals(blackHelmet, item);
+		assertEquals(blackHelmet, item);*/
 
 		// create new character Object
 		// Character nightFighter = new Character("Night Fighter", description,

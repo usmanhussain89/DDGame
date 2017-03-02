@@ -15,6 +15,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -61,6 +63,7 @@ public class JPanelComponent {
 	private JButton jButtonOpponent;
 	private JButton jButtonChest;
 	private Map mapModel = null;
+	String itemName = "";
 
 	/**
 	 * This method create the JPanel for the Map Editor and return JPanel which
@@ -366,79 +369,207 @@ public class JPanelComponent {
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getItemEditorGridPanel(Item item, Dimension new_parentDimension, E_ItemEditorMode new_mode) {
+	public JPanel getItemEditorGridPanel(Item item, Dimension new_parentDimension, E_ItemEditorMode new_mode, ArrayList<Item> items) {
 		
 		
 		itemEditorMode = new_mode;
 		JPanel panel;
-		GridLayout flowLayout;
+		//JTextField txtItemName = null;
 
-		panel = new JPanel();
-		flowLayout = new GridLayout(4, 2);
-		panel.setLayout(flowLayout);
+		panel = new JPanel();;
+		panel.setLayout(null);
 
-		JLabel lblItemName = new JLabel();
-		lblItemName.setText("Item Name: ");
-
-		JTextField txtItemName = new JTextField(20);
-		txtItemName.getDocument().addDocumentListener(new DocumentListener(){
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				item.setName(txtItemName.getText());
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				item.setName(txtItemName.getText());
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				item.setName(txtItemName.getText());
-			}
+		JLabel lblItemName = new JLabel("Item Name: ");
+		lblItemName.setBounds(40, 30, 80, 25);
+		panel.add(lblItemName);
 		
-		});
+		JTextField txtItemName = new JTextField(40);
+		txtItemName.setBounds(170, 30, 120, 25);
+		txtItemName.setVisible(false);
+		
 
-		JLabel lblItemType = new JLabel();
-		lblItemType.setText("Item Type: ");
-
-		JComboBox txtComboBox = new JComboBox(ItemType.values());
-		txtComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				item.setItemType((ItemType) txtComboBox.getSelectedItem());
+		JComboBox<String> cbItemName = new JComboBox<String>();
+		cbItemName.setBounds(170, 30, 120, 25);
+		cbItemName.setEditable(true);
+		cbItemName.setVisible(false);
+		if(E_ItemEditorMode.Open == new_mode)
+		{
+			txtItemName.setVisible(false);
+			cbItemName.setVisible(true);
+			int index = 0;
+			
+			for(Item i : items)
+			{
+				if(i != null)
+				{
+					cbItemName.addItem(i.getName());
+					cbItemName.setName("" + index);
+					index++;
+				}
 			}
-		});
+			
+			panel.add(cbItemName);
+		}
+		
+		else {
+			txtItemName.setVisible(true);
+			cbItemName.setVisible(false);
+			
+			panel.add(txtItemName);
+		}
 
-		JLabel lblCharacterAttr = new JLabel();
-		lblCharacterAttr.setText("Character Attribute: ");
+		JLabel lblItemType = new JLabel("Item Type: ");
+		lblItemType.setBounds(40, 75, 80, 25);;
+		panel.add(lblItemType);
+		
+		JComboBox cbItemType = new JComboBox(ItemType.values());
+		cbItemType.setBounds(170, 75, 120, 25);
+		panel.add(cbItemType);
 
-		JComboBox cbCharacterAttr = new JComboBox(CharacterAttribute.values());
-		cbCharacterAttr.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				item.setCharacterAttribute((CharacterAttribute) cbCharacterAttr.getSelectedItem());
-			}
-		});
+		JLabel lblCharacterAttr = new JLabel("Character Attribute: ");
+		lblCharacterAttr.setBounds(40, 120, 120, 25);
+		panel.add(lblCharacterAttr);
+		
+		
+		JComboBox cbCharacterAttr = new JComboBox(ItemType.HELMET.getAllowedAttributes().toArray());
+		cbCharacterAttr.setBounds(170, 120, 120, 25);
+		panel.add(cbCharacterAttr);
 
-		JLabel lblBonusAmount = new JLabel();
-		lblBonusAmount.setText("Bonus Amount: ");
+		JLabel lblBonusAmount = new JLabel("Bonus Amount: ");
+		lblBonusAmount.setBounds(40, 165, 100, 25);
+		panel.add(lblBonusAmount);
 
 		Integer[] bonuses = new Integer[] { 1, 2, 3, 4, 5 };
 		JComboBox cbBonusAmount = new JComboBox(bonuses);
-		cbBonusAmount.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				item.setBonusAmount((Integer) cbBonusAmount.getSelectedItem());
+		cbBonusAmount.setBounds(170, 165, 100, 25);
+		panel.add(cbBonusAmount);
+		
+		JButton btnAddItem = new JButton("Add New Item");
+		btnAddItem.setBounds(40, 230, 120, 25);
+		panel.add(btnAddItem);
+		
+		if(E_ItemEditorMode.Open == new_mode)
+		{
+			cbItemName.setSelectedItem(items.get(0).getName());
+			cbItemType.setSelectedItem(items.get(0).getItemType());
+			cbCharacterAttr.setSelectedItem(items.get(0).getEnhancedAttribute());
+			cbBonusAmount.setSelectedItem(items.get(0).getBonusAmount());
+			itemName = items.get(0).getName();
+		}
+		
+		cbItemType.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cbItemType.getSelectedItem());
+				if (cbItemType.getSelectedItem().toString().equals("RING")) {
+					cbCharacterAttr.removeAllItems();
+					
+					for(CharacterAttribute c : ItemType.RING.getAllowedAttributes())
+					{
+						cbCharacterAttr.addItem(c);
+					}
+				}
+				else if (cbItemType.getSelectedItem().toString().equals("HELMET")) {
+					cbCharacterAttr.removeAllItems();
+					
+					for(CharacterAttribute c : ItemType.HELMET.getAllowedAttributes())
+					{
+						cbCharacterAttr.addItem(c);
+					}
+				}
+				else if (cbItemType.getSelectedItem().toString().equals("ARMOR")) {
+					cbCharacterAttr.removeAllItems();
+					
+					for(CharacterAttribute c : ItemType.ARMOR.getAllowedAttributes())
+					{
+						cbCharacterAttr.addItem(c);
+					}
+				}
+				else if (cbItemType.getSelectedItem().toString().equals("SHIELD")) {
+					cbCharacterAttr.removeAllItems();
+					
+					for(CharacterAttribute c : ItemType.SHIELD.getAllowedAttributes())
+					{
+						cbCharacterAttr.addItem(c);
+					}
+				}
+				else if (cbItemType.getSelectedItem().toString().equals("BELT")) {
+					cbCharacterAttr.removeAllItems();
+					
+					for(CharacterAttribute c : ItemType.BELT.getAllowedAttributes())
+					{
+						cbCharacterAttr.addItem(c);
+					}
+				}
+				else if (cbItemType.getSelectedItem().toString().equals("BOOTS")) {
+					cbCharacterAttr.removeAllItems();
+					
+					for(CharacterAttribute c : ItemType.BOOTS.getAllowedAttributes())
+					{
+						cbCharacterAttr.addItem(c);
+					}
+				}
+				else if (cbItemType.getSelectedItem().toString().equals("WEAPON")) {
+					cbCharacterAttr.removeAllItems();
+					
+					for(CharacterAttribute c : ItemType.WEAPON.getAllowedAttributes())
+					{
+						cbCharacterAttr.addItem(c);
+					}
+				}
 			}
 		});
-
-		panel.add(lblItemName);
-		panel.add(txtItemName);
-		panel.add(lblItemType);
-		panel.add(txtComboBox);
-		panel.add(lblCharacterAttr);
-		panel.add(cbCharacterAttr);
-		panel.add(lblBonusAmount);
-		panel.add(cbBonusAmount);
+		cbItemName.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cbItemType.setSelectedItem(items.get(cbItemName.getSelectedIndex()).getItemType());
+				cbCharacterAttr.setSelectedItem(items.get(cbItemName.getSelectedIndex()).getEnhancedAttribute());
+				cbBonusAmount.setSelectedItem(items.get(cbItemName.getSelectedIndex()).getBonusAmount());
+				itemName = items.get(cbItemName.getSelectedIndex()).getName();
+			}
+		});
+		
+		btnAddItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(E_ItemEditorMode.Create == new_mode)
+				{
+					itemName = txtItemName.getText();
+				}
+				
+				if(!itemName.equals(""))
+				{
+					item.setName(itemName);
+					item.setItemType((ItemType)cbItemType.getSelectedItem());
+					item.setCharacterAttribute((CharacterAttribute)cbCharacterAttr.getSelectedItem());
+					item.setBonusAmount((Integer)cbBonusAmount.getSelectedItem());
+					if (item.isValid()){
+						String msg = "";
+						if(E_ItemEditorMode.Open == new_mode)
+						{
+							items.set(cbItemName.getSelectedIndex(), item);
+							msg = new FileWriterReader().saveItem(items);
+						}
+						
+						else 
+						{
+							msg = new FileWriterReader().saveItem(item);
+						}
+						if (msg.contains(GameStatics.STATUS_SUCCESS)) {
+							JOptionPane.showMessageDialog(null,
+							String.format(GameStatics.MSG_ITEM_FILE_LOADED_SAVED, "saved"));
+							itemName = "";
+							} 
+						else {
+							JOptionPane.showMessageDialog(null, msg);
+						}
+					}
+				}
+			}
+		});
 
 		return panel;
 	}
