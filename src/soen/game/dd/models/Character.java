@@ -26,7 +26,7 @@ public class Character implements Serializable {
 	private int damageBonus;
 	private int multipleAttacks;
 	
-	private Item armore;
+	private Item armor;
 	private Item ring;
 	private Item helmet;
 	private Item boots;
@@ -55,7 +55,7 @@ public class Character implements Serializable {
 	
 	
 	public Character(String name, String description, int level, int abilityScores, int abilityModifier, int hitPoint,
-			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armore, Item ring,
+			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring,
 			Item helmet, Item boots, Item belt, Item weapon, Item shield) {
 		super();
 		this.name = name;
@@ -68,7 +68,7 @@ public class Character implements Serializable {
 		this.attackBonus = attackBonus;
 		this.damageBonus = damageBonus;
 		this.multipleAttacks = multipleAttacks;
-		this.armore = armore;
+		this.armor = armor;
 		this.ring = ring;
 		this.helmet = helmet;
 		this.boots = boots;
@@ -89,6 +89,10 @@ public class Character implements Serializable {
 		else {
 			System.out.println("The Maximum backpack size is reached: "+backpack.size());
 			}
+	}
+	
+	private List<Item> getEquippedItems(){
+		return Arrays.asList(armor, ring, boots, weapon, shield);
 	}
 	
 	/**
@@ -184,15 +188,11 @@ public class Character implements Serializable {
 		this.hitPoint = hitPoint;
 	}*/
 	/**
-	 * @return the armorClass
+	 * @return the armorClass dexterity + all armor modifiers in equipment
 	 */
 	public int getArmorClass() {
+		
 		return armorClass;
-	}
-	/**
-	 * @param armorClass the armorClass to set
-	 */
-	public void setArmorClass() {
 	}
 	
 	/**
@@ -212,27 +212,18 @@ public class Character implements Serializable {
 			this.attackBonus = (int) (level+weapon.getBonusAmount()+dexterityModifier);
 	}
 	
-	/**
-	 * Returns the dexterity modifier
-	 * @return Dexterity modifier
-	 */
-	public int getDexterityMod() {
-		return 0;
-	}
 	
 	/**
 	 * @return the damageBonus
 	 */
 	public int getDamageBonus() {
-		return damageBonus;
+		if(weapon.getWeaponType()=="melee"){
+			return this.damageBonus=(int)(stregthModifier+weapon.getBonusAmount());
+		}
+		return 0;
 	}
-	/**
-	 * @param damageBonus the damageBonus to set
-	 */
-	public void setDamageBonus() {
-		if(weapon.getWeaponType()=="melee")
-			this.damageBonus=(int)(stregthModifier+weapon.getBonusAmount());
-	}
+		
+		
 	/**
 	 * @return the multipleAttacks
 	 */
@@ -246,18 +237,18 @@ public class Character implements Serializable {
 		this.multipleAttacks = multipleAttacks;
 	}
 	/**
-	 * @return the armore
+	 * @return the armor
 	 */
-	public Item getArmore() {
-		return armore;
+	public Item getarmor() {
+		return armor;
 	}
 	/**@author Munjed
-	 * @param armore the armore to set
+	 * @param armor the armor to set
 	 */
 
-	public void setArmore(Item item) {
+	public void setarmor(Item item) {
 		if (item.getItemType() == ItemType.ARMOR)
-			this.armore = item;
+			this.armor = item;
 		else 
 			System.out.println("Inavalid type: item is not an armor");
 	}
@@ -407,7 +398,7 @@ public class Character implements Serializable {
 				+" "+stregthModifier+" "+constitutionModifier	+" "+wisdomModifier	+" "+dexterityModifier	+" "+intelligenceModifier	+" "+charismaModifier+" "
 				+ ", hitPoint=" + hitPoint + ", armorClass="
 				+ armorClass + ", attackBonus=" + attackBonus + ", damageBonus=" + damageBonus + ", multipleAttacks="
-				+ multipleAttacks + ", armore=" + armore + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
+				+ multipleAttacks + ", armor=" + armor + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
 				+ ", belt=" + belt + ", weapon=" + weapon + ", shield=" + shield + "]";
 	}
 	
