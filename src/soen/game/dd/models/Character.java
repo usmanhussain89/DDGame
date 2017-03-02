@@ -181,6 +181,8 @@ public class Character implements Serializable {
 	
 	/**
 	 * @author Munjed
+	 * This method, although gets the value for armor class, it also calculates it
+	 * @param armorClass integer that represents the armor class 
 	 * @return the armorClass dexterity + all armor modifiers in equipment
 	 */
 	
