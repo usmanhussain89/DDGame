@@ -26,6 +26,7 @@ import soen.game.dd.models.Campaign;
 import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
+import soen.game.dd.models.Character;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
@@ -94,7 +95,7 @@ public class JMenuBarComponent {
 					txtX.addKeyListener(new KeyAdapter() {
 						public void KeyTyped(KeyEvent e) {
 							char ch = e.getKeyChar();
-							if (!(Character.isDigit(ch) || (ch == KeyEvent.VK_BACK_SPACE)
+							if (!(java.lang.Character.isDigit(ch) || (ch == KeyEvent.VK_BACK_SPACE)
 									|| (ch == KeyEvent.VK_DELETE))) {
 								e.consume();
 							}
