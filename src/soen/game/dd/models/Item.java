@@ -32,9 +32,6 @@ public class Item implements Serializable{
 	public Item()
 	{}
 
-	public Item() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * Checks if the item is valid. For an item to be valid: - it needs to

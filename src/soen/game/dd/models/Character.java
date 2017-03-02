@@ -44,12 +44,12 @@ public class Character implements Serializable {
 	private int charisma;
 	
 	//double were used to avoid the mismatch type error when using the floor() method
-	private double stregthModefier;
-	private double constitutionModefier;
-	private double wisdomModefier;
-	private double dexterityModefier;
-	private double intelligenceModefier;
-	private double charismaModefier;
+	private double stregthModifier;
+	private double constitutionModifier;
+	private double wisdomModifier;
+	private double dexterityModifier;
+	private double intelligenceModifier;
+	private double charismaModifier;
 	
 	
 	
@@ -159,12 +159,12 @@ public class Character implements Serializable {
 	 */
 	public void setAbilityModifier() {
 		//creating modifiers from ability scores
-		this.stregthModefier=Math.floor((stregth-10)/2);
-		this.charismaModefier=Math.floor((charisma-10)/2);
-		this.intelligenceModefier=Math.floor((intelligence-10)/2);
-		this.wisdomModefier=Math.floor((wisdom-10)/2);
-		this.constitutionModefier=Math.floor((constitution-10)/2);
-		this.dexterityModefier=Math.floor((dexterity-10)/2);
+		this.stregthModifier=Math.floor((stregth-10)/2);
+		this.charismaModifier=Math.floor((charisma-10)/2);
+		this.intelligenceModifier=Math.floor((intelligence-10)/2);
+		this.wisdomModifier=Math.floor((wisdom-10)/2);
+		this.constitutionModifier=Math.floor((constitution-10)/2);
+		this.dexterityModifier=Math.floor((dexterity-10)/2);
 	}
 	/**@author Munjed
 	 * @return the hitPoint
@@ -174,7 +174,7 @@ public class Character implements Serializable {
 		//1st find all con modifier from:
 		//a) class, if fighter we use highest 1d10 for 1st class
 		//b) then we use the average of 1d10 rounded up=6 + con Mod for each level-up
-		hitPoint=(10+constitutionModefier)+(level-1)*(6+constitutionModefier);
+		hitPoint=(10+constitutionModifier)+(level-1)*(6+constitutionModifier);
 		return hitPoint;
 	}
 	/*
@@ -193,26 +193,33 @@ public class Character implements Serializable {
 	 * @param armorClass the armorClass to set
 	 */
 	public void setArmorClass() {
-		if(ItemType.ARMOR)
-		
-		this.armorClass = ItemType.ARMOR.stat+
-				shield+boots+belt+ring+helmet;
 	}
+	
 	/**
 	 * @return the attackBonus
 	 */
 	public int getAttackBonus() {
 		return attackBonus;
 	}
+	
 	/**
 	 * @param attackBonus the attackBonus to set
 	 */
 	public void setAttackBonus() {	
 		if(weapon.getWeaponType()=="melee")
-			this.attackBonus = (int) (level+weapon.getBonusAmount()+stregthModefier);
+			this.attackBonus = (int) (level+weapon.getBonusAmount()+stregthModifier);
 		else if(weapon.getWeaponType()=="ranged")
-			this.attackBonus = (int) (level+weapon.getBonusAmount()+dexterityModefier);
+			this.attackBonus = (int) (level+weapon.getBonusAmount()+dexterityModifier);
 	}
+	
+	/**
+	 * Returns the dexterity modifier
+	 * @return Dexterity modifier
+	 */
+	public int getDexterityMod() {
+		return 0;
+	}
+	
 	/**
 	 * @return the damageBonus
 	 */
@@ -223,8 +230,8 @@ public class Character implements Serializable {
 	 * @param damageBonus the damageBonus to set
 	 */
 	public void setDamageBonus() {
-		if(varItem.getWeaponType()=="melee")
-			this.damageBonus=(int)(stregthModefier+varItem.getBonusAmount());
+		if(weapon.getWeaponType()=="melee")
+			this.damageBonus=(int)(stregthModifier+weapon.getBonusAmount());
 	}
 	/**
 	 * @return the multipleAttacks
@@ -260,6 +267,7 @@ public class Character implements Serializable {
 	public Item getRing() {
 		return ring;
 	}
+	
 	/**@author Munjed
 	 * @param ring the ring to set
 	 */
@@ -288,12 +296,14 @@ public class Character implements Serializable {
 			System.out.println("Inavalid type: item is not a helmet");
 		}
 	}
+	
 	/**
 	 * @return the boots
 	 */
 	public Item getBoots() {
 		return boots;
 	}
+	
 	/**
 	 * @param boots the boots to set
 	 */
@@ -304,16 +314,17 @@ public class Character implements Serializable {
 		else 
 			System.out.println("Inavalid type: item is not boots");
 	}
+	
 	/**
 	 * @return the belt
 	 */
 	public Item getBelt() {
 		return belt;
 	}
+	
 	/**
 	 * @param belt the belt to set
 	 */
-
 	public void setBelt(Item item) {
 		if (item.getItemType() == ItemType.BELT)
 			this.belt = item;
@@ -323,25 +334,27 @@ public class Character implements Serializable {
 	/**
 	 * @return the sword
 	 */
-	public Item getSword() {
-		return sword;
+	public Item getWeapon() {
+		return weapon;
 	}
 	/**
 	 * @param sword the sword to set
 	 */
 
-	public void setSword(Item item) {
+	public void setWeapon(Item item) {
 		if (item.getItemType() == ItemType.WEAPON)
-			this.sword = item;
+			this.weapon = item;
 		else 
 			System.out.println("Inavalid type: item is not a weapon");
 	}
+	
 	/**
 	 * @return the shield
 	 */
 	public Item getShield() {
 		return shield;
 	}
+	
 	/**
 	 * @param shield the shield to set
 	 */
@@ -352,6 +365,7 @@ public class Character implements Serializable {
 		else 
 			System.out.println("Inavalid type: item is not a shield");
 	}
+	
 	/**
 	 * @author Munjed
 	 * Roll dice method, uses 4d6 and returns the score
@@ -390,11 +404,11 @@ public class Character implements Serializable {
 				+ " stregth	constitution	wisdom	dexterity	intelligence	charisma: "
 				+" "+ stregth	+" "+ constitution	+" "+ wisdom	+" "+ dexterity+" "+ 	intelligence +" "+ charisma + ", ability modifiers=" 
 				+" stregthModifier	constitutionModifier	wisdomModifier	dexterityModifier	intelligenceModifier	charismaModifier "
-				+" "+stregthModefier+" "+constitutionModefier	+" "+wisdomModefier	+" "+dexterityModefier	+" "+intelligenceModefier	+" "+charismaModefier+" "
+				+" "+stregthModifier+" "+constitutionModifier	+" "+wisdomModifier	+" "+dexterityModifier	+" "+intelligenceModifier	+" "+charismaModifier+" "
 				+ ", hitPoint=" + hitPoint + ", armorClass="
 				+ armorClass + ", attackBonus=" + attackBonus + ", damageBonus=" + damageBonus + ", multipleAttacks="
 				+ multipleAttacks + ", armore=" + armore + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
-				+ ", belt=" + belt + ", sword=" + sword + ", shield=" + shield + "]";
+				+ ", belt=" + belt + ", weapon=" + weapon + ", shield=" + shield + "]";
 	}
 	
 	
