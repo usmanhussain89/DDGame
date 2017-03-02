@@ -699,9 +699,17 @@ public class JPanelComponent {
 			
 			public ItemComboItem[] generateList(){
 				ArrayList<ItemComboItem> combo_items = new ArrayList<ItemComboItem>();
-				for(Item i : items){
-					if(i.getItemType() == itemType){
+				if (itemType == null){
+					for(Item i : items){
 						combo_items.add(new ItemComboItem(i));
+					}	
+				}
+				else
+				{
+					for(Item i : items){
+						if(i.getItemType() == itemType){
+							combo_items.add(new ItemComboItem(i));
+						}
 					}
 				}
 				return combo_items.toArray(new ItemComboItem[combo_items.size()]);
@@ -781,6 +789,22 @@ public class JPanelComponent {
 		JComboBox<ItemComboItem> cbWeapon = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.WEAPON).generateList());
 		cbWeapon.setBounds(170, 225, 120, 25);
 		panel.add(cbWeapon);
+		
+		// Items
+		
+		ArrayList<JComboBox<ItemComboItem>> backpack = new ArrayList<JComboBox<ItemComboItem>>();
+		for(int i = 0; i < 10; ++i){
+			JLabel lblSelectItem1 = new JLabel("Item " + i + ": ");
+			lblSelectItem1.setBounds(40, 250 + i * 25, 100, 25);
+			panel.add(lblSelectItem1);
+			
+			JComboBox<ItemComboItem> combobox = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.WEAPON).generateList());
+			combobox.setBounds(170, 250 + i * 25, 120, 25);
+			panel.add(combobox);
+
+			backpack.add(combobox);
+		}
+		
 		return panel;
 	}
 	
