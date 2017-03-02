@@ -78,7 +78,7 @@ public class JPanelComponent {
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getMapEditorGridPanel(Map new_mapModel, Dimension new_parentDimension, E_MapEditorMode new_mode) {
+	public JPanel getMapEditorGridPanel(Map new_mapModel, Dimension new_parentDimension, E_MapEditorMode new_mode, ArrayList<Map> maps, int index) {
 		mapEditorMode = new_mode;
 		JPanel panel;
 		GridLayout gridLayout;
@@ -94,6 +94,7 @@ public class JPanelComponent {
 
 		else {
 			panel = new JPanel();
+			//gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 			panel.setLayout(gridLayout);
 		}
@@ -119,9 +120,9 @@ public class JPanelComponent {
 					new_mapModel.mapGridSelection[i][j] = 0;
 					mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
 					// Click event
-					addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
+					addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel, new_mode, maps, index);
 					// Right Click Event
-					addMouseClickOnButtonEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
+					addMouseClickOnButtonEvents(mapButtonsGrid2DArray[i][j], new_mapModel, new_mode, maps, index);
 				}
 
 				else if (E_MapEditorMode.Open == mapEditorMode) {
@@ -148,9 +149,9 @@ public class JPanelComponent {
 					}
 
 					// Click event
-					addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
+					addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel, new_mode, maps, index);
 					// Right Click Event
-					addMouseClickOnButtonEvents(mapButtonsGrid2DArray[i][j], new_mapModel);
+					addMouseClickOnButtonEvents(mapButtonsGrid2DArray[i][j], new_mapModel, new_mode, maps, index);
 				}
 
 				mapButtonsGrid2DArray[i][j].setOpaque(true);
@@ -172,7 +173,7 @@ public class JPanelComponent {
 	 * @param new_mapModel
 	 *            Type MapModel
 	 */
-	private void addButtonClickEvents(JButton new_button, Map new_mapModel) {
+	private void addButtonClickEvents(JButton new_button, Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, int index) {
 		new_button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -231,6 +232,11 @@ public class JPanelComponent {
 					new_mapModel.isChestDone = false;
 					jButtonChest = null;
 				}
+				
+				if(E_MapEditorMode.Open == new_mode)
+				{
+					maps.set(index, new_mapModel);
+				}
 			}
 		});
 	}
@@ -245,7 +251,7 @@ public class JPanelComponent {
 	 * @param new_mapModel
 	 *            Type MapModel
 	 */
-	private void addMouseClickOnButtonEvents(JButton new_button, Map new_mapModel) {
+	private void addMouseClickOnButtonEvents(JButton new_button, Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, int index) {
 		new_button.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 
@@ -307,6 +313,7 @@ public class JPanelComponent {
 						jButtonChest = null;
 						new_mapModel.isChestDone = false;
 						new_mapModel.setChestPoint(null);
+						new_mapModel.mapSelectedItem = null;
 					}
 					// if the last point was Path and Wall button
 					else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_WALL_POINT
@@ -369,6 +376,11 @@ public class JPanelComponent {
 						} else {
 							JOptionPane.showMessageDialog(null, "All Points Already Selected");
 						}
+					}
+					
+					if(E_MapEditorMode.Open == new_mode)
+					{
+						maps.set(index, new_mapModel);
 					}
 				}
 			}
@@ -543,7 +555,7 @@ public class JPanelComponent {
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getCampaignEditorGridPanel(Campaign campaign, E_CampaignEditorMode new_mode, JFrame frame) {
+	public JPanel getCampaignEditorGridPanel(Campaign campaign, E_CampaignEditorMode new_mode, JFrame frame, ArrayList<Map> maps, ArrayList<Campaign> campaigns, int index) {
 		
 		campaignEditorMode = new_mode;
 		JPanel panel;
@@ -563,17 +575,17 @@ public class JPanelComponent {
 		lblSelectMap.setBounds(40, 75, 100, 25);
 		panel.add(lblSelectMap);
 		
-		JTextField txtBrowseFile = new JTextField(30);
-		txtBrowseFile.setBounds(160, 75, 150, 25);
-		panel.add(txtBrowseFile);
+		JComboBox<String> cbMapName = new JComboBox<String>();
+		cbMapName.setBounds(160, 75, 100, 25);
 		
-		JButton btnBrowseFile = new JButton("Browse");
-		btnBrowseFile.setBounds(320, 75, 80, 25);
-		panel.add(btnBrowseFile);
+		for(Map map : maps)
+		{
+			cbMapName.addItem(map.getMapName());
+		}
+		panel.add(cbMapName);
 		
 		JButton btnAddMap = new JButton("Add Map");
-		btnAddMap.setBounds(420, 75, 90, 25);
-		btnAddMap.setVisible(false);
+		btnAddMap.setBounds(280, 75, 90, 25);
 		panel.add(btnAddMap);
 		
 		JLabel lblSelectedMap = new JLabel("Selected Map: ");
@@ -586,50 +598,32 @@ public class JPanelComponent {
 		
 		JButton btnRemoveMap = new JButton("Remove Map");
 		btnRemoveMap.setBounds(160,290,130,25);
-		btnRemoveMap.setVisible(true);
+		//btnRemoveMap.setVisible(false);
 		panel.add(btnRemoveMap);
+		
+		if(E_CampaignEditorMode.Open == new_mode)
+		{
+			txtCampaignName.setText(campaigns.get(index).getCampaignName());
+			cbMapName.setSelectedIndex(index);
+			System.out.println(campaigns.get(index).getCampaignList().size());
+			for(Map m : campaigns.get(index).getCampaignList())
+			{
+				mapList.add(m.getMapName());
+			}
+		}
 		
 		class PanelAction implements ActionListener
 		{
-			Map new_mapModel = null;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (e.getSource().equals(btnBrowseFile)) {
-					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
-					int result = fileChooser.showOpenDialog(frame);
-					if (result == JFileChooser.APPROVE_OPTION) {
-						File file = fileChooser.getSelectedFile();
-						try {
-							new_mapModel = new FileWriterReader().loadMap(file);
-						} catch (FileNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (ClassNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						if (new_mapModel != null) {
-							mapModel = new_mapModel;
-							txtBrowseFile.setText(new_mapModel.getMapName());
-							btnAddMap.setVisible(true);
-						} else {
-							btnAddMap.setVisible(false);
-							JOptionPane.showMessageDialog(null, GameStatics.MSG_UNABLE_TO_OPEN_FILE);
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
-					}
-				}
-				
-				else if (e.getSource().equals(btnAddMap)) {
-					if(mapModel != null){
-						campaign.setCampaignList(mapModel);
-						campaign.setCampaignName(txtCampaignName.getText());
-						mapList.add(mapModel.getMapName());
-						btnAddMap.setVisible(false);
-						txtBrowseFile.setText("");
-					}
+				if (e.getSource().equals(btnAddMap)) {
+					
+					System.out.print(cbMapName.getSelectedIndex() + " " + maps.size());
+					campaign.setCampaignList(maps.get(cbMapName.getSelectedIndex()));
+					campaign.setCampaignName(txtCampaignName.getText());
+					mapList.add(maps.get(cbMapName.getSelectedIndex()).getMapName());
+					btnRemoveMap.setVisible(true);
 				}
 				
 				else if (e.getSource().equals(btnRemoveMap)) {
@@ -643,19 +637,8 @@ public class JPanelComponent {
 			}
 			
 		}
-		btnBrowseFile.addActionListener(new PanelAction());
 		btnAddMap.addActionListener(new PanelAction());
 		btnRemoveMap.addActionListener(new PanelAction());
-		
-		if(E_CampaignEditorMode.Open == new_mode)
-		{
-			txtCampaignName.setText(campaign.getCampaignName());
-			
-			for (Map map : campaign.getCampaignList())
-			{
-				mapList.add(map.getMapName());
-			}
-		}
 		
 		return panel;
 	}
@@ -815,20 +798,17 @@ public class JPanelComponent {
 	 * @param new_mapModel
 	 * @return JPanel
 	 */
-	public JPanel getMapChestGridPanel(Map new_mapModel, ArrayList<Item> items) {
+	public JPanel getMapChestGridPanel(Map new_mapModel, ArrayList<Item> items, JFrame frame) {
 		JPanel panel = new JPanel();
-		//ArrayList<Item> items = new ArrayList<Item>();
+		panel.setLayout(null);
 		int index = 0;
 		
-		//items = new FileWriterReader().loadItems();
-		
-		//if(items != null) {
 			JLabel lblItemName = new JLabel("Item Name: ");
 			lblItemName.setBounds(40, 30, 80, 25);
 			panel.add(lblItemName);
 
 			JComboBox<String> cbItemName = new JComboBox<String>();
-			cbItemName.setBounds(170, 30, 120, 25);
+			cbItemName.setBounds(130, 30, 120, 25);
 			cbItemName.setEditable(true);
 			for(Item i : items)
 			{
@@ -843,12 +823,57 @@ public class JPanelComponent {
 			panel.add(cbItemName);
 			
 			List mapList = new List();
-			mapList.setBounds(160,75,150,150);
+			mapList.setBounds(40,75,150,150);
 			panel.add(mapList);
 			
-			JButton btnAddItem = new JButton("Add Item");
+			JButton btnAddItem = new JButton("Select Item");
 			btnAddItem.setBounds(40, 245, 100, 25);
 			panel.add(btnAddItem);
+			
+			JButton btnRemoveItem = new JButton("Remove Item");
+			btnRemoveItem.setBounds(150, 245, 120, 25);
+			panel.add(btnRemoveItem);
+			
+			btnRemoveItem.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(cbItemName.getSelectedItem() != null)
+					{
+						if (items.get(cbItemName.getSelectedIndex()) == null)
+							System.out.println("Null");
+						else {						
+							mapList.remove((String)cbItemName.getSelectedItem());
+							new_mapModel.mapSelectedItem.remove(items.get(cbItemName.getSelectedIndex()));
+							
+							if (new_mapModel.mapSelectedItem.size() > 0)
+								new_mapModel.isChestDone = true;
+							else
+								new_mapModel.isChestDone = false;
+						}
+					}
+				}
+			});
+			
+			JButton btnSave = new JButton("Save");
+			btnSave.setBounds(40, 290, 80, 25);
+			panel.add(btnSave);
+			
+			btnSave.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (new_mapModel.mapSelectedItem.size() > 0) {
+						JOptionPane.showMessageDialog(null, "Items has been added to chest.");
+						frame.dispose();
+					}
+					
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Please select items.");
+					}
+				}
+			});
 			
 			btnAddItem.addActionListener(new ActionListener() {
 				
@@ -859,15 +884,14 @@ public class JPanelComponent {
 						mapList.add((String)cbItemName.getSelectedItem());
 						if (items.get(cbItemName.getSelectedIndex()) == null)
 							System.out.println("Null");
-						new_mapModel.mapSelectedItem.add(items.get(cbItemName.getSelectedIndex()));
+						else {
+							Item i = items.get(cbItemName.getSelectedIndex());
+							new_mapModel.isChestDone = true;
+							new_mapModel.mapSelectedItem.add(items.get(cbItemName.getSelectedIndex()));
+						}
 					}
 				}
 			});
-		/*}
-		else
-		{
-			JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
-		}*/
 		
 		return panel;
 	}

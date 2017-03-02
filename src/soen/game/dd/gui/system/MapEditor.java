@@ -2,6 +2,7 @@ package soen.game.dd.gui.system;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -35,7 +36,7 @@ public class MapEditor extends JFrame{
 	 * @param map
 	 * @param mapEditorMode
 	 */
-	public MapEditor(JFrame frame, String title, int width, int height, Map map, E_MapEditorMode mapEditorMode) {
+	public MapEditor(JFrame frame, String title, int width, int height, Map map, E_MapEditorMode mapEditorMode, ArrayList<Map> maps, int index) {
 		if(frame != null){
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();
@@ -63,9 +64,9 @@ public class MapEditor extends JFrame{
 		this.setVisible(true);
 		
 		// MenuBar for Map Editor
-		this.setJMenuBar((new JMenuBarComponent()).getMapEditorJMenuBar(map, this));
+		this.setJMenuBar((new JMenuBarComponent()).getMapEditorJMenuBar(map, this, maps, mapEditorMode, index));
 		
 		//load Map Grid from Component
-		this.setContentPane((new JPanelComponent()).getMapEditorGridPanel(map, null, mapEditorMode));
+		this.setContentPane((new JPanelComponent()).getMapEditorGridPanel(map, null, mapEditorMode, maps, index));
 	}
 }

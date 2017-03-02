@@ -135,19 +135,19 @@ public class JMenuBarComponent {
 							mapModel.setMapHeight(Integer.parseInt(y));
 							new MapEditor(new_jframe, GameStatics.TITLE_MAP_EDITOR,
 									GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
-									mapModel, E_MapEditorMode.Create);
+									mapModel, E_MapEditorMode.Create,null,0);
 						}
 					} else {
 
 					}
 				} else if (e.getSource().equals(menuItemOpenMap)) {
-					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
-					int result = fileChooser.showOpenDialog(new_jframe);
-					if (result == JFileChooser.APPROVE_OPTION) {
-						File file = fileChooser.getSelectedFile();
-						Map mapModel = null;
+					//JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
+					//int result = fileChooser.showOpenDialog(new_jframe);
+					//if (result == JFileChooser.APPROVE_OPTION) {
+						//File file = fileChooser.getSelectedFile();
+					ArrayList<Map> maps = null;
 						try {
-							mapModel = new FileWriterReader().loadMap(file);
+							maps = new FileWriterReader().loadMaps();
 						} catch (FileNotFoundException e1) {
 							e1.printStackTrace();
 						} catch (ClassNotFoundException e1) {
@@ -155,16 +155,41 @@ public class JMenuBarComponent {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-						if (mapModel != null) {
-							new MapEditor(new_jframe, GameStatics.TITLE_MAP_EDITOR,
-									GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
-									mapModel, E_MapEditorMode.Open);
+						if (maps != null) {
+							int index = 0;
+							System.out.println(maps.size() + " size");
+							String[] mapNames = new String[maps.size()];
+							
+							for (Map m : maps)
+							{
+								mapNames[index] = m.getMapName();
+								index++;
+							}
+							String mapName = (String)JOptionPane.showInputDialog(
+				                    new_jframe,
+				                    "Select Map :\n",
+				                    "Maps Dialog",
+				                    JOptionPane.PLAIN_MESSAGE,
+				                    null,
+				                    mapNames,
+				                    "select");
+							index = 0;
+							for (Map mapModel : maps)
+							{
+								if (mapModel.getMapName().equals(mapName)){
+									new MapEditor(new_jframe, GameStatics.TITLE_MAP_EDITOR,
+											GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+											mapModel, E_MapEditorMode.Open, maps,index);
+									break;
+								}
+								index++;
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, GameStatics.MSG_UNABLE_TO_OPEN_FILE);
+							JOptionPane.showMessageDialog(null, "No Map Found !");
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
-					}
+					//} else {
+						//JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
+					//}
 				} 
 				
 				else if (e.getSource().equals(menuItemCreateItem)) {
@@ -199,35 +224,82 @@ public class JMenuBarComponent {
 				
 				
 				else if (e.getSource().equals(menuItemCreateCampaign)){
-					new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, null, E_CampaignEditorMode.Create);
+					ArrayList<Map> maps = null;
+					try {
+						maps = new FileWriterReader().loadMaps();
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
+					if(maps != null) {
+						new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, new Campaign(), E_CampaignEditorMode.Create, maps, null, 0);
+					}
+					
+					else
+					{
+						JOptionPane.showMessageDialog(null, "No Map Found !");
+					}
 				}
 				
 				else if (e.getSource().equals(menuItemOpenCampaign)){
 
-					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.CampaignOpen);
-					int result = fileChooser.showOpenDialog(new_jframe);
-					if (result == JFileChooser.APPROVE_OPTION) {
-						File file = fileChooser.getSelectedFile();
-						Campaign campaignModel = null;
-						try {
-							campaignModel = new FileWriterReader().loadCampaign(file);
-						} catch (FileNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (ClassNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							e1.printStackTrace();
+					ArrayList<Campaign> campaigns = null;
+					try {
+						campaigns = new FileWriterReader().loadCampaigns();
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					if (campaigns != null) {
+						int index = 0;
+						System.out.println(campaigns.size() + " size");
+						String[] campaignNames = new String[campaigns.size()];
+						
+						for (Campaign c : campaigns)
+						{
+							campaignNames[index] = c.getCampaignName();
+							index++;
 						}
-						if (campaignModel != null) {
-							new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-									GameStatics.CHILD_POPUP_WINDOW_HEIGHT,campaignModel, E_CampaignEditorMode.Open);					
+						String mapName = (String)JOptionPane.showInputDialog(
+			                    new_jframe,
+			                    "Select Map :\n",
+			                    "Maps Dialog",
+			                    JOptionPane.PLAIN_MESSAGE,
+			                    null,
+			                    campaignNames,
+			                    "select");
+						index = 0;
+						for (Campaign campaignModel : campaigns)
+						{
+							ArrayList<Map> maps = null;
+							try {
+								maps = new FileWriterReader().loadMaps();
+							} catch (FileNotFoundException e1) {
+								e1.printStackTrace();
+							} catch (ClassNotFoundException e1) {
+								e1.printStackTrace();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
 							
-						} else {
-							JOptionPane.showMessageDialog(null, GameStatics.MSG_UNABLE_TO_OPEN_FILE);
+							if (campaignModel.getCampaignName().equals(mapName)){
+								new CampaignEditor(new_jframe, GameStatics.TITLE_MAP_EDITOR,
+										GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+										campaignModel, E_CampaignEditorMode.Open, maps, campaigns,index);
+								break;
+							}
+							index++;
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
+						JOptionPane.showMessageDialog(null, "No Map Found !");
 					}
 				}
 				
@@ -257,7 +329,7 @@ public class JMenuBarComponent {
 	 * @param new_jframe
 	 * @return JMenu for Map Editor
 	 */
-	public JMenuBar getMapEditorJMenuBar(Map new_mapModel, JFrame new_jframe) {
+	public JMenuBar getMapEditorJMenuBar(Map new_mapModel, JFrame new_jframe, ArrayList<Map> maps, E_MapEditorMode mapEditorMode, int index) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
 		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
@@ -270,23 +342,42 @@ public class JMenuBarComponent {
 			@Override
 			public void actionPerformed(ActionEvent new_event) {
 				if (new_event.getSource().equals(menuItemSave)) {
-					String MapValidationStatus = (new MapValidation()).mapValidations(new_mapModel);
+					String MapValidationStatus = "";
+					
+					if(E_MapEditorMode.Create == mapEditorMode) {
+						MapValidationStatus = (new MapValidation()).mapValidations(new_mapModel);
+					}
+					
+					else
+					{
+						MapValidationStatus = (new MapValidation()).mapValidations(maps.get(index));
+					}
 
 					if (MapValidationStatus != null) {
 						JOptionPane.showMessageDialog(null, MapValidationStatus);
 					} else {
-						JFileChooser fileChooser = new JFileChooserComponent()
-								.getJFileChooser(E_JFileChooserMode.MapSave);
-						int result = fileChooser.showSaveDialog(null);
-						if (result == JFileChooser.APPROVE_OPTION) {
-							File file = fileChooser.getSelectedFile();
-
-							new_mapModel.setMapName(file.getName());
-							new_mapModel.setMapRoutPath(GameStatics.MAP_ROUT_PATH);
-							new_mapModel.setMapRoutBoundaries(GameStatics.MAP_PATH_BOUNDARY_BUTTONS_NAME);
-							new_mapModel.getMapRoutPathList();
-
-							String msg = new FileWriterReader().saveMap(file, new_mapModel);
+						if(E_MapEditorMode.Create == mapEditorMode) {
+							String mapName = JOptionPane.showInputDialog(new_jframe, "Enter Map name:");
+							if (!mapName.equals("")) {
+	
+								new_mapModel.setMapName(mapName);
+								new_mapModel.setMapRoutPath(GameStatics.MAP_ROUT_PATH);
+								new_mapModel.setMapRoutBoundaries(GameStatics.MAP_PATH_BOUNDARY_BUTTONS_NAME);
+								new_mapModel.getMapRoutPathList();
+	
+								String msg = new FileWriterReader().saveMap(new_mapModel);
+								if (msg.contains(GameStatics.STATUS_SUCCESS)) {
+									JOptionPane.showMessageDialog(null,
+											String.format(GameStatics.MSG_MAP_FILE_LOADED_SAVED, "saved"));
+									closeFrame(new_jframe);
+								} else {
+									JOptionPane.showMessageDialog(null, msg);
+								}
+							}
+						}
+						
+						else {
+							String msg = new FileWriterReader().saveMaps(maps);
 							if (msg.contains(GameStatics.STATUS_SUCCESS)) {
 								JOptionPane.showMessageDialog(null,
 										String.format(GameStatics.MSG_MAP_FILE_LOADED_SAVED, "saved"));
@@ -346,7 +437,7 @@ public class JMenuBarComponent {
 	 * @param new_jframe
 	 * @return JMenu for Campaign Editor
 	 */
-	public JMenuBar getCampaignEditorJMenuBar(Campaign campaign, JFrame new_jframe) {
+	public JMenuBar getCampaignEditorJMenuBar(Campaign campaign, JFrame new_jframe, E_CampaignEditorMode new_mode, ArrayList<Campaign> campaigns, int index) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
 		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
@@ -360,15 +451,32 @@ public class JMenuBarComponent {
 			public void actionPerformed(ActionEvent new_event) {
 				if (new_event.getSource().equals(menuItemSave)) {
 					if (campaign != null){
-						if(campaign.getCampaignList().size() > 0)
+						System.out.println(campaign.getCampaignList().size());
+						if(campaign.getCampaignList().size() > 1)
 						{
-							JFileChooser fileChooser = new JFileChooserComponent()
-									.getJFileChooser(E_JFileChooserMode.CampaignSave);
-							int result = fileChooser.showSaveDialog(null);
-							if (result == JFileChooser.APPROVE_OPTION) {
-								File file = fileChooser.getSelectedFile();
-
-								String msg = new FileWriterReader().saveCampaign(file, campaign);
+							if(E_CampaignEditorMode.Create == new_mode)
+							{
+								if (!campaign.getCampaignName().equals("")) {
+	
+									String msg = new FileWriterReader().saveCampaign(campaign);
+									if (msg.contains(GameStatics.STATUS_SUCCESS)) {
+										JOptionPane.showMessageDialog(null,
+												String.format(GameStatics.MSG_CAMPAIGN_FILE_LOADED_SAVED, "saved"));
+										closeFrame(new_jframe);
+									} else {
+										JOptionPane.showMessageDialog(null, msg);
+									}
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null, "Enter Campaign name first");
+								}
+							}
+							
+							else
+							{
+								campaigns.set(index, campaign);
+								String msg = new FileWriterReader().saveCampaigns(campaigns);
 								if (msg.contains(GameStatics.STATUS_SUCCESS)) {
 									JOptionPane.showMessageDialog(null,
 											String.format(GameStatics.MSG_CAMPAIGN_FILE_LOADED_SAVED, "saved"));
@@ -381,7 +489,7 @@ public class JMenuBarComponent {
 						
 						else
 						{
-							JOptionPane.showMessageDialog(null, GameStatics.MSG_SELECT_MORE_MAP);
+							JOptionPane.showMessageDialog(null, "Select more than one map");
 						}
 					}
 					else

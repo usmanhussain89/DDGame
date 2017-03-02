@@ -2,12 +2,14 @@ package soen.game.dd.gui.system;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import soen.game.dd.gui.components.JMenuBarComponent;
 import soen.game.dd.gui.components.JPanelComponent;
 import soen.game.dd.models.Campaign;
+import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 
@@ -32,7 +34,7 @@ public class CampaignEditor extends JFrame {
 	 * @param map
 	 * @param mapEditorMode
 	 */
-	public CampaignEditor(JFrame frame, String title, int width, int height,Campaign new_campaign, E_CampaignEditorMode campaignEditorMode) {
+	public CampaignEditor(JFrame frame, String title, int width, int height, Campaign new_campaign, E_CampaignEditorMode campaignEditorMode, ArrayList<Map> maps, ArrayList<Campaign> campaigns, int index) {
 		if (frame != null) {
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();
@@ -59,9 +61,9 @@ public class CampaignEditor extends JFrame {
 		this.setVisible(true);
 
 		// MenuBar for Campaign Editor
-		this.setJMenuBar((new JMenuBarComponent()).getCampaignEditorJMenuBar(campaign, this));
+		this.setJMenuBar((new JMenuBarComponent()).getCampaignEditorJMenuBar(campaign, this, campaignEditorMode, campaigns, index));
 
 		// load Campaign Grid from Component
-		this.setContentPane((new JPanelComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode, this));
+		this.setContentPane((new JPanelComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode, this, maps, campaigns, index));
 	}
 }

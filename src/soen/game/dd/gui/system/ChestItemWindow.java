@@ -44,6 +44,6 @@ public class ChestItemWindow extends JFrame{
 		this.setJMenuBar((new JMenuBarComponent()).getMapChestItemJMenuBar(this));
 		
 		//load Map Grid from Component
-		this.setContentPane((new JPanelComponent()).getMapChestGridPanel(mapModel, items));
+		this.setContentPane((new JPanelComponent()).getMapChestGridPanel(mapModel, items, this));
 	}
 }
