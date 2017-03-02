@@ -15,13 +15,22 @@ public class Item implements Serializable{
 	private CharacterAttribute enhancedAttribute;
 	private int bonusAmount;
 	private String name;
+	private int itemStat; //for weapon base attack and Armor wearable "armor value"
+	private String weaponType; //this to determine if its a melee or ranged weapon if the item type is a Weapon o.w. its NULL
 
-	public Item(String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount) {
+	
+
+	public Item(String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount, int itemStat, String weaponType) {
 		this.itemType = itemType;
 		this.enhancedAttribute = enhancedAttribute;
 		this.bonusAmount = bonusAmount;
 		this.name = name;
+		this.itemStat=itemStat;
+		this.weaponType=weaponType;
 	}
+	
+	public Item()
+	{}
 
 	public Item() {
 		// TODO Auto-generated constructor stub
@@ -79,6 +88,38 @@ public class Item implements Serializable{
 	
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	/**
+	 * @author Munjed
+	 * @return itemStat
+	 */
+	public int getItemStat() {
+		return itemStat;
+	}
+	/**
+	 * @author Munjed
+	 * @param itemStat value for weapon base attack and Armor wearable "armor value"
+	 */
+	public void setItemStat(int itemStat) {
+		this.itemStat = itemStat;
+	}
+	
+	/**
+	 * @author Munjed
+	 * @return weaponType the type of the weapon, melee or ranged
+	 */
+
+	public String getWeaponType() {
+		return weaponType;
+	}
+	
+	/**
+	 * @author Munjed
+	 * @param weaponType is the type of weapon melee or ranged
+	 */
+	public void setWeaponType(String weaponType) {
+		this.weaponType = weaponType;
 	}
 
 	/*
