@@ -27,6 +27,8 @@ public class GameStatics {
 	public static final String MENU_ITEM_OPEN_CAMPAIGN = "Open Campaign";
 	public static final String MENU_ITEM_EXIT = "Exit";
 	public static final String MENU_ITEM_SAVE = "SAVE";
+	public static final String MENU_CHARACTER_EXIT = "Exit";
+	public static final String MENU_CHARACTER_SAVE = "SAVE";
 
 	// Popup Title
 	public static final String TITLE_MSG_SET_SIZE_OF_MAP = "SET SIZE OF MAP";
@@ -38,11 +40,15 @@ public class GameStatics {
 	// Window Titles
 	public static final String MAP_MODE_CREATE = "(CREATE)";
 	public static final String MAP_MODE_OPEN = "(OPEN)";
+	public static final String CHARACTER_MODE_OPEN = "(OPEN)";
+	public static final String CHARACTER_MODE_CREATE = "(CREATE)";
 	public static final String TITLE_MAP_EDITOR = "MAP EDITOR";
 	public static final String ITEM_MODE_CREATE = "(CREATE)";
 	public static final String ITEM_MODE_OPEN = "(OPEN)";
 	public static final String TITLE_ITEM_EDITOR = "ITEM EDITOR";
 	public static final String TITLE_CAMPAIGN_EDITOR = "CAMPAIGN EDITOR";
+	public static final String TITLE_CHARACTER_EDITOR = "CHARACTER EDITOR";
+
 
 	// Map Tiles Variables
 	public static final int MAP_ENTRY_POINT = 2;
@@ -74,4 +80,5 @@ public class GameStatics {
 	public static final String MSG_SELECT_MORE_MAP = "Select more than one Map";
 	public static final String MSG_CAMPAIGN_FILE_LOADED_SAVED = "Campaign file %s successfully!";
 	public static final String MSG_ITEM_FILE_LOADED_SAVED = "Item %s successfully!";
+
 }

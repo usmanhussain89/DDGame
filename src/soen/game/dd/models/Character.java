@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class Character implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4450845749856986590L;
 	private String name;
 	private String description;
 	private int level;
@@ -52,7 +56,8 @@ public class Character implements Serializable {
 	private double charismaModifier;
 	
 	
-	
+	public Character(){
+	}
 	
 	public Character(String name, String description, int level, int abilityScores, int abilityModifier, int hitPoint,
 			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring,

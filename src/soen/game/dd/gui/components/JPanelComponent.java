@@ -1,6 +1,7 @@
 package soen.game.dd.gui.components;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.List;
@@ -38,7 +39,9 @@ import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
+import soen.game.dd.models.Character;
 import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
+import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_JFileChooserMode;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
@@ -64,6 +67,7 @@ public class JPanelComponent {
 	private JButton jButtonChest;
 	private Map mapModel = null;
 	String itemName = "";
+	private Item itemModel = null;
 
 	/**
 	 * This method create the JPanel for the Map Editor and return JPanel which
@@ -692,6 +696,71 @@ public class JPanelComponent {
 			for (Map map : campaign.getCampaignList())
 			{
 				mapList.add(map.getMapName());
+			}
+		}
+		
+		return panel;
+	}
+
+	public Container getCharacterEditorGridPanel(Character pCharacter, Object object,
+			E_CharacterEditorMode characterEditorMode, JFrame frame) {
+		JPanel panel;
+		Character character = pCharacter;
+
+		panel = new JPanel();
+		panel.setLayout(null);
+		
+		JLabel lblCharacterName = new JLabel("Character Name: ");
+		lblCharacterName.setBounds(40, 30, 100, 25);
+		panel.add(lblCharacterName);
+		
+		JTextField txtCharacterName = new JTextField(30);
+		txtCharacterName.setBounds(160, 30, 150, 25);
+		panel.add(txtCharacterName);
+		
+		JLabel lblSelectHelmet = new JLabel("Select Helmet: ");
+		lblSelectHelmet.setBounds(40, 75, 100, 25);
+		panel.add(lblSelectHelmet);
+		
+		JTextField txtBrowseFileHelmet = new JTextField(30);
+		txtBrowseFileHelmet.setBounds(160, 75, 150, 25);
+		panel.add(txtBrowseFileHelmet);
+		
+		JButton btnBrowseFileHelmet = new JButton("Browse");
+		btnBrowseFileHelmet.setBounds(320, 75, 80, 25);
+		panel.add(btnBrowseFileHelmet);
+		
+		class PanelAction implements ActionListener
+		{
+			Item newItemModel = null;
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (e.getSource().equals(btnBrowseFileHelmet)) {
+					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
+					int result = fileChooser.showOpenDialog(frame);
+					if (result == JFileChooser.APPROVE_OPTION) {
+						File file = fileChooser.getSelectedFile();
+						try {
+							newItemModel = new FileWriterReader().loadItem(file);
+						} catch (FileNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						if (newItemModel != null) {
+							itemModel = newItemModel;
+							txtBrowseFileHelmet.setText(newItemModel.getName());
+							character.setHelmet(new Item());
+						} 
+					} else {
+						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
+					}
+				
+				}
 			}
 		}
 		
