@@ -97,7 +97,7 @@ public class Character implements Serializable {
 	}
 	
 	private List<Item> getEquippedItems(){
-		return Arrays.asList(armor, ring, boots, weapon, shield);
+		return Arrays.asList(armor, ring, boots, weapon, shield,helmet);
 	}
 	
 	/**
@@ -133,21 +133,13 @@ public class Character implements Serializable {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	/* This seems not correct, you need each ability score not a total score
+	
 	/**
 	 * @author Munjed
-	 * @return the abilityScores
-	 /
-	public int getAbilityScores() {
-		//abilityScores=roll()+getAbilityModifier();
-		return abilityScores;
-	}*/
-
-	/**
+	 * This method calculates all ability scores at random using 4d6 
 	 * @param abilityScores the abilityScores to set
 	 */
 	public void setAbilityScores() {
-		//using 4d6 from method die4d6()
 		this.stregth=roll4d6();
 		this.dexterity=roll4d6();
 		this.wisdom=roll4d6();
@@ -155,15 +147,12 @@ public class Character implements Serializable {
 		this.charisma=roll4d6();
 		this.constitution=roll4d6();	
 	}
-	/* This seems not correct, you need each abilitymodifier score not a total score
-	/**
-	 * @return the abilityModifier
-	 /
-	public int getAbilityModifier() {
-		return abilityModifier;
-	}*/
+	
 	/**
 	 * @author Munjed
+	 * This method finds the ability modifier with respect to d&d 20d
+	 * every modifier is based on its corresponding attribute 
+	 * The equation is: Mod=RoundDown((attr-10)/2)
 	 * @param abilityModifier the abilityModifier to set
 	 */
 	public void setAbilityModifier() {
@@ -176,6 +165,9 @@ public class Character implements Serializable {
 		this.dexterityModifier=Math.floor((dexterity-10)/2);
 	}
 	/**@author Munjed
+	 * This method consider the fighter class only, in the 2nd build it will be\
+	 * adjusted to stretch other classes....
+	 * each class has different way of calculating their Hitpoints in 20d dnd
 	 * @return the hitPoint
 	 */
 	public double getHitPoint() {
@@ -186,17 +178,21 @@ public class Character implements Serializable {
 		hitPoint=(10+constitutionModifier)+(level-1)*(6+constitutionModifier);
 		return hitPoint;
 	}
-	/*
-	 * @param hitPoint the hitPoint to set
-	 *
-	public void setHitPoint(int hitPoint) {
-		this.hitPoint = hitPoint;
-	}*/
+	
 	/**
+	 * @author Munjed
 	 * @return the armorClass dexterity + all armor modifiers in equipment
 	 */
+	
+	
 	public int getArmorClass() {
-		
+		ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
+		armorClass=(int) (10+dexterityModifier);
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute()==CharacterAttribute.ARMOR_CLASS) {
+				armorClass+=item.getBonusAmount();
+			}
+		}
 		return armorClass;
 	}
 	
