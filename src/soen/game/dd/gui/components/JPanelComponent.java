@@ -466,61 +466,10 @@ public class JPanelComponent {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(cbItemType.getSelectedItem());
-				if (cbItemType.getSelectedItem().toString().equals("RING")) {
-					cbCharacterAttr.removeAllItems();
-					
-					for(CharacterAttribute c : ItemType.RING.getAllowedAttributes())
-					{
-						cbCharacterAttr.addItem(c);
-					}
-				}
-				else if (cbItemType.getSelectedItem().toString().equals("HELMET")) {
-					cbCharacterAttr.removeAllItems();
-					
-					for(CharacterAttribute c : ItemType.HELMET.getAllowedAttributes())
-					{
-						cbCharacterAttr.addItem(c);
-					}
-				}
-				else if (cbItemType.getSelectedItem().toString().equals("ARMOR")) {
-					cbCharacterAttr.removeAllItems();
-					
-					for(CharacterAttribute c : ItemType.ARMOR.getAllowedAttributes())
-					{
-						cbCharacterAttr.addItem(c);
-					}
-				}
-				else if (cbItemType.getSelectedItem().toString().equals("SHIELD")) {
-					cbCharacterAttr.removeAllItems();
-					
-					for(CharacterAttribute c : ItemType.SHIELD.getAllowedAttributes())
-					{
-						cbCharacterAttr.addItem(c);
-					}
-				}
-				else if (cbItemType.getSelectedItem().toString().equals("BELT")) {
-					cbCharacterAttr.removeAllItems();
-					
-					for(CharacterAttribute c : ItemType.BELT.getAllowedAttributes())
-					{
-						cbCharacterAttr.addItem(c);
-					}
-				}
-				else if (cbItemType.getSelectedItem().toString().equals("BOOTS")) {
-					cbCharacterAttr.removeAllItems();
-					
-					for(CharacterAttribute c : ItemType.BOOTS.getAllowedAttributes())
-					{
-						cbCharacterAttr.addItem(c);
-					}
-				}
-				else if (cbItemType.getSelectedItem().toString().equals("WEAPON")) {
-					cbCharacterAttr.removeAllItems();
-					
-					for(CharacterAttribute c : ItemType.WEAPON.getAllowedAttributes())
-					{
-						cbCharacterAttr.addItem(c);
-					}
+				cbCharacterAttr.removeAllItems();
+				for(CharacterAttribute c : ((ItemType) cbItemType.getSelectedItem()).getAllowedAttributes())
+				{
+					cbCharacterAttr.addItem(c);
 				}
 			}
 		});
@@ -702,10 +651,54 @@ public class JPanelComponent {
 		return panel;
 	}
 
-	public Container getCharacterEditorGridPanel(Character pCharacter, Object object,
+	public Container getCharacterEditorGridPanel(Character pCharacter,
 			E_CharacterEditorMode characterEditorMode, JFrame frame) {
 		JPanel panel;
 		Character character = pCharacter;
+		ArrayList<Item> items = new FileWriterReader().loadItem();
+		
+		
+		class ItemComboItem {
+		    private Item value;
+		    private String label;
+
+		    public ItemComboItem(Item value) {
+		        this.value = value;
+		        this.label = value.getName();
+		    }
+
+		    public Item getValue() {
+		        return this.value;
+		    }
+
+		    public String getLabel() {
+		        return this.label;
+		    }
+
+		    @Override
+		    public String toString() {
+		        return label;
+		    }
+		}
+		
+		class ComboItemListGenerator{
+			private ItemType itemType;
+			
+			public ComboItemListGenerator(ItemType type){
+				this.itemType = type;
+			}
+			
+			public ItemComboItem[] generateList(){
+				ArrayList<ItemComboItem> combo_items = new ArrayList<ItemComboItem>();
+				for(Item i : items){
+					if(i.getItemType() == itemType){
+						combo_items.add(new ItemComboItem(i));
+					}
+				}
+				return combo_items.toArray(new ItemComboItem[combo_items.size()]);
+			}
+		}
+		
 
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -718,52 +711,67 @@ public class JPanelComponent {
 		txtCharacterName.setBounds(160, 30, 150, 25);
 		panel.add(txtCharacterName);
 		
-		JLabel lblSelectHelmet = new JLabel("Select Helmet: ");
+		JLabel lblSelectHelmet = new JLabel("Helmet: ");
 		lblSelectHelmet.setBounds(40, 75, 100, 25);
 		panel.add(lblSelectHelmet);
 		
-		JTextField txtBrowseFileHelmet = new JTextField(30);
-		txtBrowseFileHelmet.setBounds(160, 75, 150, 25);
-		panel.add(txtBrowseFileHelmet);
+		JComboBox<ItemComboItem> cbHelmet = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.HELMET).generateList());
+		cbHelmet.setBounds(170, 75, 120, 25);
+		panel.add(cbHelmet);
 		
-		JButton btnBrowseFileHelmet = new JButton("Browse");
-		btnBrowseFileHelmet.setBounds(320, 75, 80, 25);
-		panel.add(btnBrowseFileHelmet);
 		
-		class PanelAction implements ActionListener
-		{
-			Item newItemModel = null;
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if (e.getSource().equals(btnBrowseFileHelmet)) {
-					JFileChooser fileChooser = new JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
-					int result = fileChooser.showOpenDialog(frame);
-					if (result == JFileChooser.APPROVE_OPTION) {
-						File file = fileChooser.getSelectedFile();
-						try {
-							newItemModel = new FileWriterReader().loadItem(file);
-						} catch (FileNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (ClassNotFoundException e1) {
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						if (newItemModel != null) {
-							itemModel = newItemModel;
-							txtBrowseFileHelmet.setText(newItemModel.getName());
-							character.setHelmet(new Item());
-						} 
-					} else {
-						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_FILE_SELECTED);
-					}
-				
-				}
-			}
-		}
+		JLabel lblSelectArmor = new JLabel("Armor: ");
+		lblSelectArmor.setBounds(40, 100, 100, 25);
+		panel.add(lblSelectArmor);
 		
+		JComboBox<ItemComboItem> cbArmor = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.ARMOR).generateList());
+		cbArmor.setBounds(170, 100, 120, 25);
+		panel.add(cbArmor);
+		
+		
+		JLabel lblSelectShield = new JLabel("Shield: ");
+		lblSelectShield.setBounds(40, 125, 100, 25);
+		panel.add(lblSelectShield);
+		
+		JComboBox<ItemComboItem> cbShield = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.SHIELD).generateList());
+		cbShield.setBounds(170, 125, 120, 25);
+		panel.add(cbShield);
+		
+		
+		JLabel lblSelectRing = new JLabel("Ring: ");
+		lblSelectRing.setBounds(40, 150, 100, 25);
+		panel.add(lblSelectRing);
+		
+		JComboBox<ItemComboItem> cbRing = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.RING).generateList());
+		cbRing.setBounds(170, 150, 120, 25);
+		panel.add(cbRing);
+		
+		
+		JLabel lblSelectBelt = new JLabel("Belt: ");
+		lblSelectBelt.setBounds(40, 175, 100, 25);
+		panel.add(lblSelectBelt);
+		
+		JComboBox<ItemComboItem> cbBelt = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.BELT).generateList());
+		cbBelt.setBounds(170, 175, 120, 25);
+		panel.add(cbBelt);
+		
+		
+		JLabel lblSelectBoots = new JLabel("Boots: ");
+		lblSelectBoots.setBounds(40, 200, 100, 25);
+		panel.add(lblSelectBoots);
+		
+		JComboBox<ItemComboItem> cbBoots = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.BOOTS).generateList());
+		cbBoots.setBounds(170, 200, 120, 25);
+		panel.add(cbBoots);
+		
+		
+		JLabel lblSelectWeapon = new JLabel("Weapon: ");
+		lblSelectWeapon.setBounds(40, 225, 100, 25);
+		panel.add(lblSelectWeapon);
+		
+		JComboBox<ItemComboItem> cbWeapon = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.WEAPON).generateList());
+		cbWeapon.setBounds(170, 225, 120, 25);
+		panel.add(cbWeapon);
 		return panel;
 	}
 	
