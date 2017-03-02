@@ -338,7 +338,7 @@ public class JPanelComponent {
 									GameStatics.TITLE_ADD_CHEST_ITEMS, JOptionPane.OK_CANCEL_OPTION);
 
 							if (option == JOptionPane.OK_OPTION) {
-								new ChestItemWindow();
+								new ChestItemWindow(new_mapModel);
 							}
 
 						} else if (!new_mapModel.isCharacterDone || !new_mapModel.isOpponentDone) {
@@ -555,7 +555,7 @@ public class JPanelComponent {
 						if(E_ItemEditorMode.Open == new_mode)
 						{
 							items.set(cbItemName.getSelectedIndex(), item);
-							msg = new FileWriterReader().saveItem(items);
+							msg = new FileWriterReader().saveItems(items);
 						}
 						
 						else 
@@ -762,6 +762,30 @@ public class JPanelComponent {
 				
 				}
 			}
+		}
+		
+		return panel;
+	}
+	
+	/**
+	 * This method create the JPanel for the Chest Window and return JPanel which
+	 * set Content Pane for the frame
+	 * 
+	 * @param new_mapModel
+	 * @return JPanel
+	 */
+	public JPanel getMapEditorGridPanel(Map new_mapModel) {
+		JPanel panel = new JPanel();
+		ArrayList<Item> items = new ArrayList<Item>();
+		
+		items = new FileWriterReader().loadItems();
+		
+		if(items != null) {
+			new_mapModel.mapSelectedItem = items;
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
 		}
 		
 		return panel;

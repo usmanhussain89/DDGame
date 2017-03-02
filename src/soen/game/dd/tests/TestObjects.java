@@ -13,7 +13,8 @@ import org.junit.Test;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
-import soen.game.dd.models.ItemType;;
+import soen.game.dd.models.ItemType;
+import soen.game.dd.models.Map;;
 
 /**
  * This class to test different objects creating, saving, loading. Object like
@@ -67,6 +68,40 @@ public class TestObjects {
 		
 	}
 
+	@Test
+	public void mapValidity_Test()
+	{
+		Map map = new Map(25,20);
+		int x = map.getMapWidth();
+		int y = map.getMapHeight();
+		
+		assertTrue(x <= 30);
+		assertEquals(20, y);
+	}
+	
+	@Test
+	public void mapValidity_Test2()
+	{
+		Map map = new Map();
+		map.isEntryDone = true;
+		map.isExitDone = true;
+		map.isChestDone = true;
+		map.isCharacterDone = true;
+		map.isOpponentDone = true;
+		
+		assertEquals(true, map.isEntryDone);
+		assertEquals(true, map.isExitDone);
+		assertEquals(true, map.isChestDone);
+		assertEquals(true, map.isCharacterDone);
+		assertEquals(true, map.isOpponentDone);
+	}
+	
+	@Test
+	public void mapValidity_Test3()
+	{
+		Map map = new Map();
+	}
+	
 	@Test
 
 	public void saveLoadObjects_Test() throws FileNotFoundException, ClassNotFoundException, IOException{

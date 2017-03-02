@@ -174,7 +174,7 @@ public class JMenuBarComponent {
 				else if (e.getSource().equals(menuItemOpenItem)){
 					ArrayList<Item> items = new ArrayList<Item>();
 					
-					items = new FileWriterReader().loadItem();
+					items = new FileWriterReader().loadItems();
 					
 					if(items != null) {
 						new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,

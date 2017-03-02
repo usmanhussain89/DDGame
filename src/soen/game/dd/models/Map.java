@@ -32,7 +32,8 @@ public class Map implements Serializable {
 	
 	//Chest Items variables
 	public boolean isChestItemsSelected;
-	public Item mapSelectedItem[];
+	//public Item mapSelectedItem[];
+	public ArrayList<Item> mapSelectedItem;
 	
 	//Character variables
 	public boolean isCharacterSelected;

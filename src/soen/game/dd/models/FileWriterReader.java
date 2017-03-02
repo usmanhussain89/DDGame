@@ -170,7 +170,7 @@ public class FileWriterReader {
 	 * @param item
 	 */
 
-	public String saveItem(ArrayList<Item> items) {
+	public String saveItems(ArrayList<Item> items) {
 
 		try {
 
@@ -206,7 +206,7 @@ public class FileWriterReader {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public ArrayList<Item> loadItem() {
+	public ArrayList<Item> loadItems() {
 		ArrayList<Item> items = new ArrayList<Item>();
 		boolean cont = true;
 		try
