@@ -174,46 +174,19 @@ public class FileWriterReader {
 
 		try {
 
-			
-//			String link = String.format("item_%.ser", item.getName());
-//			System.out.println(link);
 			File file = new File("Items.txt");
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
-			int count = 1;
 			
-			if(file.exists()){
-				file.delete();
-				file.createNewFile();
-			}
-			else {
-			}
+			fout = new FileOutputStream(file.getPath());
+			out = new ObjectOutputStream(fout);
 			for (Item item : items){
-				if(count == 1)
-				{
-					fout = new FileOutputStream(file.getPath());
-					out = new ObjectOutputStream(fout);
-					out.writeObject(item);
-					System.out.println("<info> : The Item: " + item.getName() + " is saved");
-					out.flush();
-					out.close();
-					count++;
-				}
-				
-				else
-				{
-					fout = new FileOutputStream(file.getPath(), true);
-					out = new ObjectOutputStream(fout) {
-						protected void writeStreamHeader() throws IOException {
-			                reset();
-			            }
-					};
-					out.writeObject(item);
-					System.out.println("<info> : The Item: " + item.getName() + " is saved");
-					out.flush();
-					out.close();
-				}
+				out.writeObject(item);
+
 			}
+			out.flush();
+			out.close();
+			
 			return "SUCCESS";
 
 		} catch (IOException e) {
