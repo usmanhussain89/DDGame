@@ -31,7 +31,7 @@ public class Character implements Serializable {
 	private Item helmet;
 	private Item boots;
 	private Item belt;
-	private Item sword;
+	private Item weapon;
 	private Item shield;
 	private List<Item> backpack;
 	
@@ -56,7 +56,7 @@ public class Character implements Serializable {
 	
 	public Character(String name, String description, int level, int abilityScores, int abilityModifier, int hitPoint,
 			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armore, Item ring,
-			Item helmet, Item boots, Item belt, Item sword, Item shield) {
+			Item helmet, Item boots, Item belt, Item weapon, Item shield) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -73,7 +73,7 @@ public class Character implements Serializable {
 		this.helmet = helmet;
 		this.boots = boots;
 		this.belt = belt;
-		this.sword = sword;
+		this.weapon = weapon;
 		this.shield = shield;
 		backpack = new ArrayList<Item>(Arrays.asList());
 	}
@@ -194,7 +194,6 @@ public class Character implements Serializable {
 	 */
 	public void setArmorClass() {
 		if(ItemType.ARMOR)
-			
 		
 		this.armorClass = ItemType.ARMOR.stat+
 				shield+boots+belt+ring+helmet;
