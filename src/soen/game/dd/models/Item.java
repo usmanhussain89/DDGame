@@ -8,35 +8,36 @@ import java.io.Serializable;
  * @author kelbadawi
  *
  */
-public class Item implements Serializable{
-	
+public class Item implements Serializable {
+
 	private static final long serialVersionUID = -3013661310703782558L;
 	private ItemType itemType;
 	private CharacterAttribute enhancedAttribute;
 	private int bonusAmount;
 	private String name;
-	private int itemStat; //for weapon base attack and Armor wearable "armor value"
-	private String weaponType; //this to determine if its a melee or ranged weapon if the item type is a Weapon o.w. its NULL
+	private int itemStat; // for weapon base attack and Armor wearable "armor
+							// value"
+	private String weaponType; // this to determine if its a melee or ranged
+								// weapon if the item type is a Weapon o.w. its
+								// NULL
 
-	
-
-	public Item(String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount, int itemStat, String weaponType) {
+	public Item(String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount, int itemStat,
+			String weaponType) {
 		this.itemType = itemType;
 		this.enhancedAttribute = enhancedAttribute;
 		this.bonusAmount = bonusAmount;
 		this.name = name;
-		this.itemStat=itemStat;
-		this.weaponType=weaponType;
+		this.itemStat = itemStat;
+		this.weaponType = weaponType;
 	}
-	
-	public Item()
-	{}
 
+	public Item() {
+	}
 
 	/**
 	 * Checks if the item is valid. For an item to be valid: - it needs to
-	 * enhance an attribute that this particular item type had - it can only enhance
-	 * between 1 and 5 bonus point
+	 * enhance an attribute that this particular item type had - it can only
+	 * enhance between 1 and 5 bonus point
 	 *
 	 * @return true if item is valid, false otherwise
 	 */
@@ -46,7 +47,6 @@ public class Item implements Serializable{
 			return false;
 		}
 
-		
 		if (!this.itemType.getAllowedAttributes().contains(this.enhancedAttribute)) {
 			return false;
 		}
@@ -82,11 +82,11 @@ public class Item implements Serializable{
 	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name){
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * @author Munjed
 	 * @return itemStat
@@ -94,14 +94,16 @@ public class Item implements Serializable{
 	public int getItemStat() {
 		return itemStat;
 	}
+
 	/**
 	 * @author Munjed
-	 * @param itemStat value for weapon base attack and Armor wearable "armor value"
+	 * @param itemStat
+	 *            value for weapon base attack and Armor wearable "armor value"
 	 */
 	public void setItemStat(int itemStat) {
 		this.itemStat = itemStat;
 	}
-	
+
 	/**
 	 * @author Munjed
 	 * @return weaponType the type of the weapon, melee or ranged
@@ -110,10 +112,11 @@ public class Item implements Serializable{
 	public String getWeaponType() {
 		return weaponType;
 	}
-	
+
 	/**
 	 * @author Munjed
-	 * @param weaponType is the type of weapon melee or ranged
+	 * @param weaponType
+	 *            is the type of weapon melee or ranged
 	 */
 	public void setWeaponType(String weaponType) {
 		this.weaponType = weaponType;
@@ -132,12 +135,12 @@ public class Item implements Serializable{
 
 	public void setBonusAmount(Integer bonusAmount) {
 		this.bonusAmount = bonusAmount;
-		
+
 	}
 
 	public void setCharacterAttribute(CharacterAttribute characterAttribute) {
 		this.enhancedAttribute = characterAttribute;
-		
+
 	}
 
 	public void setItemType(ItemType itemType) {

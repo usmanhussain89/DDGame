@@ -53,7 +53,8 @@ public class FileWriterReader {
 	 * This method will load a character that was saved in a .txt file
 	 * 
 	 * @author fyounis
-	 * @param name a String of the name of the object
+	 * @param name
+	 *            a String of the name of the object
 	 * @return Character
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -69,32 +70,30 @@ public class FileWriterReader {
 	}
 
 	/**
-	 * This method will save an object map into ,txt file with unique name
-	 * One object per txt file
+	 * This method will save an object map into ,txt file with unique name One
+	 * object per txt file
 	 * 
 	 * @author fyounis
-	 * @param map 
+	 * @param map
 	 */
 	public String saveMap(Map map) {
 		try {
 
-			
-//			String link = String.format("item_%.ser", item.getName());
-//			System.out.println(link);
+			// String link = String.format("item_%.ser", item.getName());
+			// System.out.println(link);
 			File file = new File("Maps.txt");
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
-			if(!file.exists()){
+			if (!file.exists()) {
 				file.createNewFile();
 				fout = new FileOutputStream(file.getPath());
 				out = new ObjectOutputStream(fout);
-			}
-			else {
+			} else {
 				fout = new FileOutputStream(file.getPath(), true);
 				out = new ObjectOutputStream(fout) {
 					protected void writeStreamHeader() throws IOException {
-		                reset();
-		            }
+						reset();
+					}
 				};
 			}
 
@@ -110,10 +109,10 @@ public class FileWriterReader {
 			return "ERROR";
 		}
 	}
-	
+
 	/**
-	 * This method will save an object item into txt file with unique name
-	 * One object per txt file
+	 * This method will save an object item into txt file with unique name One
+	 * object per txt file
 	 * 
 	 * @author fyounis
 	 * @param item
@@ -126,16 +125,16 @@ public class FileWriterReader {
 			File file = new File("Maps.txt");
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
-			
+
 			fout = new FileOutputStream(file.getPath());
 			out = new ObjectOutputStream(fout);
-			for (Map map : maps){
+			for (Map map : maps) {
 				out.writeObject(map);
 
 			}
 			out.flush();
 			out.close();
-			
+
 			return "SUCCESS";
 
 		} catch (IOException e) {
@@ -145,10 +144,10 @@ public class FileWriterReader {
 		}
 
 	}
-	
+
 	/**
-	 * This method will save an object item into txt file with unique name
-	 * One object per txt file
+	 * This method will save an object item into txt file with unique name One
+	 * object per txt file
 	 * 
 	 * @author fyounis
 	 * @param item
@@ -161,16 +160,16 @@ public class FileWriterReader {
 			File file = new File("Campaigns.txt");
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
-			
+
 			fout = new FileOutputStream(file.getPath());
 			out = new ObjectOutputStream(fout);
-			for (Campaign campaign : campaigns){
+			for (Campaign campaign : campaigns) {
 				out.writeObject(campaign);
 
 			}
 			out.flush();
 			out.close();
-			
+
 			return "SUCCESS";
 
 		} catch (IOException e) {
@@ -180,11 +179,12 @@ public class FileWriterReader {
 		}
 
 	}
-	
+
 	/**
 	 * This method will load a map that was saved in a .txt file
 	 * 
-	 * @param name of the map (String)
+	 * @param name
+	 *            of the map (String)
 	 * @return map
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -194,48 +194,41 @@ public class FileWriterReader {
 
 		ArrayList<Map> maps = new ArrayList<Map>();
 		boolean cont = true;
-		try
-		{
+		try {
 			File file = new File("Maps.txt");
-			
-			if (file.exists())
-			{
+
+			if (file.exists()) {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream("Maps.txt"));
-				while(cont) {
+				while (cont) {
 					try {
 						Map map = (Map) in.readObject();
-						if(map != null)
-						{
+						if (map != null) {
 							maps.add(map);
-							System.out.println("Item: "+map.getMapName()+" is added");
-						}
-						else
+							System.out.println("Item: " + map.getMapName() + " is added");
+						} else
 							cont = false;
 					}
-					
-					catch (EOFException eof)
-					{
+
+					catch (EOFException eof) {
 						break;
 					}
 				}
 				in.close();
 				return maps;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	/**
 	 * This method will load a map that was saved in a .txt file
 	 * 
-	 * @param name of the map (String)
+	 * @param name
+	 *            of the map (String)
 	 * @return map
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -245,47 +238,39 @@ public class FileWriterReader {
 
 		ArrayList<Campaign> campaigns = new ArrayList<Campaign>();
 		boolean cont = true;
-		try
-		{
+		try {
 			File file = new File("Campaigns.txt");
-			
-			if (file.exists())
-			{
+
+			if (file.exists()) {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream("Campaigns.txt"));
-				while(cont) {
+				while (cont) {
 					try {
 						Campaign campaign = (Campaign) in.readObject();
-						if(campaign != null)
-						{
+						if (campaign != null) {
 							campaigns.add(campaign);
-							System.out.println("Item: "+campaign.getCampaignName()+" is added");
-						}
-						else
+							System.out.println("Item: " + campaign.getCampaignName() + " is added");
+						} else
 							cont = false;
 					}
-					
-					catch (EOFException eof)
-					{
+
+					catch (EOFException eof) {
 						break;
 					}
 				}
 				in.close();
 				return campaigns;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
 	/**
-	 * This method will save an object item into txt file with unique name
-	 * One object per txt file
+	 * This method will save an object item into txt file with unique name One
+	 * object per txt file
 	 * 
 	 * @author fyounis
 	 * @param item
@@ -295,23 +280,21 @@ public class FileWriterReader {
 
 		try {
 
-			
-//			String link = String.format("item_%.ser", item.getName());
-//			System.out.println(link);
+			// String link = String.format("item_%.ser", item.getName());
+			// System.out.println(link);
 			File file = new File("Items.txt");
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
-			if(!file.exists()){
+			if (!file.exists()) {
 				file.createNewFile();
 				fout = new FileOutputStream(file.getPath());
 				out = new ObjectOutputStream(fout);
-			}
-			else {
+			} else {
 				fout = new FileOutputStream(file.getPath(), true);
 				out = new ObjectOutputStream(fout) {
 					protected void writeStreamHeader() throws IOException {
-		                reset();
-		            }
+						reset();
+					}
 				};
 			}
 
@@ -328,10 +311,10 @@ public class FileWriterReader {
 		}
 
 	}
-	
+
 	/**
-	 * This method will save an object item into txt file with unique name
-	 * One object per txt file
+	 * This method will save an object item into txt file with unique name One
+	 * object per txt file
 	 * 
 	 * @author fyounis
 	 * @param item
@@ -344,16 +327,16 @@ public class FileWriterReader {
 			File file = new File("Items.txt");
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
-			
+
 			fout = new FileOutputStream(file.getPath());
 			out = new ObjectOutputStream(fout);
-			for (Item item : items){
+			for (Item item : items) {
 				out.writeObject(item);
 
 			}
 			out.flush();
 			out.close();
-			
+
 			return "SUCCESS";
 
 		} catch (IOException e) {
@@ -376,47 +359,39 @@ public class FileWriterReader {
 	public ArrayList<Item> loadItems() {
 		ArrayList<Item> items = new ArrayList<Item>();
 		boolean cont = true;
-		try
-		{
+		try {
 			File file = new File("Items.txt");
-			
-			if (file.exists())
-			{
+
+			if (file.exists()) {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream("Items.txt"));
-				while(cont) {
+				while (cont) {
 					try {
 						Item item = (Item) in.readObject();
-						if(item != null)
-						{
+						if (item != null) {
 							items.add(item);
-							System.out.println("Item: "+item.getName()+" is added");
-						}
-						else
+							System.out.println("Item: " + item.getName() + " is added");
+						} else
 							cont = false;
 					}
-					
-					catch (EOFException eof)
-					{
+
+					catch (EOFException eof) {
 						break;
 					}
 				}
 				in.close();
 				return items;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	/**
-	 * This method will save an object campaign into txt file with unique name One
-	 * object per txt file
+	 * This method will save an object campaign into txt file with unique name
+	 * One object per txt file
 	 * 
 	 * @author fyounis
 	 * @param campaign
@@ -427,17 +402,16 @@ public class FileWriterReader {
 			File file = new File("Campaigns.txt");
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
-			if(!file.exists()){
+			if (!file.exists()) {
 				file.createNewFile();
 				fout = new FileOutputStream(file.getPath());
 				out = new ObjectOutputStream(fout);
-			}
-			else {
+			} else {
 				fout = new FileOutputStream(file.getPath(), true);
 				out = new ObjectOutputStream(fout) {
 					protected void writeStreamHeader() throws IOException {
-		                reset();
-		            }
+						reset();
+					}
 				};
 			}
 
@@ -465,7 +439,7 @@ public class FileWriterReader {
 	 */
 	public Campaign loadCampaign(File file) throws FileNotFoundException, IOException, ClassNotFoundException {
 
-		//String link = String.format("campaign_%.txt", name);
+		// String link = String.format("campaign_%.txt", name);
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream(file.getPath()));
 		Campaign campaign = (Campaign) in.readObject();
 		return campaign;

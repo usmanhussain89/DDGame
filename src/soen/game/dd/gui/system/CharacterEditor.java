@@ -19,15 +19,15 @@ import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
  *
  */
 
-public class CharacterEditor extends JFrame{
-	
-	private static final long serialVersionUID = -1931373119455341534L;	
+public class CharacterEditor extends JFrame {
+
+	private static final long serialVersionUID = -1931373119455341534L;
 	Character character;
 	E_CharacterEditorMode characterEditorMode;// enum
-	
+
 	/**
-	 * This is the constructor of the class
-	 * Initialize the new frame for the Map Editor
+	 * This is the constructor of the class Initialize the new frame for the Map
+	 * Editor
 	 * 
 	 * @param frame
 	 * @param title
@@ -36,23 +36,23 @@ public class CharacterEditor extends JFrame{
 	 * @param map
 	 * @param characterEditorMode
 	 */
-	public CharacterEditor(JFrame frame, String title, int width, int height, Character character, E_CharacterEditorMode characterEditorMode) {
-		if(frame != null){
+	public CharacterEditor(JFrame frame, String title, int width, int height, Character character,
+			E_CharacterEditorMode characterEditorMode) {
+		if (frame != null) {
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();
 			setLocation(p.x + frameSize.width / 4, p.y + frameSize.height / 4);
 		}
-		
+
 		this.character = character;
 		this.characterEditorMode = characterEditorMode;
-		
-		if(E_CharacterEditorMode.Create == this.characterEditorMode){
+
+		if (E_CharacterEditorMode.Create == this.characterEditorMode) {
 			title += " " + GameStatics.CHARACTER_MODE_CREATE;
-		}
-		else {
+		} else {
 			title += " " + GameStatics.CHARACTER_MODE_OPEN;
 		}
-		
+
 		// --- Set Map Editor Windows Properties
 		this.setTitle(title);
 		this.setPreferredSize(new Dimension(width, height));
@@ -62,11 +62,11 @@ public class CharacterEditor extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
-		
+
 		// MenuBar for Map Editor
 		this.setJMenuBar((new JMenuBarComponent()).getCharacterEditorJMenuBar(character, this));
-		
-		//load Map Grid from Component
+
+		// load Map Grid from Component
 		this.setContentPane((new JPanelComponent()).getCharacterEditorGridPanel(character, characterEditorMode, frame));
 	}
 }

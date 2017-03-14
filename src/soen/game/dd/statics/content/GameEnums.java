@@ -1,4 +1,5 @@
 package soen.game.dd.statics.content;
+
 /**
  * This class contains all the Enums of overall Game
  * 
@@ -47,7 +48,7 @@ public class GameEnums {
 	public enum E_ItemEditorMode {
 		Create, Open
 	}
-	
+
 	/**
 	 * Enumerators to express Campaign Editor Mode
 	 * 
@@ -55,7 +56,7 @@ public class GameEnums {
 	public enum E_CampaignEditorMode {
 		Create, Open
 	}
-	
+
 	/**
 	 * Enumerators to express Character Editor Mode
 	 * 

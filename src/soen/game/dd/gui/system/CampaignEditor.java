@@ -15,17 +15,18 @@ import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 
 /**
  * This class is a campaign Editor which implement jfram for campaign.
+ * 
  * @author Usman
  *
  */
 public class CampaignEditor extends JFrame {
-	
+
 	private static final long serialVersionUID = 4664263255574948100L;
 	E_CampaignEditorMode campaignEditorMode;// enum
 
 	/**
-	 * This is the constructor of the class Initialize the new frame for the Campaign
-	 * Editor
+	 * This is the constructor of the class Initialize the new frame for the
+	 * Campaign Editor
 	 * 
 	 * @param frame
 	 * @param title
@@ -34,7 +35,8 @@ public class CampaignEditor extends JFrame {
 	 * @param map
 	 * @param mapEditorMode
 	 */
-	public CampaignEditor(JFrame frame, String title, int width, int height, Campaign new_campaign, E_CampaignEditorMode campaignEditorMode, ArrayList<Map> maps, ArrayList<Campaign> campaigns, int index) {
+	public CampaignEditor(JFrame frame, String title, int width, int height, Campaign new_campaign,
+			E_CampaignEditorMode campaignEditorMode, ArrayList<Map> maps, ArrayList<Campaign> campaigns, int index) {
 		if (frame != null) {
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();
@@ -61,9 +63,11 @@ public class CampaignEditor extends JFrame {
 		this.setVisible(true);
 
 		// MenuBar for Campaign Editor
-		this.setJMenuBar((new JMenuBarComponent()).getCampaignEditorJMenuBar(campaign, this, campaignEditorMode, campaigns, index));
+		this.setJMenuBar((new JMenuBarComponent()).getCampaignEditorJMenuBar(campaign, this, campaignEditorMode,
+				campaigns, index));
 
 		// load Campaign Grid from Component
-		this.setContentPane((new JPanelComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode, this, maps, campaigns, index));
+		this.setContentPane((new JPanelComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode, this, maps,
+				campaigns, index));
 	}
 }

@@ -14,6 +14,7 @@ import soen.game.dd.statics.content.GameStatics;
 
 /**
  * This class implement jframe for items.
+ * 
  * @author Usman
  *
  */
@@ -33,7 +34,8 @@ public class ItemEditor extends JFrame {
 	 * @param map
 	 * @param mapEditorMode
 	 */
-	public ItemEditor(JFrame frame, String title, int width, int height, E_ItemEditorMode itemEditorMode, ArrayList<Item> items) {
+	public ItemEditor(JFrame frame, String title, int width, int height, E_ItemEditorMode itemEditorMode,
+			ArrayList<Item> items) {
 		if (frame != null) {
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();

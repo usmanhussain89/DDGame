@@ -17,6 +17,7 @@ public class GameStatics {
 
 	// MENU Items
 	public static final String MENU_FILE = "FILE";
+	public static final String MENU_ITEM_PLAY = "PLAY";
 	public static final String MENU_ITEM_CREATE_MAP = "Create Map";
 	public static final String MENU_ITEM_OPEN_MAP = "Open Map";
 	public static final String MENU_ITEM_CREATE_CHARACTER = "Create Character";
@@ -48,7 +49,6 @@ public class GameStatics {
 	public static final String TITLE_ITEM_EDITOR = "ITEM EDITOR";
 	public static final String TITLE_CAMPAIGN_EDITOR = "CAMPAIGN EDITOR";
 	public static final String TITLE_CHARACTER_EDITOR = "CHARACTER EDITOR";
-
 
 	// Map Tiles Variables
 	public static final int MAP_ENTRY_POINT = 2;

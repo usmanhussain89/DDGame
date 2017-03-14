@@ -19,15 +19,15 @@ import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
  *
  */
 
-public class MapEditor extends JFrame{
-	
-	private static final long serialVersionUID = -1931373119455341534L;	
+public class MapEditor extends JFrame {
+
+	private static final long serialVersionUID = -1931373119455341534L;
 	Map map;
 	E_MapEditorMode mapEditorMode;// enum
-	
+
 	/**
-	 * This is the constructor of the class
-	 * Initialize the new frame for the Map Editor
+	 * This is the constructor of the class Initialize the new frame for the Map
+	 * Editor
 	 * 
 	 * @param frame
 	 * @param title
@@ -36,23 +36,23 @@ public class MapEditor extends JFrame{
 	 * @param map
 	 * @param mapEditorMode
 	 */
-	public MapEditor(JFrame frame, String title, int width, int height, Map map, E_MapEditorMode mapEditorMode, ArrayList<Map> maps, int index) {
-		if(frame != null){
+	public MapEditor(JFrame frame, String title, int width, int height, Map map, E_MapEditorMode mapEditorMode,
+			ArrayList<Map> maps, int index) {
+		if (frame != null) {
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();
 			setLocation(p.x + frameSize.width / 4, p.y + frameSize.height / 4);
 		}
-		
+
 		this.map = map;
 		this.mapEditorMode = mapEditorMode;
-		
-		if(E_MapEditorMode.Create == this.mapEditorMode){
+
+		if (E_MapEditorMode.Create == this.mapEditorMode) {
 			title += " " + GameStatics.MAP_MODE_CREATE;
-		}
-		else {
+		} else {
 			title += " " + GameStatics.MAP_MODE_OPEN;
 		}
-		
+
 		// --- Set Map Editor Windows Properties
 		this.setTitle(title);
 		this.setPreferredSize(new Dimension(width, height));
@@ -62,11 +62,11 @@ public class MapEditor extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
-		
+
 		// MenuBar for Map Editor
 		this.setJMenuBar((new JMenuBarComponent()).getMapEditorJMenuBar(map, this, maps, mapEditorMode, index));
-		
-		//load Map Grid from Component
+
+		// load Map Grid from Component
 		this.setContentPane((new JPanelComponent()).getMapEditorGridPanel(map, null, mapEditorMode, maps, index));
 	}
 }

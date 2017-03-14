@@ -78,7 +78,8 @@ public class JPanelComponent {
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getMapEditorGridPanel(Map new_mapModel, Dimension new_parentDimension, E_MapEditorMode new_mode, ArrayList<Map> maps, int index) {
+	public JPanel getMapEditorGridPanel(Map new_mapModel, Dimension new_parentDimension, E_MapEditorMode new_mode,
+			ArrayList<Map> maps, int index) {
 		mapEditorMode = new_mode;
 		JPanel panel;
 		GridLayout gridLayout;
@@ -94,7 +95,8 @@ public class JPanelComponent {
 
 		else {
 			panel = new JPanel();
-			//gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
+			// gridLayout = new GridLayout(new_mapModel.getMapHeight(),
+			// new_mapModel.getMapWidth(), 3, 3);
 			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 			panel.setLayout(gridLayout);
 		}
@@ -173,7 +175,8 @@ public class JPanelComponent {
 	 * @param new_mapModel
 	 *            Type MapModel
 	 */
-	private void addButtonClickEvents(JButton new_button, Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, int index) {
+	private void addButtonClickEvents(JButton new_button, Map new_mapModel, E_MapEditorMode new_mode,
+			ArrayList<Map> maps, int index) {
 		new_button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -232,9 +235,8 @@ public class JPanelComponent {
 					new_mapModel.isChestDone = false;
 					jButtonChest = null;
 				}
-				
-				if(E_MapEditorMode.Open == new_mode)
-				{
+
+				if (E_MapEditorMode.Open == new_mode) {
 					maps.set(index, new_mapModel);
 				}
 			}
@@ -251,7 +253,8 @@ public class JPanelComponent {
 	 * @param new_mapModel
 	 *            Type MapModel
 	 */
-	private void addMouseClickOnButtonEvents(JButton new_button, Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, int index) {
+	private void addMouseClickOnButtonEvents(JButton new_button, Map new_mapModel, E_MapEditorMode new_mode,
+			ArrayList<Map> maps, int index) {
 		new_button.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 
@@ -346,14 +349,14 @@ public class JPanelComponent {
 
 							if (option == JOptionPane.OK_OPTION) {
 								ArrayList<Item> items = new ArrayList<Item>();
-								
+
 								items = new FileWriterReader().loadItems();
 								if (items != null)
 									new ChestItemWindow(new_mapModel, items);
-								
-								else
-								{
-									JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
+
+								else {
+									JOptionPane.showMessageDialog(null,
+											"No Items are created, Please create the items");
 								}
 							}
 
@@ -377,9 +380,8 @@ public class JPanelComponent {
 							JOptionPane.showMessageDialog(null, "All Points Already Selected");
 						}
 					}
-					
-					if(E_MapEditorMode.Open == new_mode)
-					{
+
+					if (E_MapEditorMode.Open == new_mode) {
 						maps.set(index, new_mapModel);
 					}
 				}
@@ -394,59 +396,57 @@ public class JPanelComponent {
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getItemEditorGridPanel(Item item, Dimension new_parentDimension, E_ItemEditorMode new_mode, ArrayList<Item> items) {
-		
-		
+	public JPanel getItemEditorGridPanel(Item item, Dimension new_parentDimension, E_ItemEditorMode new_mode,
+			ArrayList<Item> items) {
+
 		itemEditorMode = new_mode;
 		JPanel panel;
-		//JTextField txtItemName = null;
+		// JTextField txtItemName = null;
 
-		panel = new JPanel();;
+		panel = new JPanel();
+		;
 		panel.setLayout(null);
 
 		JLabel lblItemName = new JLabel("Item Name: ");
 		lblItemName.setBounds(40, 30, 80, 25);
 		panel.add(lblItemName);
-		
+
 		JTextField txtItemName = new JTextField(40);
 		txtItemName.setBounds(170, 30, 120, 25);
 		txtItemName.setVisible(false);
-		
 
 		JComboBox<String> cbItemName = new JComboBox<String>();
 		cbItemName.setBounds(170, 30, 120, 25);
 		cbItemName.setEditable(true);
 		cbItemName.setVisible(false);
-		if(E_ItemEditorMode.Open == new_mode)
-		{
+		if (E_ItemEditorMode.Open == new_mode) {
 			txtItemName.setVisible(false);
 			cbItemName.setVisible(true);
 			int index = 0;
-			
-			for(Item i : items)
-			{
-				if(i != null)
-				{
+
+			for (Item i : items) {
+				if (i != null) {
 					cbItemName.addItem(i.getName());
 					cbItemName.setName("" + index);
 					index++;
 				}
 			}
-			
+
 			panel.add(cbItemName);
 		}
-		
+
 		else {
 			txtItemName.setVisible(true);
 			cbItemName.setVisible(false);
-			
+
 			panel.add(txtItemName);
 		}
 
 		JLabel lblItemType = new JLabel("Item Type: ");
-		lblItemType.setBounds(40, 75, 80, 25);;
+		lblItemType.setBounds(40, 75, 80, 25);
+		;
 		panel.add(lblItemType);
-		
+
 		JComboBox cbItemType = new JComboBox(ItemType.values());
 		cbItemType.setBounds(170, 75, 120, 25);
 		panel.add(cbItemType);
@@ -454,8 +454,7 @@ public class JPanelComponent {
 		JLabel lblCharacterAttr = new JLabel("Character Attribute: ");
 		lblCharacterAttr.setBounds(40, 120, 120, 25);
 		panel.add(lblCharacterAttr);
-		
-		
+
 		JComboBox cbCharacterAttr = new JComboBox(ItemType.HELMET.getAllowedAttributes().toArray());
 		cbCharacterAttr.setBounds(170, 120, 120, 25);
 		panel.add(cbCharacterAttr);
@@ -468,34 +467,32 @@ public class JPanelComponent {
 		JComboBox cbBonusAmount = new JComboBox(bonuses);
 		cbBonusAmount.setBounds(170, 165, 100, 25);
 		panel.add(cbBonusAmount);
-		
+
 		JButton btnAddItem = new JButton("Add New Item");
 		btnAddItem.setBounds(40, 230, 120, 25);
 		panel.add(btnAddItem);
-		
-		if(E_ItemEditorMode.Open == new_mode)
-		{
+
+		if (E_ItemEditorMode.Open == new_mode) {
 			cbItemName.setSelectedItem(items.get(0).getName());
 			cbItemType.setSelectedItem(items.get(0).getItemType());
 			cbCharacterAttr.setSelectedItem(items.get(0).getEnhancedAttribute());
 			cbBonusAmount.setSelectedItem(items.get(0).getBonusAmount());
 			itemName = items.get(0).getName();
 		}
-		
+
 		cbItemType.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(cbItemType.getSelectedItem());
 				cbCharacterAttr.removeAllItems();
-				for(CharacterAttribute c : ((ItemType) cbItemType.getSelectedItem()).getAllowedAttributes())
-				{
+				for (CharacterAttribute c : ((ItemType) cbItemType.getSelectedItem()).getAllowedAttributes()) {
 					cbCharacterAttr.addItem(c);
 				}
 			}
 		});
 		cbItemName.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cbItemType.setSelectedItem(items.get(cbItemName.getSelectedIndex()).getItemType());
@@ -504,40 +501,35 @@ public class JPanelComponent {
 				itemName = items.get(cbItemName.getSelectedIndex()).getName();
 			}
 		});
-		
+
 		btnAddItem.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(E_ItemEditorMode.Create == new_mode)
-				{
+				if (E_ItemEditorMode.Create == new_mode) {
 					itemName = txtItemName.getText();
 				}
-				
-				if(!itemName.equals(""))
-				{
+
+				if (!itemName.equals("")) {
 					item.setName(itemName);
-					item.setItemType((ItemType)cbItemType.getSelectedItem());
-					item.setCharacterAttribute((CharacterAttribute)cbCharacterAttr.getSelectedItem());
-					item.setBonusAmount((Integer)cbBonusAmount.getSelectedItem());
-					if (item.isValid()){
+					item.setItemType((ItemType) cbItemType.getSelectedItem());
+					item.setCharacterAttribute((CharacterAttribute) cbCharacterAttr.getSelectedItem());
+					item.setBonusAmount((Integer) cbBonusAmount.getSelectedItem());
+					if (item.isValid()) {
 						String msg = "";
-						if(E_ItemEditorMode.Open == new_mode)
-						{
+						if (E_ItemEditorMode.Open == new_mode) {
 							items.set(cbItemName.getSelectedIndex(), item);
 							msg = new FileWriterReader().saveItems(items);
 						}
-						
-						else 
-						{
+
+						else {
 							msg = new FileWriterReader().saveItem(item);
 						}
 						if (msg.contains(GameStatics.STATUS_SUCCESS)) {
 							JOptionPane.showMessageDialog(null,
-							String.format(GameStatics.MSG_ITEM_FILE_LOADED_SAVED, "saved"));
+									String.format(GameStatics.MSG_ITEM_FILE_LOADED_SAVED, "saved"));
 							itemName = "";
-							} 
-						else {
+						} else {
 							JOptionPane.showMessageDialog(null, msg);
 						}
 					}
@@ -547,150 +539,143 @@ public class JPanelComponent {
 
 		return panel;
 	}
-	
+
 	/**
-	 * This method create the JPanel for the Campaign Editor and return JPanel which
-	 * set Content Pane for the frame
+	 * This method create the JPanel for the Campaign Editor and return JPanel
+	 * which set Content Pane for the frame
 	 * 
 	 * @param new_mode
 	 * @return JPanel
 	 */
-	public JPanel getCampaignEditorGridPanel(Campaign campaign, E_CampaignEditorMode new_mode, JFrame frame, ArrayList<Map> maps, ArrayList<Campaign> campaigns, int index) {
-		
+	public JPanel getCampaignEditorGridPanel(Campaign campaign, E_CampaignEditorMode new_mode, JFrame frame,
+			ArrayList<Map> maps, ArrayList<Campaign> campaigns, int index) {
+
 		campaignEditorMode = new_mode;
 		JPanel panel;
 
 		panel = new JPanel();
 		panel.setLayout(null);
-		
+
 		JLabel lblCampaignName = new JLabel("Campaign Name: ");
 		lblCampaignName.setBounds(40, 30, 100, 25);
 		panel.add(lblCampaignName);
-		
+
 		JTextField txtCampaignName = new JTextField(30);
 		txtCampaignName.setBounds(160, 30, 150, 25);
 		panel.add(txtCampaignName);
-		
+
 		JLabel lblSelectMap = new JLabel("Select Map: ");
 		lblSelectMap.setBounds(40, 75, 100, 25);
 		panel.add(lblSelectMap);
-		
+
 		JComboBox<String> cbMapName = new JComboBox<String>();
 		cbMapName.setBounds(160, 75, 100, 25);
-		
-		for(Map map : maps)
-		{
+
+		for (Map map : maps) {
 			cbMapName.addItem(map.getMapName());
 		}
 		panel.add(cbMapName);
-		
+
 		JButton btnAddMap = new JButton("Add Map");
 		btnAddMap.setBounds(280, 75, 90, 25);
 		panel.add(btnAddMap);
-		
+
 		JLabel lblSelectedMap = new JLabel("Selected Map: ");
 		lblSelectedMap.setBounds(40, 120, 100, 25);
 		panel.add(lblSelectedMap);
-		
+
 		List mapList = new List();
-		mapList.setBounds(160,120,150,150);
+		mapList.setBounds(160, 120, 150, 150);
 		panel.add(mapList);
-		
+
 		JButton btnRemoveMap = new JButton("Remove Map");
-		btnRemoveMap.setBounds(160,290,130,25);
-		//btnRemoveMap.setVisible(false);
+		btnRemoveMap.setBounds(160, 290, 130, 25);
+		// btnRemoveMap.setVisible(false);
 		panel.add(btnRemoveMap);
-		
-		if(E_CampaignEditorMode.Open == new_mode)
-		{
+
+		if (E_CampaignEditorMode.Open == new_mode) {
 			txtCampaignName.setText(campaigns.get(index).getCampaignName());
 			cbMapName.setSelectedIndex(index);
 			System.out.println(campaigns.get(index).getCampaignList().size());
-			for(Map m : campaigns.get(index).getCampaignList())
-			{
+			for (Map m : campaigns.get(index).getCampaignList()) {
 				mapList.add(m.getMapName());
 			}
 		}
-		
-		class PanelAction implements ActionListener
-		{
+
+		class PanelAction implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (e.getSource().equals(btnAddMap)) {
-					
+
 					System.out.print(cbMapName.getSelectedIndex() + " " + maps.size());
 					campaign.setCampaignList(maps.get(cbMapName.getSelectedIndex()));
 					campaign.setCampaignName(txtCampaignName.getText());
 					mapList.add(maps.get(cbMapName.getSelectedIndex()).getMapName());
 					btnRemoveMap.setVisible(true);
 				}
-				
+
 				else if (e.getSource().equals(btnRemoveMap)) {
-					if(mapList.getSelectedIndex() >= 0)
-					{
+					if (mapList.getSelectedIndex() >= 0) {
 						int index = mapList.getSelectedIndex();
 						mapList.remove(index);
 						campaign.removeMapFromList(index);
 					}
 				}
 			}
-			
+
 		}
 		btnAddMap.addActionListener(new PanelAction());
 		btnRemoveMap.addActionListener(new PanelAction());
-		
+
 		return panel;
 	}
 
-	public Container getCharacterEditorGridPanel(Character pCharacter,
-			E_CharacterEditorMode characterEditorMode, JFrame frame) {
+	public Container getCharacterEditorGridPanel(Character pCharacter, E_CharacterEditorMode characterEditorMode,
+			JFrame frame) {
 		JPanel panel;
 		Character character = pCharacter;
 		ArrayList<Item> items = new FileWriterReader().loadItems();
-		
-		
+
 		class ItemComboItem {
-		    private Item value;
-		    private String label;
+			private Item value;
+			private String label;
 
-		    public ItemComboItem(Item value) {
-		        this.value = value;
-		        this.label = value.getName();
-		    }
+			public ItemComboItem(Item value) {
+				this.value = value;
+				this.label = value.getName();
+			}
 
-		    public Item getValue() {
-		        return this.value;
-		    }
+			public Item getValue() {
+				return this.value;
+			}
 
-		    public String getLabel() {
-		        return this.label;
-		    }
+			public String getLabel() {
+				return this.label;
+			}
 
-		    @Override
-		    public String toString() {
-		        return label;
-		    }
+			@Override
+			public String toString() {
+				return label;
+			}
 		}
-		
-		class ComboItemListGenerator{
+
+		class ComboItemListGenerator {
 			private ItemType itemType;
-			
-			public ComboItemListGenerator(ItemType type){
+
+			public ComboItemListGenerator(ItemType type) {
 				this.itemType = type;
 			}
-			
-			public ItemComboItem[] generateList(){
+
+			public ItemComboItem[] generateList() {
 				ArrayList<ItemComboItem> combo_items = new ArrayList<ItemComboItem>();
-				if (itemType == null){
-					for(Item i : items){
+				if (itemType == null) {
+					for (Item i : items) {
 						combo_items.add(new ItemComboItem(i));
-					}	
-				}
-				else
-				{
-					for(Item i : items){
-						if(i.getItemType() == itemType){
+					}
+				} else {
+					for (Item i : items) {
+						if (i.getItemType() == itemType) {
 							combo_items.add(new ItemComboItem(i));
 						}
 					}
@@ -698,102 +683,103 @@ public class JPanelComponent {
 				return combo_items.toArray(new ItemComboItem[combo_items.size()]);
 			}
 		}
-		
 
 		panel = new JPanel();
 		panel.setLayout(null);
-		
+
 		JLabel lblCharacterName = new JLabel("Character Name: ");
 		lblCharacterName.setBounds(40, 30, 100, 25);
 		panel.add(lblCharacterName);
-		
+
 		JTextField txtCharacterName = new JTextField(30);
 		txtCharacterName.setBounds(160, 30, 150, 25);
 		panel.add(txtCharacterName);
-		
+
 		JLabel lblSelectHelmet = new JLabel("Helmet: ");
 		lblSelectHelmet.setBounds(40, 75, 100, 25);
 		panel.add(lblSelectHelmet);
-		
-		JComboBox<ItemComboItem> cbHelmet = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.HELMET).generateList());
+
+		JComboBox<ItemComboItem> cbHelmet = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(ItemType.HELMET).generateList());
 		cbHelmet.setBounds(170, 75, 120, 25);
 		panel.add(cbHelmet);
-		
-		
+
 		JLabel lblSelectArmor = new JLabel("Armor: ");
 		lblSelectArmor.setBounds(40, 100, 100, 25);
 		panel.add(lblSelectArmor);
-		
-		JComboBox<ItemComboItem> cbArmor = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.ARMOR).generateList());
+
+		JComboBox<ItemComboItem> cbArmor = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(ItemType.ARMOR).generateList());
 		cbArmor.setBounds(170, 100, 120, 25);
 		panel.add(cbArmor);
-		
-		
+
 		JLabel lblSelectShield = new JLabel("Shield: ");
 		lblSelectShield.setBounds(40, 125, 100, 25);
 		panel.add(lblSelectShield);
-		
-		JComboBox<ItemComboItem> cbShield = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.SHIELD).generateList());
+
+		JComboBox<ItemComboItem> cbShield = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(ItemType.SHIELD).generateList());
 		cbShield.setBounds(170, 125, 120, 25);
 		panel.add(cbShield);
-		
-		
+
 		JLabel lblSelectRing = new JLabel("Ring: ");
 		lblSelectRing.setBounds(40, 150, 100, 25);
 		panel.add(lblSelectRing);
-		
-		JComboBox<ItemComboItem> cbRing = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.RING).generateList());
+
+		JComboBox<ItemComboItem> cbRing = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(ItemType.RING).generateList());
 		cbRing.setBounds(170, 150, 120, 25);
 		panel.add(cbRing);
-		
-		
+
 		JLabel lblSelectBelt = new JLabel("Belt: ");
 		lblSelectBelt.setBounds(40, 175, 100, 25);
 		panel.add(lblSelectBelt);
-		
-		JComboBox<ItemComboItem> cbBelt = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.BELT).generateList());
+
+		JComboBox<ItemComboItem> cbBelt = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(ItemType.BELT).generateList());
 		cbBelt.setBounds(170, 175, 120, 25);
 		panel.add(cbBelt);
-		
-		
+
 		JLabel lblSelectBoots = new JLabel("Boots: ");
 		lblSelectBoots.setBounds(40, 200, 100, 25);
 		panel.add(lblSelectBoots);
-		
-		JComboBox<ItemComboItem> cbBoots = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.BOOTS).generateList());
+
+		JComboBox<ItemComboItem> cbBoots = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(ItemType.BOOTS).generateList());
 		cbBoots.setBounds(170, 200, 120, 25);
 		panel.add(cbBoots);
-		
-		
+
 		JLabel lblSelectWeapon = new JLabel("Weapon: ");
 		lblSelectWeapon.setBounds(40, 225, 100, 25);
 		panel.add(lblSelectWeapon);
-		
-		JComboBox<ItemComboItem> cbWeapon = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.WEAPON).generateList());
+
+		JComboBox<ItemComboItem> cbWeapon = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(ItemType.WEAPON).generateList());
 		cbWeapon.setBounds(170, 225, 120, 25);
 		panel.add(cbWeapon);
-		
+
 		// Items
-		
+
 		ArrayList<JComboBox<ItemComboItem>> backpack = new ArrayList<JComboBox<ItemComboItem>>();
-		for(int i = 0; i < 10; ++i){
+		for (int i = 0; i < 10; ++i) {
 			JLabel lblSelectItem1 = new JLabel("Item " + i + ": ");
 			lblSelectItem1.setBounds(40, 250 + i * 25, 100, 25);
 			panel.add(lblSelectItem1);
-			
-			JComboBox<ItemComboItem> combobox = new JComboBox<ItemComboItem>(new ComboItemListGenerator(ItemType.WEAPON).generateList());
+
+			JComboBox<ItemComboItem> combobox = new JComboBox<ItemComboItem>(
+					new ComboItemListGenerator(ItemType.WEAPON).generateList());
 			combobox.setBounds(170, 250 + i * 25, 120, 25);
 			panel.add(combobox);
 
 			backpack.add(combobox);
 		}
-		
+
 		return panel;
 	}
-	
+
 	/**
-	 * This method create the JPanel for the Chest Window and return JPanel which
-	 * set Content Pane for the frame
+	 * This method create the JPanel for the Chest Window and return JPanel
+	 * which set Content Pane for the frame
 	 * 
 	 * @param new_mapModel
 	 * @return JPanel
@@ -802,97 +788,92 @@ public class JPanelComponent {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		int index = 0;
-		
-			JLabel lblItemName = new JLabel("Item Name: ");
-			lblItemName.setBounds(40, 30, 80, 25);
-			panel.add(lblItemName);
 
-			JComboBox<String> cbItemName = new JComboBox<String>();
-			cbItemName.setBounds(130, 30, 120, 25);
-			cbItemName.setEditable(true);
-			for(Item i : items)
-			{
-				if(i != null)
-				{
-						cbItemName.addItem(i.getName());
-						cbItemName.setName("" + index);
-						index++;
+		JLabel lblItemName = new JLabel("Item Name: ");
+		lblItemName.setBounds(40, 30, 80, 25);
+		panel.add(lblItemName);
+
+		JComboBox<String> cbItemName = new JComboBox<String>();
+		cbItemName.setBounds(130, 30, 120, 25);
+		cbItemName.setEditable(true);
+		for (Item i : items) {
+			if (i != null) {
+				cbItemName.addItem(i.getName());
+				cbItemName.setName("" + index);
+				index++;
+			}
+		}
+
+		panel.add(cbItemName);
+
+		List mapList = new List();
+		mapList.setBounds(40, 75, 150, 150);
+		panel.add(mapList);
+
+		JButton btnAddItem = new JButton("Select Item");
+		btnAddItem.setBounds(40, 245, 100, 25);
+		panel.add(btnAddItem);
+
+		JButton btnRemoveItem = new JButton("Remove Item");
+		btnRemoveItem.setBounds(150, 245, 120, 25);
+		panel.add(btnRemoveItem);
+
+		btnRemoveItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cbItemName.getSelectedItem() != null) {
+					if (items.get(cbItemName.getSelectedIndex()) == null)
+						System.out.println("Null");
+					else {
+						mapList.remove((String) cbItemName.getSelectedItem());
+						new_mapModel.mapSelectedItem.remove(items.get(cbItemName.getSelectedIndex()));
+
+						if (new_mapModel.mapSelectedItem.size() > 0)
+							new_mapModel.isChestDone = true;
+						else
+							new_mapModel.isChestDone = false;
+					}
 				}
 			}
-				
-			panel.add(cbItemName);
-			
-			List mapList = new List();
-			mapList.setBounds(40,75,150,150);
-			panel.add(mapList);
-			
-			JButton btnAddItem = new JButton("Select Item");
-			btnAddItem.setBounds(40, 245, 100, 25);
-			panel.add(btnAddItem);
-			
-			JButton btnRemoveItem = new JButton("Remove Item");
-			btnRemoveItem.setBounds(150, 245, 120, 25);
-			panel.add(btnRemoveItem);
-			
-			btnRemoveItem.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if(cbItemName.getSelectedItem() != null)
-					{
-						if (items.get(cbItemName.getSelectedIndex()) == null)
-							System.out.println("Null");
-						else {						
-							mapList.remove((String)cbItemName.getSelectedItem());
-							new_mapModel.mapSelectedItem.remove(items.get(cbItemName.getSelectedIndex()));
-							
-							if (new_mapModel.mapSelectedItem.size() > 0)
-								new_mapModel.isChestDone = true;
-							else
-								new_mapModel.isChestDone = false;
-						}
+		});
+
+		JButton btnSave = new JButton("Save");
+		btnSave.setBounds(40, 290, 80, 25);
+		panel.add(btnSave);
+
+		btnSave.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (new_mapModel.mapSelectedItem.size() > 0) {
+					JOptionPane.showMessageDialog(null, "Items has been added to chest.");
+					frame.dispose();
+				}
+
+				else {
+					JOptionPane.showMessageDialog(null, "Please select items.");
+				}
+			}
+		});
+
+		btnAddItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cbItemName.getSelectedItem() != null) {
+					mapList.add((String) cbItemName.getSelectedItem());
+					if (items.get(cbItemName.getSelectedIndex()) == null)
+						System.out.println("Null");
+					else {
+						Item i = items.get(cbItemName.getSelectedIndex());
+						new_mapModel.isChestDone = true;
+						new_mapModel.mapSelectedItem.add(items.get(cbItemName.getSelectedIndex()));
 					}
 				}
-			});
-			
-			JButton btnSave = new JButton("Save");
-			btnSave.setBounds(40, 290, 80, 25);
-			panel.add(btnSave);
-			
-			btnSave.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (new_mapModel.mapSelectedItem.size() > 0) {
-						JOptionPane.showMessageDialog(null, "Items has been added to chest.");
-						frame.dispose();
-					}
-					
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Please select items.");
-					}
-				}
-			});
-			
-			btnAddItem.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if(cbItemName.getSelectedItem() != null)
-					{
-						mapList.add((String)cbItemName.getSelectedItem());
-						if (items.get(cbItemName.getSelectedIndex()) == null)
-							System.out.println("Null");
-						else {
-							Item i = items.get(cbItemName.getSelectedIndex());
-							new_mapModel.isChestDone = true;
-							new_mapModel.mapSelectedItem.add(items.get(cbItemName.getSelectedIndex()));
-						}
-					}
-				}
-			});
-		
+			}
+		});
+
 		return panel;
 	}
 }
