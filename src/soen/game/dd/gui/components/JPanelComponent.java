@@ -229,11 +229,27 @@ public class JPanelComponent {
 				}
 				// If the last point was an Chest Point
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHEST_POINT) {
-					new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
-					btn.setBackground(Color.gray);
-					btn.setText("");
-					new_mapModel.isChestDone = false;
-					jButtonChest = null;
+					if (JOptionPane.showConfirmDialog(null, "Do you want to edit items in the chest", "WARNING",
+							JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+						new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
+						btn.setBackground(Color.gray);
+						btn.setText("");
+						new_mapModel.isChestDone = false;
+						new_mapModel.setChestPoint(null);
+						new_mapModel.mapSelectedItem.clear();
+						jButtonChest = null;
+					} else {
+						ArrayList<Item> items = new ArrayList<Item>();
+
+						items = new FileWriterReader().loadItems();
+						if (items != null)
+							new ChestItemWindow(new_mapModel, items);
+
+						else {
+							JOptionPane.showMessageDialog(null,
+									"No Items are created, Please create the items");
+						}
+					}
 				}
 
 				if (E_MapEditorMode.Open == new_mode) {
@@ -310,13 +326,16 @@ public class JPanelComponent {
 					}
 					// If the last point was an Chest Button
 					else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHEST_POINT) {
-						new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
-						btn.setBackground(Color.gray);
-						btn.setText("");
-						jButtonChest = null;
-						new_mapModel.isChestDone = false;
-						new_mapModel.setChestPoint(null);
-						new_mapModel.mapSelectedItem = null;
+						if (JOptionPane.showConfirmDialog(null, "Do you want to remove chest from the map?", "WARNING",
+								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
+							btn.setBackground(Color.gray);
+							btn.setText("");
+							jButtonChest = null;
+							new_mapModel.isChestDone = false;
+							new_mapModel.setChestPoint(null);
+							new_mapModel.mapSelectedItem.clear();
+						}
 					}
 					// if the last point was Path and Wall button
 					else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_WALL_POINT
@@ -468,7 +487,7 @@ public class JPanelComponent {
 		cbBonusAmount.setBounds(170, 165, 100, 25);
 		panel.add(cbBonusAmount);
 
-		JButton btnAddItem = new JButton("Add New Item");
+		JButton btnAddItem = new JButton("Save Item");
 		btnAddItem.setBounds(40, 230, 120, 25);
 		panel.add(btnAddItem);
 
@@ -528,7 +547,12 @@ public class JPanelComponent {
 						if (msg.contains(GameStatics.STATUS_SUCCESS)) {
 							JOptionPane.showMessageDialog(null,
 									String.format(GameStatics.MSG_ITEM_FILE_LOADED_SAVED, "saved"));
-							itemName = "";
+							if (E_ItemEditorMode.Create == new_mode) {
+								txtItemName.setText("");
+							}
+						} else if(msg.contains(GameStatics.STATUS_EXIST)) {
+							JOptionPane.showMessageDialog(null,
+									String.format(GameStatics.MSG_DUPLICATE_NAME, "Item name"));
 						} else {
 							JOptionPane.showMessageDialog(null, msg);
 						}
@@ -563,6 +587,9 @@ public class JPanelComponent {
 		JTextField txtCampaignName = new JTextField(30);
 		txtCampaignName.setBounds(160, 30, 150, 25);
 		panel.add(txtCampaignName);
+		
+		if(E_CampaignEditorMode.Open == new_mode)
+			txtCampaignName.setEnabled(false);
 
 		JLabel lblSelectMap = new JLabel("Select Map: ");
 		lblSelectMap.setBounds(40, 75, 100, 25);
@@ -817,6 +844,12 @@ public class JPanelComponent {
 		JButton btnRemoveItem = new JButton("Remove Item");
 		btnRemoveItem.setBounds(150, 245, 120, 25);
 		panel.add(btnRemoveItem);
+		
+		if(new_mapModel.mapSelectedItem != null) {
+			for(Item i : new_mapModel.mapSelectedItem) {
+				mapList.add(i.getName());
+			}
+		}
 
 		btnRemoveItem.addActionListener(new ActionListener() {
 
@@ -868,6 +901,7 @@ public class JPanelComponent {
 					else {
 						Item i = items.get(cbItemName.getSelectedIndex());
 						new_mapModel.isChestDone = true;
+						System.out.println(cbItemName.getSelectedIndex() + " " + items.get(cbItemName.getSelectedIndex()));
 						new_mapModel.mapSelectedItem.add(items.get(cbItemName.getSelectedIndex()));
 					}
 				}

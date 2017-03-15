@@ -77,11 +77,37 @@ public class FileWriterReader {
 	 * @param map
 	 */
 	public String saveMap(Map map) {
-		try {
+		boolean isMapNameExist = false;
 
-			// String link = String.format("item_%.ser", item.getName());
-			// System.out.println(link);
-			File file = new File("Maps.txt");
+		ArrayList<Map> maps = loadMaps();
+
+		if (maps != null) {
+			for (Map m : maps) {
+				if (m.getMapName().equals(map.getMapName())) {
+					isMapNameExist = true;
+					break;
+				}
+			}
+		}
+
+		if (!isMapNameExist)
+			return save(map, "Maps.txt");
+
+		else
+			return "EXIST";
+	}
+	
+	/**
+	 * This is a common method to save the Object onto the file
+	 * 
+	 * @author Usman
+	 * @param o 
+	 * @param fileName
+	 * @return status
+	 */
+	private String save(Object o, String fileName) {
+		try {
+			File file = new File(fileName);
 			FileOutputStream fout = null;
 			ObjectOutputStream out = null;
 			if (!file.exists()) {
@@ -97,10 +123,9 @@ public class FileWriterReader {
 				};
 			}
 
-			out.writeObject(map);
+			out.writeObject(o);
 			out.flush();
 			out.close();
-			System.out.println("<info> : The Item: " + map.getMapName() + " is saved");
 			return "SUCCESS";
 
 		} catch (IOException e) {
@@ -190,7 +215,7 @@ public class FileWriterReader {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public ArrayList<Map> loadMaps() throws FileNotFoundException, IOException, ClassNotFoundException {
+	public ArrayList<Map> loadMaps() {
 
 		ArrayList<Map> maps = new ArrayList<Map>();
 		boolean cont = true;
@@ -234,7 +259,7 @@ public class FileWriterReader {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public ArrayList<Campaign> loadCampaigns() throws FileNotFoundException, IOException, ClassNotFoundException {
+	public ArrayList<Campaign> loadCampaigns() {
 
 		ArrayList<Campaign> campaigns = new ArrayList<Campaign>();
 		boolean cont = true;
@@ -277,39 +302,24 @@ public class FileWriterReader {
 	 */
 
 	public String saveItem(Item item) {
+		boolean isItemNameExist = false;
 
-		try {
+		ArrayList<Item> items = loadItems();
 
-			// String link = String.format("item_%.ser", item.getName());
-			// System.out.println(link);
-			File file = new File("Items.txt");
-			FileOutputStream fout = null;
-			ObjectOutputStream out = null;
-			if (!file.exists()) {
-				file.createNewFile();
-				fout = new FileOutputStream(file.getPath());
-				out = new ObjectOutputStream(fout);
-			} else {
-				fout = new FileOutputStream(file.getPath(), true);
-				out = new ObjectOutputStream(fout) {
-					protected void writeStreamHeader() throws IOException {
-						reset();
-					}
-				};
+		if (items != null) {
+			for (Item i : items) {
+				if (i.getName().equals(item.getName())) {
+					isItemNameExist = true;
+					break;
+				}
 			}
-
-			out.writeObject(item);
-			out.flush();
-			out.close();
-			System.out.println("<info> : The Item: " + item.getName() + " is saved");
-			return "SUCCESS";
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "ERROR";
 		}
 
+		if (!isItemNameExist)
+			return save(item, "Items.txt");
+
+		else
+			return "EXIST";
 	}
 
 	/**
@@ -398,34 +408,24 @@ public class FileWriterReader {
 	 */
 
 	public String saveCampaign(Campaign campaign) {
-		try {
-			File file = new File("Campaigns.txt");
-			FileOutputStream fout = null;
-			ObjectOutputStream out = null;
-			if (!file.exists()) {
-				file.createNewFile();
-				fout = new FileOutputStream(file.getPath());
-				out = new ObjectOutputStream(fout);
-			} else {
-				fout = new FileOutputStream(file.getPath(), true);
-				out = new ObjectOutputStream(fout) {
-					protected void writeStreamHeader() throws IOException {
-						reset();
-					}
-				};
+		boolean isCampaignNameExist = false;
+
+		ArrayList<Campaign> campaigns = loadCampaigns();
+
+		if (campaigns != null) {
+			for (Campaign c : campaigns) {
+				if (c.getCampaignList().equals(campaign.getCampaignName())) {
+					isCampaignNameExist = true;
+					break;
+				}
 			}
-
-			out.writeObject(campaign);
-			out.flush();
-			out.close();
-			System.out.println("<info> : The Item: " + campaign.getCampaignName() + " is saved");
-			return "SUCCESS";
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "ERROR";
 		}
+
+		if (!isCampaignNameExist)
+			return save(campaign, "Campaigns.txt");
+
+		else
+			return "EXIST";
 	}
 
 	/**

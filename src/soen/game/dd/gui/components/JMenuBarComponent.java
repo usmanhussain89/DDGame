@@ -144,21 +144,9 @@ public class JMenuBarComponent {
 
 					}
 				} else if (e.getSource().equals(menuItemOpenMap)) {
-					// JFileChooser fileChooser = new
-					// JFileChooserComponent().getJFileChooser(E_JFileChooserMode.MapOpen);
-					// int result = fileChooser.showOpenDialog(new_jframe);
-					// if (result == JFileChooser.APPROVE_OPTION) {
-					// File file = fileChooser.getSelectedFile();
 					ArrayList<Map> maps = null;
-					try {
-						maps = new FileWriterReader().loadMaps();
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					maps = new FileWriterReader().loadMaps();
+					
 					if (maps != null) {
 						int index = 0;
 						System.out.println(maps.size() + " size");
@@ -181,7 +169,7 @@ public class JMenuBarComponent {
 							index++;
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "No Map Found !");
+						JOptionPane.showMessageDialog(null, GameStatics.MSG_MAP_NOT_FOUND);
 					}
 					// } else {
 					// JOptionPane.showMessageDialog(null,
@@ -220,15 +208,7 @@ public class JMenuBarComponent {
 
 				else if (e.getSource().equals(menuItemCreateCampaign)) {
 					ArrayList<Map> maps = null;
-					try {
-						maps = new FileWriterReader().loadMaps();
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					maps = new FileWriterReader().loadMaps();
 
 					if (maps != null) {
 						new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR,
@@ -237,22 +217,15 @@ public class JMenuBarComponent {
 					}
 
 					else {
-						JOptionPane.showMessageDialog(null, "No Map Found !");
+						JOptionPane.showMessageDialog(null, GameStatics.MSG_MAP_NOT_FOUND);
 					}
 				}
 
 				else if (e.getSource().equals(menuItemOpenCampaign)) {
 
 					ArrayList<Campaign> campaigns = null;
-					try {
-						campaigns = new FileWriterReader().loadCampaigns();
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					campaigns = new FileWriterReader().loadCampaigns();
+					
 					if (campaigns != null) {
 						int index = 0;
 						System.out.println(campaigns.size() + " size");
@@ -267,15 +240,7 @@ public class JMenuBarComponent {
 						index = 0;
 						for (Campaign campaignModel : campaigns) {
 							ArrayList<Map> maps = null;
-							try {
-								maps = new FileWriterReader().loadMaps();
-							} catch (FileNotFoundException e1) {
-								e1.printStackTrace();
-							} catch (ClassNotFoundException e1) {
-								e1.printStackTrace();
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
+							maps = new FileWriterReader().loadMaps();
 
 							if (campaignModel.getCampaignName().equals(mapName)) {
 								new CampaignEditor(new_jframe, GameStatics.TITLE_MAP_EDITOR,
@@ -286,11 +251,11 @@ public class JMenuBarComponent {
 							index++;
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "No Map Found !");
+						JOptionPane.showMessageDialog(null, "No Campaign Found !");
 					}
 				}
 
-				else if (e.getSource().equals(menuItemOpenCampaign)) {
+				else if (e.getSource().equals(menuItemPlay)) {
 					
 				}
 
@@ -361,6 +326,9 @@ public class JMenuBarComponent {
 									JOptionPane.showMessageDialog(null,
 											String.format(GameStatics.MSG_MAP_FILE_LOADED_SAVED, "saved"));
 									closeFrame(new_jframe);
+								} else if(msg.contains(GameStatics.STATUS_EXIST)) {
+									JOptionPane.showMessageDialog(null,
+											String.format(GameStatics.MSG_DUPLICATE_NAME, "Map name"));
 								} else {
 									JOptionPane.showMessageDialog(null, msg);
 								}
@@ -403,8 +371,6 @@ public class JMenuBarComponent {
 	public JMenuBar getItemEditorJMenuBar(Item item, JFrame new_jframe) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
-		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
-		menuFile.add(menuItemSave);
 		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
 		menuFile.add(menuItemExit);
 
@@ -453,6 +419,9 @@ public class JMenuBarComponent {
 										JOptionPane.showMessageDialog(null,
 												String.format(GameStatics.MSG_CAMPAIGN_FILE_LOADED_SAVED, "saved"));
 										closeFrame(new_jframe);
+									} else if(msg.contains(GameStatics.STATUS_EXIST)) {
+										JOptionPane.showMessageDialog(null,
+												String.format(GameStatics.MSG_DUPLICATE_NAME, "Campaign name"));
 									} else {
 										JOptionPane.showMessageDialog(null, msg);
 									}

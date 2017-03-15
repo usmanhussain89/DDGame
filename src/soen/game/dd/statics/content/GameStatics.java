@@ -18,17 +18,17 @@ public class GameStatics {
 	// MENU Items
 	public static final String MENU_FILE = "FILE";
 	public static final String MENU_ITEM_PLAY = "PLAY";
-	public static final String MENU_ITEM_CREATE_MAP = "Create Map";
-	public static final String MENU_ITEM_OPEN_MAP = "Open Map";
-	public static final String MENU_ITEM_CREATE_CHARACTER = "Create Character";
-	public static final String MENU_ITEM_OPEN_CHARACTER = "Open Character";
-	public static final String MENU_ITEM_CREATE_ITEM = "Create Item";
-	public static final String MENU_ITEM_OPEN_ITEM = "Open Item";
-	public static final String MENU_ITEM_CREATE_CAMPAIGN = "Create Campaign";
-	public static final String MENU_ITEM_OPEN_CAMPAIGN = "Open Campaign";
-	public static final String MENU_ITEM_EXIT = "Exit";
+	public static final String MENU_ITEM_CREATE_MAP = "CREATE MAP";
+	public static final String MENU_ITEM_OPEN_MAP = "OPEN MAP";
+	public static final String MENU_ITEM_CREATE_CHARACTER = "CREATE CHARACTER";
+	public static final String MENU_ITEM_OPEN_CHARACTER = "OPEN CHARACTER";
+	public static final String MENU_ITEM_CREATE_ITEM = "CREATE ITEM";
+	public static final String MENU_ITEM_OPEN_ITEM = "OPEN ITEM";
+	public static final String MENU_ITEM_CREATE_CAMPAIGN = "CREATE CAMPAIGN";
+	public static final String MENU_ITEM_OPEN_CAMPAIGN = "OPEN CAMPAIGN";
+	public static final String MENU_ITEM_EXIT = "EXIT";
 	public static final String MENU_ITEM_SAVE = "SAVE";
-	public static final String MENU_CHARACTER_EXIT = "Exit";
+	public static final String MENU_CHARACTER_EXIT = "EXIT";
 	public static final String MENU_CHARACTER_SAVE = "SAVE";
 
 	// Popup Title
@@ -71,6 +71,7 @@ public class GameStatics {
 
 	// Status
 	public static final String STATUS_SUCCESS = "SUCCESS";
+	public static final String STATUS_EXIST = "EXIST";
 
 	// Prompt Messages
 	public static final String MSG_MAP_FILE_LOADED_SAVED = "Map file %s successfully!";
@@ -80,5 +81,6 @@ public class GameStatics {
 	public static final String MSG_SELECT_MORE_MAP = "Select more than one Map";
 	public static final String MSG_CAMPAIGN_FILE_LOADED_SAVED = "Campaign file %s successfully!";
 	public static final String MSG_ITEM_FILE_LOADED_SAVED = "Item %s successfully!";
-
+	public static final String MSG_MAP_NOT_FOUND = "Maps not found.";
+	public static final String MSG_DUPLICATE_NAME = "%s must be unique";
 }
