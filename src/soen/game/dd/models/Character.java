@@ -14,22 +14,21 @@ import java.util.List;
  * @author fyounis
  */
 public class Character implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4450845749856986590L;
 	private String name;
 	private String description;
+	private FighterType fighterType; // ADDED BUILD 2
 	private int level;
-	// private int abilityScores;
-	// private int abilityModifier;
+	private double maxHitPoint;
+	
+
 	private double hitPoint;
 	private int armorClass;
 	private int attackBonus;
 	private int damageBonus;
 	private int multipleAttacks;
 
+	// items
 	private Item armor;
 	private Item ring;
 	private Item helmet;
@@ -40,7 +39,7 @@ public class Character implements Serializable {
 	private List<Item> backpack;
 
 	// ability scores are labeled by the name of the attributes
-	private int stregth;
+	private int strength;
 	private int constitution;
 	private int wisdom;
 	private int dexterity;
@@ -49,7 +48,7 @@ public class Character implements Serializable {
 
 	// double were used to avoid the mismatch type error when using the floor()
 	// method
-	private double stregthModifier;
+	private double strengthModifier;
 	private double constitutionModifier;
 	private double wisdomModifier;
 	private double dexterityModifier;
@@ -59,15 +58,14 @@ public class Character implements Serializable {
 	public Character() {
 	}
 
-	public Character(String name, String description, int level, int abilityScores, int abilityModifier, int hitPoint,
+	public Character(String name, String description, FighterType fighterType, int level, int abilityScores, int abilityModifier, int hitPoint,
 			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring, Item helmet,
 			Item boots, Item belt, Item weapon, Item shield) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.fighterType = fighterType;
 		this.level = level;
-		// this.abilityScores = abilityScores;
-		// this.abilityModifier = abilityModifier;
 		this.hitPoint = hitPoint;
 		this.armorClass = armorClass;
 		this.attackBonus = attackBonus;
@@ -136,20 +134,84 @@ public class Character implements Serializable {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	
+	
+	public FighterType getFighterType(){
+		return fighterType;
+	}
 
 	/**
-	 * @author Munjed This method calculates all ability scores at random using
-	 *         4d6
+	 * @author Munjed 
+	 * This method calculates all ability scores at random using
+	 * 4d6. If fighter type is different then attributes will be randomized
+	 * with a little bit of bias toward players' preference. 
 	 * @param abilityScores
 	 *            the abilityScores to set
 	 */
 	public void setAbilityScores() {
-		this.stregth = roll4d6();
-		this.dexterity = roll4d6();
-		this.wisdom = roll4d6();
-		this.intelligence = roll4d6();
-		this.charisma = roll4d6();
-		this.constitution = roll4d6();
+		//The following loop is made sort the scores retrieved from 4d6 dices from
+		//big to small so we can then manipulate their assignment to fighter type 
+		//preference
+		
+		int[] die = new int[6];
+		for(int i=0; i<6;i++)
+			die[i]=roll4d6();
+		for(int i=0;i<6;i++){
+			int max=die[i];
+			int index=i;
+			for(int j=i;j<6;j++){
+				if(max<die[j]){
+					max=die[j];
+					index=j;
+				}
+			}
+			int temp=die[i];
+			die[i]=max;
+			die[index]=temp;
+		}
+		//The addition for the first three attribute is to make sure that the built character
+		// is actually with respect to preference in case numbers randomly were the same
+		
+		//BULLY implementation		
+		if(getFighterType()==FighterType.BULLY){
+			this.strength = die[0]+4;
+			this.constitution = die[1]+2;
+			this.dexterity = die[2]+1;
+			this.intelligence = die[3];
+			this.charisma = die[4];
+			this.wisdom = die[5];
+		}
+		
+		//NIMBLE implementation		
+		else if(getFighterType()==FighterType.NIMBLE){
+			this.dexterity = die[0]+4;
+			this.constitution = die[1]+2;
+			this.strength= die[2]+1;
+			this.intelligence = die[3];
+			this.charisma = die[4];
+			this.wisdom = die[5];
+		}
+		
+		//TANK implementation		
+		else if(getFighterType()==FighterType.NIMBLE){
+			this.constitution = die[0]+4;
+			this.dexterity = die[1]+2;
+			this.strength= die[2]+1;
+			this.intelligence = die[3];
+			this.charisma = die[4];
+			this.wisdom = die[5];
+		}
+		
+		//Default randomized character
+		else{
+			this.strength = roll4d6();
+			this.dexterity = roll4d6();
+			this.wisdom = roll4d6();
+			this.intelligence = roll4d6();
+			this.charisma = roll4d6();
+			this.constitution = roll4d6();
+		}
+
 	}
 
 	/**
@@ -161,7 +223,7 @@ public class Character implements Serializable {
 	 */
 	public void setAbilityModifier() {
 		// creating modifiers from ability scores
-		this.stregthModifier = Math.floor((stregth - 10) / 2);
+		this.strengthModifier = Math.floor((strength - 10) / 2);
 		this.charismaModifier = Math.floor((charisma - 10) / 2);
 		this.intelligenceModifier = Math.floor((intelligence - 10) / 2);
 		this.wisdomModifier = Math.floor((wisdom - 10) / 2);
@@ -170,23 +232,36 @@ public class Character implements Serializable {
 	}
 
 	/**
-	 * @author Munjed This method consider the fighter class only, in the 2nd
-	 *         build it will be\ adjusted to stretch other classes.... each
-	 *         class has different way of calculating their Hitpoints in 20d dnd
-	 * @return the hitPoint
+	 * @author Munjed 
+	 * This method consider the fighter class only, in the 2nd
+	 * build it will be\ adjusted to stretch other classes.... each
+	 * class has different way of calculating their maxHitpoints in 20d dnd
+	 * @return the maxhitPoint
 	 */
-	// max HP
+	public void setMaxHitPoint() {
+		maxHitPoint=10+constitutionModifier;
+		for(int i=1;i<level;i++)
+		{
+			maxHitPoint+=constitutionModifier+roll1d10();
+		}	
+	}
+	/**
+	 * @author Munjed
+	 * @return maxHitPoint potions hp increase can not exceed maxhitpoint
+	 */
+	
+	public double getMaxHitPoint() {
+		
+		return maxHitPoint;
+	}
+	
+	/**
+	 * @author Munjed
+	 * @return HitPoint if zero the character dies
+	 */
 	public double getHitPoint() {
-		// in the future this should be <public double
-		// getHitPoint(character.class)>
-		// 1st find all con modifier from:
-		// a) class, if fighter we use highest 1d10 for 1st class
-		// b) then we use the average of 1d10 rounded up=6 + con Mod for each
-		// level-up
-		hitPoint = (10 + constitutionModifier) + (level - 1) * (6 + constitutionModifier);
 		return hitPoint;
 	}
-
 	/**
 	 * @author Munjed This method, although gets the value for armor class, it
 	 *         also calculates it
@@ -219,7 +294,7 @@ public class Character implements Serializable {
 	 */
 	public void setAttackBonus() {
 		if (weapon.getWeaponType() == "melee")
-			this.attackBonus = (int) (level + weapon.getBonusAmount() + stregthModifier);
+			this.attackBonus = (int) (level + weapon.getBonusAmount() + strengthModifier);
 		else if (weapon.getWeaponType() == "ranged")
 			this.attackBonus = (int) (level + weapon.getBonusAmount() + dexterityModifier);
 	}
@@ -229,7 +304,7 @@ public class Character implements Serializable {
 	 */
 	public int getDamageBonus() {
 		if (weapon.getWeaponType() == "melee") {
-			return this.damageBonus = (int) (stregthModifier + weapon.getBonusAmount());
+			return this.damageBonus = (int) (strengthModifier + weapon.getBonusAmount());
 		}
 		return 0;
 	}
@@ -407,6 +482,13 @@ public class Character implements Serializable {
 
 		return score;
 	}
+	public int roll1d10(){
+		
+		int score = (int) (Math.random() * 10) + 1;
+		
+		return score;
+		
+	}
 
 	/**
 	 * @author Munjed
@@ -421,11 +503,11 @@ public class Character implements Serializable {
 	@Override
 	public String toString() {
 		return "Character [name=" + name + ", description=" + description + ", level=" + level + ", ability Scores="
-				+ " stregth	constitution	wisdom	dexterity	intelligence	charisma: " + " " + stregth + " "
+				+ " strength	constitution	wisdom	dexterity	intelligence	charisma: " + " " + strength + " "
 				+ constitution + " " + wisdom + " " + dexterity + " " + intelligence + " " + charisma
 				+ ", ability modifiers="
-				+ " stregthModifier	constitutionModifier	wisdomModifier	dexterityModifier	intelligenceModifier	charismaModifier "
-				+ " " + stregthModifier + " " + constitutionModifier + " " + wisdomModifier + " " + dexterityModifier
+				+ " strengthModifier	constitutionModifier	wisdomModifier	dexterityModifier	intelligenceModifier	charismaModifier "
+				+ " " + strengthModifier + " " + constitutionModifier + " " + wisdomModifier + " " + dexterityModifier
 				+ " " + intelligenceModifier + " " + charismaModifier + " " + ", hitPoint=" + hitPoint + ", armorClass="
 				+ armorClass + ", attackBonus=" + attackBonus + ", damageBonus=" + damageBonus + ", multipleAttacks="
 				+ multipleAttacks + ", armor=" + armor + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
