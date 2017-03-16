@@ -794,7 +794,7 @@ public class JPanelComponent {
 			panel.add(lblSelectItem1);
 
 			JComboBox<ItemComboItem> combobox = new JComboBox<ItemComboItem>(
-					new ComboItemListGenerator(ItemType.WEAPON).generateList());
+					new ComboItemListGenerator(null).generateList());
 			combobox.setBounds(170, 250 + i * 25, 120, 25);
 			panel.add(combobox);
 
