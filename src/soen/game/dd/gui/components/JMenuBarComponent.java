@@ -17,6 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import soen.game.dd.fileio.CharacterIO;
 import soen.game.dd.gui.system.CampaignEditor;
 import soen.game.dd.gui.system.CharacterEditor;
 import soen.game.dd.gui.system.ItemEditor;
@@ -146,7 +147,7 @@ public class JMenuBarComponent {
 				} else if (e.getSource().equals(menuItemOpenMap)) {
 					ArrayList<Map> maps = null;
 					maps = new FileWriterReader().loadMaps();
-					
+	
 					if (maps != null) {
 						int index = 0;
 						System.out.println(maps.size() + " size");
@@ -197,19 +198,28 @@ public class JMenuBarComponent {
 
 				else if (e.getSource().equals(menuItemCreateCharacter)) {
 					new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR,
-							GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_WIDTH, null,
-							E_CharacterEditorMode.Create);
+							GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+							E_CharacterEditorMode.Create, null);
 
 				}
 
 				else if (e.getSource().equals(menuItemOpenCharacter)) {
+					ArrayList<Character> characters = new ArrayList<Character>();
 
+					characters = new CharacterIO().loadCharacters();
+
+					if (characters != null) {
+						new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+								GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100, E_CharacterEditorMode.Open, characters);
+					} else {
+						JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
+					}
 				}
 
 				else if (e.getSource().equals(menuItemCreateCampaign)) {
 					ArrayList<Map> maps = null;
 					maps = new FileWriterReader().loadMaps();
-
+ 
 					if (maps != null) {
 						new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR,
 								GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
@@ -225,7 +235,7 @@ public class JMenuBarComponent {
 
 					ArrayList<Campaign> campaigns = null;
 					campaigns = new FileWriterReader().loadCampaigns();
-					
+
 					if (campaigns != null) {
 						int index = 0;
 						System.out.println(campaigns.size() + " size");
@@ -486,25 +496,12 @@ public class JMenuBarComponent {
 		new_jframe.dispose();
 	}
 
-	public JMenuBar getCharacterEditorJMenuBar(Character character, CharacterEditor characterEditor) {
+	public JMenuBar getCharacterEditorJMenuBar(Character character, CharacterEditor characterEditor, E_CharacterEditorMode characterEditorMode) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
-		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_CHARACTER_SAVE);
-		menuFile.add(menuItemSave);
 		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_CHARACTER_EXIT);
 		menuFile.add(menuItemExit);
 
-		class MenuItemAction implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent new_event) {
-				if (new_event.getSource().equals(menuItemSave)) {
-					System.out.println(ItemType.ARMOR.getAllowedAttributes());
-				}
-			}
-		}
-
-		menuItemSave.addActionListener(new MenuItemAction());
 		menuBar.add(menuFile);
 		return menuBar;
 	}
