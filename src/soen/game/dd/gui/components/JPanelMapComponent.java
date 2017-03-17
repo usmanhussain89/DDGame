@@ -16,8 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.gui.system.ChestItemWindow;
-import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
@@ -220,7 +220,7 @@ public class JPanelMapComponent {
 					} else {
 						ArrayList<Item> items = new ArrayList<Item>();
 
-						items = new FileWriterReader().loadItems();
+						items = new ItemIO().loadItems();
 						if (items != null)
 							new ChestItemWindow(new_mapModel, items);
 
@@ -348,7 +348,7 @@ public class JPanelMapComponent {
 							if (option == JOptionPane.OK_OPTION) {
 								ArrayList<Item> items = new ArrayList<Item>();
 
-								items = new FileWriterReader().loadItems();
+								items = new ItemIO().loadItems();
 								if (items != null)
 									new ChestItemWindow(new_mapModel, items);
 

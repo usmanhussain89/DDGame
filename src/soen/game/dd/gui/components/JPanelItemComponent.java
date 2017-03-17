@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.models.CharacterAttribute;
-import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.statics.content.GameStatics;
@@ -154,11 +154,11 @@ public class JPanelItemComponent {
 						String msg = "";
 						if (E_ItemEditorMode.Open == new_mode) {
 							items.set(cbItemName.getSelectedIndex(), item);
-							msg = new FileWriterReader().saveItems(items);
+							msg = new ItemIO().saveItems(items);
 						}
 
 						else {
-							msg = new FileWriterReader().saveItem(item);
+							msg = new ItemIO().saveItem(item);
 						}
 						if (msg.contains(GameStatics.STATUS_SUCCESS)) {
 							JOptionPane.showMessageDialog(null,

@@ -6,9 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import soen.game.dd.gui.components.JMenuBarComponent;
-import soen.game.dd.gui.components.JPanelComponent;
-import soen.game.dd.models.Map;
+import soen.game.dd.gui.components.JMenuBarCharacterComponent;
+import soen.game.dd.gui.components.JPanelCharacterComponent;
 import soen.game.dd.models.Character;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
@@ -65,9 +64,9 @@ public class CharacterEditor extends JFrame {
 		this.setVisible(true);
 
 		// MenuBar for Map Editor
-		this.setJMenuBar((new JMenuBarComponent()).getCharacterEditorJMenuBar(character, this, characterEditorMode));
+		this.setJMenuBar((new JMenuBarCharacterComponent()).getCharacterEditorJMenuBar(character, this, characterEditorMode));
 
 		// load Map Grid from Component
-		this.setContentPane((new JPanelComponent()).getCharacterEditorGridPanel(character, characterEditorMode, frame, characters));
+		this.setContentPane((new JPanelCharacterComponent()).getCharacterEditorGridPanel(character, characterEditorMode, frame, characters));
 	}
 }

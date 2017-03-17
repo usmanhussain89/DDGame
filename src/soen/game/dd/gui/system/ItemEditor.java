@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import soen.game.dd.gui.components.JMenuBarComponent;
+import soen.game.dd.gui.components.JMenuBarItemComponent;
 import soen.game.dd.gui.components.JPanelItemComponent;
 import soen.game.dd.models.Item;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
@@ -62,7 +62,7 @@ public class ItemEditor extends JFrame {
 		this.setVisible(true);
 
 		// MenuBar for Map Editor
-		this.setJMenuBar((new JMenuBarComponent()).getItemEditorJMenuBar(item, this));
+		this.setJMenuBar((new JMenuBarItemComponent()).getItemEditorJMenuBar(item, this));
 
 		// load Map Grid from Component
 		this.setContentPane((new JPanelItemComponent()).getItemEditorGridPanel(item, null, itemEditorMode, items));

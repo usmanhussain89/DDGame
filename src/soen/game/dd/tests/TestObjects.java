@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.models.CharacterAttribute;
-import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
@@ -147,7 +147,7 @@ public class TestObjects {
 		// create new item Object
 		Item blackHelmet = new Item("Black Helmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 4, 4, "ranged");
 		// save item object
-		FileWriterReader fileWriterReader = new FileWriterReader();
+		ItemIO fileWriterReader = new ItemIO();
 		fileWriterReader.saveItem(blackHelmet);
 		ArrayList<Item> listItem = fileWriterReader.loadItems();
 
