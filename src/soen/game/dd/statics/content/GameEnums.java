@@ -13,7 +13,7 @@ public class GameEnums {
 	 * 
 	 */
 	public enum E_MapEditorMode {
-		Create, Open
+		Create, Open, Play
 	}
 
 	/**

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import soen.game.dd.gui.components.JMenuBarComponent;
-import soen.game.dd.gui.components.JPanelComponent;
+import soen.game.dd.gui.components.JPanelCampaignComponent;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
@@ -67,7 +67,7 @@ public class CampaignEditor extends JFrame {
 				campaigns, index));
 
 		// load Campaign Grid from Component
-		this.setContentPane((new JPanelComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode, this, maps,
+		this.setContentPane((new JPanelCampaignComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode, this, maps,
 				campaigns, index));
 	}
 }

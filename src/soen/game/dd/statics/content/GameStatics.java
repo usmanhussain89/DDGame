@@ -49,6 +49,7 @@ public class GameStatics {
 	public static final String TITLE_ITEM_EDITOR = "ITEM EDITOR";
 	public static final String TITLE_CAMPAIGN_EDITOR = "CAMPAIGN EDITOR";
 	public static final String TITLE_CHARACTER_EDITOR = "CHARACTER EDITOR";
+	public static final String TITLE_MAP_PlAY = "PLAY MODE";
 
 	// Map Tiles Variables
 	public static final int MAP_ENTRY_POINT = 2;
