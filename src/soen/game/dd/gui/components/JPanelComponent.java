@@ -31,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import soen.game.dd.fileio.CharacterIO;
 import soen.game.dd.gui.system.ChestItemWindow;
 import soen.game.dd.gui.system.MapEditor;
 import soen.game.dd.models.Campaign;
@@ -68,6 +69,7 @@ public class JPanelComponent {
 	private Map mapModel = null;
 	String itemName = "";
 	private Item itemModel = null;
+	String characterName = "";
 
 	/**
 	 * This method create the JPanel for the Map Editor and return JPanel which
@@ -659,7 +661,7 @@ public class JPanelComponent {
 	}
 
 	public Container getCharacterEditorGridPanel(Character pCharacter, E_CharacterEditorMode characterEditorMode,
-			JFrame frame) {
+			JFrame frame, ArrayList<Character> characters) {
 		JPanel panel;
 		Character character = pCharacter;
 		ArrayList<Item> items = new FileWriterReader().loadItems();
@@ -677,6 +679,7 @@ public class JPanelComponent {
 				return this.value;
 			}
 
+			@SuppressWarnings("unused")
 			public String getLabel() {
 				return this.label;
 			}
@@ -721,6 +724,33 @@ public class JPanelComponent {
 		JTextField txtCharacterName = new JTextField(30);
 		txtCharacterName.setBounds(160, 30, 150, 25);
 		panel.add(txtCharacterName);
+		
+		JComboBox<String> cbCharacterName = new JComboBox<String>();
+		cbCharacterName.setBounds(170, 30, 120, 25);
+		cbCharacterName.setEditable(true);
+		cbCharacterName.setVisible(false);
+		if (E_CharacterEditorMode.Open == characterEditorMode) {
+			txtCharacterName.setVisible(false);
+			cbCharacterName.setVisible(true);
+			int index = 0;
+
+			for (Character i : characters) {
+				if (i != null) {
+					cbCharacterName.addItem(i.getName());
+					cbCharacterName.setName("" + index);
+					index++;
+				}
+			}
+
+			panel.add(cbCharacterName);
+		}
+
+		else {
+			txtCharacterName.setVisible(true);
+			cbCharacterName.setVisible(false);
+
+			panel.add(txtCharacterName);
+		}
 
 		JLabel lblSelectHelmet = new JLabel("Helmet: ");
 		lblSelectHelmet.setBounds(40, 75, 100, 25);
@@ -801,6 +831,101 @@ public class JPanelComponent {
 			backpack.add(combobox);
 		}
 
+		JButton btnSave = new JButton("Save");
+		btnSave.setBounds(40, 525, 100, 25);
+		panel.add(btnSave);
+		
+		if (E_CharacterEditorMode.Open == characterEditorMode) {
+			Character character1 = characters.get(cbCharacterName.getSelectedIndex());
+			cbHelmet.setSelectedItem(character1.getHelmet());
+			cbArmor.setSelectedItem(character1.getarmor());
+			cbBoots.setSelectedItem(character1.getBoots());
+			cbBelt.setSelectedItem(character1.getBelt());
+			cbRing.setSelectedItem(character1.getRing());
+			cbShield.setSelectedItem(character1.getShield());
+			for(int i = 0; i < 10; ++i){
+				backpack.get(i).setSelectedItem(character1.getItemIntoBackpack().get(i));
+			}
+			characterName = character1.getName();
+		}
+
+		
+		cbCharacterName.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(getCharacter());
+				cbHelmet.setSelectedItem(getCharacter().getHelmet());
+				cbArmor.setSelectedItem(getCharacter().getarmor());
+				cbBoots.setSelectedItem(getCharacter().getBoots());
+				cbBelt.setSelectedItem(getCharacter().getBelt());
+				cbRing.setSelectedItem(getCharacter().getRing());
+				cbShield.setSelectedItem(getCharacter().getShield());
+				for(int i = 0; i < 10; ++i){
+					System.out.println(getCharacter().getItemIntoBackpack().get(i));
+					backpack.get(i).setSelectedItem(getCharacter().getItemIntoBackpack().get(i));
+				}
+				characterName = getCharacter().getName();
+			}
+			
+			private Character getCharacter() {
+				return characters.get(cbCharacterName.getSelectedIndex());
+			}
+		});
+
+		btnSave.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String msg = "";
+				if (E_CharacterEditorMode.Create == characterEditorMode) {
+					characterName = txtCharacterName.getText();
+				}
+
+				System.out.println(((ItemComboItem)cbRing.getSelectedItem()).getValue());
+				if (!characterName.equals("")) {
+					character.setName(characterName);
+					character.setHelmet(getItemFrom(cbHelmet));
+					character.setarmor(getItemFrom(cbArmor));
+					character.setBoots(getItemFrom(cbBoots));
+					character.setBelt(getItemFrom(cbBelt));
+					character.setRing(getItemFrom(cbRing));
+					character.setShield(getItemFrom(cbShield));
+					for (JComboBox<ItemComboItem> backpackItem : backpack){
+						character.addItemIntoBackpack(getItemFrom(backpackItem));
+					}
+					System.out.println(character);
+					if (E_CharacterEditorMode.Create == characterEditorMode){
+						msg = new CharacterIO().saveCharacter(character);
+					} else {
+						characters.set(cbCharacterName.getSelectedIndex(), character);
+						msg = new CharacterIO().saveCharacters(characters);
+					}
+					if (msg.contains(GameStatics.STATUS_SUCCESS)) {
+					JOptionPane.showMessageDialog(null,
+							String.format(GameStatics.MSG_CHARACTER_FILE_LOADED_SAVED, "saved"));
+						if (E_CharacterEditorMode.Create == characterEditorMode) {
+							txtCharacterName.setText("");
+						} 
+					} else if(msg.contains(GameStatics.STATUS_EXIST)) {
+					JOptionPane.showMessageDialog(null,
+							String.format(GameStatics.MSG_DUPLICATE_NAME, "Character name"));
+					} else {
+						System.out.println(msg);
+						JOptionPane.showMessageDialog(null, msg);
+					}
+				}
+			}
+			
+			private Item getItemFrom(JComboBox<ItemComboItem> comboBox){
+				if (comboBox.getSelectedItem() != null){
+					return ((ItemComboItem)comboBox.getSelectedItem()).getValue();
+				} else {
+					return null;
+				}
+			}
+		});
+		
 		return panel;
 	}
 
@@ -907,6 +1032,8 @@ public class JPanelComponent {
 				}
 			}
 		});
+		
+
 
 		return panel;
 	}

@@ -83,4 +83,5 @@ public class GameStatics {
 	public static final String MSG_ITEM_FILE_LOADED_SAVED = "Item %s successfully!";
 	public static final String MSG_MAP_NOT_FOUND = "Maps not found.";
 	public static final String MSG_DUPLICATE_NAME = "%s must be unique";
+	public static final String MSG_CHARACTER_FILE_LOADED_SAVED = "Item %s successfully";
 }

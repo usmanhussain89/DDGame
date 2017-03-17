@@ -56,6 +56,7 @@ public class Character implements Serializable {
 	private double charismaModifier;
 
 	public Character() {
+		backpack = new ArrayList<Item>(Arrays.asList());
 	}
 
 	public Character(String name, String description, FighterType fighterType, int level, int abilityScores, int abilityModifier, int hitPoint,
@@ -96,6 +97,10 @@ public class Character implements Serializable {
 
 	private List<Item> getEquippedItems() {
 		return Arrays.asList(armor, ring, boots, weapon, shield, helmet);
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 
 	/**
@@ -453,7 +458,7 @@ public class Character implements Serializable {
 	 */
 
 	public void setShield(Item item) {
-		if (item.getItemType() == ItemType.BOOTS)
+		if (item.getItemType() == ItemType.SHIELD)
 			this.shield = item;
 		else
 			System.out.println("Inavalid type: item is not a shield");
