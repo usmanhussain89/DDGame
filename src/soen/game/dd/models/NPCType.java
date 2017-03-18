@@ -8,6 +8,5 @@ package soen.game.dd.models;
  *hostile to be killed then looted
  */
 public enum NPCType {
-	CHEST, DEAD, FRINDLY, HOSTILE
-
+	CHEST, DEAD, FRINDLY, HOSTILE, DOOR
 }
