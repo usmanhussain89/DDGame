@@ -20,6 +20,7 @@ public class Character implements Serializable {
 	private FighterType fighterType; // ADDED BUILD 2
 	private int level;
 	private double maxHitPoint;
+	private NPCType npcType;
 	
 
 	private double hitPoint;
@@ -56,6 +57,7 @@ public class Character implements Serializable {
 	private double charismaModifier;
 
 	public Character() {
+		backpack = new ArrayList<Item>(Arrays.asList());
 	}
 
 	public Character(String name, String description, FighterType fighterType, int level, int abilityScores, int abilityModifier, int hitPoint,
@@ -96,6 +98,10 @@ public class Character implements Serializable {
 
 	private List<Item> getEquippedItems() {
 		return Arrays.asList(armor, ring, boots, weapon, shield, helmet);
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 
 	/**
@@ -456,7 +462,7 @@ public class Character implements Serializable {
 	 */
 
 	public void setShield(Item item) {
-		if (item.getItemType() == ItemType.BOOTS)
+		if (item.getItemType() == ItemType.SHIELD)
 			this.shield = item;
 		else
 			System.out.println("Inavalid type: item is not a shield");
@@ -516,5 +522,22 @@ public class Character implements Serializable {
 				+ multipleAttacks + ", armor=" + armor + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
 				+ ", belt=" + belt + ", weapon=" + weapon + ", shield=" + shield + "]";
 	}
-
+	
+	/**
+	 * This method set the type of Non Player Character on the map
+	 * @param npcType
+	 */
+	public void setNPCType(NPCType npcType) {
+		this.npcType = npcType;
+	}
+	
+	/**
+	 * This method get the Non Player CharacterType
+	 * 
+	 * @return NPCType
+	 */
+	public NPCType getNPCType()
+	{
+		return this.npcType;
+	}
 }

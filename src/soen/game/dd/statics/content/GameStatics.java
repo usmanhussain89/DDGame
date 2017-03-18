@@ -49,6 +49,7 @@ public class GameStatics {
 	public static final String TITLE_ITEM_EDITOR = "ITEM EDITOR";
 	public static final String TITLE_CAMPAIGN_EDITOR = "CAMPAIGN EDITOR";
 	public static final String TITLE_CHARACTER_EDITOR = "CHARACTER EDITOR";
+	public static final String TITLE_MAP_PlAY = "PLAY MODE";
 
 	// Map Tiles Variables
 	public static final int MAP_ENTRY_POINT = 2;
@@ -64,6 +65,10 @@ public class GameStatics {
 	public static final String MAP_CHEST_CONFIRM_DIALOG = "Do you want to add items to the chest ?";
 	public static final int CHEST_ITEM_POPUP_WINDOW_WIDTH = (int) CHILD_POPUP_WINDOW_WIDTH - 250;
 	public static final int CHEST_ITEM_WINDOW_HEIGHT = (int) CHILD_POPUP_WINDOW_HEIGHT - 250;
+	
+	// Map NPC
+	public static final String TITLE_ADD_CHARACTER = "Add Character";
+	public static final String MAP_CHARACTER_CONFIRM_DIALOG = "Do you want to add character to the map ?";
 
 	// Map Variables
 	public static String MAP_ROUT_PATH;
@@ -83,4 +88,5 @@ public class GameStatics {
 	public static final String MSG_ITEM_FILE_LOADED_SAVED = "Item %s successfully!";
 	public static final String MSG_MAP_NOT_FOUND = "Maps not found.";
 	public static final String MSG_DUPLICATE_NAME = "%s must be unique";
+	public static final String MSG_CHARACTER_FILE_LOADED_SAVED = "Item %s successfully";
 }

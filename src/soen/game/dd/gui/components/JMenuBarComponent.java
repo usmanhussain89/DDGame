@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,13 +18,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import soen.game.dd.fileio.CampaignIO;
+import soen.game.dd.fileio.CharacterIO;
+import soen.game.dd.fileio.ItemIO;
+import soen.game.dd.fileio.MapIO;
 import soen.game.dd.gui.system.CampaignEditor;
 import soen.game.dd.gui.system.CharacterEditor;
 import soen.game.dd.gui.system.ItemEditor;
 import soen.game.dd.gui.system.MapEditor;
 import soen.game.dd.logic.MapValidation;
 import soen.game.dd.models.Campaign;
-import soen.game.dd.models.FileWriterReader;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Character;
@@ -145,8 +149,8 @@ public class JMenuBarComponent {
 					}
 				} else if (e.getSource().equals(menuItemOpenMap)) {
 					ArrayList<Map> maps = null;
-					maps = new FileWriterReader().loadMaps();
-					
+					maps = new MapIO().loadMaps();
+	
 					if (maps != null) {
 						int index = 0;
 						System.out.println(maps.size() + " size");
@@ -185,7 +189,7 @@ public class JMenuBarComponent {
 				else if (e.getSource().equals(menuItemOpenItem)) {
 					ArrayList<Item> items = new ArrayList<Item>();
 
-					items = new FileWriterReader().loadItems();
+					items = new ItemIO().loadItems();
 
 					if (items != null) {
 						new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
@@ -197,19 +201,28 @@ public class JMenuBarComponent {
 
 				else if (e.getSource().equals(menuItemCreateCharacter)) {
 					new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR,
-							GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_WIDTH, null,
-							E_CharacterEditorMode.Create);
+							GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100,
+							E_CharacterEditorMode.Create, null);
 
 				}
 
 				else if (e.getSource().equals(menuItemOpenCharacter)) {
+					ArrayList<Character> characters = new ArrayList<Character>();
 
+					characters = new CharacterIO().loadCharacters();
+
+					if (characters != null) {
+						new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+								GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100, E_CharacterEditorMode.Open, characters);
+					} else {
+						JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
+					}
 				}
 
 				else if (e.getSource().equals(menuItemCreateCampaign)) {
 					ArrayList<Map> maps = null;
-					maps = new FileWriterReader().loadMaps();
-
+					maps = new MapIO().loadMaps();
+ 
 					if (maps != null) {
 						new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR,
 								GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
@@ -224,8 +237,8 @@ public class JMenuBarComponent {
 				else if (e.getSource().equals(menuItemOpenCampaign)) {
 
 					ArrayList<Campaign> campaigns = null;
-					campaigns = new FileWriterReader().loadCampaigns();
-					
+					campaigns = new CampaignIO().loadCampaigns();
+
 					if (campaigns != null) {
 						int index = 0;
 						System.out.println(campaigns.size() + " size");
@@ -240,7 +253,7 @@ public class JMenuBarComponent {
 						index = 0;
 						for (Campaign campaignModel : campaigns) {
 							ArrayList<Map> maps = null;
-							maps = new FileWriterReader().loadMaps();
+							maps = new MapIO().loadMaps();
 
 							if (campaignModel.getCampaignName().equals(mapName)) {
 								new CampaignEditor(new_jframe, GameStatics.TITLE_MAP_EDITOR,
@@ -256,7 +269,59 @@ public class JMenuBarComponent {
 				}
 
 				else if (e.getSource().equals(menuItemPlay)) {
+
+					//ArrayList<Character> characters = new FileWriterReader().loadCharacters();
+					Character character = null;
+					JComboBox<String> cbCharacter = new JComboBox<String>();
+					cbCharacter.addItem("Character 1");
+					cbCharacter.addItem("Character 2");
+					cbCharacter.addItem("Character 3");
+					cbCharacter.addItem("Character 4");
+					cbCharacter.addItem("Character 5");
 					
+					/*for(Character c : characters) {
+						cbCharacter.addItem(c.getName());
+					}*/
+					Object[] messageCharacter = { "SELECT CHARACTER:", cbCharacter };
+
+					int optionCharacter = JOptionPane.showConfirmDialog(null, messageCharacter, GameStatics.TITLE_MSG_SET_SIZE_OF_MAP,
+							JOptionPane.OK_CANCEL_OPTION);
+
+					if (optionCharacter == JOptionPane.OK_OPTION) {
+						/*for(Character c : characters)
+						{
+							if(c.getName().equals((String)cbCharacter.getSelectedItem()))
+							{
+								character = c;
+								break;
+							}
+						}*/
+						
+						ArrayList<Campaign> campaigns = new CampaignIO().loadCampaigns();
+						Campaign campaign = null;
+						JComboBox<String> cbCampaigns = new JComboBox<String>();
+						
+						for(Campaign ca : campaigns) {
+							cbCampaigns.addItem(ca.getCampaignName());
+						}
+						Object[] messageCampaign = { "Size of X:", cbCampaigns };
+
+						if (JOptionPane.showConfirmDialog(null, messageCampaign, GameStatics.TITLE_MSG_SET_SIZE_OF_MAP,
+								JOptionPane.OK_CANCEL_OPTION) == 0) {
+							for(Campaign ca : campaigns) {
+								if(cbCampaigns.getSelectedItem().equals(ca.getCampaignName())) {
+									campaign = ca;
+									break;
+								}
+							}
+							
+							if(campaign != null) {
+								new MapEditor(new_jframe, GameStatics.TITLE_MAP_PlAY,
+										GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+										null, E_MapEditorMode.Play, new ArrayList<Map>(campaign.getCampaignList()), 0);
+							}
+						}
+					}					
 				}
 
 				else {
@@ -279,204 +344,6 @@ public class JMenuBarComponent {
 	}
 
 	/**
-	 * This method create Menu for Map Editor Window
-	 * 
-	 * @param new_mapModel
-	 * @param new_jframe
-	 * @return JMenu for Map Editor
-	 */
-	public JMenuBar getMapEditorJMenuBar(Map new_mapModel, JFrame new_jframe, ArrayList<Map> maps,
-			E_MapEditorMode mapEditorMode, int index) {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
-		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
-		menuFile.add(menuItemSave);
-		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
-		menuFile.add(menuItemExit);
-
-		class MenuItemAction implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent new_event) {
-				if (new_event.getSource().equals(menuItemSave)) {
-					String MapValidationStatus = "";
-
-					if (E_MapEditorMode.Create == mapEditorMode) {
-						MapValidationStatus = (new MapValidation()).mapValidations(new_mapModel);
-					}
-
-					else {
-						MapValidationStatus = (new MapValidation()).mapValidations(maps.get(index));
-					}
-
-					if (MapValidationStatus != null) {
-						JOptionPane.showMessageDialog(null, MapValidationStatus);
-					} else {
-						if (E_MapEditorMode.Create == mapEditorMode) {
-							String mapName = JOptionPane.showInputDialog(new_jframe, "Enter Map name:");
-							if (!mapName.equals("")) {
-
-								new_mapModel.setMapName(mapName);
-								new_mapModel.setMapRoutPath(GameStatics.MAP_ROUT_PATH);
-								new_mapModel.setMapRoutBoundaries(GameStatics.MAP_PATH_BOUNDARY_BUTTONS_NAME);
-								new_mapModel.getMapRoutPathList();
-
-								String msg = new FileWriterReader().saveMap(new_mapModel);
-								if (msg.contains(GameStatics.STATUS_SUCCESS)) {
-									JOptionPane.showMessageDialog(null,
-											String.format(GameStatics.MSG_MAP_FILE_LOADED_SAVED, "saved"));
-									closeFrame(new_jframe);
-								} else if(msg.contains(GameStatics.STATUS_EXIST)) {
-									JOptionPane.showMessageDialog(null,
-											String.format(GameStatics.MSG_DUPLICATE_NAME, "Map name"));
-								} else {
-									JOptionPane.showMessageDialog(null, msg);
-								}
-							}
-						}
-
-						else {
-							String msg = new FileWriterReader().saveMaps(maps);
-							if (msg.contains(GameStatics.STATUS_SUCCESS)) {
-								JOptionPane.showMessageDialog(null,
-										String.format(GameStatics.MSG_MAP_FILE_LOADED_SAVED, "saved"));
-								closeFrame(new_jframe);
-							} else {
-								JOptionPane.showMessageDialog(null, msg);
-							}
-						}
-					}
-				}
-
-				else if (new_event.getSource().equals(menuItemExit)) {
-					closeFrame(new_jframe);
-				}
-
-			}
-
-		}
-		menuItemSave.addActionListener(new MenuItemAction());
-		menuItemExit.addActionListener(new MenuItemAction());
-		menuBar.add(menuFile);
-		return menuBar;
-	}
-
-	/**
-	 * This method create Menu for Item Editor Window
-	 * 
-	 * @param new_mapModel
-	 * @param new_jframe
-	 * @return JMenu for Map Editor
-	 */
-	public JMenuBar getItemEditorJMenuBar(Item item, JFrame new_jframe) {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
-		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
-		menuFile.add(menuItemExit);
-
-		class MenuItemAction implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent new_event) {
-
-			}
-		}
-
-		menuBar.add(menuFile);
-		System.out.println("I'm here");
-		return menuBar;
-	}
-
-	/**
-	 * This method create Menu for Campaign Editor Window
-	 * 
-	 * @param new_campaignModel
-	 * @param new_jframe
-	 * @return JMenu for Campaign Editor
-	 */
-	public JMenuBar getCampaignEditorJMenuBar(Campaign campaign, JFrame new_jframe, E_CampaignEditorMode new_mode,
-			ArrayList<Campaign> campaigns, int index) {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
-		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
-		menuFile.add(menuItemSave);
-		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
-		menuFile.add(menuItemExit);
-
-		class MenuItemAction implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent new_event) {
-				if (new_event.getSource().equals(menuItemSave)) {
-					if (campaign != null) {
-						System.out.println(campaign.getCampaignList().size());
-						if (campaign.getCampaignList().size() > 1) {
-							if (E_CampaignEditorMode.Create == new_mode) {
-								if (!campaign.getCampaignName().equals("")) {
-
-									String msg = new FileWriterReader().saveCampaign(campaign);
-									if (msg.contains(GameStatics.STATUS_SUCCESS)) {
-										JOptionPane.showMessageDialog(null,
-												String.format(GameStatics.MSG_CAMPAIGN_FILE_LOADED_SAVED, "saved"));
-										closeFrame(new_jframe);
-									} else if(msg.contains(GameStatics.STATUS_EXIST)) {
-										JOptionPane.showMessageDialog(null,
-												String.format(GameStatics.MSG_DUPLICATE_NAME, "Campaign name"));
-									} else {
-										JOptionPane.showMessageDialog(null, msg);
-									}
-								} else {
-									JOptionPane.showMessageDialog(null, "Enter Campaign name first");
-								}
-							}
-
-							else {
-								campaigns.set(index, campaign);
-								String msg = new FileWriterReader().saveCampaigns(campaigns);
-								if (msg.contains(GameStatics.STATUS_SUCCESS)) {
-									JOptionPane.showMessageDialog(null,
-											String.format(GameStatics.MSG_CAMPAIGN_FILE_LOADED_SAVED, "saved"));
-									closeFrame(new_jframe);
-								} else {
-									JOptionPane.showMessageDialog(null, msg);
-								}
-							}
-						}
-
-						else {
-							JOptionPane.showMessageDialog(null, "Select more than one map");
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, GameStatics.MSG_NO_CAMPAIGN_CREATED);
-					}
-				}
-			}
-		}
-
-		menuItemSave.addActionListener(new MenuItemAction());
-		menuBar.add(menuFile);
-		return menuBar;
-	}
-
-	/**
-	 * This method create Menu for Chest Items Window
-	 * 
-	 * @param new_jframe
-	 * @return JMenu for Chest Menu
-	 */
-	public JMenuBar getMapChestItemJMenuBar(JFrame new_jframe) {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
-		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_ITEM_SAVE);
-		menuFile.add(menuItemSave);
-		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_ITEM_EXIT);
-		menuFile.add(menuItemExit);
-
-		menuBar.add(menuFile);
-		return menuBar;
-	}
-
-	/**
 	 * This method closes the frame of the application
 	 * 
 	 * @param new_jframe
@@ -484,28 +351,5 @@ public class JMenuBarComponent {
 	 */
 	public void closeFrame(JFrame new_jframe) {
 		new_jframe.dispose();
-	}
-
-	public JMenuBar getCharacterEditorJMenuBar(Character character, CharacterEditor characterEditor) {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
-		JMenuItem menuItemSave = new JMenuItem(GameStatics.MENU_CHARACTER_SAVE);
-		menuFile.add(menuItemSave);
-		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_CHARACTER_EXIT);
-		menuFile.add(menuItemExit);
-
-		class MenuItemAction implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent new_event) {
-				if (new_event.getSource().equals(menuItemSave)) {
-					System.out.println(ItemType.ARMOR.getAllowedAttributes());
-				}
-			}
-		}
-
-		menuItemSave.addActionListener(new MenuItemAction());
-		menuBar.add(menuFile);
-		return menuBar;
 	}
 }
