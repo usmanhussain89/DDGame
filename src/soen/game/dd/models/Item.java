@@ -146,5 +146,14 @@ public class Item implements Serializable {
 	public void setItemType(ItemType itemType) {
 		this.itemType = itemType;
 	}
+	
+	public boolean equals(Item other){
+		return this.bonusAmount == other.bonusAmount &&
+				this.enhancedAttribute == other.enhancedAttribute &&
+				this.itemStat == other.itemStat &&
+				this.itemType == other.itemType &&
+				this.name == other.name &&
+				this.weaponType == other.weaponType;
+	}
 
 }

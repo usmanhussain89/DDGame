@@ -88,14 +88,50 @@ public class Character implements Serializable {
 	 *            the Item to add into backpack
 	 */
 
-	public void addItemIntoBackpack(Item item) {
+	public boolean addItemIntoBackpack(Item item) {
 		if (backpack.size() < 10) {
 			backpack.add(item);
+			return true;
 		} else {
 			System.out.println("The Maximum backpack size is reached: " + backpack.size());
+			return false;
 		}
 	}
+	
+	/**
+	 * Removes an item from the backpack
+	 * 
+	 * @author Khaled
+	 * @param pItem Item to remove
+	 * @return true if removed, false if not found
+	 */
+	public boolean removeItemFromBackpack(Item pItem) {
+		for(Item item : backpack){
+			if (pItem.equals(item)){
+				backpack.remove(item);
+				return true;
+			}
+		}
+		return false;
+	}
 
+	/**
+	 * Removes an item from the backpack
+	 * 
+	 * @author Khaled
+	 * @param pItem Item to remove
+	 * @return true if removed, false if not found
+	 */
+	public boolean removeItemNameFromBackpack(String pItemName) {
+		for(Item item : backpack){
+			if (pItemName.equals(item.getName())){
+				backpack.remove(item);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private List<Item> getEquippedItems() {
 		return Arrays.asList(armor, ring, boots, weapon, shield, helmet);
 	}
@@ -144,6 +180,10 @@ public class Character implements Serializable {
 	
 	public FighterType getFighterType(){
 		return fighterType;
+	}
+	
+	public List<Item> getBackpack(){
+		return backpack;
 	}
 
 	/**
