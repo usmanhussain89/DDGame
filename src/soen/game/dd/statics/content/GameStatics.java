@@ -65,6 +65,10 @@ public class GameStatics {
 	public static final String MAP_CHEST_CONFIRM_DIALOG = "Do you want to add items to the chest ?";
 	public static final int CHEST_ITEM_POPUP_WINDOW_WIDTH = (int) CHILD_POPUP_WINDOW_WIDTH - 250;
 	public static final int CHEST_ITEM_WINDOW_HEIGHT = (int) CHILD_POPUP_WINDOW_HEIGHT - 250;
+	
+	// Map NPC
+	public static final String TITLE_ADD_CHARACTER = "Add Character";
+	public static final String MAP_CHARACTER_CONFIRM_DIALOG = "Do you want to add character to the map ?";
 
 	// Map Variables
 	public static String MAP_ROUT_PATH;

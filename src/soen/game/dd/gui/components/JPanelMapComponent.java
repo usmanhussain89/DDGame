@@ -16,12 +16,15 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import soen.game.dd.fileio.CharacterIO;
 import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.gui.system.ChestItemWindow;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
+import soen.game.dd.models.NPCType;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
+import soen.game.dd.models.Character;
 
 public class JPanelMapComponent {
 	
@@ -192,11 +195,55 @@ public class JPanelMapComponent {
 				}
 				// If the last point was an Character Point
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHARACTER_POINT) {
-					new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
+					/*new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
 					btn.setBackground(Color.gray);
 					btn.setText("");
 					new_mapModel.isCharacterDone = false;
-					jButtonCharacter = null;
+					jButtonCharacter = null;*/
+					if (JOptionPane.showConfirmDialog(null, "Do you want to change character ?", "WARNING",
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+						ArrayList<Character> characters = new ArrayList<Character>();
+						characters = new CharacterIO().loadCharacters();
+						int index = 0;
+						int selectedIndex = 0;
+						String[] characterNames = new String[characters.size()];
+						String selectedCharacter = "";
+						
+						for (Character c : new_mapModel.mapCharacters) {
+							if (c.getNPCType() == NPCType.FRINDLY) {
+								selectedCharacter = c.getName();
+								break;
+							}
+							selectedIndex++;
+						}
+
+						for (Character c : characters) {
+							characterNames[index] = c.getName();
+							index++;
+						}
+
+						if (characters != null) {
+							String characterName = (String) JOptionPane.showInputDialog(null, "Selected Character : "+selectedCharacter+"\n\nSelect Character :\n",
+									"Characters Dialog", JOptionPane.PLAIN_MESSAGE, null, characterNames, "select");
+							
+							if (characterName != null) {
+								for (Character c : characters) {
+									if(c.getName().equals(characterName)) {
+										c.setNPCType(NPCType.FRINDLY);
+										new_mapModel.mapCharacters.remove(selectedIndex);
+										new_mapModel.mapCharacters.add(c);
+										break;
+									}
+								}
+							}
+						}
+
+						else {
+							JOptionPane.showMessageDialog(null,
+									"No Characters are created, Please create the character first");
+						}
+					}
 				}
 				// If the last point was an Opponent Point
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_OPPONENT_POINT) {
@@ -210,13 +257,13 @@ public class JPanelMapComponent {
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHEST_POINT) {
 					if (JOptionPane.showConfirmDialog(null, "Do you want to edit items in the chest", "WARNING",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
-						new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
+						/*new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
 						btn.setBackground(Color.gray);
 						btn.setText("");
 						new_mapModel.isChestDone = false;
 						new_mapModel.setChestPoint(null);
 						new_mapModel.mapSelectedItem.clear();
-						jButtonChest = null;
+						jButtonChest = null;*/
 					} else {
 						ArrayList<Item> items = new ArrayList<Item>();
 
@@ -366,6 +413,41 @@ public class JPanelMapComponent {
 								new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_CHARACTER_POINT;
 								new_mapModel.setCharacterPoint(new Point(_i, _j));
 								new_mapModel.isCharacterDone = true;
+								
+								int option = JOptionPane.showConfirmDialog(null, GameStatics.MAP_CHARACTER_CONFIRM_DIALOG,
+										GameStatics.TITLE_ADD_CHARACTER, JOptionPane.OK_CANCEL_OPTION);
+
+								if (option == JOptionPane.OK_OPTION) {
+									ArrayList<Character> characters = new ArrayList<Character>();
+									characters = new CharacterIO().loadCharacters();
+									int index = 0;
+									String[] characterNames = new String[characters.size()];
+
+									for (Character c : characters) {
+										characterNames[index] = c.getName();
+										index++;
+									}
+
+									if (characters != null) {
+										String characterName = (String) JOptionPane.showInputDialog(null, "Select Character :\n",
+												"Characters Dialog", JOptionPane.PLAIN_MESSAGE, null, characterNames, "select");
+										
+										if (!characterName.equals("")) {
+											for (Character c : characters) {
+												if(c.getName().equals(characterName)) {
+													c.setNPCType(NPCType.FRINDLY);
+													new_mapModel.mapCharacters.add(c);
+													break;
+												}
+											}
+										}
+									}
+
+									else {
+										JOptionPane.showMessageDialog(null,
+												"No Characters are created, Please create the character first");
+									}
+								}
 							} else if (!new_mapModel.isOpponentDone) {
 								btn.setBackground(Color.BLUE);
 								btn.setText("Opponent");
@@ -373,6 +455,40 @@ public class JPanelMapComponent {
 								new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_OPPONENT_POINT;
 								new_mapModel.setOpponentPoint(new Point(_i, _j));
 								new_mapModel.isOpponentDone = true;
+								int option = JOptionPane.showConfirmDialog(null, GameStatics.MAP_CHARACTER_CONFIRM_DIALOG,
+										GameStatics.TITLE_ADD_CHARACTER, JOptionPane.OK_CANCEL_OPTION);
+
+								if (option == JOptionPane.OK_OPTION) {
+									ArrayList<Character> characters = new ArrayList<Character>();
+									characters = new CharacterIO().loadCharacters();
+									int index = 0;
+									String[] characterNames = new String[characters.size()];
+
+									for (Character c : characters) {
+										characterNames[index] = c.getName();
+										index++;
+									}
+
+									if (characters != null) {
+										String characterName = (String) JOptionPane.showInputDialog(null, "Select Character :\n",
+												"Characters Dialog", JOptionPane.PLAIN_MESSAGE, null, characterNames, "select");
+										
+										if (!characterName.equals("")) {
+											for (Character c : characters) {
+												if(c.getName().equals(characterName)) {
+													c.setNPCType(NPCType.HOSTILE);
+													new_mapModel.mapCharacters.add(c);
+													break;
+												}
+											}
+										}
+									}
+
+									else {
+										JOptionPane.showMessageDialog(null,
+												"No Characters are created, Please create the character first");
+									}
+								}
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "All Points Already Selected");

@@ -20,6 +20,7 @@ public class Character implements Serializable {
 	private FighterType fighterType; // ADDED BUILD 2
 	private int level;
 	private double maxHitPoint;
+	private NPCType npcType;
 	
 
 	private double hitPoint;
@@ -518,5 +519,22 @@ public class Character implements Serializable {
 				+ multipleAttacks + ", armor=" + armor + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
 				+ ", belt=" + belt + ", weapon=" + weapon + ", shield=" + shield + "]";
 	}
-
+	
+	/**
+	 * This method set the type of Non Player Character on the map
+	 * @param npcType
+	 */
+	public void setNPCType(NPCType npcType) {
+		this.npcType = npcType;
+	}
+	
+	/**
+	 * This method get the Non Player CharacterType
+	 * 
+	 * @return NPCType
+	 */
+	public NPCType getNPCType()
+	{
+		return this.npcType;
+	}
 }
