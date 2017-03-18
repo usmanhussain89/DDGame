@@ -254,6 +254,9 @@ public class Character implements Serializable {
 		
 		return maxHitPoint;
 	}
+	public void levelUp(){
+		maxHitPoint=getMaxHitPoint()+constitutionModifier+roll1d10();
+	}
 	
 	/**
 	 * @author Munjed
