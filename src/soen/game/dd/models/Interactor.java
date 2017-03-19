@@ -12,6 +12,7 @@ public class Interactor {
 		
 	}
 	public void Loot(NPCType NPC){
+		Item item = null; //TODO added this just to make the code compile (@kelbadawi)
 		playableCharacter.addItemIntoBackpack(item);
 		//remove item looted from its original location
 	}
