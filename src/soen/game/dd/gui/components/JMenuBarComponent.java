@@ -270,32 +270,28 @@ public class JMenuBarComponent {
 
 				else if (e.getSource().equals(menuItemPlay)) {
 
-					//ArrayList<Character> characters = new FileWriterReader().loadCharacters();
+					ArrayList<Character> characters = new CharacterIO().loadCharacters();
 					Character character = null;
 					JComboBox<String> cbCharacter = new JComboBox<String>();
-					cbCharacter.addItem("Character 1");
-					cbCharacter.addItem("Character 2");
-					cbCharacter.addItem("Character 3");
-					cbCharacter.addItem("Character 4");
-					cbCharacter.addItem("Character 5");
 					
-					/*for(Character c : characters) {
+					for(Character c : characters) {
 						cbCharacter.addItem(c.getName());
-					}*/
+					}
+					
 					Object[] messageCharacter = { "SELECT CHARACTER:", cbCharacter };
 
 					int optionCharacter = JOptionPane.showConfirmDialog(null, messageCharacter, GameStatics.TITLE_MSG_SET_SIZE_OF_MAP,
 							JOptionPane.OK_CANCEL_OPTION);
 
 					if (optionCharacter == JOptionPane.OK_OPTION) {
-						/*for(Character c : characters)
+						for(Character c : characters)
 						{
 							if(c.getName().equals((String)cbCharacter.getSelectedItem()))
 							{
 								character = c;
 								break;
 							}
-						}*/
+						}
 						
 						ArrayList<Campaign> campaigns = new CampaignIO().loadCampaigns();
 						Campaign campaign = null;
@@ -315,10 +311,10 @@ public class JMenuBarComponent {
 								}
 							}
 							
-							if(campaign != null) {
+							if(campaign != null && character != null) {
 								new MapEditor(new_jframe, GameStatics.TITLE_MAP_PlAY,
 										GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
-										null, E_MapEditorMode.Play, new ArrayList<Map>(campaign.getCampaignList()), 0);
+										campaign, character, E_MapEditorMode.Play);
 							}
 						}
 					}					
