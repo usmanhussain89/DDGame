@@ -303,6 +303,18 @@ public class Character implements Serializable {
 	
 	/**
 	 * @author Munjed
+	 * This method will be invoked each time a map is cleared unlness
+	 * the player is less than 20
+	 */
+	public void levelUp(){
+		if(level!=20){
+			level++;
+			maxHitPoint=getMaxHitPoint()+constitutionModifier+roll1d10();
+		}
+	}
+	
+	/**
+	 * @author Munjed
 	 * @return HitPoint if zero the character dies
 	 */
 	public double getHitPoint() {
