@@ -1,6 +1,7 @@
 package soen.game.dd.gui.components;
 
 import java.awt.Container;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,11 +25,12 @@ import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
 public class JPanelCharacterComponent {
 	
 	String characterName = "";
+	Character character;
 	
 	public Container getCharacterEditorGridPanel(Character pCharacter, E_CharacterEditorMode characterEditorMode,
 			JFrame frame, ArrayList<Character> characters) {
 		JPanel panel;
-		Character character = pCharacter;
+		character = pCharacter;
 		ArrayList<Item> items = new ItemIO().loadItems();
 
 		class ItemComboItem {
@@ -53,6 +55,7 @@ public class JPanelCharacterComponent {
 			public String toString() {
 				return label;
 			}
+			
 		}
 
 		class ComboItemListGenerator {
@@ -181,62 +184,106 @@ public class JPanelCharacterComponent {
 		panel.add(cbWeapon);
 
 		// Items
+		
+		JLabel lblSelectItem = new JLabel("Backpack: ");
+		lblSelectItem.setBounds(40, 250, 100, 25);
+		panel.add(lblSelectItem);
 
-		ArrayList<JComboBox<ItemComboItem>> backpack = new ArrayList<JComboBox<ItemComboItem>>();
-		for (int i = 0; i < 10; ++i) {
-			JLabel lblSelectItem1 = new JLabel("Item " + i + ": ");
-			lblSelectItem1.setBounds(40, 250 + i * 25, 100, 25);
-			panel.add(lblSelectItem1);
-
-			JComboBox<ItemComboItem> combobox = new JComboBox<ItemComboItem>(
-					new ComboItemListGenerator(null).generateList());
-			combobox.setBounds(170, 250 + i * 25, 120, 25);
-			panel.add(combobox);
-
-			backpack.add(combobox);
-		}
+		List backpack_view = new List();
+		backpack_view.setBounds(170, 250, 150, 150);
+		panel.add(backpack_view);
+		
+		JComboBox<ItemComboItem> cbBackpack = new JComboBox<ItemComboItem>(
+				new ComboItemListGenerator(null).generateList());
+		cbBackpack.setBounds(40, 425, 120, 25);
+		panel.add(cbBackpack);
+		
+		JButton btnAddItem = new JButton("Add item");
+		btnAddItem.setBounds(170, 425, 90, 25);
+		panel.add(btnAddItem);
+		
+		JButton btnRemoveItem = new JButton("Remove item");
+		btnRemoveItem.setBounds(250, 425, 130, 25);
+		panel.add(btnRemoveItem);
 
 		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(40, 525, 100, 25);
+		btnSave.setBounds(40, 475, 100, 25);
 		panel.add(btnSave);
 		
-		if (E_CharacterEditorMode.Open == characterEditorMode) {
-			Character character1 = characters.get(cbCharacterName.getSelectedIndex());
-			cbHelmet.setSelectedItem(character1.getHelmet());
-			cbArmor.setSelectedItem(character1.getarmor());
-			cbBoots.setSelectedItem(character1.getBoots());
-			cbBelt.setSelectedItem(character1.getBelt());
-			cbRing.setSelectedItem(character1.getRing());
-			cbShield.setSelectedItem(character1.getShield());
-			for(int i = 0; i < 10; ++i){
-				backpack.get(i).setSelectedItem(character1.getItemIntoBackpack().get(i));
-			}
-			characterName = character1.getName();
-		}
-
 		
-		cbCharacterName.addActionListener(new ActionListener() {
+		class CharacterLoader implements ActionListener {
+			
+			public void load(){
+				character = characters.get(cbCharacterName.getSelectedIndex());
+				setSelectedItem(cbHelmet, character.getHelmet());
+				setSelectedItem(cbArmor, character.getarmor());
+				setSelectedItem(cbBoots, character.getBoots());
+				setSelectedItem(cbBelt, character.getBelt());
+				setSelectedItem(cbRing, character.getRing());
+				setSelectedItem(cbShield, character.getShield());
+				backpack_view.removeAll();
+				for(Item item : character.getBackpack()){
+					backpack_view.add(item.getName());
+				}
+				characterName = character.getName();
+			}
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(getCharacter());
-				cbHelmet.setSelectedItem(getCharacter().getHelmet());
-				cbArmor.setSelectedItem(getCharacter().getarmor());
-				cbBoots.setSelectedItem(getCharacter().getBoots());
-				cbBelt.setSelectedItem(getCharacter().getBelt());
-				cbRing.setSelectedItem(getCharacter().getRing());
-				cbShield.setSelectedItem(getCharacter().getShield());
-				for(int i = 0; i < 10; ++i){
-					System.out.println(getCharacter().getItemIntoBackpack().get(i));
-					backpack.get(i).setSelectedItem(getCharacter().getItemIntoBackpack().get(i));
-				}
-				characterName = getCharacter().getName();
+				load();
 			}
 			
-			private Character getCharacter() {
-				return characters.get(cbCharacterName.getSelectedIndex());
+			private void setSelectedItem(JComboBox<ItemComboItem> comboBox, Item item){
+				for (int i = 0; i < comboBox.getItemCount(); ++i){
+					if (comboBox.getItemAt(i).getValue().getName().equals(item.getName())){
+						comboBox.setSelectedIndex(i);
+					}
+				}
 			}
-		});
+			
+		};
+		
+		if (E_CharacterEditorMode.Open == characterEditorMode) {
+			new CharacterLoader().load();
+		}
+		
+		class PanelAction implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (e.getSource().equals(btnAddItem)) {
+					Item item = getItemFrom(cbBackpack);
+					if(character.addItemIntoBackpack(item)){
+						backpack_view.add(item.getName());
+					}
+				}
+
+				else if (e.getSource().equals(btnRemoveItem)) {
+					System.out.println(backpack_view.getSelectedIndex());
+					if (backpack_view.getSelectedIndex() >= 0){
+						int index = backpack_view.getSelectedIndex();
+						character.removeItemNameFromBackpack(backpack_view.getItem(index));
+						backpack_view.remove(index);
+					}
+				}
+			}
+			
+			private Item getItemFrom(JComboBox<ItemComboItem> comboBox){
+				if (comboBox.getSelectedItem() != null){
+					return ((ItemComboItem)comboBox.getSelectedItem()).getValue();
+				} else {
+					return null;
+				}
+			}
+
+		}
+
+		btnAddItem.addActionListener(new PanelAction());
+		btnRemoveItem.addActionListener(new PanelAction());
+
+
+		
+		cbCharacterName.addActionListener(new CharacterLoader());
 
 		btnSave.addActionListener(new ActionListener() {
 
@@ -247,7 +294,6 @@ public class JPanelCharacterComponent {
 					characterName = txtCharacterName.getText();
 				}
 
-				System.out.println(((ItemComboItem)cbRing.getSelectedItem()).getValue());
 				if (!characterName.equals("")) {
 					character.setName(characterName);
 					character.setHelmet(getItemFrom(cbHelmet));
@@ -256,9 +302,6 @@ public class JPanelCharacterComponent {
 					character.setBelt(getItemFrom(cbBelt));
 					character.setRing(getItemFrom(cbRing));
 					character.setShield(getItemFrom(cbShield));
-					for (JComboBox<ItemComboItem> backpackItem : backpack){
-						character.addItemIntoBackpack(getItemFrom(backpackItem));
-					}
 					System.out.println(character);
 					if (E_CharacterEditorMode.Create == characterEditorMode){
 						msg = new CharacterIO().saveCharacter(character);
