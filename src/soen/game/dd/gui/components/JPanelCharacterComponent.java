@@ -86,11 +86,11 @@ public class JPanelCharacterComponent {
 		panel.setLayout(null);
 
 		JLabel lblCharacterName = new JLabel("Character Name: ");
-		lblCharacterName.setBounds(40, 30, 100, 25);
+		lblCharacterName.setBounds(40, 25, 100, 25);
 		panel.add(lblCharacterName);
 
 		JTextField txtCharacterName = new JTextField(30);
-		txtCharacterName.setBounds(160, 30, 150, 25);
+		txtCharacterName.setBounds(160, 25, 150, 25);
 		panel.add(txtCharacterName);
 		
 		JComboBox<String> cbCharacterName = new JComboBox<String>();
@@ -119,6 +119,14 @@ public class JPanelCharacterComponent {
 
 			panel.add(txtCharacterName);
 		}
+		
+		JLabel lblLevel = new JLabel("Level: ");
+		lblLevel.setBounds(40, 50, 100, 25);
+		panel.add(lblLevel);
+		
+		JTextField txtLevel = new JTextField();
+		txtLevel.setBounds(170, 50, 100, 25);
+		panel.add(txtLevel);
 
 		JLabel lblSelectHelmet = new JLabel("Helmet: ");
 		lblSelectHelmet.setBounds(40, 75, 100, 25);
@@ -215,6 +223,7 @@ public class JPanelCharacterComponent {
 			
 			public void load(){
 				character = characters.get(cbCharacterName.getSelectedIndex());
+				txtLevel.setText(String.valueOf(character.getLevel()));
 				setSelectedItem(cbHelmet, character.getHelmet());
 				setSelectedItem(cbArmor, character.getarmor());
 				setSelectedItem(cbBoots, character.getBoots());
@@ -296,6 +305,7 @@ public class JPanelCharacterComponent {
 
 				if (!characterName.equals("")) {
 					character.setName(characterName);
+					character.setLevel(Integer.parseInt(txtLevel.getText()));
 					character.setHelmet(getItemFrom(cbHelmet));
 					character.setarmor(getItemFrom(cbArmor));
 					character.setBoots(getItemFrom(cbBoots));
