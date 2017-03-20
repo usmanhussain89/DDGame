@@ -15,29 +15,29 @@ import java.util.List;
  */
 public class Character implements Serializable {
 	private static final long serialVersionUID = -4450845749856986590L;
-	private String name;
-	private String description;
-	private FighterType fighterType; // ADDED BUILD 2
-	private int level;
+	protected String name;
+	public String description;
+	public FighterType fighterType; // ADDED BUILD 2
+	public int level;
 	private double maxHitPoint;
 	private NPCType npcType;
 	
 
-	private double hitPoint;
-	private int armorClass;
-	private int attackBonus;
-	private int damageBonus;
-	private int multipleAttacks;
+	public double hitPoint;
+	public int armorClass;
+	public int attackBonus;
+	public int damageBonus;
+	public int multipleAttacks;
 
 	// items
-	private Item armor;
-	private Item ring;
-	private Item helmet;
-	private Item boots;
-	private Item belt;
-	private Item weapon;
-	private Item shield;
-	private List<Item> backpack;
+	public Item armor;
+	public Item ring;
+	public Item helmet;
+	public Item boots;
+	public Item belt;
+	public Item weapon;
+	public Item shield;
+	protected List<Item> backpack;
 
 	// ability scores are labeled by the name of the attributes
 	private int strength;
