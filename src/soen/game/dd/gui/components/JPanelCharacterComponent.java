@@ -145,6 +145,19 @@ public class JPanelCharacterComponent {
 				new ComboItemListGenerator(ItemType.ARMOR).generateList());
 		cbArmor.setBounds(170, 100, 120, 25);
 		panel.add(cbArmor);
+		
+		JButton attributeViewer = new JButton("Attribute Viewer");
+		attributeViewer.setBounds(300, 100, 120, 25);
+		panel.add(attributeViewer);
+		
+		attributeViewer.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new JFrameAttributeView(character);
+			}
+			
+		});
 
 		JLabel lblSelectShield = new JLabel("Shield: ");
 		lblSelectShield.setBounds(40, 125, 100, 25);

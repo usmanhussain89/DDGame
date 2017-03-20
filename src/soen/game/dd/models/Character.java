@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * This class for creating and modifying all the Character fighter or Monster
@@ -13,7 +14,7 @@ import java.util.List;
  * 
  * @author fyounis
  */
-public class Character implements Serializable {
+public class Character extends Observable implements Serializable {
 	private static final long serialVersionUID = -4450845749856986590L;
 	private String name;
 	private String description;
@@ -175,6 +176,7 @@ public class Character implements Serializable {
 	 */
 	public void setLevel(int level) {
 		this.level = level;
+		setAbilityScores();
 	}
 	
 	
@@ -257,9 +259,35 @@ public class Character implements Serializable {
 			this.charisma = roll4d6();
 			this.constitution = roll4d6();
 		}
-
+		
+		setChanged();
+		notifyObservers();
+	}
+	
+	public int getStrength(){
+		return this.strength;
 	}
 
+	public int getConsitution(){
+		return this.constitution;
+	}
+	
+	public int getWisdom(){
+		return this.wisdom;
+	}
+	
+	public int getDexterity(){
+		return this.dexterity;
+	}
+	
+	public int getIntelligence(){
+		return this.intelligence;
+	}
+	
+	public int getCharisma(){
+		return this.charisma;
+	}
+	
 	/**
 	 * @author Munjed This method finds the ability modifier with respect to d&d
 	 *         20d every modifier is based on its corresponding attribute The
@@ -396,8 +424,11 @@ public class Character implements Serializable {
 	 */
 
 	public void setarmor(Item item) {
-		if (item.getItemType() == ItemType.ARMOR)
+		if (item.getItemType() == ItemType.ARMOR){
 			this.armor = item;
+			setChanged();
+			notifyObservers();
+		}
 		else
 			System.out.println("Inavalid type: item is not an armor");
 	}
@@ -416,8 +447,11 @@ public class Character implements Serializable {
 	 */
 
 	public void setRing(Item item) {
-		if (item.getItemType() == ItemType.RING)
+		if (item.getItemType() == ItemType.RING){
 			this.ring = item;
+			setChanged();
+			notifyObservers();
+		}
 		else
 			System.out.println("Inavalid type: item is not an armor");
 	}
@@ -437,6 +471,8 @@ public class Character implements Serializable {
 	public void setHelmet(Item item) {
 		if (item.getItemType() == ItemType.HELMET) {
 			this.helmet = item;
+			setChanged();
+			notifyObservers();
 		} else {
 			System.out.println("Inavalid type: item is not a helmet");
 		}
@@ -455,8 +491,11 @@ public class Character implements Serializable {
 	 */
 
 	public void setBoots(Item item) {
-		if (item.getItemType() == ItemType.BOOTS)
+		if (item.getItemType() == ItemType.BOOTS){
 			this.boots = item;
+			setChanged();
+			notifyObservers();
+		}
 		else
 			System.out.println("Inavalid type: item is not boots");
 	}
@@ -473,8 +512,11 @@ public class Character implements Serializable {
 	 *            the belt to set
 	 */
 	public void setBelt(Item item) {
-		if (item.getItemType() == ItemType.BELT)
+		if (item.getItemType() == ItemType.BELT){
 			this.belt = item;
+			setChanged();
+			notifyObservers();
+		}
 		else
 			System.out.println("Inavalid type: item is not a belt");
 	}
@@ -492,8 +534,11 @@ public class Character implements Serializable {
 	 */
 
 	public void setWeapon(Item item) {
-		if (item.getItemType() == ItemType.WEAPON)
+		if (item.getItemType() == ItemType.WEAPON){
 			this.weapon = item;
+			setChanged();
+			notifyObservers();
+		}
 		else
 			System.out.println("Inavalid type: item is not a weapon");
 	}
@@ -511,8 +556,11 @@ public class Character implements Serializable {
 	 */
 
 	public void setShield(Item item) {
-		if (item.getItemType() == ItemType.SHIELD)
+		if (item.getItemType() == ItemType.SHIELD){
 			this.shield = item;
+			setChanged();
+			notifyObservers();
+		}
 		else
 			System.out.println("Inavalid type: item is not a shield");
 	}
