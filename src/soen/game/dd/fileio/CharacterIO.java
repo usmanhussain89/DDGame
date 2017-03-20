@@ -11,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import soen.game.dd.models.Character;
-import soen.game.dd.models.Item;
 
 public class CharacterIO extends ModelIO {
 	

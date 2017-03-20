@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 
 import soen.game.dd.gui.components.JMenuBarMapComponent;
 import soen.game.dd.gui.components.JPanelMapComponent;
+import soen.game.dd.models.Campaign;
+import soen.game.dd.models.Character;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
@@ -68,5 +70,47 @@ public class MapEditor extends JFrame {
 
 		// load Map Grid from Component
 		this.setContentPane((new JPanelMapComponent()).getMapEditorGridPanel(map, null, mapEditorMode, maps, index));
+	}
+	
+	/**
+	 * This is the constructor of class which initiate map frame for Play mode
+	 * 
+	 * @param frame
+	 * @param title
+	 * @param width
+	 * @param height
+	 * @param campaign
+	 * @param character
+	 */
+	public MapEditor(JFrame frame, String title, int width, int height, Campaign campaign, Character character, E_MapEditorMode mapEditorMode) {
+		if (frame != null) {
+			Dimension frameSize = frame.getSize();
+			Point p = frame.getLocation();
+			setLocation(p.x + frameSize.width / 4, p.y + frameSize.height / 4);
+		}
+		
+		this.mapEditorMode = mapEditorMode;
+		
+		if (E_MapEditorMode.Create == this.mapEditorMode) {
+			title += " " + GameStatics.MAP_MODE_CREATE;
+		} else {
+			title += " " + GameStatics.MAP_MODE_OPEN;
+		}
+
+		// --- Set Map Editor Windows Properties
+		this.setTitle(title);
+		this.setPreferredSize(new Dimension(width, height));
+		this.setMaximumSize(new Dimension(width, height));
+		this.setMinimumSize(new Dimension(width, height));
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setVisible(true);
+
+		// MenuBar for Map Editor
+		this.setJMenuBar((new JMenuBarMapComponent()).getMapEditorJMenuBar(map, this, null, mapEditorMode, 0));
+
+		// load Map Grid from Component
+		this.setContentPane((new JPanelMapComponent()).getMapEditorPlayGridPanel(campaign, character, mapEditorMode));
 	}
 }
