@@ -261,7 +261,6 @@ public class Character extends Observable implements Serializable {
 		}
 		
 		setChanged();
-		notifyObservers();
 	}
 	
 	public int getStrength(){
@@ -427,7 +426,6 @@ public class Character extends Observable implements Serializable {
 		if (item.getItemType() == ItemType.ARMOR){
 			this.armor = item;
 			setChanged();
-			notifyObservers();
 		}
 		else
 			System.out.println("Inavalid type: item is not an armor");
@@ -450,7 +448,6 @@ public class Character extends Observable implements Serializable {
 		if (item.getItemType() == ItemType.RING){
 			this.ring = item;
 			setChanged();
-			notifyObservers();
 		}
 		else
 			System.out.println("Inavalid type: item is not an armor");
@@ -472,7 +469,6 @@ public class Character extends Observable implements Serializable {
 		if (item.getItemType() == ItemType.HELMET) {
 			this.helmet = item;
 			setChanged();
-			notifyObservers();
 		} else {
 			System.out.println("Inavalid type: item is not a helmet");
 		}
@@ -494,7 +490,6 @@ public class Character extends Observable implements Serializable {
 		if (item.getItemType() == ItemType.BOOTS){
 			this.boots = item;
 			setChanged();
-			notifyObservers();
 		}
 		else
 			System.out.println("Inavalid type: item is not boots");
@@ -515,7 +510,6 @@ public class Character extends Observable implements Serializable {
 		if (item.getItemType() == ItemType.BELT){
 			this.belt = item;
 			setChanged();
-			notifyObservers();
 		}
 		else
 			System.out.println("Inavalid type: item is not a belt");
@@ -537,7 +531,6 @@ public class Character extends Observable implements Serializable {
 		if (item.getItemType() == ItemType.WEAPON){
 			this.weapon = item;
 			setChanged();
-			notifyObservers();
 		}
 		else
 			System.out.println("Inavalid type: item is not a weapon");
@@ -559,7 +552,6 @@ public class Character extends Observable implements Serializable {
 		if (item.getItemType() == ItemType.SHIELD){
 			this.shield = item;
 			setChanged();
-			notifyObservers();
 		}
 		else
 			System.out.println("Inavalid type: item is not a shield");

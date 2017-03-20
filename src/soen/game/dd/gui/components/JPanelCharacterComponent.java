@@ -147,7 +147,7 @@ public class JPanelCharacterComponent {
 		panel.add(cbArmor);
 		
 		JButton attributeViewer = new JButton("Attribute Viewer");
-		attributeViewer.setBounds(300, 100, 120, 25);
+		attributeViewer.setBounds(300, 100, 200, 25);
 		panel.add(attributeViewer);
 		
 		attributeViewer.addActionListener(new ActionListener(){
@@ -167,6 +167,19 @@ public class JPanelCharacterComponent {
 				new ComboItemListGenerator(ItemType.SHIELD).generateList());
 		cbShield.setBounds(170, 125, 120, 25);
 		panel.add(cbShield);
+		
+		JButton inventoryViewer = new JButton("Inventory Viewer");
+		inventoryViewer.setBounds(300, 125, 200, 25);
+		panel.add(inventoryViewer);
+		
+		inventoryViewer.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new JFrameInventoryView(character, true);
+			}
+			
+		});
 
 		JLabel lblSelectRing = new JLabel("Ring: ");
 		lblSelectRing.setBounds(40, 150, 100, 25);
@@ -325,6 +338,8 @@ public class JPanelCharacterComponent {
 					character.setBelt(getItemFrom(cbBelt));
 					character.setRing(getItemFrom(cbRing));
 					character.setShield(getItemFrom(cbShield));
+					character.setWeapon(getItemFrom(cbWeapon));
+					character.notifyObservers();
 					System.out.println(character);
 					if (E_CharacterEditorMode.Create == characterEditorMode){
 						msg = new CharacterIO().saveCharacter(character);
