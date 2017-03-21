@@ -80,13 +80,8 @@ public class BullyCharacterBuilder extends CharacterBuilder {
 		if (item.getEnhancedAttribute() == CharacterAttribute.WISDOM) {
 			wisdom += item.getBonusAmount();
 		}
-	
-	
-
-	
-		
-	setChanged();
 	}
+	setChanged();
 
-
+	}
 }

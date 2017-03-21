@@ -81,10 +81,9 @@ public class TankCharacterBuilder extends CharacterBuilder {
 				wisdom += item.getBonusAmount();
 			}
 		
-		
+		}
+
 		setChanged();
 	}
-
-
 
 }

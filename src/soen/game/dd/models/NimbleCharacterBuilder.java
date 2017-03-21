@@ -86,9 +86,9 @@ public class NimbleCharacterBuilder extends CharacterBuilder {
 				wisdom += item.getBonusAmount();
 			}
 		
-		setChanged();
+		
 	}
 
-
-
+		setChanged();
+	}
 }
