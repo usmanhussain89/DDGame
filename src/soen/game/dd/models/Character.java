@@ -95,6 +95,7 @@ public class Character extends Observable implements Serializable {
 	public boolean addItemIntoBackpack(Item item) {
 		if (backpack.size() < 10) {
 			backpack.add(item);
+			setChanged();
 			return true;
 		} else {
 			System.out.println("The Maximum backpack size is reached: " + backpack.size());
@@ -113,6 +114,7 @@ public class Character extends Observable implements Serializable {
 		for(Item item : backpack){
 			if (pItem.equals(item)){
 				backpack.remove(item);
+				setChanged();
 				return true;
 			}
 		}

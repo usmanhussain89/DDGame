@@ -1,9 +1,13 @@
 package soen.game.dd.models;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+
+import soen.game.dd.statics.content.GameStatics;
 
 /**
  * This is Game Engine class 
@@ -11,7 +15,7 @@ import java.util.Random;
  * @author Usman
  *
  */
-public class DummyGameEngine extends Observable implements Runnable{
+public class DummyGameEngine extends Observable{
 	
 	private Campaign campaign;
 	private Character character;
@@ -19,6 +23,7 @@ public class DummyGameEngine extends Observable implements Runnable{
 	private boolean isMapObjFulfil = false;
 	private Thread t;
 	private int currentMapIndex;
+	private Point characterPosition;
 	
 	/**
 	 * This is constructor of the class which initialize campaign and character object
@@ -30,15 +35,9 @@ public class DummyGameEngine extends Observable implements Runnable{
 		this.campaign = campaign;
 		this.character = character;
 		this.currentMapIndex = 0;
+		resetCharacterPosition();
 	}
-	
-	
-	public void startGameEngine() {
-		if (t == null) {
-			t = new Thread(this);
-			t.start();
-		}
-	}
+
 	
 	/**
 	 * This method set the campaign
@@ -48,6 +47,7 @@ public class DummyGameEngine extends Observable implements Runnable{
 	public void setCampaign(Campaign campaign) {
 		this.campaign = campaign;
 	}
+	
 	
 	/**
 	 * This method return the campaign
@@ -143,16 +143,19 @@ public class DummyGameEngine extends Observable implements Runnable{
 	 * @param item
 	 * @return backpack status
 	 */
-	public boolean lootChestItems(Item item) {
-		boolean isFull = false;
+	public boolean lootChestItems(List<Item> items) {
 		
-		if (character.getBackpack().size() < 10) {
-			this.character.addItemIntoBackpack(item);
-			return isFull;
+		for (Item item : items){
+			if (character.getBackpack().size() < 10) {
+				System.out.println("Adding item " + item.getName());
+				this.character.addItemIntoBackpack(item);
+				this.character.notifyObservers();
+			}
 		}
 		
-		else
-			return isFull;
+		return character.getBackpack().size() == 10;
+		
+
 	}
 	
 	/**
@@ -162,23 +165,23 @@ public class DummyGameEngine extends Observable implements Runnable{
 	 * @param playerExchangeItemIndex
 	 * @param npCharacter
 	 */
-	public void exchangeWithNPC(Item playerExchangeItem, int playerExchangeItemIndex, Character npCharacter) {
-		ArrayList<Item> npCharacterItems = new ArrayList<Item>();
+	public void exchangeWithNPC(Item playerExchangeItem) {
 		Random randomGenerator = new Random();
 		int index;
+		Character npCharacter = getCurrentMap().getFriendlyCharacter();
+				
+		index = randomGenerator.nextInt(npCharacter.getBackpack().size());
+		Item itemToGive = npCharacter.getBackpack().get(index);
 		
-		npCharacterItems.addAll(npCharacter.getBackpack());
-		npCharacterItems.add(npCharacter.getHelmet());
-		npCharacterItems.add(npCharacter.getarmor());
-		npCharacterItems.add(npCharacter.getShield());
-		npCharacterItems.add(npCharacter.getRing());
-		npCharacterItems.add(npCharacter.getBelt());
-		npCharacterItems.add(npCharacter.getBoots());
-		npCharacterItems.add(npCharacter.getWeapon());
+		this.character.addItemIntoBackpack(itemToGive);
+		this.character.removeItemFromBackpack(playerExchangeItem);
 		
-		index = randomGenerator.nextInt(npCharacterItems.size());
+		npCharacter.addItemIntoBackpack(playerExchangeItem);
+		npCharacter.removeItemFromBackpack(itemToGive);
 		
-		this.character.getBackpack().set(playerExchangeItemIndex, npCharacterItems.get(index));
+		setChanged();
+		this.character.notifyObservers();
+		npCharacter.notifyObservers();
 	}
 	
 	/**
@@ -199,26 +202,32 @@ public class DummyGameEngine extends Observable implements Runnable{
 		return this.isMapObjFulfil;
 	}
 
-	@Override
-	public void run() {
-		Campaign campaign = this.campaign;
-		boolean isMapNPCItemLevelSet = false;
-		
-		for (Map map : campaign.getCampaignList()) {
-			while (!isMapObjFulfil) {
-				if (!isMapNPCItemLevelSet) {
-					this.currentMap = map;
-					setCharacterItemLevel(this.currentMap, this.character);
-					isMapNPCItemLevelSet = true;
-				}
-			}
-			this.isMapObjFulfil = false;
-			isMapNPCItemLevelSet = false;
-		}
-	}
 	
 	public void nextMap(){
 		currentMapIndex++;
+		resetCharacterPosition();
+		setChanged();
+	}
+	
+	public void resetCharacterPosition(){
+		characterPosition = getCurrentMap().getEntryPoint();
+	}
+
+	public Point getCharacterPosition(){
+		return characterPosition;
+	}
+
+	public void interactWith(int x, int y) {
+		int pathPoint = getCurrentMap().mapGridSelection[x][y];
+		if (pathPoint == GameStatics.MAP_PATH_POINT)
+			characterPosition = new Point(x,y);
+		else if (pathPoint == GameStatics.MAP_CHEST_POINT){
+			lootChestItems(getCurrentMap().mapSelectedItem);
+			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
+		}
+		else if (pathPoint == GameStatics.MAP_CHARACTER_POINT){
+			
+		}
 		setChanged();
 	}
 }

@@ -44,7 +44,7 @@ public class GameEngineEditor extends JFrame implements Observer {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
-		this.panelComponent = new JPanelGameComponent();
+		this.panelComponent = new JPanelGameComponent(gameEngine);
 		
 		this.setContentPane(this.panelComponent.getPanel());
 	}
@@ -54,12 +54,13 @@ public class GameEngineEditor extends JFrame implements Observer {
 		if (gameEngine.getCurrentMap() == null){
 			this.dispose();
 		} else {
-			this.panelComponent.refreshPanel(gameEngine);
+			this.panelComponent.refreshPanel();
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("Redrawing");
 		refreshPanel();
 	}
 

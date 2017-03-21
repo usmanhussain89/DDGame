@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import soen.game.dd.statics.content.GameStatics;
+
 /**
  * This class represents a map of the game. Maps can be created using the
  * Dungeon Master
@@ -97,6 +99,7 @@ public class Map implements Serializable {
 		return mapWidth;
 	}
 
+
 	/**
 	 * @param width
 	 *            the width to set
@@ -126,7 +129,15 @@ public class Map implements Serializable {
 	 * @return entryPoint entry point on the map
 	 */
 	public Point getEntryPoint() {
-		return entryPoint;
+
+		for (int i = 0; i < mapHeight; i++){
+			for (int j = 0; j < mapWidth; j++){
+				if (mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT){
+					return new Point(i,j);
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -174,7 +185,21 @@ public class Map implements Serializable {
 	 *            character point on the map
 	 */
 	public void setCharacterPoint(Point new_characterPoint) {
-		this.characterPoint = new_characterPoint;
+		int x = (int) new_characterPoint.getX();
+		int y = (int) new_characterPoint.getY();
+
+		if (mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT){
+			this.characterPoint = new_characterPoint;
+			System.out.println(new_characterPoint);
+			for (int i = 0; i < mapHeight; i++){
+				for (int j = 0; j < mapWidth; j++){
+					if (mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT){
+						mapGridSelection[i][j] = GameStatics.MAP_PATH_POINT;
+					}
+				}
+			}
+			mapGridSelection[(int) new_characterPoint.getX()][(int) new_characterPoint.getY()] = GameStatics.MAP_CHARACTER_POINT;
+		}
 	}
 
 	/**
@@ -203,6 +228,15 @@ public class Map implements Serializable {
 	 */
 	public Point getChestPoint() {
 		return chestPoint;
+	}
+	
+	public Character getFriendlyCharacter(){
+		for (Character character : mapCharacters){
+			if (character.getNPCType() == NPCType.FRINDLY){
+				return character;
+			}
+		}
+		return null;
 	}
 
 	/**
