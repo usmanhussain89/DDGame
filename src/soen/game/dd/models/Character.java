@@ -41,12 +41,12 @@ public class Character extends Observable implements Serializable {
 	protected List<Item> backpack;
 
 	// ability scores are labeled by the name of the attributes
-	private int strength;
-	private int constitution;
-	private int wisdom;
-	private int dexterity;
-	private int intelligence;
-	private int charisma;
+	protected int strength;
+	protected int constitution;
+	protected int wisdom;
+	protected int dexterity;
+	protected int intelligence;
+	protected int charisma;
 
 	// double were used to avoid the mismatch type error when using the floor()
 	// method
@@ -56,6 +56,9 @@ public class Character extends Observable implements Serializable {
 	private double dexterityModifier;
 	private double intelligenceModifier;
 	private double charismaModifier;
+	
+	//Builder pattern:
+	private CharacterBuilder builder; // ADDED BUILD 2
 
 	public Character() {
 		backpack = new ArrayList<Item>(Arrays.asList());
@@ -122,6 +125,7 @@ public class Character extends Observable implements Serializable {
 	 * @author Khaled
 	 * @param pItem Item to remove
 	 * @return true if removed, false if not found
+	 * @version Build2
 	 */
 	public boolean removeItemNameFromBackpack(String pItemName) {
 		for(Item item : backpack){
@@ -176,9 +180,12 @@ public class Character extends Observable implements Serializable {
 	 */
 	public void setLevel(int level) {
 		this.level = level;
-		setAbilityScores();
+		//setAbilityScores();
 	}
-	
+	/**
+	 * 
+	 * @return fighterType Nimble, Tank, or Bully
+	 */
 	
 	public FighterType getFighterType(){
 		return fighterType;
@@ -187,7 +194,18 @@ public class Character extends Observable implements Serializable {
 	public List<Item> getBackpack(){
 		return backpack;
 	}
+	
+	//Builder Pattern methods:
+	
+	public void setBuilder(CharacterBuilder newCharacterBuilder){
+		builder = newCharacterBuilder;
+	}
 
+	public void constructCharacterBuild(){
+		builder.createNewCharacter();
+		builder.setAbilityScores();
+	}
+	
 	/**
 	 * @author Munjed 
 	 * This method calculates all ability scores at random using
@@ -196,7 +214,7 @@ public class Character extends Observable implements Serializable {
 	 * @param abilityScores
 	 *            the abilityScores to set
 	 */
-	public void setAbilityScores() {
+	/*public void setAbilityScores() {
 		//The following loop is made sort the scores retrieved from 4d6 dices from
 		//big to small so we can then manipulate their assignment to fighter type 
 		//preference
@@ -261,7 +279,7 @@ public class Character extends Observable implements Serializable {
 		}
 		
 		setChanged();
-	}
+	}*/
 	
 	public int getStrength(){
 		return this.strength;
