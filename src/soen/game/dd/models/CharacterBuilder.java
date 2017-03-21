@@ -15,9 +15,9 @@ public abstract class CharacterBuilder extends Character {
 		return fighterTypeProduct;
 	}
 	
-	public void createNewCharacter(){
-		fighterTypeProduct= new Character();
+	public void createNewCharacter(Character character){
+		fighterTypeProduct = character;
 	}
+	
 	public abstract void setAbilityScores();
-
 }
