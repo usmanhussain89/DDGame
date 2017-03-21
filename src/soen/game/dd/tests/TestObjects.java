@@ -93,9 +93,14 @@ public class TestObjects {
 		Item redShield = new Item("redShield", ItemType.SHIELD, CharacterAttribute.INTELLIGENCE, 2, 5, null);
 		Item redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 2, 5, null);
 		
+		
+		
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY,
-				 7, 7, 7, 7, 7,  redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+				 7, 7, 7, 7, 7, 10, redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		System.out.println(character);
+		
+		Character bully = new BullyCharacterBuilder();
+		
 		
 		assertTrue("<Info> : The Helmet is not valid",character.getHelmet().isValid());
 		
@@ -117,9 +122,7 @@ public class TestObjects {
 		Item redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 2, 5, "melee");
 		Item redShield = new Item("redShield", ItemType.SHIELD, CharacterAttribute.INTELLIGENCE, 2, 5, null);
 		Item redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 2, 5, null);
-		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY,
-				 7, 7, 7, 7, 7,  redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
-		System.out.println(munjed);
+		
 		
 		addComponentsToMap(map);
 		addComponentsToMap(map2);
@@ -131,6 +134,8 @@ public class TestObjects {
 		BlackCampaign.setCampaignList(map3);
 		BlackCampaign.setCampaignList(map4);
 		
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY,
+				 7, 7, 7, 7, 7, 10, redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		
 		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, munjed);
 		
@@ -168,7 +173,7 @@ public class TestObjects {
 		Item redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 2, 5, null);
 		
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY,
-				 10, 10, 10, 10, 5, redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+				 10, 10, 10, 10, 5 ,5, redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		
 		CharacterBuilder bully = new BullyCharacterBuilder();
 		CharacterBuilder tank  = new TankCharacterBuilder();

@@ -64,7 +64,7 @@ public class Character extends Observable implements Serializable {
 		backpack = new ArrayList<Item>(Arrays.asList());
 	}
 
-	public Character(String name, String description, FighterType fighterType, int level, int abilityScores, int abilityModifier, int hitPoint,
+	public Character(String name, String description, FighterType fighterType, int level,  int hitPoint,
 			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring, Item helmet,
 			Item boots, Item belt, Item weapon, Item shield) {
 		super();
