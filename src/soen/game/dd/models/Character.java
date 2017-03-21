@@ -25,7 +25,7 @@ public class Character extends Observable implements Serializable {
 	
 
 	public double hitPoint;
-	public int armorClass;
+	public static int armorClass;
 	public int attackBonus;
 	public int damageBonus;
 	public int multipleAttacks;
@@ -53,7 +53,7 @@ public class Character extends Observable implements Serializable {
 	private double strengthModifier;
 	private double constitutionModifier;
 	private double wisdomModifier;
-	private double dexterityModifier;
+	protected double dexterityModifier;
 	private double intelligenceModifier;
 	private double charismaModifier;
 	
@@ -137,7 +137,7 @@ public class Character extends Observable implements Serializable {
 		return false;
 	}
 	
-	private List<Item> getEquippedItems() {
+	protected List<Item> getEquippedItems() {
 		return Arrays.asList(armor, ring, boots, weapon, shield, helmet);
 	}
 	
@@ -322,6 +322,56 @@ public class Character extends Observable implements Serializable {
 		this.constitutionModifier = Math.floor((constitution - 10) / 2);
 		this.dexterityModifier = Math.floor((dexterity - 10) / 2);
 	}
+	
+	
+
+	public double getStrengthModifier() {
+		return strengthModifier;
+	}
+
+	public void setStrengthModifier(double strengthModifier) {
+		this.strengthModifier = strengthModifier;
+	}
+
+	public double getConstitutionModifier() {
+		return constitutionModifier;
+	}
+
+	public void setConstitutionModifier(double constitutionModifier) {
+		this.constitutionModifier = constitutionModifier;
+	}
+
+	public double getWisdomModifier() {
+		return wisdomModifier;
+	}
+
+	public void setWisdomModifier(double wisdomModifier) {
+		this.wisdomModifier = wisdomModifier;
+	}
+
+	public double getDexterityModifier() {
+		return dexterityModifier;
+	}
+
+	public void setDexterityModifier(double dexterityModifier) {
+		this.dexterityModifier = dexterityModifier;
+	}
+
+	public double getIntelligenceModifier() {
+		return intelligenceModifier;
+	}
+
+	public void setIntelligenceModifier(double intelligenceModifier) {
+		this.intelligenceModifier = intelligenceModifier;
+	}
+
+	public double getCharismaModifier() {
+		return charismaModifier;
+	}
+
+	public void setCharismaModifier(double charismaModifier) {
+		this.charismaModifier = charismaModifier;
+	}
 
 	/**
 	 * @author Munjed 
@@ -374,7 +424,7 @@ public class Character extends Observable implements Serializable {
 	 * @return the armorClass dexterity + all armor modifiers in equipment
 	 */
 
-	public int getArmorClass() {
+	public void setArmorClass() {
 		ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
 		armorClass = (int) (10 + dexterityModifier);
 		for (Item item : listItem) {
@@ -382,6 +432,8 @@ public class Character extends Observable implements Serializable {
 				armorClass += item.getBonusAmount();
 			}
 		}
+	}
+	public static int getArmorClass(){
 		return armorClass;
 	}
 
@@ -599,7 +651,7 @@ public class Character extends Observable implements Serializable {
 
 		return score;
 	}
-	public int roll1d10(){
+	public static int roll1d10(){
 		
 		int score = (int) (Math.random() * 10) + 1;
 		

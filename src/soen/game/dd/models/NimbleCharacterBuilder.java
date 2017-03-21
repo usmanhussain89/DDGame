@@ -1,5 +1,7 @@
 package soen.game.dd.models;
 
+import java.util.ArrayList;
+
 public class NimbleCharacterBuilder extends CharacterBuilder {
 	public void setAbilityScores(){
 		//The following loop is made sort the scores retrieved from 4d6 dices from
@@ -28,6 +30,63 @@ public class NimbleCharacterBuilder extends CharacterBuilder {
 		this.intelligence = die[3];
 		this.charisma = die[4];
 		this.wisdom = die[5];
+		
+		ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.CHARISMA) {
+				charisma += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.CONSTITUTION) {
+				constitution += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.INTELLIGENCE) {
+				intelligence += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.DEXTERITY) {
+				dexterity += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.CONSTITUTION) {
+				constitution += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.DAMAGE_BONUS) {
+				damageBonus += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.STRENGTH) {
+				strength += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.INTELLIGENCE) {
+				intelligence += item.getBonusAmount();
+			}
+		}
+		
+		for (Item item : listItem) {
+			if (item.getEnhancedAttribute() == CharacterAttribute.WISDOM) {
+				wisdom += item.getBonusAmount();
+			}
+		
+		setChanged();
 	}
 
 
