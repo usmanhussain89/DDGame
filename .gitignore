@@ -4,3 +4,5 @@ item_Black Helmet.ser
 item_Black Helmet.txt
 Items.txt
 
+src/soen/game/dd/tests/FerasDummyFriends.java
+src/soen/game/dd/tests/FerasDummyFriendsBuilder.java

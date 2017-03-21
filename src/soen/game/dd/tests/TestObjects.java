@@ -4,18 +4,28 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.print.DocFlavor.CHAR_ARRAY;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.models.CharacterAttribute;
+import soen.game.dd.models.CharacterBuilder;
+import soen.game.dd.models.DummyGameEngine;
+import soen.game.dd.models.FighterType;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
+import soen.game.dd.models.TankCharacterBuilder;
+import soen.game.dd.models.BullyCharacterBuilder;
+import soen.game.dd.models.Campaign;
+import soen.game.dd.models.Character;
 
 /**
  * This class to test different objects creating, saving, loading. Object like
@@ -25,10 +35,149 @@ import soen.game.dd.models.Map;
  *
  */
 public class TestObjects {
-
+	
+	public Map map  = new Map(10, 10);
+	public Map map2 = new Map(10, 10);
+	public Map map3 = new Map(10, 10);
+	public Map map4 = new Map(10, 10);
+	
+	public Map addComponentsToMap(Map map){
+		Map editMap = map;
+		
+		Point point = new Point(1, 1);
+		editMap.setEntryPoint(point);
+		
+		point.setLocation(10 , 10);
+		editMap.setEntryPoint(point);
+		
+		point.setLocation(1, 1);
+		editMap.setCharacterPoint(point);
+		
+		point.setLocation(5, 5);
+		editMap.setChestPoint(point);
+		
+		
+		
+		
+		
+		
+		return editMap;
+		
+	}
+	
+	public Campaign BlackCampaign = new Campaign();
+	
+	
+	
+	
+	
+	
 	@Before
 	public void initialize() {
+		
+		
 
+	}
+	/**
+	 * @author fyounis
+	 * this will test the creation of the character
+	 */
+	@Test
+	public void character_Create_Test(){
+		
+		Item redHelmet = new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redArmor = new Item("redArmor", ItemType.ARMOR, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redRing = new Item("redRing", ItemType.RING, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redBoots = new Item("redBoots", ItemType.BOOTS, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 2, 5, "melee");
+		Item redShield = new Item("redShield", ItemType.SHIELD, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY,
+				 7, 7, 7, 7, 7,  redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println(character);
+		
+		assertTrue("<Info> : The Helmet is not valid",character.getHelmet().isValid());
+		
+		
+	}
+	
+	/**
+	 * THis test will test the dummy engine of the game
+	 * 
+	 */
+	@Test
+	public void engine_Create_Test(){
+		
+		
+		Item redHelmet = new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redArmor = new Item("redArmor", ItemType.ARMOR, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redRing = new Item("redRing", ItemType.RING, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redBoots = new Item("redBoots", ItemType.BOOTS, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 2, 5, "melee");
+		Item redShield = new Item("redShield", ItemType.SHIELD, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY,
+				 7, 7, 7, 7, 7,  redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println(munjed);
+		
+		addComponentsToMap(map);
+		addComponentsToMap(map2);
+		addComponentsToMap(map3);
+		addComponentsToMap(map4);
+
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		
+		
+		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, munjed);
+		
+	}
+	/**
+	 * This test will test create campaign 
+	 */
+	@Test
+	public void campaign_Create_Test(){
+		Map map  = new Map(5, 6);
+		Map map2 = new Map(8, 7);
+		Map map3 = new Map(10, 22);
+		Map map4 = new Map(22, 22);
+		
+		Campaign RedCampaign = new Campaign();
+		RedCampaign.setCampaignList(map);
+		RedCampaign.setCampaignList(map2);
+		RedCampaign.setCampaignList(map3);
+		RedCampaign.setCampaignList(map4);
+		
+	}
+	/**
+	 * @author fyounis
+	 * This will test the creation of the characterBuilder_Create_Test
+	 */
+	@Test
+	public void characterBuilder_Create_Test(){
+		
+		Item redHelmet = new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redArmor = new Item("redArmor", ItemType.ARMOR, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redRing = new Item("redRing", ItemType.RING, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redBoots = new Item("redBoots", ItemType.BOOTS, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 2, 5, "melee");
+		Item redShield = new Item("redShield", ItemType.SHIELD, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		Item redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 2, 5, null);
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY,
+				 10, 10, 10, 10, 5, redArmor, redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		CharacterBuilder tank  = new TankCharacterBuilder();
+		
+		Character bullyRed;
+		Character tankRed;
+		
+		
+		
 	}
 
 	/**

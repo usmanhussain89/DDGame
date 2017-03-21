@@ -203,8 +203,8 @@ public class Character extends Observable implements Serializable {
 	}
 
 	public void constructCharacterBuild(){
-		builder.createNewCharacter();
-		builder.setAbilityScores();
+		//builder.createNewCharacter();
+		//builder.setAbilityScores();
 	}
 	
 	/**
