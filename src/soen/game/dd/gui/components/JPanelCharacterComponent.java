@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 
 import soen.game.dd.fileio.CharacterIO;
 import soen.game.dd.fileio.ItemIO;
+import soen.game.dd.gui.system.JFrameAttributeView;
+import soen.game.dd.gui.system.JFrameInventoryView;
 import soen.game.dd.models.Character;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;

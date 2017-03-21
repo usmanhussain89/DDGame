@@ -2,6 +2,7 @@ package soen.game.dd.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Random;
 
 /**
@@ -10,13 +11,14 @@ import java.util.Random;
  * @author Usman
  *
  */
-public class DummyGameEngine implements Runnable{
+public class DummyGameEngine extends Observable implements Runnable{
 	
 	private Campaign campaign;
 	private Character character;
 	private Map currentMap;
 	private boolean isMapObjFulfil = false;
 	private Thread t;
+	private int currentMapIndex;
 	
 	/**
 	 * This is constructor of the class which initialize campaign and character object
@@ -27,6 +29,7 @@ public class DummyGameEngine implements Runnable{
 	public DummyGameEngine(Campaign campaign, Character character) {
 		this.campaign = campaign;
 		this.character = character;
+		this.currentMapIndex = 0;
 	}
 	
 	
@@ -85,7 +88,10 @@ public class DummyGameEngine implements Runnable{
 	 * @return
 	 */
 	public Map getCurrentMap() {
-		return this.currentMap;
+		if (currentMapIndex >= campaign.getCampaignList().size()){
+			return null;
+		}
+		return campaign.getCampaignList().get(currentMapIndex);
 	}
 	
 	/**
@@ -209,5 +215,10 @@ public class DummyGameEngine implements Runnable{
 			this.isMapObjFulfil = false;
 			isMapNPCItemLevelSet = false;
 		}
+	}
+	
+	public void nextMap(){
+		currentMapIndex++;
+		setChanged();
 	}
 }
