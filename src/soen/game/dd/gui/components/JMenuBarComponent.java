@@ -24,6 +24,7 @@ import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.fileio.MapIO;
 import soen.game.dd.gui.system.CampaignEditor;
 import soen.game.dd.gui.system.CharacterEditor;
+import soen.game.dd.gui.system.GameEngineEditor;
 import soen.game.dd.gui.system.ItemEditor;
 import soen.game.dd.gui.system.MapEditor;
 import soen.game.dd.logic.MapValidation;
@@ -312,9 +313,10 @@ public class JMenuBarComponent {
 							}
 							
 							if(campaign != null && character != null) {
-								new MapEditor(new_jframe, GameStatics.TITLE_MAP_PlAY,
-										GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
-										campaign, character, E_MapEditorMode.Play);
+							//	new MapEditor(new_jframe, GameStatics.TITLE_MAP_PlAY,
+							//			GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+							//			campaign, character, E_MapEditorMode.Play);
+								new GameEngineEditor(character, campaign);
 							}
 						}
 					}					

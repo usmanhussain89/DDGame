@@ -1,4 +1,4 @@
-package soen.game.dd.gui.components;
+package soen.game.dd.gui.system;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
