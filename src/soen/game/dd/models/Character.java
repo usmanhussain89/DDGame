@@ -154,6 +154,7 @@ public class Character extends Observable implements Serializable {
 	}
 
 	/**
+	 * @author Munjed
 	 * @return the name
 	 */
 	public String getName() {
