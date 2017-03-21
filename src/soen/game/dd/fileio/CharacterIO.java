@@ -38,7 +38,7 @@ public class CharacterIO extends ModelIO {
 		}
 
 		if (!isCharacterNameExist)
-			return save(character, "Characters.txt");
+			return save(character, FILENAME);
 
 		else
 			return "EXIST";

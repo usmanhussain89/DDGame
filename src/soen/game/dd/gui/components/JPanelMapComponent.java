@@ -26,6 +26,7 @@ import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
+import soen.game.dd.models.DummyGameEngine;
 
 public class JPanelMapComponent {
 	
@@ -49,10 +50,10 @@ public class JPanelMapComponent {
 	 */
 	public JPanel getMapEditorGridPanel(Map new_mapModel, Dimension new_parentDimension, E_MapEditorMode new_mode,
 			ArrayList<Map> maps, int index) {
-		return createPanel(new_mapModel, new_mode, maps, index);
+		return createPanel(new_mapModel, new_mode, maps, null, null, index);
 	}
 	
-	public JPanel createPanel(Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, int index) {
+	public JPanel createPanel(Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, Character character, Campaign campaign, int index) {
 		mapEditorMode = new_mode;
 		JPanel panel = new JPanel();
 		GridLayout gridLayout;
@@ -68,12 +69,13 @@ public class JPanelMapComponent {
 		}
 		
 		else if (E_MapEditorMode.Play == mapEditorMode) {
-			if (index < maps.size())
-			{
-				new_mapModel = maps.get(index);
-				gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
-				panel.setLayout(gridLayout);
-			}
+			DummyGameEngine ge = new DummyGameEngine(campaign, character);
+			ge.startGameEngine();
+			System.out.println("1");
+			new_mapModel = ge.getCurrentMap();
+			System.out.println("2" + new_mapModel.getMapWidth());
+			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
+			panel.setLayout(gridLayout);
 		}
 
 		else {
@@ -583,6 +585,6 @@ public class JPanelMapComponent {
 	 * @return Jpanel
 	 */
 	public JPanel getMapEditorPlayGridPanel(Campaign campaign, Character character, E_MapEditorMode new_mode) {
-		return createPanel(campaign.getCampaignList().get(0), new_mode, new ArrayList<Map>(campaign.getCampaignList()), 0);
+		return createPanel(null, new_mode, null, character, campaign, 0);
 	}
 }

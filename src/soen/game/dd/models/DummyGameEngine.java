@@ -10,11 +10,32 @@ import java.util.Random;
  * @author Usman
  *
  */
-public class DummyGameEngine {
+public class DummyGameEngine implements Runnable{
 	
 	private Campaign campaign;
 	private Character character;
 	private Map currentMap;
+	private boolean isMapObjFulfil = false;
+	private Thread t;
+	
+	/**
+	 * This is constructor of the class which initialize campaign and character object
+	 * 
+	 * @param campaign
+	 * @param character
+	 */
+	public DummyGameEngine(Campaign campaign, Character character) {
+		this.campaign = campaign;
+		this.character = character;
+	}
+	
+	
+	public void startGameEngine() {
+		if (t == null) {
+			t = new Thread(this);
+			t.start();
+		}
+	}
 	
 	/**
 	 * This method set the campaign
@@ -78,35 +99,34 @@ public class DummyGameEngine {
 		Iterator<Item> iterItems = currentMap.mapSelectedItem.iterator();
 		int indexCharacter = 0;
 		int indexItem = 0;
-		
-		while (iterChars.hasNext()) {
-			currentMap.mapCharacters.get(indexCharacter).setLevel(playerCharacterLevel);
+		while (iterChars.hasNext() && indexCharacter < currentMap.mapCharacters.size()) {
+			this.currentMap.mapCharacters.get(indexCharacter).setLevel(playerCharacterLevel);
 			indexCharacter++;
 		}
 		
-		while (iterItems.hasNext()) {
+		while (iterItems.hasNext() && indexItem < currentMap.mapSelectedItem.size()) {
 			if (playerCharacterLevel >= 1 && playerCharacterLevel <= 4) {
-				currentMap.mapSelectedItem.get(indexItem).setBonusAmount(1);
+				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(1);
 				indexItem++;
 			}
 			
 			if (playerCharacterLevel >= 5 && playerCharacterLevel <= 8) {
-				currentMap.mapSelectedItem.get(indexItem).setBonusAmount(2);
+				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(2);
 				indexItem++;
 			}
 			
 			if (playerCharacterLevel >= 9 && playerCharacterLevel <= 12) {
-				currentMap.mapSelectedItem.get(indexItem).setBonusAmount(3);
+				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(3);
 				indexItem++;
 			}
 			
 			if (playerCharacterLevel >= 13 && playerCharacterLevel <= 16) {
-				currentMap.mapSelectedItem.get(indexItem).setBonusAmount(4);
+				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(4);
 				indexItem++;
 			}
 			
 			if (playerCharacterLevel >= 17) {
-				currentMap.mapSelectedItem.get(indexItem).setBonusAmount(5);
+				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(5);
 				indexItem++;
 			}
 		}
@@ -120,7 +140,7 @@ public class DummyGameEngine {
 	public boolean lootChestItems(Item item) {
 		boolean isFull = false;
 		
-		if (character.getBackpack().size() < 20) {
+		if (character.getBackpack().size() < 10) {
 			this.character.addItemIntoBackpack(item);
 			return isFull;
 		}
@@ -153,5 +173,41 @@ public class DummyGameEngine {
 		index = randomGenerator.nextInt(npCharacterItems.size());
 		
 		this.character.getBackpack().set(playerExchangeItemIndex, npCharacterItems.get(index));
+	}
+	
+	/**
+	 * This method set the objective of current map
+	 * 
+	 * @param isMapObjectiveFulfill
+	 */
+	public void setMapObjective(boolean isMapObjectiveFulfill) {
+		this.isMapObjFulfil = isMapObjectiveFulfill;
+	}
+	
+	/**
+	 * This method return the current map objective
+	 * 
+	 * @return
+	 */
+	public boolean getMapObjective() {
+		return this.isMapObjFulfil;
+	}
+
+	@Override
+	public void run() {
+		Campaign campaign = this.campaign;
+		boolean isMapNPCItemLevelSet = false;
+		
+		for (Map map : campaign.getCampaignList()) {
+			while (!isMapObjFulfil) {
+				if (!isMapNPCItemLevelSet) {
+					this.currentMap = map;
+					setCharacterItemLevel(this.currentMap, this.character);
+					isMapNPCItemLevelSet = true;
+				}
+			}
+			this.isMapObjFulfil = false;
+			isMapNPCItemLevelSet = false;
+		}
 	}
 }
