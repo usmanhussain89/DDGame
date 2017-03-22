@@ -70,7 +70,7 @@ public class JPanelMapComponent {
 		
 		else if (E_MapEditorMode.Play == mapEditorMode) {
 			DummyGameEngine ge = new DummyGameEngine(campaign, character);
-			ge.startGameEngine();
+			//ge.startGameEngine();
 			System.out.println("1");
 			new_mapModel = ge.getCurrentMap();
 			System.out.println("2" + new_mapModel.getMapWidth());

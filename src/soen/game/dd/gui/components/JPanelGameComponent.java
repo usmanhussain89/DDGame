@@ -3,19 +3,28 @@ package soen.game.dd.gui.components;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import soen.game.dd.fileio.CharacterIO;
+import soen.game.dd.gui.system.JFrameAttributeView;
 import soen.game.dd.gui.system.JFrameInventoryView;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
 import soen.game.dd.models.DummyGameEngine;
+import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
@@ -31,20 +40,24 @@ public class JPanelGameComponent {
 	private JButton jButtonOpponent;
 	private JButton jButtonChest;
 	private JPanel panel;
+	private DummyGameEngine gameEngine;
+	private Map new_mapModel;
 	
-	public JPanelGameComponent(){
+	public JPanelGameComponent(DummyGameEngine gameEngine){
 		panel = new JPanel();
+		this.gameEngine = gameEngine;
 	}
 	
 	public JPanel getPanel(){
 		return panel;
 	}
 	
-	public void refreshPanel(DummyGameEngine gameEngine) {
+	
+	public void refreshPanel() {
 		panel.removeAll();
 		ImageIcon imgIcon = new ImageIcon("Character.png");
 		Image img = imgIcon.getImage();
-		Map new_mapModel = gameEngine.getCurrentMap();
+		new_mapModel = gameEngine.getCurrentMap();
 		GridLayout gridLayout;
 		gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 		panel.setLayout(gridLayout);
@@ -101,15 +114,94 @@ public class JPanelGameComponent {
 				} else {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
 				}
-
+				
+				
 				mapButtonsGrid2DArray[i][j].setOpaque(true);
 				mapButtonsGrid2DArray[i][j].setBorderPainted(false);
 				panel.add(mapButtonsGrid2DArray[i][j]);
+				
+				mapButtonsGrid2DArray[i][j].addMouseListener(new InteractionListener());
 			}
+			
 		}
-
+		Point characterPosition = gameEngine.getCharacterPosition();
+		int x = (int) characterPosition.getX();
+		int y = (int) characterPosition.getY();
+		mapButtonsGrid2DArray[x][y].setBackground(Color.CYAN);
+		mapButtonsGrid2DArray[x][y].setText("YOU");
+		
 		this.panel.revalidate();
 		this.panel.repaint();
 	}
+	
+	class InteractionListener extends MouseAdapter{
+
+		public void mouseClicked(MouseEvent e) {
+			JButton button = (JButton) e.getSource();
+			String[] coordinates = button.getName().split(":");
+			int x = Integer.parseInt(coordinates[1]);
+			int y = Integer.parseInt(coordinates[2]);
+			
+			Point characterPosition = gameEngine.getCharacterPosition();
+			int xCharacter = (int) characterPosition.getX();
+			int yCharacter = (int) characterPosition.getY();
+
+			if (x == xCharacter && y == yCharacter) {
+				if (e.getButton() == MouseEvent.BUTTON3){
+					new JFrameAttributeView(gameEngine.getCharacter());
+				} else {
+					new JFrameInventoryView(gameEngine.getCharacter(), true);
+				}
+				return; //Don't do anything else
+			}
+			
+		
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_CHARACTER_POINT) {
+				if (e.isShiftDown()){
+					e.consume();
+					if (e.getButton() == MouseEvent.BUTTON3){
+						new JFrameAttributeView(gameEngine.getCurrentMap().getFriendlyCharacter());
+					} else {
+						new JFrameInventoryView(gameEngine.getCurrentMap().getFriendlyCharacter(), false);
+					}
+					return; //Don't do anything else
+				} else {
+					Item itemToSwap = getItemToSwap();
+					if (itemToSwap != null)
+						gameEngine.exchangeWithNPC(itemToSwap);
+				}
+			}
+			
+			gameEngine.interactWith(x,y);
+			
+			gameEngine.notifyObservers();
+		}
+		
+		public Item getItemToSwap(){
+			List<Item> items = gameEngine.getCharacter().getBackpack();
+			JComboBox<String> cbItem = new JComboBox<String>();
+			
+			for(Item i : items) {
+				cbItem.addItem(i.getName());
+			}
+			
+			Object[] messageCharacter = { "SELECT Item:", cbItem };
+
+			int optionCharacter = JOptionPane.showConfirmDialog(null, messageCharacter, "Swap with friendly guy",
+					JOptionPane.OK_CANCEL_OPTION);
+
+			if (optionCharacter == JOptionPane.OK_OPTION) {
+				for(Item i : items)
+				{
+					if(i.getName().equals((String)cbItem.getSelectedItem()))
+					{
+						return i;
+					}
+				}
+			}
+			return null;
+		}
+	}
+	
 	
 }

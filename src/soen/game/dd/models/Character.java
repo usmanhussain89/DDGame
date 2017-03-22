@@ -64,7 +64,7 @@ public class Character extends Observable implements Serializable {
 		backpack = new ArrayList<Item>(Arrays.asList());
 	}
 
-	public Character(String name, String description, FighterType fighterType, int level, int abilityScores, int abilityModifier, int hitPoint,
+	public Character(String name, String description, FighterType fighterType, int level,  int hitPoint,
 			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring, Item helmet,
 			Item boots, Item belt, Item weapon, Item shield) {
 		super();
@@ -95,6 +95,7 @@ public class Character extends Observable implements Serializable {
 	public boolean addItemIntoBackpack(Item item) {
 		if (backpack.size() < 10) {
 			backpack.add(item);
+			setChanged();
 			return true;
 		} else {
 			System.out.println("The Maximum backpack size is reached: " + backpack.size());
@@ -113,6 +114,7 @@ public class Character extends Observable implements Serializable {
 		for(Item item : backpack){
 			if (pItem.equals(item)){
 				backpack.remove(item);
+				setChanged();
 				return true;
 			}
 		}
