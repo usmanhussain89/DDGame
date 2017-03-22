@@ -17,12 +17,12 @@ public class Item implements Serializable {
 	private String name;
 	private int itemStat; // for weapon base attack and Armor wearable "armor
 							// value"
-	private String weaponType; // this to determine if its a melee or ranged
+	private WeaponType weaponType; // this to determine if its a melee or ranged
 								// weapon if the item type is a Weapon o.w. its
 								// NULL
 
 	public Item(String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount, int itemStat,
-			String weaponType) {
+			WeaponType weaponType) {
 		this.itemType = itemType;
 		this.enhancedAttribute = enhancedAttribute;
 		this.bonusAmount = bonusAmount;
@@ -109,7 +109,7 @@ public class Item implements Serializable {
 	 * @return weaponType the type of the weapon, melee or ranged
 	 */
 
-	public String getWeaponType() {
+	public WeaponType getWeaponType() {
 		return weaponType;
 	}
 
@@ -118,7 +118,7 @@ public class Item implements Serializable {
 	 * @param weaponType
 	 *            is the type of weapon melee or ranged
 	 */
-	public void setWeaponType(String weaponType) {
+	public void setWeaponType(WeaponType weaponType) {
 		this.weaponType = weaponType;
 	}
 

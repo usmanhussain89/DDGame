@@ -451,9 +451,9 @@ public class Character extends Observable implements Serializable {
 	 *            the attackBonus to set
 	 */
 	public void setAttackBonus() {
-		if (weapon.getWeaponType() == "melee")
+		if (weapon.getWeaponType() == WeaponType.MELEE)
 			this.attackBonus = (int) (level + weapon.getBonusAmount() + strengthModifier);
-		else if (weapon.getWeaponType() == "ranged")
+		else if (weapon.getWeaponType() == WeaponType.RANGED)
 			this.attackBonus = (int) (level + weapon.getBonusAmount() + dexterityModifier);
 	}
 
@@ -461,7 +461,7 @@ public class Character extends Observable implements Serializable {
 	 * @return the damageBonus
 	 */
 	public int getDamageBonus() {
-		if (weapon.getWeaponType() == "melee") {
+		if (weapon.getWeaponType() == WeaponType.MELEE) {
 			return this.damageBonus = (int) (strengthModifier + weapon.getBonusAmount());
 		}
 		return 0;
