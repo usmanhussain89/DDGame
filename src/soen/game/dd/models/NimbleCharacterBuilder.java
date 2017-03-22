@@ -1,6 +1,7 @@
 package soen.game.dd.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NimbleCharacterBuilder extends CharacterBuilder {
 	public void setAbilityScores(){
@@ -31,7 +32,8 @@ public class NimbleCharacterBuilder extends CharacterBuilder {
 		this.charisma = die[4];
 		this.wisdom = die[5];
 		
-		ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
+		List<Item> listItem = fighterTypeProduct.getEquippedItems();
+		//ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.CHARISMA) {

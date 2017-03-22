@@ -16,6 +16,7 @@ import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
+import soen.game.dd.models.WeaponType;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 
@@ -90,9 +91,9 @@ public class JPanelItemComponent {
 		lblWeaponType.setBounds(40, 120, 90, 25);
 		panel.add(lblWeaponType);
 
-		JComboBox cbWeaponType = new JComboBox(ItemType.values());
+		JComboBox cbWeaponType = new JComboBox();
+		cbWeaponType.addItem(WeaponType.NotAWeapon);
 		cbWeaponType.setBounds(170, 120, 120, 25);
-		cbWeaponType.setEnabled(false);
 		panel.add(cbWeaponType);
 
 		JLabel lblCharacterAttr = new JLabel("Character Attribute: ");
@@ -129,6 +130,17 @@ public class JPanelItemComponent {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(cbItemType.getSelectedItem());
+				if (cbItemType.getSelectedItem().toString().equals("WEAPON")) {
+					cbWeaponType.removeAllItems();
+					cbWeaponType.addItem(WeaponType.MELEE);
+					cbWeaponType.addItem(WeaponType.RANGED);
+				}
+				
+				else {
+					cbWeaponType.removeAllItems();
+					cbWeaponType.addItem(WeaponType.NotAWeapon);
+				}
+					
 				cbCharacterAttr.removeAllItems();
 				for (CharacterAttribute c : ((ItemType) cbItemType.getSelectedItem()).getAllowedAttributes()) {
 					cbCharacterAttr.addItem(c);
@@ -155,8 +167,15 @@ public class JPanelItemComponent {
 				}
 
 				if (!itemName.equals("")) {
+					WeaponType weaponType = null;
+					if (cbItemType.getSelectedItem().toString().equals("WEAPON"))
+						weaponType = (WeaponType)cbWeaponType.getSelectedItem();
+					else
+						weaponType = weaponType.NotAWeapon;
+					
 					item.setName(itemName);
 					item.setItemType((ItemType) cbItemType.getSelectedItem());
+					item.setWeaponType(weaponType);
 					item.setCharacterAttribute((CharacterAttribute) cbCharacterAttr.getSelectedItem());
 					item.setBonusAmount((Integer) cbBonusAmount.getSelectedItem());
 					if (item.isValid()) {
