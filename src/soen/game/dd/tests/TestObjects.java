@@ -206,6 +206,7 @@ public class TestObjects {
 		
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		Point point = new Point(1, 1);
 
 		Fighter fighterBully = new Fighter();
 		Fighter fighterTank = new Fighter();
@@ -217,11 +218,11 @@ public class TestObjects {
 		fighterBully.createFighter(character);
 		System.out.println(fighterBully);
 
-		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, character);
+		DummyGameEngine testEngine = new DummyGameEngine(character, BlackCampaign);
 		System.out.println("First flag");
 
 		
-		assertEquals("This is not the campaign",BlackCampaign, testEngine.getCampagin().equals(BlackCampaign));
+		assertEquals("Both Compaings are same",BlackCampaign, testEngine.getCampagin());
 		
 
 
@@ -262,7 +263,7 @@ public class TestObjects {
 		fighterBully.createFighter(character);
 		System.out.println(fighterBully);
 
-		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, munjed);
+		DummyGameEngine testEngine = new DummyGameEngine(munjed, BlackCampaign);
 		System.out.println("3 flag");
 		
 		/*chest.add(crazyHelmet);

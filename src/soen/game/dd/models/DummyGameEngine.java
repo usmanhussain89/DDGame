@@ -38,6 +38,11 @@ public class DummyGameEngine extends Observable{
 		this.currentMapIndex = 0;
 		resetCharacterPosition();
 	}
+	
+	public DummyGameEngine(Character charater, Campaign campaign) {
+		this.campaign = campaign;
+		this.character = charater;
+	}
 
 	
 	/**
