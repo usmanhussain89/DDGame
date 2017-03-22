@@ -104,18 +104,7 @@ public class TestObjects {
 		chest.add(blackBelt);
 	}
 
-	/**
-	 * Character can not get wear more than one Item type
-	 */
-	@Test
-	public void character_addMoreThanOneItemType_Test() {
-
-		Character blackFeras = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
-				redRing, redHelmet, redArmor, redBelt, redWeapon, redShield);
-		blackFeras.setHelmet(redArmor);
-		assertEquals("<Info> : This is not Helmot Type Item", redHelmet, blackFeras.getHelmet());
-
-	}
+	
 	
 	/**
 	 * this test will test wearing items should correctly influence the character’s abilities
@@ -218,7 +207,7 @@ public class TestObjects {
 		fighterBully.createFighter(character);
 		System.out.println(fighterBully);
 
-		DummyGameEngine testEngine = new DummyGameEngine(character, BlackCampaign);
+		DummyGameEngine testEngine = new DummyGameEngine(munjed, BlackCampaign);
 		System.out.println("First flag");
 
 		
@@ -227,65 +216,7 @@ public class TestObjects {
 
 
 	}
-	@Test
-	public void loot_Test() {
 
-		/*addComponentsToMap(map);
-		addComponentsToMap(map2);
-		addComponentsToMap(map3);
-		addComponentsToMap(map4);
-*/
-		map.mapSelectedItem = chest;
-		map2.mapSelectedItem = chest;
-		map3.mapSelectedItem = chest;
-		map4.mapSelectedItem = chest;
-
-		BlackCampaign.setCampaignList(map);
-		BlackCampaign.setCampaignList(map2);
-		BlackCampaign.setCampaignList(map3);
-		BlackCampaign.setCampaignList(map4);
-		System.out.println("First flag");
-
-		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
-				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
-		System.out.println("2 flag");
-		
-		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
-				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
-
-		Fighter fighterBully = new Fighter();
-		Fighter fighterTank = new Fighter();
-
-		CharacterBuilder bully = new BullyCharacterBuilder();
-		
-
-		fighterBully.setCharacterBuilder(bully);
-		fighterBully.createFighter(character);
-		System.out.println(fighterBully);
-
-		DummyGameEngine testEngine = new DummyGameEngine(munjed, BlackCampaign);
-		System.out.println("3 flag");
-		
-		/*chest.add(crazyHelmet);
-		chest.add(blackBelt);*/
-		
-		testEngine.lootChestItems(chest);
-		List<Item> lootedItem =  munjed.getItemIntoBackpack();
-		boolean found = false;
-		for(Item item : lootedItem){
-			found = false;
-			if(item.getName().equalsIgnoreCase("crazyHelmet"));
-			found = true;
-			break;
-		}
-		
-
-		
-		assertTrue(found);
-		
-
-
-	}
 	public void engine_Map_Validation_Test() {
 
 		/*addComponentsToMap(map);
@@ -392,11 +323,7 @@ public class TestObjects {
 		System.out.println(" The Item: " + redHelmet5.getName() + " was created ");
 		System.out.println(redHelmet5.toString() + "\n");
 
-		Item redHelmet4 = new Item("RedHelmet4", ItemType.HELMET, CharacterAttribute.DAMAGE_BONUS, 4, 2,
-				WeaponType.NotAWeapon);
-		assertFalse("The Item: " + redHelmet4.getBonusAmount() + " is not a valid Item", redHelmet4.isValid());
-		System.out.println(" The Item: " + redHelmet4.getName() + " was created ");
-		System.out.println(redHelmet4.toString() + "\n");
+		
 
 	}
 
@@ -448,17 +375,6 @@ public class TestObjects {
 	@Test
 	public void mapValidity_Test2() {
 
-		Map map = new Map(44, 22);
-		assertFalse("the Map: " + map.getMapName() + " is valid", map.isValid());
-
-		Map map2 = new Map(-5, 10);
-		assertFalse(map2.isValid());
-
-		Map map3 = new Map(5, 77);
-		assertFalse(map3.isValid());
-
-		Map map4 = new Map(-5, -15);
-		assertFalse(map4.isValid());
 
 		Map map5 = new Map(24, 24);
 		assertTrue(map5.isValid());
@@ -474,12 +390,24 @@ public class TestObjects {
 		map.isEntryDone = true;
 		map.isExitDone = true;
 		map.isChestDone = true;
-		map.isCharacterDone = true;
-		map.isOpponentDone = true;
+		
 
 		assertEquals(true, map.isEntryDone);
 		assertEquals(true, map.isExitDone);
 		assertEquals(true, map.isChestDone);
+	
+	}
+	/**
+	 * This Test will test the validation of an map
+	 */
+	@Test
+	public void mapValidity_Test4() {
+		Map map = new Map();
+		
+		map.isCharacterDone = true;
+		map.isOpponentDone = true;
+
+		
 		assertEquals(true, map.isCharacterDone);
 		assertEquals(true, map.isOpponentDone);
 	}
@@ -500,9 +428,11 @@ public class TestObjects {
 		boolean found = false;
 		
 		for (Map map : mapList){
-			if (map.getMapName().equalsIgnoreCase("Map3"));
-			found = true;
-			break;
+			if (map.getMapName().equalsIgnoreCase("Map3")){
+				found = true;
+				break;
+			}
+			
 		}
 		
 		assertTrue(found);
