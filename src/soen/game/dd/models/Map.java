@@ -249,11 +249,26 @@ public class Map implements Serializable {
 	 */
 	public Character getHostileCharacter(){
 		for (Character character : mapCharacters){
-			if (character.getNPCType() == NPCType.HOSTILE){
+			if (character.getNPCType() == NPCType.HOSTILE || character.getNPCType() == NPCType.DEAD){
 				return character;
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * This method return the hostile character index on the map
+	 * @return
+	 */
+	public int getHostileCharacterIndex(){
+		int index = 0;
+		for (Character character : mapCharacters){
+			if (character.getNPCType() == NPCType.HOSTILE){
+				return index;
+			}
+			index++;
+		}
+		return index-1;
 	}
 
 	/**

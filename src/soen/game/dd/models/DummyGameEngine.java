@@ -232,4 +232,57 @@ public class DummyGameEngine extends Observable{
 		}
 		setChanged();
 	}
+	
+	/**
+	 * This method uses the hit method to calculate the hit points
+	 * @param playable
+	 * @param hostile
+	 * @return
+	 */
+	public int encounter(Character playable, Character hostile) {
+		System.out.println(hostile.getHitPoint());
+		if (hostile.getHitPoint() > 0) {
+			hostile.hitPoint -= new Hit().getDamagePoint(playable, hostile, NPCType.HOSTILE, playable.getWeapon());
+			System.out.println(hostile.hitPoint);
+			if (hostile.getHitPoint() <= 0)
+				return 0;
+			else
+				return (int) hostile.getHitPoint();
+		}
+		else
+			return 0;
+	}
+	
+	/**
+	 * This method is to set Hit points
+	 */
+	public void setHitPoints() {
+		int index = 0;
+		for (Character character : getCurrentMap().mapCharacters){
+			if (character.getNPCType() == NPCType.HOSTILE){
+				character.setMaxHitPoint();
+				character.setHitpoint(character.getMaxHitPoint());
+				getCurrentMap().mapCharacters.set(index, character);
+			}
+			index++;
+		}
+	}
+	
+	/**
+	 * This is method added the looted item to the character backpack
+	 * @param item
+	 * @return backpack status
+	 */
+	public boolean lootHostileItems(List<Item> items) {
+		
+		for (Item item : items){
+			if (character.getBackpack().size() < 10) {
+				System.out.println("Adding item " + item.getName());
+				this.character.addItemIntoBackpack(item);
+				this.character.notifyObservers();
+			}
+		}
+		
+		return character.getBackpack().size() == 10;
+	}
 }

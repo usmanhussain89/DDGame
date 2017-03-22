@@ -14,7 +14,7 @@ public class Hit extends Observable {
 	private int attackScore;
 	
 	
-	public int Hit(Character playableCharacter,Character NPC, NPCType npcType, Item weapon){
+	public int getDamagePoint(Character playableCharacter,Character NPC, NPCType npcType, Item weapon){
 		if(npcType.equals(NPCType.HOSTILE)){
 			AC=NPC.getArmorClass();
 			die=d20Dice();
