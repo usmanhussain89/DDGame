@@ -138,7 +138,11 @@ public class Character extends Observable implements Serializable {
 		}
 		return false;
 	}
-	
+	/**
+	 * @author Khalid 
+	 * creating the list of equiped items only
+	 * @return a list of items equiped
+	 */
 	protected List<Item> getEquippedItems() {
 		return Arrays.asList(armor, ring, boots, weapon, shield, helmet);
 	}
@@ -409,6 +413,10 @@ public class Character extends Observable implements Serializable {
 			level++;
 			maxHitPoint=getMaxHitPoint()+constitutionModifier+roll1d10();
 		}
+	}
+	
+	public void setHitpoint(double maxHitPoint){
+		this.hitPoint=maxHitPoint;
 	}
 	
 	/**
