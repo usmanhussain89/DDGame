@@ -8,11 +8,13 @@ import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import soen.game.dd.fileio.ItemIO;
+import soen.game.dd.fileio.MapIO;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
@@ -51,6 +53,7 @@ public class TestObjects {
 	private Item redShield;
 	private Item redBelt;
 	private Item blackBelt;
+	private Item crazyWeapon;
 
 	private Character redFeras;
 	private ArrayList<Item> chest;
@@ -76,23 +79,25 @@ public class TestObjects {
 
 	@Before
 	public void initialize() {
-		redHelmet = new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 2, 5,
+		redHelmet = new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 1, 1,
 				WeaponType.NotAWeapon);
-		crazyHelmet = new Item("RedHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 2, 5,
+		crazyHelmet = new Item("crazyHelmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 5, 5,
 				WeaponType.NotAWeapon);
 		redArmor = new Item("redArmor", ItemType.ARMOR, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.NotAWeapon);
 		redRing = new Item("redRing", ItemType.RING, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.NotAWeapon);
 		redBoots = new Item("redBoots", ItemType.BOOTS, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.NotAWeapon);
-		redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.MELEE);
+		redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 1, 1, WeaponType.MELEE);
+		crazyWeapon = new Item("crazyWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 5, 5, WeaponType.MELEE);
 		redShield = new Item("redShield", ItemType.SHIELD, CharacterAttribute.INTELLIGENCE, 2, 5,
 				WeaponType.NotAWeapon);
-		redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.NotAWeapon);
+		redBelt = new Item("redBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 1, 1, WeaponType.NotAWeapon);
 		blackBelt = new Item("BlackBelt", ItemType.BELT, CharacterAttribute.INTELLIGENCE, 5, 5, WeaponType.NotAWeapon);
 
 		redFeras = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor, redRing,
 				redHelmet, redBoots, redBelt, redWeapon, redShield);
 
 		BlackCampaign = new Campaign();
+		BlackCampaign.setCampaignName("BlackCampaign");
 
 		chest = new ArrayList<Item>();
 		chest.add(crazyHelmet);
@@ -111,6 +116,38 @@ public class TestObjects {
 		assertEquals("<Info> : This is not Helmot Type Item", redHelmet, blackFeras.getHelmet());
 
 	}
+	
+	/**
+	 * this test will test wearing items should correctly influence the character’s abilities
+	 */
+	
+	@Test
+	public void wearing_Items_Should_Correctly_Influence_Character_Abilities_Test() {
+
+		Character jackTheGreate = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		jackTheGreate.setIntelligenceModifier(2.0);
+		jackTheGreate.setAbilityModifier();
+		jackTheGreate.setAttackBonus();
+		
+		int weakerItems = jackTheGreate.getAttackBonus();
+		System.out.println("The attack bonus is: "+weakerItems);
+		
+		
+		jackTheGreate.setWeapon(crazyWeapon);
+		jackTheGreate.setBelt(blackBelt);
+		jackTheGreate.setHelmet(crazyHelmet);
+		jackTheGreate.setAbilityModifier();
+		jackTheGreate.setAttackBonus();
+
+		int strongerItems = jackTheGreate.getAttackBonus();
+
+		System.out.println("The attack bonus is: "+strongerItems);
+		
+		
+		assertTrue((strongerItems > weakerItems));
+		
+	}
 
 	/**
 	 * @author fyounis this will test the creation of the character
@@ -123,22 +160,35 @@ public class TestObjects {
 		System.out.println(character);
 
 		assertTrue("<Info> : The Helmet is not valid", character.getHelmet().isValid());
+		
+	}
+	/**
+	 * this test will test the value of random attribute
+	 */
+	@Test
+	public void character_Attributes_Test() {
+
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println(character);
+
+		assertTrue("<Info> : The Helmet is not valid", character.getHelmet().isValid());
 		assertTrue("<Info> : the multipleAttacks: " + character.getMultipleAttacks() + " is not  equal what was set",
 				character.getMultipleAttacks() == 10);
 	}
 
 	/**
-	 * THis test will test the dummy engine of the game
+	 * THis test will test the dummy engine of the game campaign 
 	 * 
 	 */
 	@Test
 	public void engine_Create_Test() {
 
-		addComponentsToMap(map);
+		/*addComponentsToMap(map);
 		addComponentsToMap(map2);
 		addComponentsToMap(map3);
 		addComponentsToMap(map4);
-
+*/
 		map.mapSelectedItem = chest;
 		map2.mapSelectedItem = chest;
 		map3.mapSelectedItem = chest;
@@ -148,12 +198,134 @@ public class TestObjects {
 		BlackCampaign.setCampaignList(map2);
 		BlackCampaign.setCampaignList(map3);
 		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
 
 		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
+
+		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, character);
+		System.out.println("First flag");
+
+		
+		assertEquals("This is not the campaign",BlackCampaign, testEngine.getCampagin().equals(BlackCampaign));
+		
+
+
+	}
+	@Test
+	public void loot_Test() {
+
+		/*addComponentsToMap(map);
+		addComponentsToMap(map2);
+		addComponentsToMap(map3);
+		addComponentsToMap(map4);
+*/
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
+
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
+
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("2 flag");
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
 
 		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, munjed);
+		System.out.println("3 flag");
+		
+		/*chest.add(crazyHelmet);
+		chest.add(blackBelt);*/
+		
+		testEngine.lootChestItems(chest);
+		List<Item> lootedItem =  munjed.getItemIntoBackpack();
+		boolean found = false;
+		for(Item item : lootedItem){
+			found = false;
+			if(item.getName().equalsIgnoreCase("crazyHelmet"));
+			found = true;
+			break;
+		}
+		
 
+		
+		assertTrue(found);
+		
+
+
+	}
+	public void engine_Map_Validation_Test() {
+
+		/*addComponentsToMap(map);
+		addComponentsToMap(map2);
+		addComponentsToMap(map3);
+		addComponentsToMap(map4);
+*/
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
+
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
+
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
+
+		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, character);
+		System.out.println("First flag");
+
+		
+		assertEquals("This is not the Map",map, testEngine.getCampagin().getCampaignList().get(0));
+		
 	}
 
 	/**
@@ -192,6 +364,7 @@ public class TestObjects {
 
 		fighterBully.setCharacterBuilder(bully);
 		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
 
 		fighterTank.setCharacterBuilder(tank);
 		fighterTank.createFighter(character);
@@ -311,23 +484,45 @@ public class TestObjects {
 	}
 
 	/**
+	 * This Test will test load a map 
+	 */
+	
+	@Test
+	public void loadMap_Test(){
+		
+		MapIO mapIO = new MapIO();
+		
+		map3.setMapName("Map3");
+		mapIO.saveMap(map3);
+		ArrayList<Map> mapList = mapIO.loadMaps();
+		
+		boolean found = false;
+		
+		for (Map map : mapList){
+			if (map.getMapName().equalsIgnoreCase("Map3"));
+			found = true;
+			break;
+		}
+		
+		assertTrue(found);
+		
+	}
+	/**
 	 * This Test will test the validation saving an item
 	 */
 	@Test
+	public void saveLoadItem_Test() throws FileNotFoundException, ClassNotFoundException, IOException {
 
-	public void saveLoadObjects_Test() throws FileNotFoundException, ClassNotFoundException, IOException {
-
-		// create new item Object
-		Item blackHelmet = new Item("Black Helmet", ItemType.HELMET, CharacterAttribute.INTELLIGENCE, 4, 4,
-				WeaponType.NotAWeapon);
+		
 		// save item object
 		ItemIO fileWriterReader = new ItemIO();
-		fileWriterReader.saveItem(blackHelmet);
+		String message = fileWriterReader.saveItem(crazyHelmet);
+		System.out.println(message);
 		ArrayList<Item> listItem = fileWriterReader.loadItems();
 
 		boolean found = false;
 		for (Item item : listItem) {
-			if (item.getName().equalsIgnoreCase("Black Helmet")) {
+			if (item.getName().equalsIgnoreCase("crazyHelmet")) {
 				found = true;
 				break;
 			}
