@@ -300,6 +300,9 @@ public class TestObjects {
 
 		fighterTank.setCharacterBuilder(tank);
 		fighterTank.createFighter(character);
+		System.out.println(fighterTank.getCharacter());
+		
+		assertTrue(fighterTank.getCharacter().getName().equalsIgnoreCase("feras"));
 
 	}
 
