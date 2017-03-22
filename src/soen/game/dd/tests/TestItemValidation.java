@@ -32,7 +32,7 @@ import soen.game.dd.models.WeaponType;
 /**
  * 
  * @author fyounis
- *	This class is the third test class using Junit
+ *	This class will validated the Item
  */
 
 public class TestItemValidation {

@@ -33,7 +33,7 @@ import soen.game.dd.models.WeaponType;
 /**
  * 
  * @author fyounis This is the second test class
- * This is the Second test class using Junit
+ * here will test Campaign and game
  *
  */
 public class TestGameValidation {
