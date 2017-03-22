@@ -1,6 +1,7 @@
 package soen.game.dd.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TankCharacterBuilder extends CharacterBuilder {
 	public void setAbilityScores(){
@@ -26,16 +27,17 @@ public class TankCharacterBuilder extends CharacterBuilder {
 			int temp=die[i];
 			die[i]=max;
 			die[index]=temp;
-			average=average/6;
 		}
-		fighterTypeProduct.constitution = die[0] + 5;
-		fighterTypeProduct.dexterity = die[1] + 4;
-		fighterTypeProduct.strength= die[2] + 3;
-		fighterTypeProduct.intelligence = die[3] + 2;
-		fighterTypeProduct.charisma = die[4] + 1;
+		average=average/6;
+		fighterTypeProduct.constitution = die[0]+average/2;
+		fighterTypeProduct.dexterity = die[1]+average/3;
+		fighterTypeProduct.strength= die[2]+average/4;
+		fighterTypeProduct.intelligence = die[3]+average/8;
+		fighterTypeProduct.charisma = die[4]+average/10;
 		fighterTypeProduct.wisdom = die[5];
 		//checking for item enhancements
-		ArrayList<Item> listItem = (ArrayList<Item>) fighterTypeProduct.getEquippedItems();
+		List<Item> listItem = fighterTypeProduct.getEquippedItems();
+		//ArrayList<Item> listItem = (ArrayList<Item>) fighterTypeProduct.getEquippedItems();
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.CHARISMA) {

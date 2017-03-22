@@ -26,6 +26,7 @@ import soen.game.dd.models.Character;
 import soen.game.dd.models.DummyGameEngine;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
+import soen.game.dd.models.NPCType;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 
@@ -61,6 +62,7 @@ public class JPanelGameComponent {
 		GridLayout gridLayout;
 		gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 		panel.setLayout(gridLayout);
+		gameEngine.setHitPoints();
 
 		mapButtonsGrid2DArray = new JButton[new_mapModel.getMapHeight()][new_mapModel.getMapWidth()];
 		
@@ -96,18 +98,18 @@ public class JPanelGameComponent {
 				if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_PATH_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.green);
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT) {
-					imgIcon = new ImageIcon(img.getScaledInstance(GameStatics.CHILD_POPUP_WINDOW_WIDTH/new_mapModel.getMapWidth() - 5, GameStatics.CHILD_POPUP_WINDOW_HEIGHT/new_mapModel.getMapHeight() - 5, java.awt.Image.SCALE_SMOOTH));
+					//imgIcon = new ImageIcon(img.getScaledInstance(GameStatics.CHILD_POPUP_WINDOW_WIDTH/new_mapModel.getMapWidth() - 5, GameStatics.CHILD_POPUP_WINDOW_HEIGHT/new_mapModel.getMapHeight() - 5, java.awt.Image.SCALE_SMOOTH));
 					mapButtonsGrid2DArray[i][j].setBackground(Color.red);
-					mapButtonsGrid2DArray[i][j].setIcon(imgIcon);
+					//mapButtonsGrid2DArray[i][j].setIcon(imgIcon);
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_EXIT_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.red);
 					mapButtonsGrid2DArray[i][j].setText("Exit");
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.white);
-					mapButtonsGrid2DArray[i][j].setText("Character");
+					mapButtonsGrid2DArray[i][j].setText("Friendly");
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.blue);
-					mapButtonsGrid2DArray[i][j].setText("Opponent");
+					mapButtonsGrid2DArray[i][j].setText("Hostile");
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHEST_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.orange);
 					mapButtonsGrid2DArray[i][j].setText("Chest");
@@ -172,9 +174,46 @@ public class JPanelGameComponent {
 				}
 			}
 			
-			gameEngine.interactWith(x,y);
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_OPPONENT_POINT && mapButtonsGrid2DArray[x][y].getText().equals("Hostile")) {
+				if (e.isShiftDown()){
+					e.consume();
+					if (e.getButton() == MouseEvent.BUTTON3){
+						new JFrameAttributeView(gameEngine.getCurrentMap().getHostileCharacter());
+					} else {
+						new JFrameInventoryView(gameEngine.getCurrentMap().getHostileCharacter(), false);
+					}
+					return; //Don't do anything else
+				} else {
+					Character hostileCharacter = gameEngine.getCurrentMap().getHostileCharacter();
+					
+					if (hostileCharacter != null) {
+						if (gameEngine.encounter(gameEngine.getCharacter(), hostileCharacter) == 0) {
+							hostileCharacter.setNPCType(NPCType.DEAD);
+							gameEngine.getCurrentMap().mapCharacters.set(gameEngine.getCurrentMap().getHostileCharacterIndex(), hostileCharacter);
+							JOptionPane.showMessageDialog(null, "Rest in peace....");
+							mapButtonsGrid2DArray[x][y].setText("Dead");
+						}
+					}
+				}
+			}
 			
-			gameEngine.notifyObservers();
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_OPPONENT_POINT && mapButtonsGrid2DArray[x][y].getText().equals("Dead")) {
+				Character hostileCharacter = gameEngine.getCurrentMap().getHostileCharacter();
+				gameEngine.lootHostileItems(hostileCharacter.getBackpack());
+			}
+			
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_CHEST_POINT || new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT) {
+				gameEngine.interactWith(x,y);			
+				gameEngine.notifyObservers();
+			}
+			
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_EXIT_POINT) {
+				Character hostileCharacter = gameEngine.getCurrentMap().getHostileCharacter();
+				
+				if (hostileCharacter.getNPCType() == NPCType.DEAD) {
+					JOptionPane.showMessageDialog(null, "Congrats you achieve the map objective");
+				}
+			}
 		}
 		
 		public Item getItemToSwap(){

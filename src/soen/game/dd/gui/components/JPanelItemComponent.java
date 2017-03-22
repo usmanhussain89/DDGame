@@ -16,6 +16,7 @@ import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
+import soen.game.dd.models.WeaponType;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 
@@ -85,26 +86,35 @@ public class JPanelItemComponent {
 		JComboBox cbItemType = new JComboBox(ItemType.values());
 		cbItemType.setBounds(170, 75, 120, 25);
 		panel.add(cbItemType);
+		
+		JLabel lblWeaponType = new JLabel("Weapon Type :");
+		lblWeaponType.setBounds(40, 120, 90, 25);
+		panel.add(lblWeaponType);
+
+		JComboBox cbWeaponType = new JComboBox();
+		cbWeaponType.addItem(WeaponType.NotAWeapon);
+		cbWeaponType.setBounds(170, 120, 120, 25);
+		panel.add(cbWeaponType);
 
 		JLabel lblCharacterAttr = new JLabel("Character Attribute: ");
-		lblCharacterAttr.setBounds(40, 120, 120, 25);
+		lblCharacterAttr.setBounds(40, 165, 120, 25);
 		panel.add(lblCharacterAttr);
 
 		JComboBox cbCharacterAttr = new JComboBox(ItemType.HELMET.getAllowedAttributes().toArray());
-		cbCharacterAttr.setBounds(170, 120, 120, 25);
+		cbCharacterAttr.setBounds(170, 165, 120, 25);
 		panel.add(cbCharacterAttr);
 
 		JLabel lblBonusAmount = new JLabel("Bonus Amount: ");
-		lblBonusAmount.setBounds(40, 165, 100, 25);
+		lblBonusAmount.setBounds(40, 210, 100, 25);
 		panel.add(lblBonusAmount);
 
 		Integer[] bonuses = new Integer[] { 1, 2, 3, 4, 5 };
 		JComboBox cbBonusAmount = new JComboBox(bonuses);
-		cbBonusAmount.setBounds(170, 165, 100, 25);
+		cbBonusAmount.setBounds(170, 210, 100, 25);
 		panel.add(cbBonusAmount);
 
 		JButton btnAddItem = new JButton("Save Item");
-		btnAddItem.setBounds(40, 230, 120, 25);
+		btnAddItem.setBounds(40, 250, 120, 25);
 		panel.add(btnAddItem);
 
 		if (E_ItemEditorMode.Open == new_mode) {
@@ -120,6 +130,17 @@ public class JPanelItemComponent {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(cbItemType.getSelectedItem());
+				if (cbItemType.getSelectedItem().toString().equals("WEAPON")) {
+					cbWeaponType.removeAllItems();
+					cbWeaponType.addItem(WeaponType.MELEE);
+					cbWeaponType.addItem(WeaponType.RANGED);
+				}
+				
+				else {
+					cbWeaponType.removeAllItems();
+					cbWeaponType.addItem(WeaponType.NotAWeapon);
+				}
+					
 				cbCharacterAttr.removeAllItems();
 				for (CharacterAttribute c : ((ItemType) cbItemType.getSelectedItem()).getAllowedAttributes()) {
 					cbCharacterAttr.addItem(c);
@@ -146,8 +167,15 @@ public class JPanelItemComponent {
 				}
 
 				if (!itemName.equals("")) {
+					WeaponType weaponType = null;
+					if (cbItemType.getSelectedItem().toString().equals("WEAPON"))
+						weaponType = (WeaponType)cbWeaponType.getSelectedItem();
+					else
+						weaponType = weaponType.NotAWeapon;
+					
 					item.setName(itemName);
 					item.setItemType((ItemType) cbItemType.getSelectedItem());
+					item.setWeaponType(weaponType);
 					item.setCharacterAttribute((CharacterAttribute) cbCharacterAttr.getSelectedItem());
 					item.setBonusAmount((Integer) cbBonusAmount.getSelectedItem());
 					if (item.isValid()) {

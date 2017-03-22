@@ -360,6 +360,7 @@ public class JPanelCharacterComponent {
 					
 					if (cbFighterType.getSelectedItem() != null) {
 						Fighter fighter = new Fighter();
+						//Design builder implmentation heres
 						CharacterBuilder characterBuilder = null;
 						if (cbFighterType.getSelectedItem() == FighterType.BULLY) {
 							characterBuilder = new BullyCharacterBuilder();

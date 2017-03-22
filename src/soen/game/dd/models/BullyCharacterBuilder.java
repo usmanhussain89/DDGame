@@ -29,13 +29,13 @@ public class BullyCharacterBuilder extends CharacterBuilder {
 			int temp = die[i];
 			die[i] = max;
 			die[index] = temp;
-			average=average/6;
 		}
-		fighterTypeProduct.strength = die[0] + 5;
-		fighterTypeProduct.constitution = die[1] + 4;
-		fighterTypeProduct.dexterity = die[2] + 3;
-		fighterTypeProduct.intelligence = die[3] + 2;
-		fighterTypeProduct.charisma = die[4] + 1;
+		average=average/3;
+		fighterTypeProduct.strength = die[0] + average/2;
+		fighterTypeProduct.constitution = die[1] + average/3;
+		fighterTypeProduct.dexterity = die[2] + average/4;
+		fighterTypeProduct.intelligence = die[3]+average/8;
+		fighterTypeProduct.charisma = die[4]+average/10;
 		fighterTypeProduct.wisdom = die[5];
 		
 		List<Item> listItem = fighterTypeProduct.getEquippedItems();
