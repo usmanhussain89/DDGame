@@ -33,10 +33,10 @@ public class Hit extends Observable {
 				if(die==20||attackScore>=AC)
 				{
 					if(weapon.equals("melee")){
-						damagePoint=(int) (playableCharacter.roll1d10()+playableCharacter.getStrengthModifier());
+						damagePoint=(int) (playableCharacter.roll1d10()+playableCharacter.getStrengthModifier()+playableCharacter.getDamageBonus());
 					}
 					else if(weapon.equals("ranged")){
-						damagePoint=(int) (playableCharacter.roll1d10()+playableCharacter.getDexterityModifier());
+						damagePoint=(int) (playableCharacter.roll1d10()+playableCharacter.getDexterityModifier()+playableCharacter.getDamageBonus());
 					}	
 				}
 				NPC.hitPoint-=damagePoint;
