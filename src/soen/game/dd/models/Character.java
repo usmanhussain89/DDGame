@@ -415,6 +415,11 @@ public class Character extends Observable implements Serializable {
 		}
 	}
 	
+	/**
+	 * @author Munjed
+	 * This created at the beginning of each map. The Hitpoint 
+	 * @param maxHitPoint
+	 */
 	public void setHitpoint(double maxHitPoint){
 		this.hitPoint=maxHitPoint;
 	}

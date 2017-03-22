@@ -28,12 +28,12 @@ public class NimbleCharacterBuilder extends CharacterBuilder {
 			die[index]=temp;
 			average=average/6;
 		}
-		this.dexterity = die[0]+average/2;
-		this.constitution = die[1]+average/3;
-		this.strength= die[2]+average/4;
-		this.intelligence = die[3]+average/5;
-		this.charisma = die[4]+average/6;
-		this.wisdom = die[5]+average/7;
+		this.dexterity = die[0] + 5;
+		this.constitution = die[1] + 4;
+		this.strength= die[2] + 3;
+		this.intelligence = die[3] + 2;
+		this.charisma = die[4] + 1;
+		this.wisdom = die[5];
 		
 		ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
 		
