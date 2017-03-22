@@ -10,8 +10,21 @@ import soen.game.dd.models.Character;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
 
+/**
+ * This class class create JMenuBar for Character
+ * @author Usman
+ *
+ */
 public class JMenuBarCharacterComponent {
 	
+	/**
+	 * This mehtod create menu bar for character editor
+	 * 
+	 * @param character
+	 * @param characterEditor
+	 * @param characterEditorMode
+	 * @return
+	 */
 	public JMenuBar getCharacterEditorJMenuBar(Character character, CharacterEditor characterEditor, E_CharacterEditorMode characterEditorMode) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);

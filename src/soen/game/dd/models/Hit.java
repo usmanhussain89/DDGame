@@ -2,6 +2,11 @@ package soen.game.dd.models;
 
 import java.util.Observable;
 
+/**
+ * This class calculate damage points between player and hostile character
+ * @author Usman
+ *
+ */
 public class Hit extends Observable {
 	private NPCType npcType;
 	private Character playableCharacter;
@@ -13,7 +18,14 @@ public class Hit extends Observable {
 	private int die;
 	private int attackScore;
 	
-	
+	/**
+	 * this method return damage point
+	 * @param playableCharacter
+	 * @param NPC
+	 * @param npcType
+	 * @param weapon
+	 * @return
+	 */
 	public int getDamagePoint(Character playableCharacter,Character NPC, NPCType npcType, Item weapon){
 		if(npcType.equals(NPCType.HOSTILE)){
 			AC=NPC.getArmorClass();
@@ -48,7 +60,11 @@ public class Hit extends Observable {
 		setChanged();
 		return damagePoint;
 	}
-
+	
+	/**
+	 * Generate random score
+	 * @return
+	 */
 	private int d20Dice() {
 		int score = (int) (Math.random() * 20) + 1;
 		

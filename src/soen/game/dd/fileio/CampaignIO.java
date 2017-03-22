@@ -11,6 +11,12 @@ import java.util.ArrayList;
 
 import soen.game.dd.models.Campaign;
 
+/**
+ * This class save and load Campaign to/from file
+ * 
+ * @author Usman
+ *
+ */
 public class CampaignIO extends ModelIO{
 	
 	private final String FILENAME = "campaigns.txt";

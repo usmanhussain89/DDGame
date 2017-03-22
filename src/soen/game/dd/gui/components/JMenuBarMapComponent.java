@@ -16,6 +16,12 @@ import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 
+/**
+ * This class class create JMenuBar for Map
+ * 
+ * @author Usman
+ *
+ */
 public class JMenuBarMapComponent {
 	
 	/**

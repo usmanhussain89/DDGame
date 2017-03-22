@@ -1,5 +1,10 @@
 package soen.game.dd.models;
 
+/**
+ * This class implements builder pattern
+ * @author Usman
+ *
+ */
 public abstract class CharacterBuilder extends Character {
 	/**
 	 * @author Munjed

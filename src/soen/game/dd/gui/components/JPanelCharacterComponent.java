@@ -30,6 +30,12 @@ import soen.game.dd.models.TankCharacterBuilder;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
 
+/**
+ * This class create Jpanel for Character Component
+ * 
+ * @author Usman
+ *
+ */
 public class JPanelCharacterComponent {
 	
 	String characterName = "";
@@ -40,7 +46,12 @@ public class JPanelCharacterComponent {
 		JPanel panel;
 		character = pCharacter;
 		ArrayList<Item> items = new ItemIO().loadItems();
-
+		
+		/**
+		 * This class is used to set ComboItem
+		 * @author Usman
+		 *
+		 */
 		class ItemComboItem {
 			private Item value;
 			private String label;
@@ -65,7 +76,13 @@ public class JPanelCharacterComponent {
 			}
 			
 		}
-
+		
+		/**
+		 * This class generate Comboitem list for generator
+		 * 
+		 * @author Usman
+		 *
+		 */
 		class ComboItemListGenerator {
 			private ItemType itemType;
 

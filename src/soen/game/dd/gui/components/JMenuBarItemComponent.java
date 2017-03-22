@@ -11,6 +11,11 @@ import javax.swing.JMenuItem;
 import soen.game.dd.models.Item;
 import soen.game.dd.statics.content.GameStatics;
 
+/**
+ * This class class create JMenuBar for Item
+ * @author Usman
+ *
+ */
 public class JMenuBarItemComponent {
 	
 	/**

@@ -34,6 +34,7 @@ public class DummyGameEngine extends Observable{
 	public DummyGameEngine(Campaign campaign, Character character) {
 		this.campaign = campaign;
 		this.character = character;
+		this.character.setNPCType(NPCType.PLAYABALE);
 		this.currentMapIndex = 0;
 		resetCharacterPosition();
 	}
@@ -77,10 +78,15 @@ public class DummyGameEngine extends Observable{
 	/**
 	 * This method set the Current Map
 	 * 
-	 * @param Map
 	 */
-	public void setCurrentMap(Map map) {
-		this.currentMap = map;
+	public void setCurrentMap() {
+		if (currentMapIndex < campaign.getCampaignList().size()) {
+			this.currentMap = campaign.getCampaignList().get(currentMapIndex);
+			setCharacterItemLevel(this.currentMap, character);
+		}
+		
+		else
+			this.currentMap = null;
 	}
 	
 	/**
@@ -88,10 +94,10 @@ public class DummyGameEngine extends Observable{
 	 * @return
 	 */
 	public Map getCurrentMap() {
-		if (currentMapIndex >= campaign.getCampaignList().size()){
+		/*if (currentMapIndex >= campaign.getCampaignList().size()){
 			return null;
-		}
-		return campaign.getCampaignList().get(currentMapIndex);
+		}*/
+		return this.currentMap;
 	}
 	
 	/**
@@ -201,13 +207,23 @@ public class DummyGameEngine extends Observable{
 	}
 
 	
-	public void nextMap(){
+	public boolean nextMap(){
 		currentMapIndex++;
-		resetCharacterPosition();
-		setChanged();
+		setCurrentMap();
+		if (getCurrentMap() != null) {
+			resetCharacterPosition();
+			setChanged();
+			return true;
+		}
+		
+		else {
+			setChanged();
+			return false;
+		}
 	}
 	
 	public void resetCharacterPosition(){
+		setCurrentMap();
 		characterPosition = getCurrentMap().getEntryPoint();
 	}
 

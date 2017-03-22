@@ -20,6 +20,11 @@ import soen.game.dd.models.WeaponType;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 
+/**
+ * This class create jpanel for Items
+ * @author Usman
+ *
+ */
 public class JPanelItemComponent {
 	
 	String itemName = "";
@@ -124,7 +129,7 @@ public class JPanelItemComponent {
 			cbBonusAmount.setSelectedItem(items.get(0).getBonusAmount());
 			itemName = items.get(0).getName();
 		}
-
+		//Action listener for combobo item type
 		cbItemType.addActionListener(new ActionListener() {
 
 			@Override
@@ -147,6 +152,7 @@ public class JPanelItemComponent {
 				}
 			}
 		});
+		//action listener for item name
 		cbItemName.addActionListener(new ActionListener() {
 
 			@Override
@@ -157,7 +163,8 @@ public class JPanelItemComponent {
 				itemName = items.get(cbItemName.getSelectedIndex()).getName();
 			}
 		});
-
+		
+		//action listener for Add item
 		btnAddItem.addActionListener(new ActionListener() {
 
 			@Override

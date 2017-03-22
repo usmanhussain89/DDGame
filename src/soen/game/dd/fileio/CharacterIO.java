@@ -12,6 +12,12 @@ import java.util.ArrayList;
 
 import soen.game.dd.models.Character;
 
+/**
+ * This class save and load Character to/from file
+ * 
+ * @author Usman
+ *
+ */
 public class CharacterIO extends ModelIO {
 	
 	private final String FILENAME = "characters.txt";
@@ -44,6 +50,11 @@ public class CharacterIO extends ModelIO {
 			return "EXIST";
 	}
 	
+	/**
+	 * This method save characters to the file
+	 * @param characters
+	 * @return
+	 */
 	public String saveCharacters(ArrayList<Character> characters) {
 
 		try {

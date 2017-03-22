@@ -12,6 +12,12 @@ import java.util.ArrayList;
 
 import soen.game.dd.models.Map;
 
+/**
+ * This class save and load Map to/from file
+ * 
+ * @author Usman
+ *
+ */
 public class MapIO extends ModelIO{
 	
 	private final String FILENAME = "maps.txt";

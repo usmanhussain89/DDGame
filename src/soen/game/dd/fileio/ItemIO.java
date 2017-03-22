@@ -11,6 +11,12 @@ import java.util.ArrayList;
 
 import soen.game.dd.models.Item;
 
+/**
+ * This class save and load Item to/from file
+ * 
+ * @author Usman
+ *
+ */
 public class ItemIO extends ModelIO {
 	private final String FILENAME = "items.txt";
 	

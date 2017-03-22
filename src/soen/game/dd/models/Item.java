@@ -132,21 +132,37 @@ public class Item implements Serializable {
 		return "Item [itemType=" + itemType + ", enhancedAttribute=" + enhancedAttribute + ", bonusAmount="
 				+ bonusAmount + ", name=" + name + "]";
 	}
-
+	
+	/**
+	 * This method set bonus amount
+	 * @param bonusAmount
+	 */
 	public void setBonusAmount(Integer bonusAmount) {
 		this.bonusAmount = bonusAmount;
 
 	}
-
+	
+	/**
+	 * This method set character attribute
+	 * @param bonusAmount
+	 */
 	public void setCharacterAttribute(CharacterAttribute characterAttribute) {
 		this.enhancedAttribute = characterAttribute;
 
 	}
-
+	
+	/**
+	 * This method set item type
+	 * @param bonusAmount
+	 */
 	public void setItemType(ItemType itemType) {
 		this.itemType = itemType;
 	}
 	
+	/**
+	 * This method implement equal
+	 * @param bonusAmount
+	 */
 	public boolean equals(Item other){
 		return this.bonusAmount == other.bonusAmount &&
 				this.enhancedAttribute == other.enhancedAttribute &&

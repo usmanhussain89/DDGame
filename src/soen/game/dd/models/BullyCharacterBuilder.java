@@ -3,6 +3,11 @@ package soen.game.dd.models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class set ability score for BullyCharacter
+ * @author Usman
+ *
+ */
 public class BullyCharacterBuilder extends CharacterBuilder {
 	public void setAbilityScores() {
 		// The following loop is made sort the scores retrieved from 4d6 dices

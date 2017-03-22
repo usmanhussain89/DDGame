@@ -16,6 +16,12 @@ import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 
+/**
+ * This class create Jpanel for Campaign Component
+ * 
+ * @author Usman
+ *
+ */
 public class JPanelCampaignComponent {
 	private E_CampaignEditorMode campaignEditorMode;
 
@@ -83,7 +89,12 @@ public class JPanelCampaignComponent {
 				mapList.add(m.getMapName());
 			}
 		}
-
+		/**
+		 * This class implements ActionListener for PanelAction
+		 * 
+		 * @author Usman
+		 *
+		 */
 		class PanelAction implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {

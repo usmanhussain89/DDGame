@@ -15,6 +15,11 @@ import soen.game.dd.models.Campaign;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 
+/**
+ * This class class create JMenuBar for Campaign
+ * @author Usman
+ *
+ */
 public class JMenuBarCampaignComponent {
 	
 	/**

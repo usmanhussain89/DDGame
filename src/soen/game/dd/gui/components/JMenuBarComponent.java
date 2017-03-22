@@ -148,7 +148,7 @@ public class JMenuBarComponent {
 					} else {
 
 					}
-				} else if (e.getSource().equals(menuItemOpenMap)) {
+				} else if (e.getSource().equals(menuItemOpenMap)) { //Open Map
 					ArrayList<Map> maps = null;
 					maps = new MapIO().loadMaps();
 	
@@ -182,12 +182,12 @@ public class JMenuBarComponent {
 					// }
 				}
 
-				else if (e.getSource().equals(menuItemCreateItem)) {
+				else if (e.getSource().equals(menuItemCreateItem)) { // Create Item
 					new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
 							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create, null);
 				}
 
-				else if (e.getSource().equals(menuItemOpenItem)) {
+				else if (e.getSource().equals(menuItemOpenItem)) { // Open Item
 					ArrayList<Item> items = new ArrayList<Item>();
 
 					items = new ItemIO().loadItems();
@@ -200,14 +200,14 @@ public class JMenuBarComponent {
 					}
 				}
 
-				else if (e.getSource().equals(menuItemCreateCharacter)) {
+				else if (e.getSource().equals(menuItemCreateCharacter)) { // Create Character
 					new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR,
 							GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100,
 							E_CharacterEditorMode.Create, null);
 
 				}
 
-				else if (e.getSource().equals(menuItemOpenCharacter)) {
+				else if (e.getSource().equals(menuItemOpenCharacter)) { // Open Character
 					ArrayList<Character> characters = new ArrayList<Character>();
 
 					characters = new CharacterIO().loadCharacters();
@@ -220,7 +220,7 @@ public class JMenuBarComponent {
 					}
 				}
 
-				else if (e.getSource().equals(menuItemCreateCampaign)) {
+				else if (e.getSource().equals(menuItemCreateCampaign)) { // Create Campaign
 					ArrayList<Map> maps = null;
 					maps = new MapIO().loadMaps();
  
@@ -235,7 +235,7 @@ public class JMenuBarComponent {
 					}
 				}
 
-				else if (e.getSource().equals(menuItemOpenCampaign)) {
+				else if (e.getSource().equals(menuItemOpenCampaign)) { // Open Campaign
 
 					ArrayList<Campaign> campaigns = null;
 					campaigns = new CampaignIO().loadCampaigns();
@@ -269,7 +269,7 @@ public class JMenuBarComponent {
 					}
 				}
 
-				else if (e.getSource().equals(menuItemPlay)) {
+				else if (e.getSource().equals(menuItemPlay)) { // Play Game
 
 					ArrayList<Character> characters = new CharacterIO().loadCharacters();
 					Character character = null;

@@ -30,6 +30,12 @@ import soen.game.dd.models.NPCType;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 
+/**
+ * This class create JPanel for Game Component
+ * 
+ * @author Usman
+ *
+ */
 public class JPanelGameComponent {
 	
 	private E_MapEditorMode mapEditorMode;
@@ -44,16 +50,28 @@ public class JPanelGameComponent {
 	private DummyGameEngine gameEngine;
 	private Map new_mapModel;
 	
+	/**
+	 * Constructor of the class initialize panel and gameEngine
+	 * 
+	 * @param gameEngine
+	 */
 	public JPanelGameComponent(DummyGameEngine gameEngine){
 		panel = new JPanel();
 		this.gameEngine = gameEngine;
 	}
 	
+	/**
+	 * The method return Jpanel
+	 * @return
+	 */
 	public JPanel getPanel(){
 		return panel;
 	}
 	
-	
+	/**
+	 * This method refresh the jpanel with the new components
+	 * 
+	 */
 	public void refreshPanel() {
 		panel.removeAll();
 		ImageIcon imgIcon = new ImageIcon("Character.png");
@@ -66,7 +84,7 @@ public class JPanelGameComponent {
 
 		mapButtonsGrid2DArray = new JButton[new_mapModel.getMapHeight()][new_mapModel.getMapWidth()];
 		
-		JButton inventoryViewer = new JButton("Next Map");
+		/*JButton inventoryViewer = new JButton("Next Map");
 		inventoryViewer.setBounds(700, 0, 200, 25);
 		
 		inventoryViewer.addActionListener(new ActionListener(){
@@ -77,7 +95,7 @@ public class JPanelGameComponent {
 				gameEngine.notifyObservers();
 			}
 			
-		});
+		});*/
 		
 		for (int i = 0; i < new_mapModel.getMapHeight(); i++) {
 			for (int j = 0; j < new_mapModel.getMapWidth(); j++) {
@@ -109,7 +127,10 @@ public class JPanelGameComponent {
 					mapButtonsGrid2DArray[i][j].setText("Friendly");
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.blue);
-					mapButtonsGrid2DArray[i][j].setText("Hostile");
+					if (gameEngine.getCurrentMap().getHostileCharacter().getNPCType().equals(NPCType.HOSTILE))
+						mapButtonsGrid2DArray[i][j].setText("Hostile");
+					else
+						mapButtonsGrid2DArray[i][j].setText("Dead");
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHEST_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.orange);
 					mapButtonsGrid2DArray[i][j].setText("Chest");
@@ -136,8 +157,17 @@ public class JPanelGameComponent {
 		this.panel.repaint();
 	}
 	
+	/**
+	 * this class implement mouseAdapter listener for Interaction
+	 * 
+	 * @author Usman
+	 *
+	 */
 	class InteractionListener extends MouseAdapter{
-
+		
+		/**
+		 * This method is called when mouse clicked
+		 */
 		public void mouseClicked(MouseEvent e) {
 			JButton button = (JButton) e.getSource();
 			String[] coordinates = button.getName().split(":");
@@ -212,10 +242,19 @@ public class JPanelGameComponent {
 				
 				if (hostileCharacter.getNPCType() == NPCType.DEAD) {
 					JOptionPane.showMessageDialog(null, "Congrats you achieve the map objective");
+					gameEngine.getCharacter().levelUp();
+					if (!gameEngine.nextMap()) {
+						JOptionPane.showMessageDialog(null, "Campaign end....");
+					}
+					gameEngine.notifyObservers();
 				}
 			}
 		}
 		
+		/**
+		 * This method swap items between character and non playing character
+		 * @return
+		 */
 		public Item getItemToSwap(){
 			List<Item> items = gameEngine.getCharacter().getBackpack();
 			JComboBox<String> cbItem = new JComboBox<String>();

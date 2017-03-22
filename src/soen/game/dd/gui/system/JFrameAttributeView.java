@@ -11,12 +11,21 @@ import javax.swing.JPanel;
 
 import soen.game.dd.models.Character;
 
+/**
+ * This class create Attribute view of ability score
+ * @author Usman
+ *
+ */
 public class JFrameAttributeView extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 8826936854256209812L;
 	Character character;
 	JPanel panel;
 	
+	/**
+	 * this constructor initialize JFrameAttributeView
+	 * @param character
+	 */
 	public JFrameAttributeView(Character character){
 		this.character = character;
 		character.addObserver(this);
@@ -25,11 +34,17 @@ public class JFrameAttributeView extends JFrame implements Observer {
 		refreshJPanel();
 	}
 	
+	/**
+	 * this method initialize jpanel
+	 */
 	public void initializeJPanel() {
 		panel = new JPanel();
 		panel.setLayout(null);
 	}
 	
+	/**
+	 * this method initialize frame
+	 */
 	public void initializeFrame() {
 		this.setTitle("Attributes for " + character.getName());
 		this.setPreferredSize(new Dimension(200, 170));
@@ -43,10 +58,17 @@ public class JFrameAttributeView extends JFrame implements Observer {
 		this.setContentPane(panel);
 	}
 	
+	/**
+	 * the method return jpanel
+	 * @return
+	 */
 	public JPanel getJPanel() {
 		return this.panel;
 	}
 	
+	/**
+	 * This method refresh jpanel 
+	 */
 	public void refreshJPanel() {
 
 		panel.removeAll();
@@ -60,12 +82,22 @@ public class JFrameAttributeView extends JFrame implements Observer {
 		panel.repaint();
 	}
 	
+	/**
+	 * this method return attribute label
+	 * @param attrName
+	 * @param attrVal
+	 * @param yPos
+	 * @return
+	 */
 	private JLabel getAttrLabel(String attrName, int attrVal, int yPos){
 		JLabel label = new JLabel(attrName + ": " + attrVal);
 		label.setBounds(30, yPos, 125, 25);
 		return label;
 	}
-
+	
+	/**
+	 * update is called when notifyobservers will call
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println("Notified");
