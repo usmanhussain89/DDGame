@@ -154,8 +154,6 @@ public class DummyGameEngine extends Observable{
 		}
 		
 		return character.getBackpack().size() == 10;
-		
-
 	}
 	
 	/**
@@ -225,6 +223,10 @@ public class DummyGameEngine extends Observable{
 			lootChestItems(getCurrentMap().mapSelectedItem);
 			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
 		}
+		/*else if (pathPoint == GameStatics.MAP_OPPONENT_POINT && getCurrentMap().){
+			lootChestItems(getCurrentMap().mapSelectedItem);
+			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
+		}*/
 		else if (pathPoint == GameStatics.MAP_CHARACTER_POINT){
 			
 		}

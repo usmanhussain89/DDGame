@@ -96,9 +96,9 @@ public class JPanelGameComponent {
 				if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_PATH_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.green);
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT) {
-					imgIcon = new ImageIcon(img.getScaledInstance(GameStatics.CHILD_POPUP_WINDOW_WIDTH/new_mapModel.getMapWidth() - 5, GameStatics.CHILD_POPUP_WINDOW_HEIGHT/new_mapModel.getMapHeight() - 5, java.awt.Image.SCALE_SMOOTH));
+					//imgIcon = new ImageIcon(img.getScaledInstance(GameStatics.CHILD_POPUP_WINDOW_WIDTH/new_mapModel.getMapWidth() - 5, GameStatics.CHILD_POPUP_WINDOW_HEIGHT/new_mapModel.getMapHeight() - 5, java.awt.Image.SCALE_SMOOTH));
 					mapButtonsGrid2DArray[i][j].setBackground(Color.red);
-					mapButtonsGrid2DArray[i][j].setIcon(imgIcon);
+					//mapButtonsGrid2DArray[i][j].setIcon(imgIcon);
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_EXIT_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.red);
 					mapButtonsGrid2DArray[i][j].setText("Exit");
@@ -169,6 +169,19 @@ public class JPanelGameComponent {
 					Item itemToSwap = getItemToSwap();
 					if (itemToSwap != null)
 						gameEngine.exchangeWithNPC(itemToSwap);
+				}
+			}
+			
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_OPPONENT_POINT) {
+				if (e.isShiftDown()){
+					e.consume();
+					if (e.getButton() == MouseEvent.BUTTON3){
+						new JFrameAttributeView(gameEngine.getCurrentMap().getHostileCharacter());
+					} else {
+						new JFrameInventoryView(gameEngine.getCurrentMap().getHostileCharacter(), false);
+					}
+					return; //Don't do anything else
+				} else {
 				}
 			}
 			

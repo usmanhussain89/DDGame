@@ -230,9 +230,26 @@ public class Map implements Serializable {
 		return chestPoint;
 	}
 	
+	/**
+	 * This method return the friend character on the map
+	 * @return
+	 */
 	public Character getFriendlyCharacter(){
 		for (Character character : mapCharacters){
 			if (character.getNPCType() == NPCType.FRINDLY){
+				return character;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * This method return the hostile character on the map
+	 * @return
+	 */
+	public Character getHostileCharacter(){
+		for (Character character : mapCharacters){
+			if (character.getNPCType() == NPCType.HOSTILE){
 				return character;
 			}
 		}
