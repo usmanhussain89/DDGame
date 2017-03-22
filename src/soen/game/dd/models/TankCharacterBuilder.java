@@ -10,8 +10,11 @@ public class TankCharacterBuilder extends CharacterBuilder {
 		//preference
 		
 		int[] die = new int[6];
-		for(int i=0; i<6;i++)
-			die[i]=roll4d6();
+		int average=0;
+		for (int i = 0; i < 6; i++){
+			die[i] = roll4d6();
+			average+=die[i];
+		}
 		for(int i=0;i<6;i++){
 			int max=die[i];
 			int index=i;
@@ -24,13 +27,14 @@ public class TankCharacterBuilder extends CharacterBuilder {
 			int temp=die[i];
 			die[i]=max;
 			die[index]=temp;
+			average=average/6;
 		}
-		fighterTypeProduct.constitution = die[0]+4;
-		fighterTypeProduct.dexterity = die[1]+2;
-		fighterTypeProduct.strength= die[2]+1;
-		fighterTypeProduct.intelligence = die[3];
-		fighterTypeProduct.charisma = die[4];
-		fighterTypeProduct.wisdom = die[5];
+		fighterTypeProduct.constitution = die[0]+average/2;
+		fighterTypeProduct.dexterity = die[1]+average/3;
+		fighterTypeProduct.strength= die[2]+average/4;
+		fighterTypeProduct.intelligence = die[3]+average/5;
+		fighterTypeProduct.charisma = die[4]+average/6;
+		fighterTypeProduct.wisdom = die[5]+average/7;
 		//checking for item enhancements
 		List<Item> listItem = fighterTypeProduct.getEquippedItems();
 		//ArrayList<Item> listItem = (ArrayList<Item>) fighterTypeProduct.getEquippedItems();

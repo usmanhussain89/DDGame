@@ -107,7 +107,8 @@ public class TestObjects {
 
 		Character blackFeras = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redArmor, redBelt, redWeapon, redShield);
-		assertFalse("<Info> : This is not Helmot Type Item", blackFeras.setHelmet(redArmor));
+		blackFeras.setHelmet(redArmor);
+		assertEquals("<Info> : This is not Helmot Type Item", redHelmet, blackFeras.getHelmet());
 
 	}
 

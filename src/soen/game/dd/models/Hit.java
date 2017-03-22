@@ -7,6 +7,7 @@ public class Hit extends Observable {
 	private Character playableCharacter;
 	private Character NPC;
 	private Item weapon;
+	private WeaponType weaponType;
 	private int damagePoint;
 	private int AC;
 	private int die;
@@ -23,23 +24,23 @@ public class Hit extends Observable {
 			}
 			else{
 				if(die!=20){
-					if(weapon.equals("melee")){
+					if(weapon.getWeaponType()==WeaponType.MELEE){
 						attackScore=(int) (die + playableCharacter.attackBonus + playableCharacter.getStrengthModifier());
 					}
-					else if(weapon.equals("ranged")){
+					else if(weapon.getWeaponType()==WeaponType.RANGED){
 						attackScore=(int) (die + playableCharacter.attackBonus + playableCharacter.getDexterityModifier());
 					}
 				}
 				if(die==20||attackScore>=AC)
 				{
-					if(weapon.equals("melee")){
+					if(weapon.getWeaponType()==WeaponType.MELEE){
 						damagePoint=(int) (playableCharacter.roll1d10()+playableCharacter.getStrengthModifier()+playableCharacter.getDamageBonus());
 					}
-					else if(weapon.equals("ranged")){
+					else if(weapon.getWeaponType()==WeaponType.RANGED){
 						damagePoint=(int) (playableCharacter.roll1d10()+playableCharacter.getDexterityModifier()+playableCharacter.getDamageBonus());
 					}	
 				}
-				NPC.hitPoint-=damagePoint;
+				//NPC.hitPoint-=damagePoint;
 			}
 			
 		}

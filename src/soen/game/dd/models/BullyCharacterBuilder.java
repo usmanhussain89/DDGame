@@ -12,8 +12,11 @@ public class BullyCharacterBuilder extends CharacterBuilder {
 		// preference
 
 		int[] die = new int[6];
-		for (int i = 0; i < 6; i++)
+		int average=0;
+		for (int i = 0; i < 6; i++){
 			die[i] = roll4d6();
+			average+=die[i];
+		}
 		for (int i = 0; i < 6; i++) {
 			int max = die[i];
 			int index = i;
@@ -26,13 +29,14 @@ public class BullyCharacterBuilder extends CharacterBuilder {
 			int temp = die[i];
 			die[i] = max;
 			die[index] = temp;
+			average=average/6;
 		}
-		fighterTypeProduct.strength = die[0] + 4;
-		fighterTypeProduct.constitution = die[1] + 2;
-		fighterTypeProduct.dexterity = die[2] + 1;
-		fighterTypeProduct.intelligence = die[3];
-		fighterTypeProduct.charisma = die[4];
-		fighterTypeProduct.wisdom = die[5];
+		fighterTypeProduct.strength = die[0] + average/2;
+		fighterTypeProduct.constitution = die[1] + average/3;
+		fighterTypeProduct.dexterity = die[2] + average/4;
+		fighterTypeProduct.intelligence = die[3]+average/5;
+		fighterTypeProduct.charisma = die[4]+average/6;
+		fighterTypeProduct.wisdom = die[5]+average/7;
 		
 		List<Item> listItem = fighterTypeProduct.getEquippedItems();
 		//ArrayList<Item> listItem = (ArrayList<Item>) fighterTypeProduct.getEquippedItems();
