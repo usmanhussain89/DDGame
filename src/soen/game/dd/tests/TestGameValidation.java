@@ -1,4 +1,5 @@
 package soen.game.dd.tests;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +13,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import soen.game.dd.fileio.CharacterIO;
 import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.fileio.MapIO;
 import soen.game.dd.models.BullyCharacterBuilder;
@@ -28,15 +30,14 @@ import soen.game.dd.models.Map;
 import soen.game.dd.models.TankCharacterBuilder;
 import soen.game.dd.models.WeaponType;
 
-
 /**
  * 
- * @author fyounis
- *	This class is the third test class using Junit
+ * @author fyounis This is the second test class
+ * This is the Second test class using Junit
+ *
  */
+public class TestGameValidation {
 
-public class TestObjectsThree {
-	
 	private Map map = new Map(10, 10);
 	private Map map2 = new Map(10, 10);
 	private Map map3 = new Map(10, 10);
@@ -56,6 +57,8 @@ public class TestObjectsThree {
 
 	private Character redFeras;
 	private ArrayList<Item> chest;
+	private ArrayList<Item> chest2;
+
 
 	public Map addComponentsToMap(Map map) {
 		Map editMap = map;
@@ -102,6 +105,182 @@ public class TestObjectsThree {
 		chest.add(crazyHelmet);
 		chest.add(blackBelt);
 	}
+
+	/**
+	 * this test will test if we can add items to a chest
+	 */
+	@Test
+	public void Chest_add_Items_Test1(){
+		
+		chest2 = new ArrayList<Item>();
+		chest2.add(crazyHelmet);
+		chest2.add(blackBelt);
+		chest2.add(redBelt);
+		
+		assertTrue(chest2.size()==3);
+		
+	}
+	
+	/**
+	 * this test will test if we can add items to a chest
+	 */
+	@Test
+	public void Chest_add_Items_Test2(){
+		
+		chest2 = new ArrayList<Item>();
+		chest2.add(crazyHelmet);
+		chest2.add(blackBelt);
+		chest2.add(redBelt);
+		
+		chest2.remove(crazyHelmet);
+		
+		assertTrue(chest.get(0).equals(crazyHelmet));
+		
+		
+		
+		
+	}
+	/**
+	 * this test will test if we can add items to a chest
+	 */
+	@Test
+	public void Chest_add_Items_Test3(){
+		
+		chest2 = new ArrayList<Item>();
+		chest2.add(crazyHelmet);
+		chest2.add(blackBelt);
+		chest2.add(redBelt);
+		
+		chest2.remove(crazyHelmet);
+		
+		assertTrue(chest.get(0).equals(crazyHelmet));
+		
+		assertTrue(chest2.size()==2);
+		boolean exist = false;
+		for(Item item : chest2){
+			if(item==crazyHelmet){
+				exist = true;
+				}
+		}
+		
+		assertFalse(exist);
+		
+		
+	}
+	
+
+	/**
+	 * THis test will test the dummy engine of the game campaign 
+	 * 
+	 */
+	@Test
+	public void engine_Create_Test() {
+
+		/*addComponentsToMap(map);
+		addComponentsToMap(map2);
+		addComponentsToMap(map3);
+		addComponentsToMap(map4);
+*/
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
+
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
+
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		Point point = new Point(1, 1);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
+
+		DummyGameEngine testEngine = new DummyGameEngine(munjed, BlackCampaign);
+		System.out.println("First flag");
+
+		
+		assertEquals("Both Compaings are same",BlackCampaign, testEngine.getCampagin());
+		
+
+
+	}
+
+	public void engine_Map_Validation_Test() {
+
+		/*addComponentsToMap(map);
+		addComponentsToMap(map2);
+		addComponentsToMap(map3);
+		addComponentsToMap(map4);
+*/
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
+
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
+
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
+
+		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, character);
+		System.out.println("First flag");
+
+		
+		assertEquals("This is not the Map",map, testEngine.getCampagin().getCampaignList().get(0));
+		
+	}
+	/**
+	 * This test will test create campaign
+	 */
+	@Test
+	public void campaign_Create_Test() {
+		Map map = new Map(5, 6);
+		Map map2 = new Map(8, 7);
+		Map map3 = new Map(10, 22);
+		Map map4 = new Map(22, 22);
+
+		Campaign RedCampaign = new Campaign();
+		RedCampaign.setCampaignList(map);
+		RedCampaign.setCampaignList(map2);
+		RedCampaign.setCampaignList(map3);
+		RedCampaign.setCampaignList(map4);
+
+	}
+
+
 	
 	/**
 	 * Test Campaign Name
@@ -172,18 +351,7 @@ public class TestObjectsThree {
 		assertTrue(found);
 	}
 	
-	/**
-	 * Character can not get wear more than one Item type
-	 */
-	@Test
-	public void character_addMoreThanOneItemType_Test() {
-
-		Character blackFeras = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
-				redRing, redHelmet, redArmor, redBelt, redWeapon, redShield);
-		blackFeras.setHelmet(redArmor);
-		assertEquals("<Info> : This is not Helmot Type Item", redHelmet, blackFeras.getHelmet());
-
-	}
+	
 	
 	/**
 	 * Test looting
@@ -248,5 +416,6 @@ public class TestObjectsThree {
 
 
 	}
+	
 
 }

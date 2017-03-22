@@ -1,5 +1,4 @@
 package soen.game.dd.tests;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -31,12 +30,14 @@ import soen.game.dd.models.TankCharacterBuilder;
 import soen.game.dd.models.WeaponType;
 
 /**
+ * This class to test different objects creating, saving, loading. Object like
+ * Character
  * 
- * @author fyounis This is the second test class
- * This is the Second test class using Junit
+ * @author fyounis
  *
  */
-public class TestObjectsTwo {
+public class TestCharacterValidation {
+	
 
 	private Map map = new Map(10, 10);
 	private Map map2 = new Map(10, 10);
@@ -57,8 +58,6 @@ public class TestObjectsTwo {
 
 	private Character redFeras;
 	private ArrayList<Item> chest;
-	private ArrayList<Item> chest2;
-
 
 	public Map addComponentsToMap(Map map) {
 		Map editMap = map;
@@ -105,66 +104,130 @@ public class TestObjectsTwo {
 		chest.add(crazyHelmet);
 		chest.add(blackBelt);
 	}
-
 	/**
-	 * this test will test if we can add items to a chest
+	 * Create Character test
 	 */
 	@Test
-	public void Chest_add_Items_Test1(){
+	public void character_Create_Test() {
+
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println(character);
+
+		assertTrue("<Info> : The Helmet is not valid", character.getHelmet().isValid());
 		
-		chest2 = new ArrayList<Item>();
-		chest2.add(crazyHelmet);
-		chest2.add(blackBelt);
-		chest2.add(redBelt);
+	}
+	/**
+	 * this test will test the value of random attribute
+	 */
+	@Test
+	public void character_Attributes_Test() {
+
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println(character);
+
+		assertTrue("<Info> : The Helmet is not valid", character.getHelmet().isValid());
+		assertTrue("<Info> : the multipleAttacks: " + character.getMultipleAttacks() + " is not  equal what was set",
+				character.getMultipleAttacks() == 10);
+	}
+	/**
+	 * @author fyounis This will test the creation of the
+	 *         characterBuilder_Create_Test
+	 */
+	@Test
+	public void characterBuilder_Create_Test() {
+
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		CharacterBuilder tank = new TankCharacterBuilder();
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
+
+		fighterTank.setCharacterBuilder(tank);
+		fighterTank.createFighter(character);
+		System.out.println(fighterTank.getCharacter());
 		
-		assertTrue(chest2.size()==3);
-		
+		assertTrue(fighterTank.getCharacter().getName().equalsIgnoreCase("feras"));
+
+	}
+	/**
+	 * This Test will test load a Character
+	 */
+
+	@Test
+	public void loadCharacter_Test() {
+
+		CharacterIO characterIO = new CharacterIO();
+
+		String characterName = redFeras.getName();
+		System.out.println(characterName);
+		characterIO.saveCharacter(redFeras);
+		ArrayList<Character> characterList = characterIO.loadCharacters();
+
+		boolean found = false;
+
+		for (Character character : characterList) {
+			if (character.getName().equalsIgnoreCase(characterName)) {
+				found = true;
+				System.out.println(character.getName());
+				break;
+
+			}
+			assertTrue("Not found",found);
+		}
 	}
 	
 	/**
-	 * this test will test if we can add items to a chest
+	 * Character can not get wear more than one Item type
 	 */
 	@Test
-	public void Chest_add_Items_Test2(){
-		
-		chest2 = new ArrayList<Item>();
-		chest2.add(crazyHelmet);
-		chest2.add(blackBelt);
-		chest2.add(redBelt);
-		
-		chest2.remove(crazyHelmet);
-		
-		assertTrue(chest.get(0).equals(crazyHelmet));
-		
-		
-		
-		
+	public void character_addMoreThanOneItemType_Test() {
+
+		Character blackFeras = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redArmor, redBelt, redWeapon, redShield);
+		blackFeras.setHelmet(redArmor);
+		assertEquals("<Info> : This is not Helmot Type Item", redHelmet, blackFeras.getHelmet());
+
 	}
+	
+	
 	/**
-	 * this test will test if we can add items to a chest
+	 * this test will test wearing items should correctly influence the character’s abilities
 	 */
+	
 	@Test
-	public void Chest_add_Items_Test3(){
+	public void wearing_Items_Should_Correctly_Influence_Character_Abilities_Test() {
+
+		Character jackTheGreate = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		jackTheGreate.setIntelligenceModifier(2.0);
+		jackTheGreate.setAbilityModifier();
+		jackTheGreate.setAttackBonus();
 		
-		chest2 = new ArrayList<Item>();
-		chest2.add(crazyHelmet);
-		chest2.add(blackBelt);
-		chest2.add(redBelt);
+		int weakerItems = jackTheGreate.getAttackBonus();
+		System.out.println("The attack bonus is: "+weakerItems);
 		
-		chest2.remove(crazyHelmet);
 		
-		assertTrue(chest.get(0).equals(crazyHelmet));
+		jackTheGreate.setWeapon(crazyWeapon);
+		jackTheGreate.setBelt(blackBelt);
+		jackTheGreate.setHelmet(crazyHelmet);
+		jackTheGreate.setAbilityModifier();
+		jackTheGreate.setAttackBonus();
+
+		int strongerItems = jackTheGreate.getAttackBonus();
+
+		System.out.println("The attack bonus is: "+strongerItems);
 		
-		assertTrue(chest2.size()==2);
-		boolean exist = false;
-		for(Item item : chest2){
-			if(item==crazyHelmet){
-				exist = true;
-				}
-		}
 		
-		assertFalse(exist);
-		
+		assertTrue((strongerItems > weakerItems));
 		
 	}
 	/**
@@ -198,64 +261,6 @@ public class TestObjectsTwo {
 
 		assertTrue((strongerItems > weakerItems));
 
-	}
-
-	/**
-	 * This will test false create Item
-	 */
-	@Test
-	public void create_Item_Is_Not_Valiad_Test() {
-		Item redHelmet4 = new Item("RedHelmet4", ItemType.HELMET, CharacterAttribute.DAMAGE_BONUS, 4, 2,
-				WeaponType.NotAWeapon);
-		assertFalse("The Item: " + redHelmet4.getBonusAmount() + " is not a valid Item", redHelmet4.isValid());
-		System.out.println(" The Item: " + redHelmet4.getName() + " was created ");
-		System.out.println(redHelmet4.toString() + "\n");
-	}
-
-	/**
-	 * This test will test the false map create
-	 */
-	@Test
-	public void create_Map_Is_Not_Valiad_Test() {
-
-		Map map = new Map(44, 22);
-		assertFalse("the Map: " + map.getMapName() + " is valid", map.isValid());
-
-		Map map2 = new Map(-5, 10);
-		assertFalse(map2.isValid());
-
-		Map map3 = new Map(5, 77);
-		assertFalse(map3.isValid());
-
-		Map map4 = new Map(-5, -15);
-		assertFalse(map4.isValid());
-	}
-
-	/**
-	 * This Test will test load a Character
-	 */
-
-	@Test
-	public void loadCharacter_Test() {
-
-		CharacterIO characterIO = new CharacterIO();
-
-		String characterName = redFeras.getName();
-		System.out.println(characterName);
-		characterIO.saveCharacter(redFeras);
-		ArrayList<Character> characterList = characterIO.loadCharacters();
-
-		boolean found = false;
-
-		for (Character character : characterList) {
-			if (character.getName().equalsIgnoreCase(characterName)) {
-				found = true;
-				System.out.println(character.getName());
-				break;
-
-			}
-			assertTrue("Not found",found);
-		}
 	}
 
 }

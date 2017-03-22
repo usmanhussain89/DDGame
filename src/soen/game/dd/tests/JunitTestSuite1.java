@@ -9,9 +9,10 @@ import org.junit.runners.Suite.SuiteClasses;
  *	This is the First test Suite
  */
 @RunWith(Suite.class)
-@SuiteClasses({	TestObjects.class,
-				TestObjectsTwo.class,
-				TestObjectsThree.class})
+@SuiteClasses({	TestMapValidation.class,
+				TestGameValidation.class,
+				TestItemValidation.class,
+				TestCharacterValidation.class})
 public class JunitTestSuite1 {
 
 }
