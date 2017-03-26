@@ -412,6 +412,7 @@ public class Character extends Observable implements Serializable {
 		if(level!=20){
 			level++;
 			maxHitPoint=getMaxHitPoint()+constitutionModifier+roll1d10();
+			setAttackBonus();
 		}
 	}
 	
