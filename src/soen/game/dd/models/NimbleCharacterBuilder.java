@@ -34,12 +34,12 @@ public class NimbleCharacterBuilder extends CharacterBuilder {
 			die[index]=temp;
 		}
 		average=average/3;
-		this.dexterity = die[0]+7;
-		this.constitution = die[1]+5;
-		this.strength= die[2]+3;
-		this.intelligence = die[3]+2;
-		this.charisma = die[4]+1;
-		this.wisdom = die[5];
+		this.dexterity = die[0]*18/die[0];
+		this.constitution = die[1]*18/die[0];
+		this.strength= die[2]*18/die[0];
+		this.intelligence = die[3]*18/die[0];
+		this.charisma = die[4]*18/die[0];
+		this.wisdom = die[5]*18/die[0];
 		
 		List<Item> listItem = fighterTypeProduct.getEquippedItems();
 		//ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
