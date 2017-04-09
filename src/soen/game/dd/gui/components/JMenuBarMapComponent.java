@@ -48,11 +48,13 @@ public class JMenuBarMapComponent {
 					String MapValidationStatus = "";
 
 					if (E_MapEditorMode.Create == mapEditorMode) {
-						MapValidationStatus = (new MapValidation()).mapValidations(new_mapModel);
+						//MapValidationStatus = (new MapValidation()).mapValidations(new_mapModel);
+						MapValidationStatus = "";
 					}
 
 					else {
-						MapValidationStatus = (new MapValidation()).mapValidations(maps.get(index));
+						//MapValidationStatus = (new MapValidation()).mapValidations(maps.get(index));
+						MapValidationStatus = "";
 					}
 
 					if (MapValidationStatus != null) {
