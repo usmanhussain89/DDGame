@@ -1,6 +1,7 @@
 package soen.game.dd.models;
 
 import java.awt.Point;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.Random;
 import soen.game.dd.statics.content.GameStatics;
 
 /**
- * This is Game Engine class 
+ * This is Game Engine class
  * 
  * @author Usman
  *
  */
-public class GameEngine extends Observable{
-	
+public class GameEngine extends Observable {
+
 	private Campaign campaign;
 	private Character character;
 	private Map currentMap;
@@ -24,9 +25,10 @@ public class GameEngine extends Observable{
 	private Thread t;
 	private int currentMapIndex;
 	private Point characterPosition;
-	
+
 	/**
-	 * This is constructor of the class which initialize campaign and character object
+	 * This is constructor of the class which initialize campaign and character
+	 * object
 	 * 
 	 * @param campaign
 	 * @param character
@@ -38,13 +40,12 @@ public class GameEngine extends Observable{
 		this.currentMapIndex = 0;
 		resetCharacterPosition();
 	}
-	
+
 	public GameEngine(Character charater, Campaign campaign) {
 		this.campaign = campaign;
 		this.character = charater;
 	}
 
-	
 	/**
 	 * This method set the campaign
 	 * 
@@ -53,16 +54,16 @@ public class GameEngine extends Observable{
 	public void setCampaign(Campaign campaign) {
 		this.campaign = campaign;
 	}
-	
-	
+
 	/**
 	 * This method return the campaign
+	 * 
 	 * @return
 	 */
 	public Campaign getCampagin() {
 		return this.campaign;
 	}
-	
+
 	/**
 	 * This method set the Character
 	 * 
@@ -71,15 +72,16 @@ public class GameEngine extends Observable{
 	public void setCharacter(Character character) {
 		this.character = character;
 	}
-	
+
 	/**
 	 * This method return the Character
+	 * 
 	 * @return
 	 */
 	public Character getCharacter() {
 		return this.character;
 	}
-	
+
 	/**
 	 * This method set the Current Map
 	 * 
@@ -89,22 +91,24 @@ public class GameEngine extends Observable{
 			this.currentMap = campaign.getCampaignList().get(currentMapIndex);
 			setCharacterItemLevel(this.currentMap, character);
 		}
-		
+
 		else
 			this.currentMap = null;
 	}
-	
+
 	/**
 	 * This method return the Current Map
+	 * 
 	 * @return
 	 */
 	public Map getCurrentMap() {
-		/*if (currentMapIndex >= campaign.getCampaignList().size()){
-			return null;
-		}*/
+		/*
+		 * if (currentMapIndex >= campaign.getCampaignList().size()){ return
+		 * null; }
+		 */
 		return this.currentMap;
 	}
-	
+
 	/**
 	 * This method set the level of NPC'S and Item to the player character level
 	 * 
@@ -116,57 +120,140 @@ public class GameEngine extends Observable{
 		Iterator<Item> iterItems = currentMap.mapSelectedItem.iterator();
 		int indexCharacter = 0;
 		int indexItem = 0;
+		int indexCharacterbackpackItem = 0;
 		while (iterChars.hasNext() && indexCharacter < currentMap.mapCharacters.size()) {
+			indexCharacterbackpackItem = 0;
 			this.currentMap.mapCharacters.get(indexCharacter).setLevel(playerCharacterLevel);
+
+			if (playerCharacterLevel >= 1 && playerCharacterLevel <= 4) {
+				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(1);
+				this.currentMap.mapCharacters.get(indexCharacter).getRing().setBonusAmount(1);
+				this.currentMap.mapCharacters.get(indexCharacter).getHelmet().setBonusAmount(1);
+				this.currentMap.mapCharacters.get(indexCharacter).getBoots().setBonusAmount(1);
+				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(1);
+				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(1);
+				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(1);
+			}
+			if (playerCharacterLevel >= 5 && playerCharacterLevel <= 8) {
+				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(2);
+				this.currentMap.mapCharacters.get(indexCharacter).getRing().setBonusAmount(2);
+				this.currentMap.mapCharacters.get(indexCharacter).getHelmet().setBonusAmount(2);
+				this.currentMap.mapCharacters.get(indexCharacter).getBoots().setBonusAmount(2);
+				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(2);
+				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(2);
+				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(2);
+			}
+			if (playerCharacterLevel >= 9 && playerCharacterLevel <= 12) {
+				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(3);
+				this.currentMap.mapCharacters.get(indexCharacter).getRing().setBonusAmount(3);
+				this.currentMap.mapCharacters.get(indexCharacter).getHelmet().setBonusAmount(3);
+				this.currentMap.mapCharacters.get(indexCharacter).getBoots().setBonusAmount(3);
+				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(3);
+				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(3);
+				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(3);
+			}
+			if (playerCharacterLevel >= 13 && playerCharacterLevel <= 16) {
+				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(4);
+				this.currentMap.mapCharacters.get(indexCharacter).getRing().setBonusAmount(4);
+				this.currentMap.mapCharacters.get(indexCharacter).getHelmet().setBonusAmount(4);
+				this.currentMap.mapCharacters.get(indexCharacter).getBoots().setBonusAmount(4);
+				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(4);
+				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(4);
+				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(4);
+			}
+			if (playerCharacterLevel >= 17) {
+				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(5);
+				this.currentMap.mapCharacters.get(indexCharacter).getRing().setBonusAmount(5);
+				this.currentMap.mapCharacters.get(indexCharacter).getHelmet().setBonusAmount(5);
+				this.currentMap.mapCharacters.get(indexCharacter).getBoots().setBonusAmount(5);
+				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(5);
+				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(5);
+				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(5);
+			}
+
+			if (this.currentMap.mapCharacters.get(indexCharacter).getBackpack() != null) {
+				for (Item item : this.currentMap.mapCharacters.get(indexCharacter).getBackpack()) {
+					if (playerCharacterLevel >= 1 && playerCharacterLevel <= 4) {
+						this.currentMap.mapCharacters.get(indexCharacter).getBackpack()
+								.set(indexCharacterbackpackItem, item).setBonusAmount(1);
+						indexCharacterbackpackItem++;
+					}
+
+					if (playerCharacterLevel >= 5 && playerCharacterLevel <= 8) {
+						this.currentMap.mapCharacters.get(indexCharacter).getBackpack()
+								.set(indexCharacterbackpackItem, item).setBonusAmount(2);
+						indexCharacterbackpackItem++;
+					}
+
+					if (playerCharacterLevel >= 9 && playerCharacterLevel <= 12) {
+						this.currentMap.mapCharacters.get(indexCharacter).getBackpack()
+								.set(indexCharacterbackpackItem, item).setBonusAmount(3);
+						indexCharacterbackpackItem++;
+					}
+
+					if (playerCharacterLevel >= 13 && playerCharacterLevel <= 16) {
+						this.currentMap.mapCharacters.get(indexCharacter).getBackpack()
+								.set(indexCharacterbackpackItem, item).setBonusAmount(4);
+						indexCharacterbackpackItem++;
+					}
+
+					if (playerCharacterLevel >= 17) {
+						this.currentMap.mapCharacters.get(indexCharacter).getBackpack()
+								.set(indexCharacterbackpackItem, item).setBonusAmount(5);
+						indexCharacterbackpackItem++;
+					}
+				}
+			}
 			indexCharacter++;
 		}
-		
+
 		while (iterItems.hasNext() && indexItem < currentMap.mapSelectedItem.size()) {
 			if (playerCharacterLevel >= 1 && playerCharacterLevel <= 4) {
 				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(1);
 				indexItem++;
 			}
-			
+
 			if (playerCharacterLevel >= 5 && playerCharacterLevel <= 8) {
 				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(2);
 				indexItem++;
 			}
-			
+
 			if (playerCharacterLevel >= 9 && playerCharacterLevel <= 12) {
 				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(3);
 				indexItem++;
 			}
-			
+
 			if (playerCharacterLevel >= 13 && playerCharacterLevel <= 16) {
 				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(4);
 				indexItem++;
 			}
-			
+
 			if (playerCharacterLevel >= 17) {
 				this.currentMap.mapSelectedItem.get(indexItem).setBonusAmount(5);
 				indexItem++;
 			}
 		}
 	}
-	
+
 	/**
 	 * This is method added the looted item to the character backpack
+	 * 
 	 * @param item
 	 * @return backpack status
 	 */
 	public boolean lootChestItems(List<Item> items) {
-		
-		for (Item item : items){
+
+		for (Item item : items) {
 			if (character.getBackpack().size() < 10) {
 				System.out.println("Adding item " + item.getName());
 				this.character.addItemIntoBackpack(item);
 				this.character.notifyObservers();
 			}
 		}
-		
+
 		return character.getBackpack().size() == 10;
 	}
-	
+
 	/**
 	 * This method exchange the random item from non player character
 	 * 
@@ -178,21 +265,21 @@ public class GameEngine extends Observable{
 		Random randomGenerator = new Random();
 		int index;
 		Character npCharacter = getCurrentMap().getFriendlyCharacter();
-				
+
 		index = randomGenerator.nextInt(npCharacter.getBackpack().size());
 		Item itemToGive = npCharacter.getBackpack().get(index);
-		
+
 		this.character.addItemIntoBackpack(itemToGive);
 		this.character.removeItemFromBackpack(playerExchangeItem);
-		
+
 		npCharacter.addItemIntoBackpack(playerExchangeItem);
 		npCharacter.removeItemFromBackpack(itemToGive);
-		
+
 		setChanged();
 		this.character.notifyObservers();
 		npCharacter.notifyObservers();
 	}
-	
+
 	/**
 	 * This method set the objective of current map
 	 * 
@@ -201,7 +288,7 @@ public class GameEngine extends Observable{
 	public void setMapObjective(boolean isMapObjectiveFulfill) {
 		this.isMapObjFulfil = isMapObjectiveFulfill;
 	}
-	
+
 	/**
 	 * This method return the current map objective
 	 * 
@@ -211,8 +298,7 @@ public class GameEngine extends Observable{
 		return this.isMapObjFulfil;
 	}
 
-	
-	public boolean nextMap(){
+	public boolean nextMap() {
 		currentMapIndex++;
 		setCurrentMap();
 		if (getCurrentMap() != null) {
@@ -220,42 +306,44 @@ public class GameEngine extends Observable{
 			setChanged();
 			return true;
 		}
-		
+
 		else {
 			setChanged();
 			return false;
 		}
 	}
-	
-	public void resetCharacterPosition(){
+
+	public void resetCharacterPosition() {
 		setCurrentMap();
 		characterPosition = getCurrentMap().getEntryPoint();
 	}
 
-	public Point getCharacterPosition(){
+	public Point getCharacterPosition() {
 		return characterPosition;
 	}
 
 	public void interactWith(int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
 		if (pathPoint == GameStatics.MAP_PATH_POINT)
-			characterPosition = new Point(x,y);
-		else if (pathPoint == GameStatics.MAP_CHEST_POINT){
+			characterPosition = new Point(x, y);
+		else if (pathPoint == GameStatics.MAP_CHEST_POINT) {
 			lootChestItems(getCurrentMap().mapSelectedItem);
 			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
 		}
-		/*else if (pathPoint == GameStatics.MAP_OPPONENT_POINT && getCurrentMap().){
-			lootChestItems(getCurrentMap().mapSelectedItem);
-			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
-		}*/
-		else if (pathPoint == GameStatics.MAP_CHARACTER_POINT){
-			
+		/*
+		 * else if (pathPoint == GameStatics.MAP_OPPONENT_POINT &&
+		 * getCurrentMap().){ lootChestItems(getCurrentMap().mapSelectedItem);
+		 * getCurrentMap().mapSelectedItem = new ArrayList<Item>(); }
+		 */
+		else if (pathPoint == GameStatics.MAP_CHARACTER_POINT) {
+
 		}
 		setChanged();
 	}
-	
+
 	/**
 	 * This method uses the hit method to calculate the hit points
+	 * 
 	 * @param playable
 	 * @param hostile
 	 * @return
@@ -269,18 +357,17 @@ public class GameEngine extends Observable{
 				return 0;
 			else
 				return (int) hostile.getHitPoint();
-		}
-		else
+		} else
 			return 0;
 	}
-	
+
 	/**
 	 * This method is to set Hit points
 	 */
 	public void setHitPoints() {
 		int index = 0;
-		for (Character character : getCurrentMap().mapCharacters){
-			if (character.getNPCType() == NPCType.HOSTILE){
+		for (Character character : getCurrentMap().mapCharacters) {
+			if (character.getNPCType() == NPCType.HOSTILE) {
 				character.setMaxHitPoint();
 				character.setHitpoint(character.getMaxHitPoint());
 				getCurrentMap().mapCharacters.set(index, character);
@@ -288,22 +375,23 @@ public class GameEngine extends Observable{
 			index++;
 		}
 	}
-	
+
 	/**
 	 * This is method added the looted item to the character backpack
+	 * 
 	 * @param item
 	 * @return backpack status
 	 */
 	public boolean lootHostileItems(List<Item> items) {
-		
-		for (Item item : items){
+
+		for (Item item : items) {
 			if (character.getBackpack().size() < 10) {
 				System.out.println("Adding item " + item.getName());
 				this.character.addItemIntoBackpack(item);
 				this.character.notifyObservers();
 			}
 		}
-		
+
 		return character.getBackpack().size() == 10;
 	}
 }
