@@ -216,7 +216,7 @@ public class JMenuBarComponent {
 						new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
 								GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100, E_CharacterEditorMode.Open, characters);
 					} else {
-						JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
+						JOptionPane.showMessageDialog(null, "No Characters are created, Please create the characters");
 					}
 				}
 
