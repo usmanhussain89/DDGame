@@ -23,7 +23,7 @@ import soen.game.dd.gui.system.JFrameAttributeView;
 import soen.game.dd.gui.system.JFrameInventoryView;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
-import soen.game.dd.models.DummyGameEngine;
+import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
 import soen.game.dd.models.NPCType;
@@ -47,7 +47,7 @@ public class JPanelGameComponent {
 	private JButton jButtonOpponent;
 	private JButton jButtonChest;
 	private JPanel panel;
-	private DummyGameEngine gameEngine;
+	private GameEngine gameEngine;
 	private Map new_mapModel;
 	
 	/**
@@ -55,7 +55,7 @@ public class JPanelGameComponent {
 	 * 
 	 * @param gameEngine
 	 */
-	public JPanelGameComponent(DummyGameEngine gameEngine){
+	public JPanelGameComponent(GameEngine gameEngine){
 		panel = new JPanel();
 		this.gameEngine = gameEngine;
 	}

@@ -19,7 +19,7 @@ import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.CharacterBuilder;
-import soen.game.dd.models.DummyGameEngine;
+import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Fighter;
 import soen.game.dd.models.FighterType;
 import soen.game.dd.models.Item;

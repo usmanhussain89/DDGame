@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import soen.game.dd.gui.components.JPanelGameComponent;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
-import soen.game.dd.models.DummyGameEngine;
+import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
@@ -28,7 +28,7 @@ import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
  */
 public class GameEngineEditor extends JFrame implements Observer {
 	
-	DummyGameEngine gameEngine;
+	GameEngine gameEngine;
 	JPanel currentPanel;
 	JPanelGameComponent panelComponent;
 	
@@ -39,7 +39,7 @@ public class GameEngineEditor extends JFrame implements Observer {
 	 * @param campaign
 	 */
 	public GameEngineEditor(Character character, Campaign campaign){
-		this.gameEngine = new DummyGameEngine(campaign, character);
+		this.gameEngine = new GameEngine(campaign, character);
 		this.gameEngine.setCurrentMap();
 		this.gameEngine.addObserver(this);
 		initializeFrame();

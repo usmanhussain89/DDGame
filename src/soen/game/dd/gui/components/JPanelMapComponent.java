@@ -26,7 +26,7 @@ import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
-import soen.game.dd.models.DummyGameEngine;
+import soen.game.dd.models.GameEngine;
 
 public class JPanelMapComponent {
 	
@@ -69,7 +69,7 @@ public class JPanelMapComponent {
 		}
 		
 		else if (E_MapEditorMode.Play == mapEditorMode) {
-			DummyGameEngine ge = new DummyGameEngine(campaign, character);
+			GameEngine ge = new GameEngine(campaign, character);
 			//ge.startGameEngine();
 			System.out.println("1");
 			new_mapModel = ge.getCurrentMap();
@@ -101,8 +101,8 @@ public class JPanelMapComponent {
 				mapButtonsGrid2DArray[i][j].setName(value + ":" + i + ":" + j);
 
 				if (E_MapEditorMode.Create == mapEditorMode) {
-					new_mapModel.mapGridSelection[i][j] = 0;
-					mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
+					new_mapModel.mapGridSelection[i][j] = 1;
+					mapButtonsGrid2DArray[i][j].setBackground(Color.GREEN);
 					// Click event
 					addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel, new_mode, maps, index);
 					// Right Click Event

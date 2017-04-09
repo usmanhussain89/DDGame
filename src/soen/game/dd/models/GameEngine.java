@@ -15,7 +15,7 @@ import soen.game.dd.statics.content.GameStatics;
  * @author Usman
  *
  */
-public class DummyGameEngine extends Observable{
+public class GameEngine extends Observable{
 	
 	private Campaign campaign;
 	private Character character;
@@ -31,7 +31,7 @@ public class DummyGameEngine extends Observable{
 	 * @param campaign
 	 * @param character
 	 */
-	public DummyGameEngine(Campaign campaign, Character character) {
+	public GameEngine(Campaign campaign, Character character) {
 		this.campaign = campaign;
 		this.character = character;
 		this.character.setNPCType(NPCType.PLAYABALE);
@@ -39,7 +39,7 @@ public class DummyGameEngine extends Observable{
 		resetCharacterPosition();
 	}
 	
-	public DummyGameEngine(Character charater, Campaign campaign) {
+	public GameEngine(Character charater, Campaign campaign) {
 		this.campaign = campaign;
 		this.character = charater;
 	}

@@ -21,7 +21,7 @@ import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.CharacterBuilder;
-import soen.game.dd.models.DummyGameEngine;
+import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Fighter;
 import soen.game.dd.models.FighterType;
 import soen.game.dd.models.Item;
@@ -29,6 +29,7 @@ import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
 import soen.game.dd.models.TankCharacterBuilder;
 import soen.game.dd.models.WeaponType;
+import soen.game.dd.statics.content.GameStatics;
 
 /**
  * 
@@ -120,7 +121,55 @@ public class TestGameValidation {
 		assertTrue(chest2.size()==3);
 		
 	}
-	
+	/**
+	 * Character move on the map
+	 */
+	@Test
+	public void character_Move(){
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
+
+		map.mapGridSelection = new int[5][5];
+		map.mapGridSelection[1][1] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[0][0] = GameStatics.MAP_ENTRY_POINT;
+		
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
+
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+		
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		Point point = new Point(1, 1);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+		
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
+
+		GameEngine testEngine = new GameEngine(munjed, BlackCampaign);
+		System.out.println("First flag");
+		testEngine.setCurrentMap();
+
+		testEngine.interactWith(1, 1);
+		assertTrue("", testEngine.getCharacterPosition().equals(new Point(1,1)));
+		
+
+		
+		assertEquals("Both Compaings are same",BlackCampaign, testEngine.getCampagin());
+	}
 	/**
 	 * this test will test if we can add items to a chest
 	 */
@@ -210,7 +259,7 @@ public class TestGameValidation {
 		fighterBully.createFighter(character);
 		System.out.println(fighterBully);
 
-		DummyGameEngine testEngine = new DummyGameEngine(munjed, BlackCampaign);
+		GameEngine testEngine = new GameEngine(munjed, BlackCampaign);
 		System.out.println("First flag");
 
 		
@@ -255,7 +304,7 @@ public class TestGameValidation {
 		fighterBully.createFighter(character);
 		System.out.println(fighterBully);
 
-		DummyGameEngine testEngine = new DummyGameEngine(BlackCampaign, character);
+		GameEngine testEngine = new GameEngine(BlackCampaign, character);
 		System.out.println("First flag");
 
 		
@@ -392,7 +441,7 @@ public class TestGameValidation {
 		fighterBully.createFighter(character);
 		System.out.println(fighterBully);
 
-		DummyGameEngine testEngine = new DummyGameEngine(munjed, BlackCampaign);
+		GameEngine testEngine = new GameEngine(munjed, BlackCampaign);
 		System.out.println("3 flag");
 		
 		/*chest.add(crazyHelmet);

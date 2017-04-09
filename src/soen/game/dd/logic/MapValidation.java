@@ -1,6 +1,7 @@
 package soen.game.dd.logic;
 
 import java.awt.Point;
+import java.lang.reflect.MalformedParametersException;
 
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameEnums.E_MapValidationDirecton;
@@ -73,318 +74,214 @@ public class MapValidation {
 		int mapHeight = new_map.getMapHeight();
 		Point entryPoint = new_map.getEntryPoint();
 		int mapPathCellCount = 1;// for Entry Point
-		String status = "";
+		String status = "Error:Cells:Incorrect Map";
 		int i = entryPoint.x;
 		int j = entryPoint.y;
 		E_MapValidationDirecton dirUpDown = E_MapValidationDirecton.Initial;
-		E_MapValidationDirecton dirLeftRight = E_MapValidationDirecton.Initial;
 
 		int predictiveConnectedCellCount;
 		GameStatics.MAP_ROUT_PATH = "" + i + "," + j + ";";
-
-		// Decide initial Vertical Direction mean (Down or UP)
-		if (i < mapHeight - 1) {
-			if (new_map.getMapGridSelection()[i + 1][j] == GameStatics.MAP_EXIT_POINT) {
-				if (new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_EXIT_POINT) {
-					dirUpDown = E_MapValidationDirecton.Up;
-				}
-			}
-		} else {
-			dirUpDown = E_MapValidationDirecton.Up;
-		}
 
 		while ((i >= 0 && i < mapHeight) || (j >= 0 && j < mapWidth)) {
 			predictiveConnectedCellCount = 0;
 			int cellValue = 0;
 			int connectedCellFound = 0;
 
-			// Checking for Down cell
-			if (i < mapHeight
-					&& (dirUpDown == E_MapValidationDirecton.Initial || dirUpDown == E_MapValidationDirecton.Down)) {
-				if (i == mapHeight - 1) {
-					dirUpDown = E_MapValidationDirecton.Up;
-				} else {
-					cellValue = new_map.getMapGridSelection()[i + 1][j];
-					if (cellValue == GameStatics.MAP_PATH_POINT) {
-						i++;
-						mapPathCellCount++;
-						connectedCellFound++;
-						dirUpDown = E_MapValidationDirecton.Down;
-
-						// Alternate Route Check
-						if (i < mapHeight - 1 && new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (j < mapWidth - 1 && new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (j > 0 && new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_CHEST_POINT)
-
-						{
-							predictiveConnectedCellCount++;
-						}
-
-						if (predictiveConnectedCellCount > 1) {
-							status = "Error:Cells:" + mapPathCellCount + ":Map has Alternate Path.";
-							break;
-						} else {
-							predictiveConnectedCellCount = 0;
-						}
-
-						if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
-							GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
-						}
-
-					}
-					// Check if it is Exit point
-					else if (cellValue == GameStatics.MAP_EXIT_POINT) {
-						dirUpDown = E_MapValidationDirecton.Down;
-						if (mapPathCellCount <= 2) {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Error:Cells:" + mapPathCellCount
-									+ ":Map is not correct has only Entry and Exit points.";
-							break;
-						} else {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Success:Cells:" + mapPathCellCount + "";
-							break;
-						}
-					} else {
-						dirUpDown = E_MapValidationDirecton.Initial;
-					}
-				}
-
-			}
-
 			// Checking For Up Cell
-			if (i >= 0 && (dirUpDown == E_MapValidationDirecton.Initial || dirUpDown == E_MapValidationDirecton.Up)) {
-				if (i == 0) {
-					dirUpDown = E_MapValidationDirecton.Down;
-				} else {
-					cellValue = new_map.getMapGridSelection()[i - 1][j];
-					if (cellValue == GameStatics.MAP_PATH_POINT) {
-						i--;
+			if (i >= 0 && ((dirUpDown == E_MapValidationDirecton.Initial || dirUpDown == E_MapValidationDirecton.Up)
+					&& new_map.getExitPoint().getX() < new_map.getEntryPoint().getX())) {
+
+				cellValue = new_map.getMapGridSelection()[i - 1][j];
+				if (cellValue == GameStatics.MAP_PATH_POINT || cellValue == GameStatics.MAP_ENTRY_POINT
+						|| cellValue == GameStatics.MAP_CHEST_POINT || cellValue == GameStatics.MAP_CHARACTER_POINT
+						|| cellValue == GameStatics.MAP_OPPONENT_POINT) {
+					i--;
+					mapPathCellCount++;
+					connectedCellFound++;
+					if (new_map.getExitPoint().getY() > j) {
+						dirUpDown = E_MapValidationDirecton.Right;
+					} else {
+						dirUpDown = E_MapValidationDirecton.Left;
+					}
+
+					if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
+						GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
+					}
+				} else if (cellValue == GameStatics.MAP_EXIT_POINT) {
+					dirUpDown = E_MapValidationDirecton.Up;
+					if (mapPathCellCount <= 2) {
 						mapPathCellCount++;
 						connectedCellFound++;
-						dirUpDown = E_MapValidationDirecton.Up;
-
-						// Alternate Route Check
-						if (i > 0 && new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (j < mapWidth - 1 && new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (j > 0 && new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_CHEST_POINT)
-
-						{
-							predictiveConnectedCellCount++;
-						}
-
-						if (predictiveConnectedCellCount > 1) {
-							status = "Error:Cells:" + mapPathCellCount + ":Map has Alternate Path.";
-							break;
-						} else {
-							predictiveConnectedCellCount = 0;
-						}
-
-						if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
-							GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
-						}
-					} else if (cellValue == GameStatics.MAP_EXIT_POINT) {
-						dirUpDown = E_MapValidationDirecton.Up;
-						if (mapPathCellCount <= 2) {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Error:Cells:" + mapPathCellCount
-									+ ":Map is not correct has only Entry and Exit points.";
-							break;
-						} else {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Success:Cells:" + mapPathCellCount + "";
-							break;
-						}
+						status = "Error:Cells:" + mapPathCellCount
+								+ ":Map is not correct has only Entry and Exit points.";
+						break;
 					} else {
-						dirUpDown = E_MapValidationDirecton.Initial;
-					}
-				}
-
-			}
-
-			// Checking for Left cell
-			if (j < mapWidth && (dirLeftRight == E_MapValidationDirecton.Initial
-					|| dirLeftRight == E_MapValidationDirecton.Left)) {
-				if (j == mapWidth - 1) {
-					dirLeftRight = E_MapValidationDirecton.Right;
-				} else {
-					cellValue = new_map.getMapGridSelection()[i][j + 1];
-					if (cellValue == GameStatics.MAP_PATH_POINT) {
-						j++;
 						mapPathCellCount++;
 						connectedCellFound++;
-						dirLeftRight = E_MapValidationDirecton.Left;
-
-						// Alternate Route Check
-						if (j < mapWidth - 1 && new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i][j + 1] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (i < mapHeight - 1 && new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_CHEST_POINT)
-
-						{
-							predictiveConnectedCellCount++;
-						}
-						if (i > 0 && new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (predictiveConnectedCellCount > 1) {
-							status = "Error:Cells:" + mapPathCellCount + ":Map has Alternate Path.";
-							break;
-						} else {
-							predictiveConnectedCellCount = 0;
-						}
-
-						if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
-							GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
-						}
-
-					} else if (cellValue == GameStatics.MAP_EXIT_POINT) // Check
-																		// if
-																		// it
-																		// is
-																		// Exit
-																		// point
-					{
-						dirLeftRight = E_MapValidationDirecton.Left;
-						if (mapPathCellCount <= 2) {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Error:Cells:" + mapPathCellCount
-									+ ":Map is not correct has only Entry and Exit points.";
-							break;
-						} else {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Success:Cells:" + mapPathCellCount + "";
-							break;
-						}
-					} else {
-						dirLeftRight = E_MapValidationDirecton.Initial;
+						status = "Success:Cells:" + mapPathCellCount + "";
+						break;
 					}
 				}
-
 			}
 
 			// Checking For Right Cell
-			if (j >= 0 && (dirLeftRight == E_MapValidationDirecton.Initial
-					|| dirLeftRight == E_MapValidationDirecton.Right)) {
-				if (j == 0) {
-					dirLeftRight = E_MapValidationDirecton.Left;
-				} else {
-					cellValue = new_map.getMapGridSelection()[i][j - 1];
-					if (cellValue == GameStatics.MAP_PATH_POINT) {
-						j--;
-						mapPathCellCount++;
-						connectedCellFound++;
-						dirLeftRight = E_MapValidationDirecton.Right;
+			if (j >= 0
+					&& (dirUpDown == E_MapValidationDirecton.Initial || dirUpDown == E_MapValidationDirecton.Right)) {
 
-						// Alternate Route Check
-						if (j > 0 && new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i][j - 1] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (i < mapHeight - 1 && new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i + 1][j] != GameStatics.MAP_CHEST_POINT)
+				cellValue = new_map.getMapGridSelection()[i][j + 1];
+				if (cellValue == GameStatics.MAP_PATH_POINT || cellValue == GameStatics.MAP_ENTRY_POINT
+						|| cellValue == GameStatics.MAP_CHEST_POINT || cellValue == GameStatics.MAP_CHARACTER_POINT
+						|| cellValue == GameStatics.MAP_OPPONENT_POINT) {
+					j++;
+					mapPathCellCount++;
+					connectedCellFound++;
 
-						{
-							predictiveConnectedCellCount++;
-						}
-						if (i > 0 && new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_WALL_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_CHARACTER_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_OPPONENT_POINT
-								&& new_map.getMapGridSelection()[i - 1][j] != GameStatics.MAP_CHEST_POINT) {
-							predictiveConnectedCellCount++;
-						}
-						if (predictiveConnectedCellCount > 1) {
-							status = "Error:Cells:" + mapPathCellCount + ":Map has Alternate Path.";
-							break;
+					if (j >= new_map.getMapWidth() - 1
+							|| new_map.getMapGridSelection()[i][j + 1] == GameStatics.MAP_WALL_POINT) {
+						if (new_map.getExitPoint().getX() < new_map.getEntryPoint().getX()) {
+							dirUpDown = E_MapValidationDirecton.Up;
 						} else {
-							predictiveConnectedCellCount = 0;
-						}
-
-						if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
-							GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
-						}
-					} else if (cellValue == GameStatics.MAP_EXIT_POINT) {
-						dirLeftRight = E_MapValidationDirecton.Right;
-						if (mapPathCellCount <= 2) {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Error:Cells:" + mapPathCellCount
-									+ ":Map is not correct has only Entry and Exit points.";
-							break;
-						} else {
-							mapPathCellCount++;
-							connectedCellFound++;
-							status = "Success:Cells:" + mapPathCellCount + "";
-							break;
+							dirUpDown = E_MapValidationDirecton.Down;
 						}
 					} else {
-						dirLeftRight = E_MapValidationDirecton.Initial;
+						dirUpDown = E_MapValidationDirecton.Right;
+					}
+
+					if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
+						GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
+					}
+				} else if (cellValue == GameStatics.MAP_EXIT_POINT) {
+					dirUpDown = E_MapValidationDirecton.Right;
+					if (mapPathCellCount <= 2) {
+						mapPathCellCount++;
+						connectedCellFound++;
+						status = "Error:Cells:" + mapPathCellCount
+								+ ":Map is not correct has only Entry and Exit points.";
+						break;
+					} else {
+						mapPathCellCount++;
+						connectedCellFound++;
+						status = "Success:Cells:" + mapPathCellCount + "";
+						break;
+					}
+				} else {
+					if (new_map.getExitPoint().getX() < new_map.getEntryPoint().getX()) {
+						dirUpDown = E_MapValidationDirecton.Up;
+					} else {
+						dirUpDown = E_MapValidationDirecton.Down;
 					}
 				}
 			}
-			if (connectedCellFound == 0) {
-				status = "Error:Cells" + mapPathCellCount + ":Map is not Connected";
-				break;
+
+			// Checking for Left cell
+			if (j < mapWidth
+					&& (dirUpDown == E_MapValidationDirecton.Initial || dirUpDown == E_MapValidationDirecton.Left)) {
+				cellValue = new_map.getMapGridSelection()[i][j - 1];
+				if (cellValue == GameStatics.MAP_PATH_POINT || cellValue == GameStatics.MAP_ENTRY_POINT
+						|| cellValue == GameStatics.MAP_CHEST_POINT || cellValue == GameStatics.MAP_CHARACTER_POINT
+						|| cellValue == GameStatics.MAP_OPPONENT_POINT) {
+					j--;
+					mapPathCellCount++;
+					connectedCellFound++;
+
+					if (j <= 0 || new_map.getMapGridSelection()[i][j - 1] == GameStatics.MAP_WALL_POINT) {
+						if (new_map.getExitPoint().getX() < new_map.getEntryPoint().getX()) {
+							dirUpDown = E_MapValidationDirecton.Up;
+						} else {
+							dirUpDown = E_MapValidationDirecton.Down;
+						}
+					} else {
+						dirUpDown = E_MapValidationDirecton.Left;
+					}
+
+					if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
+						GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
+					} else {
+						dirUpDown = E_MapValidationDirecton.Initial;
+					}
+				} else if (cellValue == GameStatics.MAP_EXIT_POINT) // Check
+																	// if
+																	// it
+																	// is
+																	// Exit
+																	// point
+				{
+					dirUpDown = E_MapValidationDirecton.Left;
+					if (mapPathCellCount <= 2) {
+						mapPathCellCount++;
+						connectedCellFound++;
+						status = "Error:Cells:" + mapPathCellCount
+								+ ":Map is not correct has only Entry and Exit points.";
+						break;
+					} else {
+						mapPathCellCount++;
+						connectedCellFound++;
+						status = "Success:Cells:" + mapPathCellCount + "";
+						break;
+					}
+				} else {
+					if (new_map.getExitPoint().getX() < new_map.getEntryPoint().getX()) {
+						dirUpDown = E_MapValidationDirecton.Up;
+					} else {
+						dirUpDown = E_MapValidationDirecton.Down;
+					}
+				}
 			}
+
+			// Checking for Down cell
+			if (i < mapHeight
+					&& (dirUpDown == E_MapValidationDirecton.Initial || dirUpDown == E_MapValidationDirecton.Down
+							&& new_map.getExitPoint().getX() > new_map.getEntryPoint().getX())) {
+				cellValue = new_map.getMapGridSelection()[i + 1][j];
+				if (cellValue == GameStatics.MAP_PATH_POINT || cellValue == GameStatics.MAP_ENTRY_POINT
+						|| cellValue == GameStatics.MAP_CHEST_POINT || cellValue == GameStatics.MAP_CHARACTER_POINT
+						|| cellValue == GameStatics.MAP_OPPONENT_POINT) {
+					i++;
+					mapPathCellCount++;
+					connectedCellFound++;
+					if (new_map.getExitPoint().getY() > j) {
+						dirUpDown = E_MapValidationDirecton.Right;
+					} else {
+						dirUpDown = E_MapValidationDirecton.Left;
+					}
+
+					if (!GameStatics.MAP_ROUT_PATH.contains("" + i + "," + j + ";")) {
+						GameStatics.MAP_ROUT_PATH += "" + i + "," + j + ";";
+					} else {
+						dirUpDown = E_MapValidationDirecton.Initial;
+					}
+				}
+				// Check if it is Exit point
+				else if (cellValue == GameStatics.MAP_EXIT_POINT) {
+					dirUpDown = E_MapValidationDirecton.Down;
+					if (mapPathCellCount <= 2) {
+						mapPathCellCount++;
+						connectedCellFound++;
+						status = "Error:Cells:" + mapPathCellCount
+								+ ":Map is not correct has only Entry and Exit points.";
+						break;
+					} else {
+						mapPathCellCount++;
+						connectedCellFound++;
+						status = "Success:Cells:" + mapPathCellCount + "";
+						break;
+					}
+				} else {
+					if (new_map.getExitPoint().getX() < new_map.getEntryPoint().getX()) {
+						dirUpDown = E_MapValidationDirecton.Up;
+					} else {
+						dirUpDown = E_MapValidationDirecton.Down;
+					}
+				}
+			}
+
+			/*
+			 * if (connectedCellFound == 0) { status = "Error:Cells" +
+			 * mapPathCellCount + ":Map is not Connected"; break; }
+			 */
 
 		}
-		// Check for any other independent and non connected point.
-		if (status.contains("Success")) {
 
-			if (!GameStatics.MAP_ROUT_PATH
-					.contains("" + new_map.getExitPoint().x + "," + new_map.getExitPoint().y + ";")) {
-				GameStatics.MAP_ROUT_PATH += "" + new_map.getExitPoint().x + "," + new_map.getExitPoint().y + ";";
-			}
-
-			if (!checkIndependentSelectedCells(new_map)) {
-				status = "Error:Cells" + mapPathCellCount + ":Map has some Independant or non connected cells";
-			}
-		}
 		return status;
 	}
 
