@@ -9,6 +9,8 @@ package soen.game.dd.character.strategys;
 public class Frightening implements Strategy{
 	
 	
+	
+
 	private int runAwayTurns; 	// this param will be  to the enchantment bonus of the weapon. 
 
 
@@ -28,4 +30,11 @@ public class Frightening implements Strategy{
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Frightening [runAwayTurns=" + runAwayTurns + "]" + " I am so scared I am running away like a sissy";
+	}
 }

@@ -9,6 +9,11 @@ package soen.game.dd.character.strategys;
  */
 public class Freezing implements Strategy{
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+
+
 	private int FrozenTurns; // equal to the enchantment bonus of the weapon.
 
 	
@@ -27,7 +32,10 @@ public class Freezing implements Strategy{
 		FrozenTurns = frozenTurns;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Freezing [FrozenTurns=" + FrozenTurns + "]" + "This is a Freezing Strategay";
+	}
 	
 	
 }
