@@ -17,7 +17,6 @@ public class HumanStrategy implements Strategy{
 		
 	}
 	
-	private boolean frozen = false;
-	private boolean frightening = false;
+	
 
 }
