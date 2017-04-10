@@ -1,5 +1,6 @@
 package soen.game.dd.weapon.enchantments;
 
+import java.util.List;
 
 /**
  * this is part of the decorator for the weapon enchantment  
@@ -7,24 +8,20 @@ package soen.game.dd.weapon.enchantments;
  * @author fyounis
  *
  */
-public class WeaponDecorator implements SpecialEffectInterface{
+public abstract class WeaponDecorator extends Weapon{
 
-	protected SpecialEffectInterface specialEffectInterface;
+	Weapon weapon;
 	
-	public WeaponDecorator(SpecialEffectInterface c){
-		this.specialEffectInterface = c;
+	public WeaponDecorator(Weapon weapon){
+		this.weapon = weapon;
 	}
 	
-	@Override
-	public void setSpecialEffict(EnchantmentTypes enchantmentTypes) {
-		// TODO Auto-generated method stub
-		this.specialEffectInterface.getSpecialEffict();
+	public Weapon getUnenhancedWeapon(){
+		return this.weapon;
 	}
 
-	@Override
-	public EnchantmentTypes getSpecialEffict() {
-		// TODO Auto-generated method stub
-		return this.specialEffectInterface.getSpecialEffict();
+	public List<EnchantmentTypes> getEnchantments(){
+		return this.weapon.getEnchantments();
 	}
 
 }

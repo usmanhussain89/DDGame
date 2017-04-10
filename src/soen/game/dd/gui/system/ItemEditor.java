@@ -34,14 +34,13 @@ public class ItemEditor extends JFrame {
 	 * @param map
 	 * @param mapEditorMode
 	 */
-	public ItemEditor(JFrame frame, String title, int width, int height, E_ItemEditorMode itemEditorMode,
+	public ItemEditor(Item item, JFrame frame, String title, int width, int height, E_ItemEditorMode itemEditorMode,
 			ArrayList<Item> items) {
 		if (frame != null) {
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();
 			setLocation(p.x + frameSize.width / 4, p.y + frameSize.height / 4);
 		}
-		Item item = new Item();
 
 		this.itemEditorMode = itemEditorMode;
 
@@ -65,6 +64,6 @@ public class ItemEditor extends JFrame {
 		this.setJMenuBar((new JMenuBarItemComponent()).getItemEditorJMenuBar(item, this));
 
 		// load Map Grid from Component
-		this.setContentPane((new JPanelItemComponent()).getItemEditorGridPanel(item, null, itemEditorMode, items));
+		this.setContentPane((new JPanelItemComponent()).getItemEditorGridPanel(item, null, itemEditorMode));
 	}
 }

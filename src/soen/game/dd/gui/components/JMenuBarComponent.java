@@ -39,6 +39,7 @@ import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_JFileChooserMode;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
 import soen.game.dd.statics.content.GameStatics;
+import soen.game.dd.weapon.enchantments.WeaponBasic;
 
 /**
  * This class is responsible for menu items of the Game
@@ -184,8 +185,28 @@ public class JMenuBarComponent {
 
 				else if (e.getSource().equals(menuItemCreateItem)) { // Create
 																		// Item
-					new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create, null);
+
+					JComboBox cbItemType = new JComboBox(ItemType.values());
+					cbItemType.setBounds(170, 75, 120, 25);
+					
+					Object[] message = { "Item type:", cbItemType };
+					
+					int option = JOptionPane.showConfirmDialog(null, message, "Choose weapon type",
+							JOptionPane.OK_CANCEL_OPTION);
+					
+					if (option == JOptionPane.OK_OPTION){
+						Item item;
+						ItemType itemType = (ItemType)cbItemType.getSelectedItem();
+						if(itemType == ItemType.WEAPON){
+							item = new WeaponBasic();
+						} else {
+							item = new Item();
+						}
+						item.setItemType((ItemType)cbItemType.getSelectedItem());
+					
+						new ItemEditor(item, new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+								GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create, null);
+					}
 				}
 
 				else if (e.getSource().equals(menuItemOpenItem)) { // Open Item
@@ -193,11 +214,21 @@ public class JMenuBarComponent {
 
 					items = new ItemIO().loadItems();
 
-					if (items != null) {
-						new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-								GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Open, items);
-					} else {
-						JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
+					JComboBox cbItem = new JComboBox(items.toArray());
+										
+					cbItem.setBounds(170, 75, 120, 25);
+					
+					Object[] message = { "Which item do you want to modify", cbItem };
+					
+					int option = JOptionPane.showConfirmDialog(null, message, "Choose weapon type",
+							JOptionPane.OK_CANCEL_OPTION);
+					
+					if (option == JOptionPane.OK_OPTION){
+						Item item = (Item)cbItem.getSelectedItem();
+						if (item != null){
+							new ItemEditor(item, new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+									GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Open, null);
+						}
 					}
 				}
 

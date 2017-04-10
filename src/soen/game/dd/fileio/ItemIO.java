@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import soen.game.dd.models.Item;
 
@@ -93,7 +94,7 @@ public class ItemIO extends ModelIO {
 	 * @param ArrayList<Item> items
 	 */
 
-	public String saveItems(ArrayList<Item> items) {
+	public String saveItems(List<Item> items) {
 
 		try {
 

@@ -3,9 +3,10 @@ package soen.game.dd.gui.components;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,6 +19,14 @@ import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.WeaponType;
 import soen.game.dd.statics.content.GameStatics;
+import soen.game.dd.weapon.enchantments.BurningDecorator;
+import soen.game.dd.weapon.enchantments.EnchantmentTypes;
+import soen.game.dd.weapon.enchantments.FreezingDecorator;
+import soen.game.dd.weapon.enchantments.FrighteningDecorator;
+import soen.game.dd.weapon.enchantments.PacifyingDecorator;
+import soen.game.dd.weapon.enchantments.SlayingDecorator;
+import soen.game.dd.weapon.enchantments.Weapon;
+import soen.game.dd.weapon.enchantments.WeaponBasic;
 import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 
 /**
@@ -29,23 +38,24 @@ public class JPanelItemComponent {
 	
 	String itemName = "";
 	private E_ItemEditorMode itemEditorMode;
+	List<Item> items;
+	Item item;
+	Weapon weapon;
 	
 	/**
 	 * This method create the JPanel for the Item Editor and return JPanel which
 	 * set Content Pane for the frame
-	 * 
 	 * @param new_mode
+	 * 
 	 * @return JPanel
 	 */
-	public JPanel getItemEditorGridPanel(Item item, Dimension new_parentDimension, E_ItemEditorMode new_mode,
-			ArrayList<Item> items) {
-
+	public JPanel getItemEditorGridPanel(Item pItem, Dimension new_parentDimension, E_ItemEditorMode new_mode) {
+		item = pItem;
+		items = new ItemIO().loadItems();
 		itemEditorMode = new_mode;
 		JPanel panel;
-		// JTextField txtItemName = null;
 
 		panel = new JPanel();
-		;
 		panel.setLayout(null);
 
 		JLabel lblItemName = new JLabel("Item Name: ");
@@ -54,115 +64,95 @@ public class JPanelItemComponent {
 
 		JTextField txtItemName = new JTextField(40);
 		txtItemName.setBounds(170, 30, 120, 25);
-		txtItemName.setVisible(false);
-
-		JComboBox<String> cbItemName = new JComboBox<String>();
-		cbItemName.setBounds(170, 30, 120, 25);
-		cbItemName.setEditable(true);
-		cbItemName.setVisible(false);
-		if (E_ItemEditorMode.Open == new_mode) {
-			txtItemName.setVisible(false);
-			cbItemName.setVisible(true);
-			int index = 0;
-
-			for (Item i : items) {
-				if (i != null) {
-					cbItemName.addItem(i.getName());
-					cbItemName.setName("" + index);
-					index++;
-				}
-			}
-
-			panel.add(cbItemName);
+		panel.add(txtItemName);
+		if (itemEditorMode == E_ItemEditorMode.Open){
+			txtItemName.setEditable(false);
+			txtItemName.setText(item.getName());
 		}
-
-		else {
-			txtItemName.setVisible(true);
-			cbItemName.setVisible(false);
-
-			panel.add(txtItemName);
-		}
-
-		JLabel lblItemType = new JLabel("Item Type: ");
-		lblItemType.setBounds(40, 75, 80, 25);
-		;
+		
+		JLabel lblItemType = new JLabel("Item Type: " + item.getItemType().toString());
+		lblItemType.setBounds(40, 75, 200, 25);
 		panel.add(lblItemType);
 
-		JComboBox cbItemType = new JComboBox(ItemType.values());
-		cbItemType.setBounds(170, 75, 120, 25);
-		panel.add(cbItemType);
-		
-		JLabel lblWeaponType = new JLabel("Weapon Type :");
-		lblWeaponType.setBounds(40, 120, 90, 25);
-		panel.add(lblWeaponType);
-
 		JComboBox cbWeaponType = new JComboBox();
-		cbWeaponType.addItem(WeaponType.NotAWeapon);
-		cbWeaponType.setBounds(170, 120, 120, 25);
-		panel.add(cbWeaponType);
+
 
 		JLabel lblCharacterAttr = new JLabel("Character Attribute: ");
-		lblCharacterAttr.setBounds(40, 165, 120, 25);
+		lblCharacterAttr.setBounds(40, 120, 120, 25);
 		panel.add(lblCharacterAttr);
 
-		JComboBox cbCharacterAttr = new JComboBox(ItemType.HELMET.getAllowedAttributes().toArray());
-		cbCharacterAttr.setBounds(170, 165, 120, 25);
+		JComboBox cbCharacterAttr = new JComboBox(item.getItemType().getAllowedAttributes().toArray());
+		cbCharacterAttr.setBounds(170, 120, 120, 25);
 		panel.add(cbCharacterAttr);
 
 		JLabel lblBonusAmount = new JLabel("Bonus Amount: ");
-		lblBonusAmount.setBounds(40, 210, 100, 25);
+		lblBonusAmount.setBounds(40, 165, 100, 25);
 		panel.add(lblBonusAmount);
 
 		Integer[] bonuses = new Integer[] { 1, 2, 3, 4, 5 };
 		JComboBox cbBonusAmount = new JComboBox(bonuses);
-		cbBonusAmount.setBounds(170, 210, 100, 25);
+		cbBonusAmount.setBounds(170, 165, 100, 25);
 		panel.add(cbBonusAmount);
+		JCheckBox cbFreezing = new JCheckBox("Freezing");
+		JCheckBox cbBurning = new JCheckBox("Burning");
+		JCheckBox cbPacifying = new JCheckBox("Pacifying");
+		JCheckBox cbSlaying = new JCheckBox("Slaying");
+		JCheckBox cbFrightening = new JCheckBox("Frightening");
+
+		
+		if (item.getItemType() == ItemType.WEAPON){
+			
+			Weapon weapon = (Weapon) item;
+			
+			JLabel lblWeaponType = new JLabel("Weapon Type :");
+			lblWeaponType.setBounds(40, 210, 90, 25);
+			panel.add(lblWeaponType);
+	
+			cbWeaponType.addItem(WeaponType.MELEE);
+			cbWeaponType.addItem(WeaponType.RANGED);
+			cbWeaponType.setBounds(170, 210, 120, 25);
+			panel.add(cbWeaponType);
+			
+			cbFreezing.setBounds(40, 240, 100, 25);
+			panel.add(cbFreezing);
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Freezing) >= 0){
+				cbFreezing.setSelected(true);
+			}
+			
+			cbBurning.setBounds(170, 240, 100, 25);
+			panel.add(cbBurning);
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Burning) >= 0){
+				cbFreezing.setSelected(true);
+			}
+			
+			cbPacifying.setBounds(300, 240, 100, 25);
+			panel.add(cbPacifying);
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Pacifying) >= 0){
+				cbFreezing.setSelected(true);
+			}
+			
+			cbSlaying.setBounds(40, 270, 100, 25);
+			panel.add(cbSlaying);
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Slaying) >= 0){
+				cbFreezing.setSelected(true);
+			}
+			
+			cbFrightening.setBounds(170, 270, 100, 25);
+			panel.add(cbFrightening);
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Frightening) >= 0){
+				cbFreezing.setSelected(true);
+			}
+		}
+
 
 		JButton btnAddItem = new JButton("Save Item");
-		btnAddItem.setBounds(40, 250, 120, 25);
+		btnAddItem.setBounds(40, 300, 120, 25);
 		panel.add(btnAddItem);
 
-		if (E_ItemEditorMode.Open == new_mode) {
-			cbItemName.setSelectedItem(items.get(0).getName());
-			cbItemType.setSelectedItem(items.get(0).getItemType());
-			cbCharacterAttr.setSelectedItem(items.get(0).getEnhancedAttribute());
-			cbBonusAmount.setSelectedItem(items.get(0).getBonusAmount());
-			itemName = items.get(0).getName();
-		}
-		//Action listener for combobo item type
-		cbItemType.addActionListener(new ActionListener() {
+		cbCharacterAttr.setSelectedItem(item.getEnhancedAttribute());
+		cbBonusAmount.setSelectedItem(item.getBonusAmount());
+		itemName = item.getName();
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(cbItemType.getSelectedItem());
-				if (cbItemType.getSelectedItem().toString().equals("WEAPON")) {
-					cbWeaponType.removeAllItems();
-					cbWeaponType.addItem(WeaponType.MELEE);
-					cbWeaponType.addItem(WeaponType.RANGED);
-				}
-				
-				else {
-					cbWeaponType.removeAllItems();
-					cbWeaponType.addItem(WeaponType.NotAWeapon);
-				}
-					
-				cbCharacterAttr.removeAllItems();
-				for (CharacterAttribute c : ((ItemType) cbItemType.getSelectedItem()).getAllowedAttributes()) {
-					cbCharacterAttr.addItem(c);
-				}
-			}
-		});
-		//action listener for item name
-		cbItemName.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cbItemType.setSelectedItem(items.get(cbItemName.getSelectedIndex()).getItemType());
-				cbCharacterAttr.setSelectedItem(items.get(cbItemName.getSelectedIndex()).getEnhancedAttribute());
-				cbBonusAmount.setSelectedItem(items.get(cbItemName.getSelectedIndex()).getBonusAmount());
-				itemName = items.get(cbItemName.getSelectedIndex()).getName();
-			}
-		});
 		
 		//action listener for Add item
 		btnAddItem.addActionListener(new ActionListener() {
@@ -175,20 +165,44 @@ public class JPanelItemComponent {
 
 				if (!itemName.equals("")) {
 					WeaponType weaponType = null;
-					if (cbItemType.getSelectedItem().toString().equals("WEAPON"))
+					if (item.getItemType() == ItemType.WEAPON){
 						weaponType = (WeaponType)cbWeaponType.getSelectedItem();
+						Weapon weaponBasic = (WeaponBasic) item;
+						if (cbFrightening.isSelected()){
+							weaponBasic = new FrighteningDecorator(weaponBasic);
+						}
+						if (cbSlaying.isSelected()){
+							weaponBasic = new SlayingDecorator(weaponBasic);
+						}
+						if (cbPacifying.isSelected()){
+							weaponBasic = new PacifyingDecorator(weaponBasic);
+						}
+						if (cbBurning.isSelected()){
+							weaponBasic = new BurningDecorator(weaponBasic);
+						}
+						if (cbFreezing.isSelected()){
+							weaponBasic = new FreezingDecorator(weaponBasic);
+						}
+						weaponBasic.setItemType(ItemType.WEAPON);
+						item = weaponBasic;
+							
+					}
 					else
-						weaponType = weaponType.NotAWeapon;
-					
+						weaponType = WeaponType.NotAWeapon;
+
 					item.setName(itemName);
-					item.setItemType((ItemType) cbItemType.getSelectedItem());
 					item.setWeaponType(weaponType);
 					item.setCharacterAttribute((CharacterAttribute) cbCharacterAttr.getSelectedItem());
 					item.setBonusAmount((Integer) cbBonusAmount.getSelectedItem());
 					if (item.isValid()) {
 						String msg = "";
 						if (E_ItemEditorMode.Open == new_mode) {
-							items.set(cbItemName.getSelectedIndex(), item);
+							for (int i = 0; i < items.size(); ++i){
+								if (items.get(i).getName() == item.getName()){
+									items.set(i, item);
+									break;
+								}
+							}
 							msg = new ItemIO().saveItems(items);
 						}
 

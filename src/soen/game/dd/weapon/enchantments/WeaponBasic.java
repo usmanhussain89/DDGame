@@ -1,5 +1,8 @@
 package soen.game.dd.weapon.enchantments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import soen.game.dd.models.Item;
 /**
  * this is part of the decorator for the weapon enchantment  
@@ -8,21 +11,18 @@ import soen.game.dd.models.Item;
  *
  */
 
-public class WeaponBasic extends Item implements SpecialEffectInterface{
+public class WeaponBasic extends Weapon{
 	
-	private EnchantmentTypes enchantmentTypes;
-	
+	Item undecoratedItem;
 	
 	@Override
-	public void setSpecialEffict(EnchantmentTypes enchantmentTypes) {
-		// TODO Auto-generated method stub
-		this.enchantmentTypes = enchantmentTypes;
+	public Weapon getUnenhancedWeapon() {
+		return this;
 	}
-
+	
 	@Override
-	public EnchantmentTypes getSpecialEffict() {
-		// TODO Auto-generated method stub
-		return enchantmentTypes;
+	public List<EnchantmentTypes> getEnchantments() {
+		return new ArrayList<EnchantmentTypes>();
 	}
 
 }

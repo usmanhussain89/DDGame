@@ -84,18 +84,6 @@ public class JPanelGameComponent {
 
 		mapButtonsGrid2DArray = new JButton[new_mapModel.getMapHeight()][new_mapModel.getMapWidth()];
 		
-		/*JButton inventoryViewer = new JButton("Next Map");
-		inventoryViewer.setBounds(700, 0, 200, 25);
-		
-		inventoryViewer.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gameEngine.nextMap();
-				gameEngine.notifyObservers();
-			}
-			
-		});*/
 		
 		for (int i = 0; i < new_mapModel.getMapHeight(); i++) {
 			for (int j = 0; j < new_mapModel.getMapWidth(); j++) {
