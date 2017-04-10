@@ -17,6 +17,7 @@ public abstract class CharacterBuilder extends Character {
 	 * @return fighterTypeProduct
 	 */
 	public Character getCharacter(){
+		fighterTypeProduct.callSetChanged();
 		return fighterTypeProduct;
 	}
 	

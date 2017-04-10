@@ -150,6 +150,10 @@ public class Character extends Observable implements Serializable {
 	public void setName(String name){
 		this.name = name;
 	}
+	
+	public void callSetChanged(){
+		setChanged();
+	}
 
 	/**
 	 * @return the backpack list of items

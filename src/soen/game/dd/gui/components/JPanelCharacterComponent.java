@@ -373,7 +373,6 @@ public class JPanelCharacterComponent {
 					character.setRing(getItemFrom(cbRing));
 					character.setShield(getItemFrom(cbShield));
 					character.setWeapon(getItemFrom(cbWeapon));
-					character.notifyObservers();
 					
 					if (cbFighterType.getSelectedItem() != null) {
 						Fighter fighter = new Fighter();
@@ -392,6 +391,7 @@ public class JPanelCharacterComponent {
 						fighter.createFighter(character);
 						character = fighter.getCharacter();
 					}
+					character.notifyObservers();
 					
 					System.out.println(character);
 					if (E_CharacterEditorMode.Create == characterEditorMode){

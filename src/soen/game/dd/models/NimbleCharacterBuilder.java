@@ -34,67 +34,67 @@ public class NimbleCharacterBuilder extends CharacterBuilder {
 			die[index]=temp;
 		}
 		average=average/3;
-		this.dexterity = die[0]*18/die[0];
-		this.constitution = die[1]*18/die[0];
-		this.strength= die[2]*18/die[0];
-		this.intelligence = die[3]*18/die[0];
-		this.charisma = die[4]*18/die[0];
-		this.wisdom = die[5]*18/die[0];
+		fighterTypeProduct.dexterity = die[0]*18/die[0];
+		fighterTypeProduct.constitution = die[1]*18/die[0];
+		fighterTypeProduct.strength= die[2]*18/die[0];
+		fighterTypeProduct.intelligence = die[3]*18/die[0];
+		fighterTypeProduct.charisma = die[4]*18/die[0];
+		fighterTypeProduct.wisdom = die[5]*18/die[0];
 		
 		List<Item> listItem = fighterTypeProduct.getEquippedItems();
 		//ArrayList<Item> listItem = (ArrayList<Item>) getEquippedItems();
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.CHARISMA) {
-				charisma += item.getBonusAmount();
+				fighterTypeProduct.charisma += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.CONSTITUTION) {
-				constitution += item.getBonusAmount();
+				fighterTypeProduct.constitution += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.INTELLIGENCE) {
-				intelligence += item.getBonusAmount();
+				fighterTypeProduct.intelligence += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.DEXTERITY) {
-				dexterity += item.getBonusAmount();
+				fighterTypeProduct.dexterity += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.CONSTITUTION) {
-				constitution += item.getBonusAmount();
+				fighterTypeProduct.constitution += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.DAMAGE_BONUS) {
-				damageBonus += item.getBonusAmount();
+				fighterTypeProduct.damageBonus += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.STRENGTH) {
-				strength += item.getBonusAmount();
+				fighterTypeProduct.strength += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.INTELLIGENCE) {
-				intelligence += item.getBonusAmount();
+				fighterTypeProduct.intelligence += item.getBonusAmount();
 			}
 		}
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.WISDOM) {
-				wisdom += item.getBonusAmount();
+				fighterTypeProduct.wisdom += item.getBonusAmount();
 			}
 		
 		
