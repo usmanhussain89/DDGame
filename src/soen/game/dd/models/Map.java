@@ -22,8 +22,8 @@ public class Map implements Serializable {
 	int mapHeight;
 	Point entryPoint;
 	Point exitPoint;
-	Point characterPoint;
-	Point opponentPoint;
+	ArrayList<Point> characterPoint = new ArrayList<Point>();
+	ArrayList<Point> opponentPoint = new ArrayList<Point>();
 	Point chestPoint;
 	public boolean isEntryDone;
 	public boolean isExitDone;
@@ -174,7 +174,7 @@ public class Map implements Serializable {
 	 * 
 	 * @return characterPoint character point on the map
 	 */
-	public Point getCharacterPoint() {
+	public ArrayList<Point> getCharacterPoint() {
 		return characterPoint;
 	}
 
@@ -185,7 +185,7 @@ public class Map implements Serializable {
 	 *            character point on the map
 	 */
 	public void setCharacterPoint(Point new_characterPoint) {
-		int x = (int) new_characterPoint.getX();
+		/*int x = (int) new_characterPoint.getX();
 		int y = (int) new_characterPoint.getY();
 
 		if (mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT){
@@ -199,7 +199,8 @@ public class Map implements Serializable {
 				}
 			}
 			mapGridSelection[(int) new_characterPoint.getX()][(int) new_characterPoint.getY()] = GameStatics.MAP_CHARACTER_POINT;
-		}
+		}*/
+		this.characterPoint.add(new_characterPoint);
 	}
 
 	/**
@@ -207,8 +208,8 @@ public class Map implements Serializable {
 	 * 
 	 * @return opponentPoint opponent point on the map
 	 */
-	public Point getOpponentPoint() {
-		return opponentPoint;
+	public ArrayList<Point> getOpponentPoint() {
+		return this.opponentPoint;
 	}
 
 	/**
@@ -218,7 +219,7 @@ public class Map implements Serializable {
 	 *            opponent point on the map
 	 */
 	public void setOpponentPoint(Point new_opponentPoint) {
-		this.opponentPoint = new_opponentPoint;
+		this.opponentPoint.add(new_opponentPoint);
 	}
 
 	/**

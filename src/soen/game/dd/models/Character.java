@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
+import soen.game.dd.character.strategys.Strategy;
+
 /**
  * This class for creating and modifying all the Character fighter or Monster
  * Implement Serializable in the interface so the objects of this class can be
@@ -23,6 +25,10 @@ public class Character extends Observable implements Serializable {
 	private double maxHitPoint;
 	private NPCType npcType;
 	
+	// Strategy type 
+	private Strategy strategy; 
+	
+
 
 	public double hitPoint;
 	public static int armorClass;
@@ -87,6 +93,20 @@ public class Character extends Observable implements Serializable {
 		backpack = new ArrayList<Item>(Arrays.asList());
 	}
 
+	/**
+	 * @return the strategy
+	 */
+	public Strategy getStrategy() {
+		return strategy;
+	}
+
+	/**
+	 * @param strategy the strategy to set
+	 */
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
+	
 	/**
 	 * @param Item
 	 *            the Item to add into backpack

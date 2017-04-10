@@ -17,11 +17,12 @@ import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 
 /**
  * This class class create JMenuBar for Campaign
+ * 
  * @author Usman
  *
  */
 public class JMenuBarCampaignComponent {
-	
+
 	/**
 	 * This method create Menu for Campaign Editor Window
 	 * 
@@ -54,7 +55,7 @@ public class JMenuBarCampaignComponent {
 										JOptionPane.showMessageDialog(null,
 												String.format(GameStatics.MSG_CAMPAIGN_FILE_LOADED_SAVED, "saved"));
 										closeFrame(new_jframe);
-									} else if(msg.contains(GameStatics.STATUS_EXIST)) {
+									} else if (msg.contains(GameStatics.STATUS_EXIST)) {
 										JOptionPane.showMessageDialog(null,
 												String.format(GameStatics.MSG_DUPLICATE_NAME, "Campaign name"));
 									} else {
@@ -92,7 +93,7 @@ public class JMenuBarCampaignComponent {
 		menuBar.add(menuFile);
 		return menuBar;
 	}
-	
+
 	/**
 	 * This method closes the frame of the application
 	 * 

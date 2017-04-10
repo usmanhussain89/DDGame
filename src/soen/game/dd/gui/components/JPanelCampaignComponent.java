@@ -48,8 +48,8 @@ public class JPanelCampaignComponent {
 		JTextField txtCampaignName = new JTextField(30);
 		txtCampaignName.setBounds(160, 30, 150, 25);
 		panel.add(txtCampaignName);
-		
-		if(E_CampaignEditorMode.Open == new_mode)
+
+		if (E_CampaignEditorMode.Open == new_mode)
 			txtCampaignName.setEnabled(false);
 
 		JLabel lblSelectMap = new JLabel("Select Map: ");
