@@ -264,7 +264,8 @@ public class GameEngine extends Observable{
 		System.out.println(hostile.getHitPoint());
 		if (hostile.getHitPoint() > 0) {
 			hostile.hitPoint -= new Hit().getDamagePoint(playable, hostile, NPCType.HOSTILE, playable.getWeapon());
-			System.out.println(hostile.hitPoint);
+			hostile.callSetChanged();
+			hostile.notifyObservers();
 			if (hostile.getHitPoint() <= 0)
 				return 0;
 			else

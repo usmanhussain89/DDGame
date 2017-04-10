@@ -47,9 +47,9 @@ public class JFrameAttributeView extends JFrame implements Observer {
 	 */
 	public void initializeFrame() {
 		this.setTitle("Attributes for " + character.getName());
-		this.setPreferredSize(new Dimension(200, 170));
-		this.setMaximumSize(new Dimension(200, 170));
-		this.setMinimumSize(new Dimension(200, 170));
+		this.setPreferredSize(new Dimension(200, 200));
+		this.setMaximumSize(new Dimension(200, 200));
+		this.setMinimumSize(new Dimension(200, 200));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -72,12 +72,13 @@ public class JFrameAttributeView extends JFrame implements Observer {
 	public void refreshJPanel() {
 
 		panel.removeAll();
-		panel.add(getAttrLabel("Strength", character.getStrength(), 20));
-		panel.add(getAttrLabel("Constitution", character.getConsitution(), 40));
-		panel.add(getAttrLabel("Wisdom", character.getWisdom(), 60));
-		panel.add(getAttrLabel("Dexterity", character.getDexterity(), 80));
-		panel.add(getAttrLabel("Intelligence", character.getIntelligence(), 100));
-		panel.add(getAttrLabel("Charisma", character.getCharisma(), 120));
+		panel.add(getAttrLabel("HP", "" + character.getHitPoint() + "/" + character.getMaxHitPoint(), 20));
+		panel.add(getAttrLabel("Strength", character.getStrength(), 40));
+		panel.add(getAttrLabel("Constitution", character.getConsitution(), 60));
+		panel.add(getAttrLabel("Wisdom", character.getWisdom(), 80));
+		panel.add(getAttrLabel("Dexterity", character.getDexterity(), 100));
+		panel.add(getAttrLabel("Intelligence", character.getIntelligence(), 120));
+		panel.add(getAttrLabel("Charisma", character.getCharisma(), 140));
 		
 		panel.repaint();
 	}
@@ -89,10 +90,14 @@ public class JFrameAttributeView extends JFrame implements Observer {
 	 * @param yPos
 	 * @return
 	 */
-	private JLabel getAttrLabel(String attrName, int attrVal, int yPos){
+	private JLabel getAttrLabel(String attrName, String attrVal, int yPos){
 		JLabel label = new JLabel(attrName + ": " + attrVal);
 		label.setBounds(30, yPos, 125, 25);
 		return label;
+	}
+	
+	private JLabel getAttrLabel(String attrName, int attrVal, int yPos){
+		return getAttrLabel(attrName, "" + attrVal, yPos);
 	}
 	
 	/**
