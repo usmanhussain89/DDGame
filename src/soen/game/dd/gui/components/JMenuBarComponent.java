@@ -148,10 +148,10 @@ public class JMenuBarComponent {
 					} else {
 
 					}
-				} else if (e.getSource().equals(menuItemOpenMap)) { //Open Map
+				} else if (e.getSource().equals(menuItemOpenMap)) { // Open Map
 					ArrayList<Map> maps = null;
 					maps = new MapIO().loadMaps();
-	
+
 					if (maps != null) {
 						int index = 0;
 						System.out.println(maps.size() + " size");
@@ -182,7 +182,8 @@ public class JMenuBarComponent {
 					// }
 				}
 
-				else if (e.getSource().equals(menuItemCreateItem)) { // Create Item
+				else if (e.getSource().equals(menuItemCreateItem)) { // Create
+																		// Item
 					new ItemEditor(new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
 							GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create, null);
 				}
@@ -200,30 +201,34 @@ public class JMenuBarComponent {
 					}
 				}
 
-				else if (e.getSource().equals(menuItemCreateCharacter)) { // Create Character
+				else if (e.getSource().equals(menuItemCreateCharacter)) { // Create
+																			// Character
 					new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR,
 							GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100,
 							E_CharacterEditorMode.Create, null);
 
 				}
 
-				else if (e.getSource().equals(menuItemOpenCharacter)) { // Open Character
+				else if (e.getSource().equals(menuItemOpenCharacter)) { // Open
+																		// Character
 					ArrayList<Character> characters = new ArrayList<Character>();
 
 					characters = new CharacterIO().loadCharacters();
 
 					if (characters != null) {
-						new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-								GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100, E_CharacterEditorMode.Open, characters);
+						new CharacterEditor(new_jframe, GameStatics.TITLE_CHARACTER_EDITOR,
+								GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT + 100,
+								E_CharacterEditorMode.Open, characters);
 					} else {
 						JOptionPane.showMessageDialog(null, "No Characters are created, Please create the characters");
 					}
 				}
 
-				else if (e.getSource().equals(menuItemCreateCampaign)) { // Create Campaign
+				else if (e.getSource().equals(menuItemCreateCampaign)) { // Create
+																			// Campaign
 					ArrayList<Map> maps = null;
 					maps = new MapIO().loadMaps();
- 
+
 					if (maps != null) {
 						new CampaignEditor(new_jframe, GameStatics.TITLE_CAMPAIGN_EDITOR,
 								GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
@@ -235,7 +240,8 @@ public class JMenuBarComponent {
 					}
 				}
 
-				else if (e.getSource().equals(menuItemOpenCampaign)) { // Open Campaign
+				else if (e.getSource().equals(menuItemOpenCampaign)) { // Open
+																		// Campaign
 
 					ArrayList<Campaign> campaigns = null;
 					campaigns = new CampaignIO().loadCampaigns();
@@ -274,52 +280,52 @@ public class JMenuBarComponent {
 					ArrayList<Character> characters = new CharacterIO().loadCharacters();
 					Character character = null;
 					JComboBox<String> cbCharacter = new JComboBox<String>();
-					
-					for(Character c : characters) {
+
+					for (Character c : characters) {
 						cbCharacter.addItem(c.getName());
 					}
-					
+
 					Object[] messageCharacter = { "SELECT CHARACTER:", cbCharacter };
 
-					int optionCharacter = JOptionPane.showConfirmDialog(null, messageCharacter, GameStatics.TITLE_MSG_SET_SIZE_OF_MAP,
-							JOptionPane.OK_CANCEL_OPTION);
+					int optionCharacter = JOptionPane.showConfirmDialog(null, messageCharacter,
+							GameStatics.TITLE_MSG_SET_SIZE_OF_MAP, JOptionPane.OK_CANCEL_OPTION);
 
 					if (optionCharacter == JOptionPane.OK_OPTION) {
-						for(Character c : characters)
-						{
-							if(c.getName().equals((String)cbCharacter.getSelectedItem()))
-							{
+						for (Character c : characters) {
+							if (c.getName().equals((String) cbCharacter.getSelectedItem())) {
 								character = c;
 								break;
 							}
 						}
-						
+
 						ArrayList<Campaign> campaigns = new CampaignIO().loadCampaigns();
 						Campaign campaign = null;
 						JComboBox<String> cbCampaigns = new JComboBox<String>();
-						
-						for(Campaign ca : campaigns) {
+
+						for (Campaign ca : campaigns) {
 							cbCampaigns.addItem(ca.getCampaignName());
 						}
 						Object[] messageCampaign = { "Size of X:", cbCampaigns };
 
 						if (JOptionPane.showConfirmDialog(null, messageCampaign, GameStatics.TITLE_MSG_SET_SIZE_OF_MAP,
 								JOptionPane.OK_CANCEL_OPTION) == 0) {
-							for(Campaign ca : campaigns) {
-								if(cbCampaigns.getSelectedItem().equals(ca.getCampaignName())) {
+							for (Campaign ca : campaigns) {
+								if (cbCampaigns.getSelectedItem().equals(ca.getCampaignName())) {
 									campaign = ca;
 									break;
 								}
 							}
-							
-							if(campaign != null && character != null) {
-							//	new MapEditor(new_jframe, GameStatics.TITLE_MAP_PlAY,
-							//			GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
-							//			campaign, character, E_MapEditorMode.Play);
+
+							if (campaign != null && character != null) {
+								// new MapEditor(new_jframe,
+								// GameStatics.TITLE_MAP_PlAY,
+								// GameStatics.CHILD_POPUP_WINDOW_WIDTH,
+								// GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+								// campaign, character, E_MapEditorMode.Play);
 								new GameEngineEditor(character, campaign);
 							}
 						}
-					}					
+					}
 				}
 
 				else {

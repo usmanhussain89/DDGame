@@ -29,7 +29,7 @@ import soen.game.dd.models.Character;
 import soen.game.dd.models.GameEngine;
 
 public class JPanelMapComponent {
-	
+
 	private E_MapEditorMode mapEditorMode;
 	// 2D Array of JButton
 	private JButton mapButtonsGrid2DArray[][];
@@ -38,7 +38,8 @@ public class JPanelMapComponent {
 	private JButton jButtonCharacter;
 	private JButton jButtonOpponent;
 	private JButton jButtonChest;
-	
+	private static boolean FRIEND_HOSTILE_TURN = true;
+
 	/**
 	 * This method create the JPanel for the Map Editor and return JPanel which
 	 * set Content Pane for the frame
@@ -52,8 +53,9 @@ public class JPanelMapComponent {
 			ArrayList<Map> maps, int index) {
 		return createPanel(new_mapModel, new_mode, maps, null, null, index);
 	}
-	
-	public JPanel createPanel(Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, Character character, Campaign campaign, int index) {
+
+	public JPanel createPanel(Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, Character character,
+			Campaign campaign, int index) {
 		mapEditorMode = new_mode;
 		JPanel panel = new JPanel();
 		GridLayout gridLayout;
@@ -67,10 +69,10 @@ public class JPanelMapComponent {
 			gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 			panel.setLayout(gridLayout);
 		}
-		
+
 		else if (E_MapEditorMode.Play == mapEditorMode) {
 			GameEngine ge = new GameEngine(campaign, character);
-			//ge.startGameEngine();
+			// ge.startGameEngine();
 			System.out.println("1");
 			new_mapModel = ge.getCurrentMap();
 			System.out.println("2" + new_mapModel.getMapWidth());
@@ -117,9 +119,11 @@ public class JPanelMapComponent {
 						if (E_MapEditorMode.Open == mapEditorMode) {
 							mapButtonsGrid2DArray[i][j].setBackground(Color.red);
 							mapButtonsGrid2DArray[i][j].setText("Entry");
-						}
-						else {
-							imgIcon = new ImageIcon(img.getScaledInstance(GameStatics.CHILD_POPUP_WINDOW_WIDTH/new_mapModel.getMapWidth() - 5, GameStatics.CHILD_POPUP_WINDOW_HEIGHT/new_mapModel.getMapHeight() - 5, java.awt.Image.SCALE_SMOOTH));
+						} else {
+							imgIcon = new ImageIcon(img.getScaledInstance(
+									GameStatics.CHILD_POPUP_WINDOW_WIDTH / new_mapModel.getMapWidth() - 5,
+									GameStatics.CHILD_POPUP_WINDOW_HEIGHT / new_mapModel.getMapHeight() - 5,
+									java.awt.Image.SCALE_SMOOTH));
 							mapButtonsGrid2DArray[i][j].setBackground(Color.red);
 							mapButtonsGrid2DArray[i][j].setIcon(imgIcon);
 						}
@@ -138,7 +142,7 @@ public class JPanelMapComponent {
 					} else {
 						mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
 					}
-					
+
 					if (E_MapEditorMode.Open == mapEditorMode) {
 						// Click event
 						addButtonClickEvents(mapButtonsGrid2DArray[i][j], new_mapModel, new_mode, maps, index);
@@ -155,7 +159,7 @@ public class JPanelMapComponent {
 
 		return panel;
 	}
-	
+
 	/**
 	 * Actually Map Grid contains buttons inside each cell of grid and on click
 	 * of these button we perform certain actions this method implements logic
@@ -204,11 +208,13 @@ public class JPanelMapComponent {
 				}
 				// If the last point was an Character Point
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHARACTER_POINT) {
-					/*new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
-					btn.setBackground(Color.gray);
-					btn.setText("");
-					new_mapModel.isCharacterDone = false;
-					jButtonCharacter = null;*/
+					/*
+					 * new_mapModel.mapGridSelection[_i][_j] =
+					 * GameStatics.MAP_WALL_POINT;
+					 * btn.setBackground(Color.gray); btn.setText("");
+					 * new_mapModel.isCharacterDone = false; jButtonCharacter =
+					 * null;
+					 */
 					if (JOptionPane.showConfirmDialog(null, "Do you want to change character ?", "WARNING",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
@@ -216,13 +222,23 @@ public class JPanelMapComponent {
 						characters = new CharacterIO().loadCharacters();
 						int index = 0;
 						int selectedIndex = 0;
+						int characterIndex = 0;
 						String[] characterNames = new String[characters.size()];
 						String selectedCharacter = "";
-						
+
 						for (Character c : new_mapModel.mapCharacters) {
 							if (c.getNPCType() == NPCType.FRINDLY) {
-								selectedCharacter = c.getName();
-								break;
+								System.out.println(
+										_i + " = " + (int) new_mapModel.getCharacterPoint().get(characterIndex).getX());
+								System.out.println(
+										_j + " = " + (int) new_mapModel.getCharacterPoint().get(characterIndex).getY());
+								System.out.println(new_mapModel.getCharacterPoint().size());
+								if (_i == (int) new_mapModel.getCharacterPoint().get(characterIndex).getX()
+										&& _j == (int) new_mapModel.getCharacterPoint().get(characterIndex).getY()) {
+									selectedCharacter = c.getName();
+									break;
+								}
+								characterIndex++;
 							}
 							selectedIndex++;
 						}
@@ -233,34 +249,31 @@ public class JPanelMapComponent {
 						}
 
 						if (characters != null) {
-							String characterName = (String) JOptionPane.showInputDialog(null, "Selected Character : "+selectedCharacter+"\n\nSelect Character :\n",
+							String characterName = (String) JOptionPane.showInputDialog(null,
+									"Selected Character : " + selectedCharacter + "\n\nSelect Character :\n",
 									"Characters Dialog", JOptionPane.PLAIN_MESSAGE, null, characterNames, "select");
-							
+
 							if (characterName != null) {
 								for (Character c : characters) {
-									if(c.getName().equals(characterName)) {
+									if (c.getName().equals(characterName)) {
 										c.setNPCType(NPCType.FRINDLY);
-										new_mapModel.mapCharacters.remove(selectedIndex);
-										new_mapModel.mapCharacters.add(c);
+										new_mapModel.mapCharacters.set(selectedIndex, c);
 										break;
 									}
 								}
 							}
-						}
-
-						else {
-							JOptionPane.showMessageDialog(null,
-									"No Characters are created, Please create the character first");
 						}
 					}
 				}
 				// If the last point was an Opponent Point
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_OPPONENT_POINT) {
-					/*new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
-					btn.setBackground(Color.gray);
-					btn.setText("");
-					new_mapModel.isOpponentDone = false;
-					jButtonOpponent = null;*/
+					/*
+					 * new_mapModel.mapGridSelection[_i][_j] =
+					 * GameStatics.MAP_WALL_POINT;
+					 * btn.setBackground(Color.gray); btn.setText("");
+					 * new_mapModel.isOpponentDone = false; jButtonOpponent =
+					 * null;
+					 */
 					if (JOptionPane.showConfirmDialog(null, "Do you want to change character ?", "WARNING",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
@@ -268,13 +281,23 @@ public class JPanelMapComponent {
 						characters = new CharacterIO().loadCharacters();
 						int index = 0;
 						int selectedIndex = 0;
+						int opponentIndex = 0;
 						String[] characterNames = new String[characters.size()];
 						String selectedCharacter = "";
-						
+
 						for (Character c : new_mapModel.mapCharacters) {
 							if (c.getNPCType() == NPCType.HOSTILE) {
-								selectedCharacter = c.getName();
-								break;
+								System.out.println(
+										_i + " = " + (int) new_mapModel.getOpponentPoint().get(opponentIndex).getX());
+								System.out.println(
+										_j + " = " + (int) new_mapModel.getOpponentPoint().get(opponentIndex).getY());
+								System.out.println(new_mapModel.getOpponentPoint().size());
+								if (_i == (int) new_mapModel.getOpponentPoint().get(opponentIndex).getX()
+										&& _j == (int) new_mapModel.getOpponentPoint().get(opponentIndex).getY()) {
+									selectedCharacter = c.getName();
+									break;
+								}
+								opponentIndex++;
 							}
 							selectedIndex++;
 						}
@@ -285,24 +308,19 @@ public class JPanelMapComponent {
 						}
 
 						if (characters != null) {
-							String characterName = (String) JOptionPane.showInputDialog(null, "Selected Character : "+selectedCharacter+"\n\nSelect Character :\n",
+							String characterName = (String) JOptionPane.showInputDialog(null,
+									"Selected Character : " + selectedCharacter + "\n\nSelect Character :\n",
 									"Characters Dialog", JOptionPane.PLAIN_MESSAGE, null, characterNames, "select");
-							
+
 							if (characterName != null) {
 								for (Character c : characters) {
-									if(c.getName().equals(characterName)) {
+									if (c.getName().equals(characterName)) {
 										c.setNPCType(NPCType.HOSTILE);
-										new_mapModel.mapCharacters.remove(selectedIndex);
-										new_mapModel.mapCharacters.add(c);
+										new_mapModel.mapCharacters.set(selectedIndex, c);
 										break;
 									}
 								}
 							}
-						}
-
-						else {
-							JOptionPane.showMessageDialog(null,
-									"No Characters are created, Please create the character first");
 						}
 					}
 				}
@@ -310,13 +328,15 @@ public class JPanelMapComponent {
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHEST_POINT) {
 					if (JOptionPane.showConfirmDialog(null, "Do you want to edit items in the chest", "WARNING",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
-						/*new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_WALL_POINT;
-						btn.setBackground(Color.gray);
-						btn.setText("");
-						new_mapModel.isChestDone = false;
-						new_mapModel.setChestPoint(null);
-						new_mapModel.mapSelectedItem.clear();
-						jButtonChest = null;*/
+						/*
+						 * new_mapModel.mapGridSelection[_i][_j] =
+						 * GameStatics.MAP_WALL_POINT;
+						 * btn.setBackground(Color.gray); btn.setText("");
+						 * new_mapModel.isChestDone = false;
+						 * new_mapModel.setChestPoint(null);
+						 * new_mapModel.mapSelectedItem.clear(); jButtonChest =
+						 * null;
+						 */
 					} else {
 						ArrayList<Item> items = new ArrayList<Item>();
 
@@ -325,8 +345,7 @@ public class JPanelMapComponent {
 							new ChestItemWindow(new_mapModel, items);
 
 						else {
-							JOptionPane.showMessageDialog(null,
-									"No Items are created, Please create the items");
+							JOptionPane.showMessageDialog(null, "No Items are created, Please create the items");
 						}
 					}
 				}
@@ -396,7 +415,7 @@ public class JPanelMapComponent {
 							jButtonCharacter = null;
 							new_mapModel.isCharacterDone = false;
 							new_mapModel.setCharacterPoint(null);
-							for(Character c : new_mapModel.mapCharacters) {
+							for (Character c : new_mapModel.mapCharacters) {
 								if (c.getNPCType() == NPCType.FRINDLY) {
 									new_mapModel.mapCharacters.remove(index);
 								}
@@ -415,7 +434,7 @@ public class JPanelMapComponent {
 							jButtonOpponent = null;
 							new_mapModel.isOpponentDone = false;
 							new_mapModel.setOpponentPoint(null);
-							for(Character c : new_mapModel.mapCharacters) {
+							for (Character c : new_mapModel.mapCharacters) {
 								if (c.getNPCType() == NPCType.HOSTILE) {
 									new_mapModel.mapCharacters.remove(index);
 								}
@@ -478,17 +497,16 @@ public class JPanelMapComponent {
 								}
 							}
 
-						} else if (!new_mapModel.isCharacterDone || !new_mapModel.isOpponentDone) {
-							if (!new_mapModel.isCharacterDone) {
+						} else if (!new_mapModel.isCharacterDone || !new_mapModel.isOpponentDone
+								|| new_mapModel.isCharacterDone || new_mapModel.isOpponentDone) {
+							if (!new_mapModel.isCharacterDone || FRIEND_HOSTILE_TURN) {
 								btn.setBackground(Color.WHITE);
-								btn.setText("Character");
+								btn.setText("Friendly");
 								jButtonCharacter = btn;
-								new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_CHARACTER_POINT;
-								new_mapModel.setCharacterPoint(new Point(_i, _j));
-								new_mapModel.isCharacterDone = true;
-								
-								int option = JOptionPane.showConfirmDialog(null, GameStatics.MAP_CHARACTER_CONFIRM_DIALOG,
-										GameStatics.TITLE_ADD_CHARACTER, JOptionPane.OK_CANCEL_OPTION);
+
+								int option = JOptionPane.showConfirmDialog(null,
+										GameStatics.MAP_CHARACTER_CONFIRM_DIALOG, GameStatics.TITLE_ADD_CHARACTER,
+										JOptionPane.OK_CANCEL_OPTION);
 
 								if (option == JOptionPane.OK_OPTION) {
 									ArrayList<Character> characters = new ArrayList<Character>();
@@ -502,14 +520,19 @@ public class JPanelMapComponent {
 									}
 
 									if (characters != null) {
-										String characterName = (String) JOptionPane.showInputDialog(null, "Select Character :\n",
-												"Characters Dialog", JOptionPane.PLAIN_MESSAGE, null, characterNames, "select");
-										
+										String characterName = (String) JOptionPane.showInputDialog(null,
+												"Select Character :\n", "Characters Dialog", JOptionPane.PLAIN_MESSAGE,
+												null, characterNames, "select");
+
 										if (!characterName.equals("")) {
 											for (Character c : characters) {
-												if(c.getName().equals(characterName)) {
+												if (c.getName().equals(characterName)) {
 													c.setNPCType(NPCType.FRINDLY);
+													new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_CHARACTER_POINT;
+													new_mapModel.setCharacterPoint(new Point(_i, _j));
+													new_mapModel.isCharacterDone = true;
 													new_mapModel.mapCharacters.add(c);
+													FRIEND_HOSTILE_TURN = false;
 													break;
 												}
 											}
@@ -521,15 +544,13 @@ public class JPanelMapComponent {
 												"No Characters are created, Please create the character first");
 									}
 								}
-							} else if (!new_mapModel.isOpponentDone) {
+							} else if (!new_mapModel.isOpponentDone || !FRIEND_HOSTILE_TURN) {
 								btn.setBackground(Color.BLUE);
-								btn.setText("Opponent");
+								btn.setText("Hostile");
 								jButtonOpponent = btn;
-								new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_OPPONENT_POINT;
-								new_mapModel.setOpponentPoint(new Point(_i, _j));
-								new_mapModel.isOpponentDone = true;
-								int option = JOptionPane.showConfirmDialog(null, GameStatics.MAP_CHARACTER_CONFIRM_DIALOG,
-										GameStatics.TITLE_ADD_CHARACTER, JOptionPane.OK_CANCEL_OPTION);
+								int option = JOptionPane.showConfirmDialog(null,
+										GameStatics.MAP_CHARACTER_CONFIRM_DIALOG, GameStatics.TITLE_ADD_CHARACTER,
+										JOptionPane.OK_CANCEL_OPTION);
 
 								if (option == JOptionPane.OK_OPTION) {
 									ArrayList<Character> characters = new ArrayList<Character>();
@@ -543,14 +564,19 @@ public class JPanelMapComponent {
 									}
 
 									if (characters != null) {
-										String characterName = (String) JOptionPane.showInputDialog(null, "Select Character :\n",
-												"Characters Dialog", JOptionPane.PLAIN_MESSAGE, null, characterNames, "select");
-										
+										String characterName = (String) JOptionPane.showInputDialog(null,
+												"Select Character :\n", "Characters Dialog", JOptionPane.PLAIN_MESSAGE,
+												null, characterNames, "select");
+
 										if (!characterName.equals("")) {
 											for (Character c : characters) {
-												if(c.getName().equals(characterName)) {
+												if (c.getName().equals(characterName)) {
 													c.setNPCType(NPCType.HOSTILE);
+													new_mapModel.mapGridSelection[_i][_j] = GameStatics.MAP_OPPONENT_POINT;
+													new_mapModel.setOpponentPoint(new Point(_i, _j));
+													new_mapModel.isOpponentDone = true;
 													new_mapModel.mapCharacters.add(c);
+													FRIEND_HOSTILE_TURN = true;
 													break;
 												}
 											}
@@ -575,7 +601,7 @@ public class JPanelMapComponent {
 			}
 		});
 	}
-	
+
 	/**
 	 * This method create Jpanel for play mode
 	 * 

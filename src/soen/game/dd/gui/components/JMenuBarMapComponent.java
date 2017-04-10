@@ -23,7 +23,7 @@ import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
  *
  */
 public class JMenuBarMapComponent {
-	
+
 	/**
 	 * This method create Menu for Map Editor Window
 	 * 
@@ -48,13 +48,15 @@ public class JMenuBarMapComponent {
 					String MapValidationStatus = "";
 
 					if (E_MapEditorMode.Create == mapEditorMode) {
-						//MapValidationStatus = (new MapValidation()).mapValidations(new_mapModel);
-						MapValidationStatus = "";
+						// MapValidationStatus = (new
+						// MapValidation()).mapValidations(new_mapModel);
+						MapValidationStatus = null;
 					}
 
 					else {
-						//MapValidationStatus = (new MapValidation()).mapValidations(maps.get(index));
-						MapValidationStatus = "";
+						// MapValidationStatus = (new
+						// MapValidation()).mapValidations(maps.get(index));
+						MapValidationStatus = null;
 					}
 
 					if (MapValidationStatus != null) {
@@ -74,7 +76,7 @@ public class JMenuBarMapComponent {
 									JOptionPane.showMessageDialog(null,
 											String.format(GameStatics.MSG_MAP_FILE_LOADED_SAVED, "saved"));
 									closeFrame(new_jframe);
-								} else if(msg.contains(GameStatics.STATUS_EXIST)) {
+								} else if (msg.contains(GameStatics.STATUS_EXIST)) {
 									JOptionPane.showMessageDialog(null,
 											String.format(GameStatics.MSG_DUPLICATE_NAME, "Map name"));
 								} else {
@@ -108,7 +110,7 @@ public class JMenuBarMapComponent {
 		menuBar.add(menuFile);
 		return menuBar;
 	}
-	
+
 	/**
 	 * This method closes the frame of the application
 	 * 
