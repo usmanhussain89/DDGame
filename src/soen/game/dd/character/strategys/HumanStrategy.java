@@ -3,7 +3,8 @@ package soen.game.dd.character.strategys;
 import soen.game.dd.models.GameEngine;
 
 /**
- * This class will implement the Human or player strategy 
+ * This class will implement the Human or player strategy
+ * 
  * @author fyounis
  *
  */
@@ -16,8 +17,12 @@ public class HumanStrategy implements Strategy{
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * @author kelbadawi
 	 * This Method will play the game in its turn
+=======
+	 * @author fyounis This Method will play the game in its turn
+>>>>>>> branch 'master' of git@github.com:usmanhussain89/DDGame.git
 	 */
 	@Override
 	public void turn() {
@@ -31,7 +36,10 @@ public class HumanStrategy implements Strategy{
 		}
 		
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "HumanStrategy []" + " This is Human Strategy!";
+	}
 
 }

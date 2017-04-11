@@ -4,10 +4,11 @@ import soen.game.dd.models.GameEngine;
 
 /**
  * This class will implement the turn strategy for friendly NPC
+ * 
  * @author fyounis
  *
  */
-public class FriendlyNPCStrategy implements Strategy{
+public class FriendlyNPCStrategy implements Strategy {
 
 	GameEngine gameEngine;
 
