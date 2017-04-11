@@ -1,38 +1,29 @@
 package soen.game.dd.tests;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import soen.game.dd.character.strategys.Freezing;
-import soen.game.dd.character.strategys.Frightening;
-import soen.game.dd.fileio.CharacterIO;
-import soen.game.dd.fileio.ItemIO;
-import soen.game.dd.fileio.MapIO;
+import soen.game.dd.character.strategys.FreezingStratgy;
+import soen.game.dd.character.strategys.FrighteningStrategy;
+import soen.game.dd.character.strategys.HumanStrategy;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.CharacterBuilder;
-import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Fighter;
 import soen.game.dd.models.FighterType;
+import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
-import soen.game.dd.models.TankCharacterBuilder;
+import soen.game.dd.models.NPCType;
 import soen.game.dd.models.WeaponType;
 
 public class TestCharacterStrategy {
-
 
 	private Map map = new Map(10, 10);
 	private Map map2 = new Map(10, 10);
@@ -56,6 +47,7 @@ public class TestCharacterStrategy {
 	private Character blueFeras;
 	private Character blueMunjed;
 	private ArrayList<Item> chest;
+	private GameEngine selverEngine;
 
 	public Map addComponentsToMap(Map map) {
 		Map editMap = map;
@@ -94,8 +86,8 @@ public class TestCharacterStrategy {
 
 		redFeras = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor, redRing,
 				redHelmet, redBoots, redBelt, redWeapon, redShield);
-		blackMunjed = new Character("Munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
-				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		blackMunjed = new Character("Munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor, redRing,
+				redHelmet, redBoots, redBelt, redWeapon, redShield);
 
 		BlackCampaign = new Campaign();
 		BlackCampaign.setCampaignName("BlackCampaign");
@@ -103,27 +95,54 @@ public class TestCharacterStrategy {
 		chest = new ArrayList<Item>();
 		chest.add(crazyHelmet);
 		chest.add(blackBelt);
-	}
-	
-	@Test
-	public void changeStrategy(){
-		
-		redFeras.setStrategy(new Freezing());
-		System.out.println(redFeras.getStrategy());
-		redFeras.setStrategy(new Frightening());
-		System.out.println(redFeras.getStrategy());
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
+		map.setMapName("Map1");
+		map2.setMapName("Map2");
+		map3.setMapName("Map3");
+		map4.setMapName("Map4");
 
-		
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
+
+		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		Point point = new Point(1, 1);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(character);
+		System.out.println(fighterBully);
+
+		GameEngine selverEngine = new GameEngine(redFeras, BlackCampaign);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Test
+	public void changeStrategy() {
+
+		redFeras.setStrategy(new FreezingStratgy());
+		System.out.println(redFeras.getStrategy() instanceof FreezingStratgy);
+		redFeras.setStrategy(new FrighteningStrategy());
+		System.out.println(redFeras.getStrategy());
+		redFeras.setStrategy(new HumanStrategy());
+		System.out.println(redFeras.getStrategy());
+		redFeras.getStrategy().turn(selverEngine);
+		redFeras.setNPCType(NPCType.PLAYABALE);
+		System.out.println(redFeras.getNPCType().toString());
+
+	}
+
 }
