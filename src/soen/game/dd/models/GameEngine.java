@@ -588,6 +588,7 @@ public class GameEngine extends Observable {
 			}
 		}
 
+		System.out.println("<Game Logging> : can not Loot The backpack is full!");
 		return character.getBackpack().size() == 10;
 	}
 
