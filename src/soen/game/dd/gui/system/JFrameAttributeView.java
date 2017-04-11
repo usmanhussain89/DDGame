@@ -70,7 +70,7 @@ public class JFrameAttributeView extends JFrame implements Observer {
 	 * This method refresh jpanel 
 	 */
 	public void refreshJPanel() {
-
+		
 		panel.removeAll();
 		panel.add(getAttrLabel("HP", "" + character.getHitPoint() + "/" + character.getMaxHitPoint(), 20));
 		panel.add(getAttrLabel("Strength", character.getStrength(), 40));

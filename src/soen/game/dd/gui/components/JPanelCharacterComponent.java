@@ -373,6 +373,8 @@ public class JPanelCharacterComponent {
 					character.setRing(getItemFrom(cbRing));
 					character.setShield(getItemFrom(cbShield));
 					character.setWeapon(getItemFrom(cbWeapon));
+					character.setMaxHitPoint();
+					character.setHitpoint(character.getMaxHitPoint());
 					
 					if (cbFighterType.getSelectedItem() != null) {
 						Fighter fighter = new Fighter();

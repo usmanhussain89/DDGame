@@ -42,8 +42,10 @@ public class ItemIO extends ModelIO {
 			}
 		}
 
-		if (!isItemNameExist)
+		if (!isItemNameExist){
+			System.out.println("Item: " + item.getName() + " is added");
 			return save(item, FILENAME);
+		}
 
 		else
 			return "EXIST";
@@ -66,8 +68,7 @@ public class ItemIO extends ModelIO {
 					try {
 						Item item = (Item) in.readObject();
 						if (item != null) {
-							items.add(item);
-							System.out.println("Item: " + item.getName() + " is added");
+							items.add(item);//There was output here that then changed its position to save button
 						} else
 							cont = false;
 					}

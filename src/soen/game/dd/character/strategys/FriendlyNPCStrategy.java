@@ -21,75 +21,121 @@ public class FriendlyNPCStrategy implements Strategy {
 
 	GameEngine gameEngine;
 	Character character;
+	Random rand;
 
 	public FriendlyNPCStrategy(Character c, GameEngine ge){
 		this.gameEngine = ge;
 		this.character = c;
+		this.rand = new Random();
+
 	}
 	
 	@Override
 	public void turn() {
 		for (int i = 0; i < 3; ++i){
-			Random rand = new Random();
-			Point newPoint = null;
-			int direction = rand.nextInt(2);
-			if (direction == 0){
-				List<Point> xDirections = getXDirections();
-				if (xDirections.size() > 0){
-					int step = rand.nextInt(xDirections.size());
-					newPoint = xDirections.get(step);
-				}
-			}else {
-				List<Point> yDirections = getYDirections();
-				if (yDirections.size() > 0){
-					int step = rand.nextInt(yDirections.size());
-					newPoint = yDirections.get(step);
-				}
-			}
-			gameEngine.move(character, (int)newPoint.getX(), (int)newPoint.getY());
-			gameEngine.notifyObservers();
-
+			moveRandom();
 		}
+			
 	}
 	
-	private Point getCurrentPoint(){
+	private Point getFriendlyPosition(){
 		return gameEngine.getPositionOfCharacter(character);
 	}
 	
-	public List<Point> getXDirections() {
-		List<Point> xDirections = new ArrayList<Point>();
-		int currentX = (int) getCurrentPoint().getX();
-		if (currentX > 0){
-			Point possiblePoint = new Point(currentX - 1, (int)getCurrentPoint().getY());
-			if (gameEngine.getCurrentMap().mapGridSelection[(int)possiblePoint.getX()][(int)possiblePoint.getY()] == GameStatics.MAP_PATH_POINT){
-				xDirections.add(possiblePoint);
+	private boolean moveRandom() {
+		int orientation = rand.nextInt(2);
+		boolean success;
+		if(orientation == 0){
+			success = moveHorizontal();
+			if (!success) {
+				success = moveVertical();
 			}
-		}
-		if (currentX < gameEngine.getCurrentMap().getMapWidth() - 1){
-			Point possiblePoint = new Point(currentX + 1, (int)getCurrentPoint().getY());
-			if (gameEngine.getCurrentMap().mapGridSelection[(int)possiblePoint.getX()][(int)possiblePoint.getY()] == GameStatics.MAP_PATH_POINT){
-				xDirections.add(possiblePoint);
+			return success;
+		} else {
+			success = moveVertical();
+			if (!success) {
+				success = moveHorizontal();
 			}
+			return success;
 		}
-		return xDirections;
 	}
 	
-	public List<Point> getYDirections() {
-		List<Point> yDirections = new ArrayList<Point>();
-		int currentY = (int) getCurrentPoint().getY();
-		if (currentY > 0){
-			Point possiblePoint = new Point((int) getCurrentPoint().getX(), currentY - 1);
-			if (gameEngine.getCurrentMap().mapGridSelection[(int)possiblePoint.getX()][(int)possiblePoint.getY()] == GameStatics.MAP_PATH_POINT){
-				yDirections.add(possiblePoint);
+	private boolean moveHorizontal(){
+		int direction = rand.nextInt(2);
+		if(direction == 0){
+			boolean success = moveRight();
+			if (!success) {
+				success = moveLeft();
 			}
-		}
-		if (currentY < gameEngine.getCurrentMap().getMapHeight() - 1){
-			Point possiblePoint = new Point((int) getCurrentPoint().getX(), currentY + 1);
-			if (gameEngine.getCurrentMap().mapGridSelection[(int)possiblePoint.getX()][(int)possiblePoint.getY()] == GameStatics.MAP_PATH_POINT){
-				yDirections.add(possiblePoint);
+			return success;
+		} else {
+			boolean success = moveLeft();
+			if (!success) {
+				success = moveRight();
 			}
+			return success;
 		}
-		return yDirections;
 	}
 
+	private boolean moveVertical(){
+		int direction = rand.nextInt(2);
+		if(direction == 0){
+			boolean success = moveUp();
+			if (!success) {
+				success = moveDown();
+			}
+			return success;
+		} else {
+			boolean success = moveDown();
+			if (!success) {
+				success = moveUp();
+			}
+			return success;
+		}
+	}
+	
+	private boolean moveLeft(){
+		int x = (int) getFriendlyPosition().getX() - 1;
+		int y = (int) getFriendlyPosition().getY();
+		if (gameEngine.isMoveValid(character, x, y)){
+			gameEngine.move(character, x, y);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean moveRight(){
+		int x = (int) getFriendlyPosition().getX() + 1;
+		int y = (int) getFriendlyPosition().getY();
+		if (gameEngine.isMoveValid(character, x, y)){
+			gameEngine.move(character, x, y);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean moveUp(){
+		int x = (int) getFriendlyPosition().getX();
+		int y = (int) getFriendlyPosition().getY() + 1;
+		if (gameEngine.isMoveValid(character, x, y)){
+			gameEngine.move(character, x, y);
+			return true;
+		} else {
+			return false;
+		}
+	}
+		
+	private boolean moveDown(){
+		int x = (int) getFriendlyPosition().getX();
+		int y = (int) getFriendlyPosition().getY() - 1;
+		if (gameEngine.isMoveValid(character, x, y)){
+			gameEngine.move(character, x, y);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }

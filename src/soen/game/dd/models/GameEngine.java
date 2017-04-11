@@ -135,6 +135,13 @@ public class GameEngine extends Observable {
 		 		while(true){
 		 			for (Character character : characters){
 		 				character.getStrategy().turn();
+		 				notifyObservers();
+		 				try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 		 			}
 		 		}}
 		}).start();
@@ -154,7 +161,7 @@ public class GameEngine extends Observable {
 				character.setStrategy(new FriendlyNPCStrategy(character, this));
 				break;
 			case HOSTILE:
-				character.setStrategy(new AggressiveNPCStrategy(this));
+				character.setStrategy(new AggressiveNPCStrategy(character, this));
 				break;
 		}
 	}
@@ -421,9 +428,20 @@ public class GameEngine extends Observable {
 				setChanged();
 				characterMoved++;
 				System.out.println("<Game Logging> : The "+character.getName()+" moved to the point"+positions.toString());
-
+				getCurrentMap().moveCharacter(character, new Point(x, y));
 			}
 		}
+	}
+	
+	public boolean isMoveValid(Character character, int x, int y) {
+		if (x < 0 || x >= getCurrentMap().mapWidth)
+			return false;
+		if (y < 0 || y >= getCurrentMap().mapHeight)
+			return false;
+		if (getCurrentMap().mapGridSelection[x][y] != GameStatics.MAP_PATH_POINT){
+			return false;
+		}
+		return true;
 	}
 
 	public void interactWith(int x, int y) {
