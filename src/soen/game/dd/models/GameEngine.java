@@ -2,6 +2,9 @@ package soen.game.dd.models;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
@@ -410,10 +413,69 @@ public class GameEngine extends Observable {
 		}
 	}
 	
+	/**
+	 * Get map character using D20roll
+	 * @return list of characters
+	 */
 	public List<Character> getCharacters(){
-		List<Character> characters = (List<Character>) getCurrentMap().mapCharacters.clone();
-		characters.add(getCharacter());
+		List<Character> characters = new ArrayList<Character>();
+		HashMap<Integer, Character> charactersMap = new HashMap<Integer, Character>();
+		Integer[] d20Dies = new Integer[this.getCurrentMap().mapCharacters.size()];
+		int index = 0;
+		
+		for (Character c : this.getCurrentMap().mapCharacters) {
+			boolean diceStatus = true;
+			while (diceStatus) {
+				int d20 = d20Dice();
+				if (checkUniqueDice(d20, d20Dies)) {
+					d20Dies[index] = d20;
+					charactersMap.put(d20, c);
+					diceStatus = false;
+					index++;
+				}
+			}
+		}
+		
+		Arrays.sort(d20Dies, Collections.reverseOrder());
+		
+		for (Integer i : d20Dies) {
+			characters.add(charactersMap.get(i));
+		}
+		
 		return characters;
+	}
+	
+	/**
+	 * Generate random score
+	 * 
+	 * @return
+	 */
+	private int d20Dice() {
+		int score = (int) (Math.random() * 20) + 1;
+
+		return score;
+	}
+	
+	/**
+	 * This method checks unique dice
+	 * 
+	 * @param dice
+	 * @param d20Dices
+	 * @return
+	 */
+	private boolean checkUniqueDice(int dice, Integer[] d20Dices) {
+		boolean status = true;
+		
+		
+		for (Integer d : d20Dices) {
+			if (d != null) {
+				if (dice == d) {
+					return false;
+				}
+			}
+		}
+		
+		return status;
 	}
 
 	/**
