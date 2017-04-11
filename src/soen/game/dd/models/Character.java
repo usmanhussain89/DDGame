@@ -21,12 +21,13 @@ public class Character extends Observable implements Serializable {
 	protected String name;
 	public String description;
 	public FighterType fighterType; // ADDED BUILD 2
+	public CharacterStatus characterStatus; // ADDED BUILD 3
 	public int level;
 	private double maxHitPoint;
 	private NPCType npcType;
 
 	// Strategy type
-	private Strategy strategy;
+	private Strategy strategy;	// ADDED BUILD 3
 
 	public double hitPoint;
 	public static int armorClass;
@@ -250,7 +251,7 @@ public class Character extends Observable implements Serializable {
 	}
 
 	/**
-	 * @author Munjed This method calculates all ability scores at random using
+	 * @author Munjed This (BUILD 1 method is OBSELETE) calculates all ability scores at random using
 	 *         4d6. If fighter type is different then attributes will be
 	 *         randomized with a little bit of bias toward players' preference.
 	 * @param abilityScores
@@ -700,7 +701,7 @@ public class Character extends Observable implements Serializable {
 				+ multipleAttacks + ", armor=" + armor + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
 				+ ", belt=" + belt + ", weapon=" + weapon + ", shield=" + shield + "]";
 	}
-
+	//BUILD 2 Setter and Getter
 	/**
 	 * This method set the type of Non Player Character on the map
 	 * 
@@ -718,4 +719,26 @@ public class Character extends Observable implements Serializable {
 	public NPCType getNPCType() {
 		return this.npcType;
 	}
+
+	//BUILD 3 Setter and Getter
+	/**
+	 * @author Munjed This method gets the Character Status
+	 * @return characterStatus is an ENUM that could be either FROZEN, BURNED, SLAYED, FRIGHTENED, 
+	 * 			OR Pacified
+	 */
+	public CharacterStatus getCharacterStatus() {
+		return characterStatus;
+	}
+	/**
+	 * @author Munjed This method sets the Character Status upon attack
+	 * @param characterStatuss is an ENUM that could be either FROZEN, BURNED, SLAYED, FRIGHTENED, 
+	 * 			OR Pacified
+	 */
+
+	public void setCharacterStatus(CharacterStatus characterStatus) {
+		this.characterStatus = characterStatus;
+	}
+	
+	
+	
 }
