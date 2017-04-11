@@ -30,6 +30,7 @@ public class GameEngine extends Observable {
 	private int currentMapIndex;
 	private Point characterPosition;
 	private int characterMoved;
+	private HashMap<Character, Point> positions;
 
 	/**
 	 * This is constructor of the class which initialize campaign and character
@@ -40,6 +41,7 @@ public class GameEngine extends Observable {
 	 */
 	public GameEngine(Campaign campaign, Character character) {
 		this.campaign = campaign;
+		this.positions = new HashMap<Character, Point>();
 		this.character = character;
 		this.character.setNPCType(NPCType.PLAYABALE);
 		this.currentMapIndex = 0;
@@ -97,14 +99,34 @@ public class GameEngine extends Observable {
 			setCharacterItemLevel(this.currentMap, character);
 			setHitPoints();
 			setStrategies();
-			startGame();
+			setPositions();
 		}
 
 		else
 			this.currentMap = null;
 	}
 	
-	private void startGame(){
+	public HashMap<Character, Point> getPositions(){
+		return positions;
+	}
+	
+	public void setPositions() {
+		for (int i = 0; i < this.currentMap.getMapHeight(); i++) {
+			for (int j = 0; j < this.currentMap.getMapWidth(); j++) {
+				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT){
+					positions.put(getCharacter(), new Point(i,j));
+				}
+				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT){
+					positions.put(this.currentMap.getFriendlyCharacter(), new Point(i,j));
+				}
+				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT){
+					positions.put(this.currentMap.getHostileCharacter(), new Point(i,j));
+				}
+			}
+		}
+	}
+
+	public void startGame(){
 		new Thread(new Runnable() {
 		     public void run() {
 		    	List<Character> characters = getOrderedCharacters();
@@ -127,7 +149,7 @@ public class GameEngine extends Observable {
 	private void setStrategyForCharacter(Character character) {
 		switch(character.getNPCType()){
 			case FRINDLY:
-				character.setStrategy(new FriendlyNPCStrategy(this));
+				character.setStrategy(new FriendlyNPCStrategy(character, this));
 				break;
 			case HOSTILE:
 				character.setStrategy(new AggressiveNPCStrategy(this));
@@ -337,7 +359,6 @@ public class GameEngine extends Observable {
 		currentMapIndex++;
 		setCurrentMap();
 		if (getCurrentMap() != null) {
-			resetCharacterPosition();
 			setChanged();
 			return true;
 		}
@@ -358,10 +379,7 @@ public class GameEngine extends Observable {
 	}
 	
 	public Point getPositionOfCharacter(Character character) {
-		if (character == getCharacter()){
-			return getCharacterPosition();
-		}
-		return null;
+		return positions.get(character);
 	}
 	
 	public boolean withinOneSpace(Point point1, Point point2){
@@ -378,7 +396,7 @@ public class GameEngine extends Observable {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
 		if (pathPoint == GameStatics.MAP_PATH_POINT){
 			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))){
-				characterPosition = new Point(x, y);
+				positions.put(character, new Point(x, y));
 				setChanged();
 				characterMoved++;
 			}

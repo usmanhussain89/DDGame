@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -58,6 +60,7 @@ public class JPanelGameComponent {
 	public JPanelGameComponent(GameEngine gameEngine){
 		panel = new JPanel();
 		this.gameEngine = gameEngine;
+		this.gameEngine.startGame();
 	}
 	
 	/**
@@ -109,15 +112,15 @@ public class JPanelGameComponent {
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_EXIT_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.red);
 					mapButtonsGrid2DArray[i][j].setText("Exit");
-				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT) {
-					mapButtonsGrid2DArray[i][j].setBackground(Color.white);
-					mapButtonsGrid2DArray[i][j].setText("Friendly");
-				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT) {
-					mapButtonsGrid2DArray[i][j].setBackground(Color.blue);
-					if (gameEngine.getCurrentMap().getHostileCharacter().getNPCType().equals(NPCType.HOSTILE))
-						mapButtonsGrid2DArray[i][j].setText("Hostile");
-					else
-						mapButtonsGrid2DArray[i][j].setText("Dead");
+//				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT) {
+//					mapButtonsGrid2DArray[i][j].setBackground(Color.white);
+//					mapButtonsGrid2DArray[i][j].setText("Friendly");
+//				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT) {
+//					mapButtonsGrid2DArray[i][j].setBackground(Color.blue);
+//					if (gameEngine.getCurrentMap().getHostileCharacter().getNPCType().equals(NPCType.HOSTILE))
+//						mapButtonsGrid2DArray[i][j].setText("Hostile");
+//					else
+//						mapButtonsGrid2DArray[i][j].setText("Dead");
 				} else if (new_mapModel.mapGridSelection[i][j] == GameStatics.MAP_CHEST_POINT) {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.orange);
 					mapButtonsGrid2DArray[i][j].setText("Chest");
@@ -125,6 +128,7 @@ public class JPanelGameComponent {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
 				}
 				
+
 				
 				mapButtonsGrid2DArray[i][j].setOpaque(true);
 				mapButtonsGrid2DArray[i][j].setBorderPainted(false);
@@ -134,11 +138,32 @@ public class JPanelGameComponent {
 			}
 			
 		}
-		Point characterPosition = gameEngine.getCharacterPosition();
-		int x = (int) characterPosition.getX();
-		int y = (int) characterPosition.getY();
-		mapButtonsGrid2DArray[x][y].setBackground(Color.CYAN);
-		mapButtonsGrid2DArray[x][y].setText("YOU");
+		HashMap<Character, Point> positions = gameEngine.getPositions();
+		for (Entry<Character, Point> entry : positions.entrySet()) {
+		    Character key = entry.getKey();
+		    Point value1 = entry.getValue();
+		    if (key.getNPCType() == NPCType.PLAYABALE){
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setBackground(Color.CYAN);
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setText("YOU");
+		    }
+		    if (key.getNPCType() == NPCType.FRINDLY){
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setBackground(Color.white);
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setText("Friendly");
+		    }
+		    if (key.getNPCType() == NPCType.HOSTILE){
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setBackground(Color.blue);
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setText("Hostile");
+		    }				    
+		    if (key.getNPCType() == NPCType.DEAD){
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setBackground(Color.blue);
+				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setText("Dead");
+		    }
+		}
+//		Point characterPosition = gameEngine.getCharacterPosition();
+//		int x = (int) characterPosition.getX();
+//		int y = (int) characterPosition.getY();
+//		mapButtonsGrid2DArray[x][y].setBackground(Color.CYAN);
+//		mapButtonsGrid2DArray[x][y].setText("YOU");
 		
 		this.panel.revalidate();
 		this.panel.repaint();
