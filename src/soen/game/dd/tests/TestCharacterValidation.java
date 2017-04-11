@@ -131,6 +131,20 @@ public class TestCharacterValidation {
 		assertTrue("<Info> : the multipleAttacks: " + character.getMultipleAttacks() + " is not  equal what was set",
 				character.getMultipleAttacks() == 10);
 	}
+	@Test
+	public void character_MAX_HP_Test() {
+
+		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		double beforeApplyingD10 = character.getMaxHitPoint();
+		System.out.println("<Infor> the vlue of MAX HP before applying d10 roll and constitution Modifier "+beforeApplyingD10);
+		character.setMaxHitPoint();
+		double afterApplyingD10 = character.getMaxHitPoint();
+		System.out.println("<Infor> the vlue of MAX HP after applying d10 roll and constitution Modifier "+afterApplyingD10);
+
+
+		assertTrue(beforeApplyingD10!=afterApplyingD10);
+	}
 	/**
 	 * @author fyounis This will test the creation of the
 	 *         characterBuilder_Create_Test

@@ -138,9 +138,9 @@ public class TestCharacterStrategy {
 
 		redFeras.setStrategy(new Freezing());
 		assertTrue("the Strataegy type Changed to Freezing",redFeras.getStrategy() instanceof Freezing);
-		redFeras.setStrategy(new Frightening(null));
+		redFeras.setStrategy(new Frightening(selverEngine));
 		System.out.println(redFeras.getStrategy());
-		redFeras.setStrategy(new HumanStrategy(null));
+		redFeras.setStrategy(new HumanStrategy(selverEngine));
 		System.out.println(redFeras.getStrategy());
 		redFeras.getStrategy().turn();
 		redFeras.setNPCType(NPCType.PLAYABALE);
