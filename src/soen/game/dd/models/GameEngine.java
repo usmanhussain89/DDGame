@@ -357,12 +357,32 @@ public class GameEngine extends Observable {
 		return characterPosition;
 	}
 	
+	public Point getPositionOfCharacter(Character character) {
+		if (character == getCharacter()){
+			return getCharacterPosition();
+		}
+		return null;
+	}
+	
+	public boolean withinOneSpace(Point point1, Point point2){
+		if ((Math.abs(point1.getX() - point2.getX()) == 1) && (point1.getY() == point2.getY())){
+			return true;
+		}
+		if ((Math.abs(point1.getY() - point2.getY()) == 1) && (point1.getX() == point2.getX())){
+			return true;
+		}	
+		return false;
+	}
+	
 	public void move(Character character, int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
-		if (pathPoint == GameStatics.MAP_PATH_POINT)
-			characterPosition = new Point(x, y);
-		setChanged();
-		characterMoved++;
+		if (pathPoint == GameStatics.MAP_PATH_POINT){
+			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))){
+				characterPosition = new Point(x, y);
+				setChanged();
+				characterMoved++;
+			}
+		}
 	}
 
 	public void interactWith(int x, int y) {

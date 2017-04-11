@@ -219,10 +219,16 @@ public class JPanelGameComponent {
 				gameEngine.lootHostileItems(hostileCharacter.getBackpack());
 			}
 			
-			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_CHEST_POINT || new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT) {
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_CHEST_POINT) {
 				gameEngine.interactWith(x,y);			
 				gameEngine.notifyObservers();
 			}
+			
+			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT) {
+				gameEngine.move(gameEngine.getCharacter(), x,y);			
+				gameEngine.notifyObservers();
+			}
+			
 			
 			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_EXIT_POINT) {
 				Character hostileCharacter = gameEngine.getCurrentMap().getHostileCharacter();
