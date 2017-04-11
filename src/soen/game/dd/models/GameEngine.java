@@ -428,7 +428,7 @@ public class GameEngine extends Observable {
 				setChanged();
 				characterMoved++;
 				System.out.println("<Game Logging> : The "+character.getName()+" moved to the point"+positions.toString());
-
+				getCurrentMap().moveCharacter(character, new Point(x, y));
 			}
 		}
 	}

@@ -59,6 +59,8 @@ public class GameStatics {
 	public static final int MAP_CHARACTER_POINT = 4;
 	public static final int MAP_OPPONENT_POINT = 5;
 	public static final int MAP_CHEST_POINT = 6;
+	public static final int MAP_PLAYER_POINT = 8;
+
 
 	// Map Chest Items
 	public static final String TITLE_ADD_CHEST_ITEMS = "Add Chest Items";
