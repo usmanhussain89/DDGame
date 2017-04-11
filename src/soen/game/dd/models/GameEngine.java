@@ -154,7 +154,7 @@ public class GameEngine extends Observable {
 				character.setStrategy(new FriendlyNPCStrategy(character, this));
 				break;
 			case HOSTILE:
-				character.setStrategy(new AggressiveNPCStrategy(this));
+				character.setStrategy(new AggressiveNPCStrategy(character, this));
 				break;
 		}
 	}

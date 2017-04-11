@@ -47,9 +47,8 @@ public class FriendlyNPCStrategy implements Strategy {
 				}
 			}
 			gameEngine.move(character, (int)newPoint.getX(), (int)newPoint.getY());
-			gameEngine.notifyObservers();
-
 		}
+		gameEngine.notifyObservers();
 	}
 	
 	private Point getCurrentPoint(){
