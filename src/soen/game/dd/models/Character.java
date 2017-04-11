@@ -392,6 +392,7 @@ public class Character extends Observable implements Serializable {
 	 */
 	public void setMaxHitPoint() {
 		maxHitPoint = 10 + constitutionModifier;
+		System.out.println("<Game Logging> : The Max HP is: "+ maxHitPoint+" after applying constitution Modifier + 10" );
 		for (int i = 1; i < level; i++) {
 			maxHitPoint += constitutionModifier + roll1d10();
 		}

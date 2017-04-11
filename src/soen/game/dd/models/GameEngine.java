@@ -100,6 +100,7 @@ public class GameEngine extends Observable {
 			setHitPoints();
 			setStrategies();
 			setPositions();
+			System.out.println("<Game Logging> : Get Ready... We are setting this Map: "+this.currentMap.getMapName());
 		}
 
 		else
@@ -127,6 +128,7 @@ public class GameEngine extends Observable {
 	}
 
 	public void startGame(){
+		System.out.println("<Game Logging> : The Game is STARTED GOOD LUCK!");
 		new Thread(new Runnable() {
 		     public void run() {
 		    	List<Character> characters = getOrderedCharacters();
@@ -190,6 +192,8 @@ public class GameEngine extends Observable {
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(1);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(1);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(1);
+				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Map Level is set to 1");
 			}
 			if (playerCharacterLevel >= 5 && playerCharacterLevel <= 8) {
 				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(2);
@@ -199,6 +203,8 @@ public class GameEngine extends Observable {
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(2);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(2);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(2);
+				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Map Level is set to 2");
 			}
 			if (playerCharacterLevel >= 9 && playerCharacterLevel <= 12) {
 				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(3);
@@ -208,6 +214,8 @@ public class GameEngine extends Observable {
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(3);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(3);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(3);
+				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Map Level is set to 3");
 			}
 			if (playerCharacterLevel >= 13 && playerCharacterLevel <= 16) {
 				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(4);
@@ -217,6 +225,8 @@ public class GameEngine extends Observable {
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(4);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(4);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(4);
+				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Map Level is set to 4");
 			}
 			if (playerCharacterLevel >= 17) {
 				this.currentMap.mapCharacters.get(indexCharacter).getarmor().setBonusAmount(5);
@@ -226,6 +236,8 @@ public class GameEngine extends Observable {
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(5);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(5);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(5);
+				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Map Level is set to 5");
 			}
 
 			if (this.currentMap.mapCharacters.get(indexCharacter).getBackpack() != null) {
@@ -302,13 +314,15 @@ public class GameEngine extends Observable {
 
 		for (Item item : items) {
 			if (character.getBackpack().size() < 10) {
-				System.out.println("Adding item " + item.getName());
 				this.character.addItemIntoBackpack(item);
 				this.character.notifyObservers();
+				System.out.println("<Game Logging> : Looting this item: "+item.getName());	
 			}
 		}
 
+		System.out.println("<Game Logging> : Can not Loot anymore! the backpack is full");
 		return character.getBackpack().size() == 10;
+		
 	}
 
 	/**
@@ -323,18 +337,25 @@ public class GameEngine extends Observable {
 		int index;
 		Character npCharacter = getCurrentMap().getFriendlyCharacter();
 
+		System.out.println("<Game Logging> : you: "+this.character.getName()+" are Exchanging with NPC: "+npCharacter.getName());
+		
 		index = randomGenerator.nextInt(npCharacter.getBackpack().size());
 		Item itemToGive = npCharacter.getBackpack().get(index);
 
 		this.character.addItemIntoBackpack(itemToGive);
+		System.out.println("<Game Logging> : you gave this Item: "+itemToGive.getName()+" to the NPC: "+npCharacter.getName());
 		this.character.removeItemFromBackpack(playerExchangeItem);
 
 		npCharacter.addItemIntoBackpack(playerExchangeItem);
+		System.out.println("<Game Logging> : you got this Item: "+playerExchangeItem.getName()+" From the NPC: "+npCharacter.getName());
 		npCharacter.removeItemFromBackpack(itemToGive);
 
 		setChanged();
 		this.character.notifyObservers();
 		npCharacter.notifyObservers();
+		System.out.println("<Game Logging> : "+playerExchangeItem.getName()+" Says: Thank you and GoodBye");
+		System.out.println("<Game Logging> : "+npCharacter.getName()+" The NPC ansert: You are welcome GoodBye");
+
 	}
 
 	/**
@@ -399,17 +420,24 @@ public class GameEngine extends Observable {
 				positions.put(character, new Point(x, y));
 				setChanged();
 				characterMoved++;
+				System.out.println("<Game Logging> : The "+character.getName()+" moved to the point"+positions.toString());
+
 			}
 		}
 	}
 
 	public void interactWith(int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
-		if (pathPoint == GameStatics.MAP_PATH_POINT)
-			characterPosition = new Point(x, y);
+		if (pathPoint == GameStatics.MAP_PATH_POINT){
+			characterPosition = new Point(x, y); 
+			System.out.println("<Game Logging> : Moved to the point"+positions.toString());
+		}
+		
 		else if (pathPoint == GameStatics.MAP_CHEST_POINT) {
+			System.out.println("<Game Logging> : Let the Loot begins");
 			lootChestItems(getCurrentMap().mapSelectedItem);
 			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
+
 		}
 		/*
 		 * else if (pathPoint == GameStatics.MAP_OPPONENT_POINT &&
@@ -428,13 +456,18 @@ public class GameEngine extends Observable {
 	 * @return
 	 */
 	public int encounter(Character playable, Character hostile) {
-		System.out.println(hostile.getHitPoint());
+		System.out.println("<Game Logging> : Let the Encounter begain!");
+		System.out.println("<Game Logging> : Fight! Fight! Fight!");
+		System.out.println("<Game Logging> : The hostile: "+hostile.getName()+" HP before fight is: "+hostile.getHitPoint());
 		if (hostile.getHitPoint() > 0) {
 			hostile.hitPoint -= new Hit().getDamagePoint(playable, hostile, NPCType.HOSTILE, playable.getWeapon());
 			hostile.callSetChanged();
 			hostile.notifyObservers();
-			if (hostile.getHitPoint() <= 0)
+			System.out.println("<Game Logging> : The "+hostile.getName()+" Got hit and his HP is now: "+hostile.getHitPoint());
+			if (hostile.getHitPoint() <= 0){
+				System.out.println("<Game Logging> : The "+hostile.getName()+" is Dead already and his HP now: "+hostile.getHitPoint());
 				return 0;
+			}
 			else
 				return (int) hostile.getHitPoint();
 		} else
@@ -443,6 +476,7 @@ public class GameEngine extends Observable {
 
 	/**
 	 * This method is to set Hit points
+	 * no need for logging it is done from the character class
 	 */
 	public void setHitPoints() {
 		for (Character character : getCharacters()) {
@@ -472,12 +506,15 @@ public class GameEngine extends Observable {
 		for (Character c : getCharacters()) {
 			boolean diceStatus = true;
 			while (diceStatus) {
+				System.out.println("<Game Logging> : Roll the d20 Dic to determine the order of: "+c.getName()+" and his type is: "+c.getNPCType());
 				int d20 = d20Dice();
 				if (checkUniqueDice(d20, d20Dies)) {
 					d20Dies[index] = d20;
 					charactersMap.put(d20, c);
 					diceStatus = false;
 					index++;
+					System.out.println("<Game Logging> : Rolled the Dic and after applying d20 roles his value is: "+d20);
+					
 				}
 			}
 		}
@@ -486,6 +523,16 @@ public class GameEngine extends Observable {
 		
 		for (Integer i : d20Dies) {
 			characters.add(charactersMap.get(i));
+		}
+		/**
+		 * @author fyounis
+		 * to print out the Characters order after applying the d20 rolls 
+		 */
+		
+		int index2 = 0;
+		for (Character character : characters) {
+			index2++;
+			System.out.println("<Game Logging> : This player"+character.getName()+" will play "+index2);
 		}
 		
 		return characters;
@@ -498,6 +545,7 @@ public class GameEngine extends Observable {
 	 */
 	private int d20Dice() {
 		int score = (int) (Math.random() * 20) + 1;
+		System.out.println("<Game Logging> : the d20 Dice was played and it was = "+score);
 
 		return score;
 	}
@@ -534,7 +582,7 @@ public class GameEngine extends Observable {
 
 		for (Item item : items) {
 			if (character.getBackpack().size() < 10) {
-				System.out.println("Adding item " + item.getName());
+				System.out.println("<Game Logging> : Looting this item: "+item);
 				this.character.addItemIntoBackpack(item);
 				this.character.notifyObservers();
 			}
