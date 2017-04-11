@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import soen.game.dd.character.strategys.FrozenStrategy;
-import soen.game.dd.character.strategys.Frightening;
+import soen.game.dd.character.strategys.FrightenedStrategy;
 import soen.game.dd.character.strategys.HumanStrategy;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
@@ -138,8 +138,8 @@ public class TestCharacterStrategy {
 
 		//redFeras.setStrategy(new FrozenStrategy()));
 		//assertTrue("the Strataegy type Changed to Freezing",redFeras.getStrategy() instanceof FrozenStrategy);
-		redFeras.setStrategy(new Frightening(selverEngine));
-		System.out.println(redFeras.getStrategy());
+		//redFeras.setStrategy(new Frightening(selverEngine));
+		//System.out.println(redFeras.getStrategy());
 		redFeras.setStrategy(new HumanStrategy(selverEngine));
 		System.out.println(redFeras.getStrategy());
 		redFeras.getStrategy().turn();

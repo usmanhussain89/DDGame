@@ -425,6 +425,17 @@ public class GameEngine extends Observable {
 			}
 		}
 	}
+	
+	public boolean isMoveValid(Character character, int x, int y) {
+		if (x < 0 || x > getCurrentMap().mapWidth)
+			return false;
+		if (y < 0 || y > getCurrentMap().mapHeight)
+			return false;
+		if (getCurrentMap().mapGridSelection[x][y] != GameStatics.MAP_PATH_POINT){
+			return false;
+		}
+		return true;
+	}
 
 	public void interactWith(int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
