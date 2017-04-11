@@ -30,6 +30,7 @@ public class GameStatics {
 	public static final String MENU_ITEM_SAVE = "SAVE";
 	public static final String MENU_CHARACTER_EXIT = "EXIT";
 	public static final String MENU_CHARACTER_SAVE = "SAVE";
+	public static final String MENU_ITEM_LOAD_GAME = "LOAD GAME";
 
 	// Popup Title
 	public static final String TITLE_MSG_SET_SIZE_OF_MAP = "SET SIZE OF MAP";

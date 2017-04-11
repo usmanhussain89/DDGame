@@ -65,6 +65,8 @@ public class JMenuBarComponent {
 
 		JMenuItem menuItemPlay = new JMenuItem(GameStatics.MENU_ITEM_PLAY);
 		menuFile.add(menuItemPlay);
+		JMenuItem menuLoadGame = new JMenuItem(GameStatics.MENU_ITEM_LOAD_GAME);
+		menuFile.add(menuLoadGame);
 
 		JMenuItem menuItemCreateMap = new JMenuItem(GameStatics.MENU_ITEM_CREATE_MAP);
 		menuFile.add(menuItemCreateMap);
@@ -358,6 +360,11 @@ public class JMenuBarComponent {
 						}
 					}
 				}
+				
+				//Load Game
+				else if (e.getSource().equals(menuLoadGame)) {
+					
+				}
 
 				else {
 					closeFrame(new_jframe);
@@ -375,6 +382,7 @@ public class JMenuBarComponent {
 		menuItemOpenCharacter.addActionListener(new MenuItemAction());
 		menuItemExit.addActionListener(new MenuItemAction());
 		menuItemPlay.addActionListener(new MenuItemAction());
+		menuLoadGame.addActionListener(new MenuItemAction());
 		return menuBar;
 	}
 

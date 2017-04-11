@@ -508,9 +508,9 @@ public class GameEngine extends Observable {
 			while (diceStatus) {
 				System.out.println("<Game Logging> : Roll the d20 Dic to determine the order of: "+c.getName()+" and his type is: "+c.getNPCType());
 				int d20 = d20Dice();
-				if (checkUniqueDice(d20, d20Dies)) {
-					d20Dies[index] = d20;
-					charactersMap.put(d20, c);
+				if (checkUniqueDice(d20 + (int)c.getDexterityModifier(), d20Dies)) {
+					d20Dies[index] = d20  + (int)c.getDexterityModifier();
+					charactersMap.put(d20  + (int)c.getDexterityModifier(), c);
 					diceStatus = false;
 					index++;
 					System.out.println("<Game Logging> : Rolled the Dic and after applying d20 roles his value is: "+d20);
