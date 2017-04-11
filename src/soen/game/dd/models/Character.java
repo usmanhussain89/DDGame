@@ -66,6 +66,8 @@ public class Character extends Observable implements Serializable {
 
 	public Character() {
 		backpack = new ArrayList<Item>(Arrays.asList());
+		setMaxHitPoint();
+		setHitpoint(getMaxHitPoint());
 	}
 
 	public Character(String name, String description, FighterType fighterType, int level, int hitPoint, int armorClass,
