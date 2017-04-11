@@ -107,7 +107,7 @@ public class GameEngine extends Observable {
 	private void startGame(){
 		new Thread(new Runnable() {
 		     public void run() {
-		    	List<Character> characters = getCharacters();
+		    	List<Character> characters = getOrderedCharacters();
 		 		while(true){
 		 			for (Character character : characters){
 		 				character.getStrategy().turn();
@@ -413,17 +413,25 @@ public class GameEngine extends Observable {
 		}
 	}
 	
+	public List<Character> getCharacters() {
+		List<Character> characters = new ArrayList<Character>();
+		characters = (List<Character>) this.getCurrentMap().mapCharacters.clone();
+		characters.add(getCharacter());
+		return characters;
+	}
+	
 	/**
 	 * Get map character using D20roll
 	 * @return list of characters
 	 */
-	public List<Character> getCharacters(){
+	public List<Character> getOrderedCharacters(){
 		List<Character> characters = new ArrayList<Character>();
+
 		HashMap<Integer, Character> charactersMap = new HashMap<Integer, Character>();
-		Integer[] d20Dies = new Integer[this.getCurrentMap().mapCharacters.size()];
+		Integer[] d20Dies = new Integer[getCharacters().size()];
 		int index = 0;
 		
-		for (Character c : this.getCurrentMap().mapCharacters) {
+		for (Character c : getCharacters()) {
 			boolean diceStatus = true;
 			while (diceStatus) {
 				int d20 = d20Dice();
