@@ -27,6 +27,7 @@ import soen.game.dd.models.FighterType;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
+import soen.game.dd.models.NPCType;
 import soen.game.dd.models.TankCharacterBuilder;
 import soen.game.dd.models.WeaponType;
 import soen.game.dd.statics.content.GameStatics;
@@ -105,8 +106,47 @@ public class TestGameValidation {
 		chest = new ArrayList<Item>();
 		chest.add(crazyHelmet);
 		chest.add(blackBelt);
+		chest.add(crazyHelmet);
+		chest.add(blackBelt);
+		chest.add(crazyHelmet);
+		chest.add(blackBelt);
+		chest.add(crazyHelmet);
+		chest.add(blackBelt);
+		chest.add(crazyHelmet);
+		chest.add(blackBelt);
+		chest.add(crazyHelmet);
+		chest.add(blackBelt);
 	}
+	
+	/**
+	 * @author fyounis
+	 * test the d20 sorting for the turn() to determine who will play first
+	 */
+	@Test
+	public void turn_Sorting_Test(){
+		Character munjed = new Character("munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		munjed.setNPCType(NPCType.FRINDLY);
+		
+		Character feras = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		feras.setNPCType(NPCType.PLAYABALE);
+		
+		Character zombi1 = new Character("zombi1", "The Greater", FighterType.BULLY, 9, 8, 6, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		zombi1.setNPCType(NPCType.HOSTILE);
+		Character zombi2 = new Character("zombi2", "The Greater", FighterType.BULLY, 9, 6, 8, 9, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		zombi1.setNPCType(NPCType.HOSTILE);
+		
+		List<Character> fightersList = new ArrayList<Character>();
+		
+		fightersList.add(feras);
+		fightersList.add(munjed);
+		fightersList.add(zombi1);
+		fightersList.add(zombi2);
 
+	}
 
 	/**
 	 * Character move on the map
@@ -298,9 +338,10 @@ public class TestGameValidation {
 		
 		/*chest.add(crazyHelmet);
 		chest.add(blackBelt);*/
-		
+		System.out.println("<Info> : the size of the backpack before looting: "+munjed.getBackpack().size());
 		testEngine.lootChestItems(chest);
 		List<Item> lootedItem =  munjed.getItemIntoBackpack();
+		System.out.println("<Info> : the size of the backpack after looting:  "+munjed.getBackpack().size());
 		boolean found = false;
 		for(Item item : lootedItem){
 			found = false;
