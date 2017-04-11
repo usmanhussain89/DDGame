@@ -1,5 +1,7 @@
 package soen.game.dd.character.strategys;
 
+import soen.game.dd.models.GameEngine;
+
 /**
  * This class will implement the turn strategy Target runs away from character for a number of turns equal to the 
  * enchantment bonus of the weapon. 
@@ -9,7 +11,11 @@ package soen.game.dd.character.strategys;
 public class Frightening implements Strategy{
 	
 	
-	
+	GameEngine gameEngine;
+
+	public Frightening(GameEngine ge){
+		this.gameEngine = ge;
+	}
 
 	private int runAwayTurns; 	// this param will be  to the enchantment bonus of the weapon. 
 

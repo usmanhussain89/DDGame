@@ -1,13 +1,15 @@
 package soen.game.dd.models;
 
 import java.awt.Point;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 
+import soen.game.dd.character.strategys.AggressiveNPCStrategy;
+import soen.game.dd.character.strategys.FriendlyNPCStrategy;
+import soen.game.dd.character.strategys.HumanStrategy;
 import soen.game.dd.statics.content.GameStatics;
 
 /**
@@ -22,9 +24,9 @@ public class GameEngine extends Observable {
 	private Character character;
 	private Map currentMap;
 	private boolean isMapObjFulfil = false;
-	private Thread t;
 	private int currentMapIndex;
 	private Point characterPosition;
+	private int characterMoved;
 
 	/**
 	 * This is constructor of the class which initialize campaign and character
@@ -90,10 +92,44 @@ public class GameEngine extends Observable {
 		if (currentMapIndex < campaign.getCampaignList().size()) {
 			this.currentMap = campaign.getCampaignList().get(currentMapIndex);
 			setCharacterItemLevel(this.currentMap, character);
+			setHitPoints();
+			setStrategies();
+			startGame();
 		}
 
 		else
 			this.currentMap = null;
+	}
+	
+	private void startGame(){
+		new Thread(new Runnable() {
+		     public void run() {
+		    	List<Character> characters = getCharacters();
+		 		while(true){
+		 			for (Character character : characters){
+		 				character.getStrategy().turn();
+		 			}
+		 		}}
+		}).start();
+	}
+
+	private void setStrategies() {
+		getCharacter().setStrategy(new HumanStrategy(this));
+		for (Character character : getCurrentMap().mapCharacters){
+			setStrategyForCharacter(character);
+		}
+		
+	}
+
+	private void setStrategyForCharacter(Character character) {
+		switch(character.getNPCType()){
+			case FRINDLY:
+				character.setStrategy(new FriendlyNPCStrategy(this));
+				break;
+			case HOSTILE:
+				character.setStrategy(new AggressiveNPCStrategy(this));
+				break;
+		}
 	}
 
 	/**
@@ -102,10 +138,6 @@ public class GameEngine extends Observable {
 	 * @return
 	 */
 	public Map getCurrentMap() {
-		/*
-		 * if (currentMapIndex >= campaign.getCampaignList().size()){ return
-		 * null; }
-		 */
 		return this.currentMap;
 	}
 
@@ -321,6 +353,14 @@ public class GameEngine extends Observable {
 	public Point getCharacterPosition() {
 		return characterPosition;
 	}
+	
+	public void move(Character character, int x, int y) {
+		int pathPoint = getCurrentMap().mapGridSelection[x][y];
+		if (pathPoint == GameStatics.MAP_PATH_POINT)
+			characterPosition = new Point(x, y);
+		setChanged();
+		characterMoved++;
+	}
 
 	public void interactWith(int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
@@ -335,9 +375,7 @@ public class GameEngine extends Observable {
 		 * getCurrentMap().){ lootChestItems(getCurrentMap().mapSelectedItem);
 		 * getCurrentMap().mapSelectedItem = new ArrayList<Item>(); }
 		 */
-		else if (pathPoint == GameStatics.MAP_CHARACTER_POINT) {
-
-		}
+		characterMoved++;
 		setChanged();
 	}
 
@@ -366,15 +404,16 @@ public class GameEngine extends Observable {
 	 * This method is to set Hit points
 	 */
 	public void setHitPoints() {
-		int index = 0;
-		for (Character character : getCurrentMap().mapCharacters) {
-			if (character.getNPCType() == NPCType.HOSTILE) {
-				character.setMaxHitPoint();
-				character.setHitpoint(character.getMaxHitPoint());
-				getCurrentMap().mapCharacters.set(index, character);
-			}
-			index++;
+		for (Character character : getCharacters()) {
+			character.setMaxHitPoint();
+			character.setHitpoint(character.getMaxHitPoint());
 		}
+	}
+	
+	public List<Character> getCharacters(){
+		List<Character> characters = (List<Character>) getCurrentMap().mapCharacters.clone();
+		characters.add(getCharacter());
+		return characters;
 	}
 
 	/**
@@ -394,5 +433,13 @@ public class GameEngine extends Observable {
 		}
 
 		return character.getBackpack().size() == 10;
+	}
+
+	public void setCharacterMoved(int i) {
+		characterMoved = 0;
+	}
+
+	public int getCharacterMoved() {
+		return characterMoved;
 	}
 }

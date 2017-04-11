@@ -80,7 +80,6 @@ public class JPanelGameComponent {
 		GridLayout gridLayout;
 		gridLayout = new GridLayout(new_mapModel.getMapHeight(), new_mapModel.getMapWidth(), 3, 3);
 		panel.setLayout(gridLayout);
-		gameEngine.setHitPoints();
 
 		mapButtonsGrid2DArray = new JButton[new_mapModel.getMapHeight()][new_mapModel.getMapWidth()];
 		

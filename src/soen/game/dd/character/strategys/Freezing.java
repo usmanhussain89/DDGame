@@ -1,5 +1,7 @@
 package soen.game.dd.character.strategys;
 
+import soen.game.dd.models.GameEngine;
+
 /**
  * This class will implement the turn strategy Freezing.
  * Target cannot move for a number of turns equal to the enchantment bonus of 
@@ -12,10 +14,8 @@ public class Freezing implements Strategy{
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-
-
+	
 	private int FrozenTurns; // equal to the enchantment bonus of the weapon.
-
 	
 
 	@Override

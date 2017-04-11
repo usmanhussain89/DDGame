@@ -110,8 +110,8 @@ public class TestCharacterStrategy {
 		
 		redFeras.setStrategy(new Freezing());
 		System.out.println(redFeras.getStrategy());
-		redFeras.setStrategy(new Frightening());
-		System.out.println(redFeras.getStrategy());
+		//redFeras.setStrategy(new Frightening());
+		//System.out.println(redFeras.getStrategy());
 
 		
 	}

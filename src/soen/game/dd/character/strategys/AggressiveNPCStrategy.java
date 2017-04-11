@@ -1,5 +1,6 @@
 package soen.game.dd.character.strategys;
 
+import soen.game.dd.models.GameEngine;
 
 /**
  * This class will implement the turn strategy for Aggressive NPC
@@ -7,11 +8,16 @@ package soen.game.dd.character.strategys;
  *
  */
 public class AggressiveNPCStrategy implements Strategy{
+	
+	GameEngine gameEngine;
 
+	public AggressiveNPCStrategy(GameEngine ge){
+		this.gameEngine = ge;
+	}
+	
 	@Override
 	public void turn() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Aggressive turn");
 	}
 
 }
