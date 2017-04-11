@@ -24,11 +24,9 @@ public class Character extends Observable implements Serializable {
 	public int level;
 	private double maxHitPoint;
 	private NPCType npcType;
-	
-	// Strategy type 
-	private Strategy strategy; 
-	
 
+	// Strategy type
+	private Strategy strategy;
 
 	public double hitPoint;
 	public static int armorClass;
@@ -62,17 +60,17 @@ public class Character extends Observable implements Serializable {
 	protected double dexterityModifier;
 	private double intelligenceModifier;
 	private double charismaModifier;
-	
-	//Builder pattern:
+
+	// Builder pattern:
 	private CharacterBuilder builder; // ADDED BUILD 2
 
 	public Character() {
 		backpack = new ArrayList<Item>(Arrays.asList());
 	}
 
-	public Character(String name, String description, FighterType fighterType, int level,  int hitPoint,
-			int armorClass, int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring, Item helmet,
-			Item boots, Item belt, Item weapon, Item shield) {
+	public Character(String name, String description, FighterType fighterType, int level, int hitPoint, int armorClass,
+			int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring, Item helmet, Item boots,
+			Item belt, Item weapon, Item shield) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -101,12 +99,14 @@ public class Character extends Observable implements Serializable {
 	}
 
 	/**
-	 * @param strategy the strategy to set
+	 * @param strategy
+	 *            the strategy to set
 	 */
 	public void setStrategy(Strategy strategy) {
 		this.strategy = strategy;
+		System.out.println("<Info> : The Character: " + name + " Strategy got set to: " + getStrategy());
 	}
-	
+
 	/**
 	 * @param Item
 	 *            the Item to add into backpack
@@ -116,25 +116,29 @@ public class Character extends Observable implements Serializable {
 		if (backpack.size() < 10) {
 			backpack.add(item);
 			setChanged();
+			System.out.println("<Info> : This Item: " + item.getName() + " been added to the backpack of" + name);
 			return true;
 		} else {
-			System.out.println("The Maximum backpack size is reached: " + backpack.size());
+			System.out.println("<Info> : The Maximum backpack size is reached: " + backpack.size());
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Removes an item from the backpack
 	 * 
 	 * @author Khaled
-	 * @param pItem Item to remove
+	 * @param pItem
+	 *            Item to remove
 	 * @return true if removed, false if not found
 	 */
 	public boolean removeItemFromBackpack(Item pItem) {
-		for(Item item : backpack){
-			if (pItem.equals(item)){
+		for (Item item : backpack) {
+			if (pItem.equals(item)) {
 				backpack.remove(item);
 				setChanged();
+				System.out.println(
+						"<Info> : This Item: " + item.getName() + " been removed from the backpack of " + name);
 				return true;
 			}
 		}
@@ -145,33 +149,37 @@ public class Character extends Observable implements Serializable {
 	 * Removes an item from the backpack
 	 * 
 	 * @author Khaled
-	 * @param pItem Item to remove
+	 * @param pItem
+	 *            Item to remove
 	 * @return true if removed, false if not found
 	 * @version Build2
 	 */
 	public boolean removeItemNameFromBackpack(String pItemName) {
-		for(Item item : backpack){
-			if (pItemName.equals(item.getName())){
+		for (Item item : backpack) {
+			if (pItemName.equals(item.getName())) {
 				backpack.remove(item);
+				System.out.println(
+						"<Info> : This Item: " + item.getName() + " been removed from the backpack of " + name);
 				return true;
 			}
 		}
 		return false;
 	}
+
 	/**
-	 * @author Khalid 
-	 * creating the list of equiped items only
+	 * @author Khalid creating the list of equiped items only
 	 * @return a list of items equiped
 	 */
 	protected List<Item> getEquippedItems() {
 		return Arrays.asList(armor, ring, boots, weapon, shield, helmet);
 	}
-	
-	public void setName(String name){
+
+	public void setName(String name) {
 		this.name = name;
+		System.out.println("<Info> : the name of this character was set to: " + name);
 	}
-	
-	public void callSetChanged(){
+
+	public void callSetChanged() {
 		setChanged();
 	}
 
@@ -211,131 +219,99 @@ public class Character extends Observable implements Serializable {
 	 */
 	public void setLevel(int level) {
 		this.level = level;
-		//setAbilityScores();
+		System.out.println("<Info> : LEVEL of this character: " + name + " set to: " + level + ".");
+		// setAbilityScores();
 	}
+
 	/**
 	 * 
 	 * @return fighterType Nimble, Tank, or Bully
 	 */
-	
-	public FighterType getFighterType(){
+
+	public FighterType getFighterType() {
 		return fighterType;
 	}
-	
-	public List<Item> getBackpack(){
+
+	public List<Item> getBackpack() {
 		return backpack;
 	}
-	
-	//Builder Pattern methods:
-	
-	public void setBuilder(CharacterBuilder newCharacterBuilder){
+
+	// Builder Pattern methods:
+
+	public void setBuilder(CharacterBuilder newCharacterBuilder) {
 		builder = newCharacterBuilder;
 	}
 
-	public void constructCharacterBuild(){
-		//builder.createNewCharacter();
-		//builder.setAbilityScores();
+	public void constructCharacterBuild() {
+		// builder.createNewCharacter();
+		// builder.setAbilityScores();
 	}
-	
+
 	/**
-	 * @author Munjed 
-	 * This method calculates all ability scores at random using
-	 * 4d6. If fighter type is different then attributes will be randomized
-	 * with a little bit of bias toward players' preference. 
+	 * @author Munjed This method calculates all ability scores at random using
+	 *         4d6. If fighter type is different then attributes will be
+	 *         randomized with a little bit of bias toward players' preference.
 	 * @param abilityScores
 	 *            the abilityScores to set
 	 */
-	/*public void setAbilityScores() {
-		//The following loop is made sort the scores retrieved from 4d6 dices from
-		//big to small so we can then manipulate their assignment to fighter type 
-		//preference
-		
-		int[] die = new int[6];
-		for(int i=0; i<6;i++)
-			die[i]=roll4d6();
-		for(int i=0;i<6;i++){
-			int max=die[i];
-			int index=i;
-			for(int j=i;j<6;j++){
-				if(max<die[j]){
-					max=die[j];
-					index=j;
-				}
-			}
-			int temp=die[i];
-			die[i]=max;
-			die[index]=temp;
-		}
-		//The addition for the first three attribute is to make sure that the built character
-		// is actually with respect to preference in case numbers randomly were the same
-		
-		//BULLY implementation		
-		if(getFighterType()==FighterType.BULLY){
-			this.strength = die[0]+4;
-			this.constitution = die[1]+2;
-			this.dexterity = die[2]+1;
-			this.intelligence = die[3];
-			this.charisma = die[4];
-			this.wisdom = die[5];
-		}
-		
-		//NIMBLE implementation		
-		else if(getFighterType()==FighterType.NIMBLE){
-			this.dexterity = die[0]+4;
-			this.constitution = die[1]+2;
-			this.strength= die[2]+1;
-			this.intelligence = die[3];
-			this.charisma = die[4];
-			this.wisdom = die[5];
-		}
-		
-		//TANK implementation		
-		else if(getFighterType()==FighterType.NIMBLE){
-			this.constitution = die[0]+4;
-			this.dexterity = die[1]+2;
-			this.strength= die[2]+1;
-			this.intelligence = die[3];
-			this.charisma = die[4];
-			this.wisdom = die[5];
-		}
-		
-		//Default randomized character
-		else{
-			this.strength = roll4d6();
-			this.dexterity = roll4d6();
-			this.wisdom = roll4d6();
-			this.intelligence = roll4d6();
-			this.charisma = roll4d6();
-			this.constitution = roll4d6();
-		}
-		
-		setChanged();
-	}*/
-	
-	public int getStrength(){
+	/*
+	 * public void setAbilityScores() { //The following loop is made sort the
+	 * scores retrieved from 4d6 dices from //big to small so we can then
+	 * manipulate their assignment to fighter type //preference
+	 * 
+	 * int[] die = new int[6]; for(int i=0; i<6;i++) die[i]=roll4d6(); for(int
+	 * i=0;i<6;i++){ int max=die[i]; int index=i; for(int j=i;j<6;j++){
+	 * if(max<die[j]){ max=die[j]; index=j; } } int temp=die[i]; die[i]=max;
+	 * die[index]=temp; } //The addition for the first three attribute is to
+	 * make sure that the built character // is actually with respect to
+	 * preference in case numbers randomly were the same
+	 * 
+	 * //BULLY implementation if(getFighterType()==FighterType.BULLY){
+	 * this.strength = die[0]+4; this.constitution = die[1]+2; this.dexterity =
+	 * die[2]+1; this.intelligence = die[3]; this.charisma = die[4]; this.wisdom
+	 * = die[5]; }
+	 * 
+	 * //NIMBLE implementation else if(getFighterType()==FighterType.NIMBLE){
+	 * this.dexterity = die[0]+4; this.constitution = die[1]+2; this.strength=
+	 * die[2]+1; this.intelligence = die[3]; this.charisma = die[4]; this.wisdom
+	 * = die[5]; }
+	 * 
+	 * //TANK implementation else if(getFighterType()==FighterType.NIMBLE){
+	 * this.constitution = die[0]+4; this.dexterity = die[1]+2; this.strength=
+	 * die[2]+1; this.intelligence = die[3]; this.charisma = die[4]; this.wisdom
+	 * = die[5]; }
+	 * 
+	 * //Default randomized character else{ this.strength = roll4d6();
+	 * this.dexterity = roll4d6(); this.wisdom = roll4d6(); this.intelligence =
+	 * roll4d6(); this.charisma = roll4d6(); this.constitution = roll4d6(); }
+	 * 
+	 * setChanged(); }
+	 */
+
+	public int getStrength() {
 		return this.strength;
 	}
 
-	public int getConsitution(){
+	public int getConsitution() {
 		return this.constitution;
 	}
-	
-	public int getWisdom(){
+
+	public int getWisdom() {
 		return this.wisdom;
 	}
-	
-	public int getDexterity(){
+
+	public int getDexterity() {
 		return this.dexterity;
 	}
-	
-	public int getIntelligence(){
+
+	public int getIntelligence() {
 		return this.intelligence;
 	}
-	
-	public int getCharisma(){
+
+	public int getCharisma() {
 		return this.charisma;
 	}
-	
+
 	/**
 	 * @author Munjed This method finds the ability modifier with respect to d&d
 	 *         20d every modifier is based on its corresponding attribute The
@@ -346,14 +322,18 @@ public class Character extends Observable implements Serializable {
 	public void setAbilityModifier() {
 		// creating modifiers from ability scores
 		this.strengthModifier = Math.floor((strength - 10) / 2);
+		System.out.println("<Info> : The strengthModifier was set to: " + strengthModifier);
 		this.charismaModifier = Math.floor((charisma - 10) / 2);
+		System.out.println("<Info> : The charismaModifier was set to: " + charismaModifier);
 		this.intelligenceModifier = Math.floor((intelligence - 10) / 2);
+		System.out.println("<Info> : The intelligenceModifier was set to: " + intelligenceModifier);
 		this.wisdomModifier = Math.floor((wisdom - 10) / 2);
+		System.out.println("<Info> : The wisdomModifier was set to: " + wisdomModifier);
 		this.constitutionModifier = Math.floor((constitution - 10) / 2);
+		System.out.println("<Info> : The constitutionModifier was set to: " + constitutionModifier);
 		this.dexterityModifier = Math.floor((dexterity - 10) / 2);
+		System.out.println("<Info> : The dexterityModifier was set to: " + dexterityModifier);
 	}
-	
-	
 
 	public double getStrengthModifier() {
 		return strengthModifier;
@@ -404,51 +384,49 @@ public class Character extends Observable implements Serializable {
 	}
 
 	/**
-	 * @author Munjed 
-	 * This method consider the fighter class only, in the 2nd
-	 * build it will be\ adjusted to stretch other classes.... each
-	 * class has different way of calculating their maxHitpoints in 20d dnd
+	 * @author Munjed This method consider the fighter class only, in the 2nd
+	 *         build it will be\ adjusted to stretch other classes.... each
+	 *         class has different way of calculating their maxHitpoints in 20d
+	 *         dnd
 	 * @return the maxhitPoint
 	 */
 	public void setMaxHitPoint() {
-		maxHitPoint=10+constitutionModifier;
-		for(int i=1;i<level;i++)
-		{
-			maxHitPoint+=constitutionModifier+roll1d10();
-		}	
+		maxHitPoint = 10 + constitutionModifier;
+		for (int i = 1; i < level; i++) {
+			maxHitPoint += constitutionModifier + roll1d10();
+		}
 	}
+
 	/**
 	 * @author Munjed
 	 * @return maxHitPoint potions hp increase can not exceed maxhitpoint
 	 */
-	
+
 	public double getMaxHitPoint() {
-		
+
 		return maxHitPoint;
 	}
-	
+
 	/**
-	 * @author Munjed
-	 * This method will be invoked each time a map is cleared unlness
-	 * the player is less than 20
+	 * @author Munjed This method will be invoked each time a map is cleared
+	 *         unlness the player is less than 20
 	 */
-	public void levelUp(){
-		if(level!=20){
+	public void levelUp() {
+		if (level != 20) {
 			level++;
-			maxHitPoint=getMaxHitPoint()+constitutionModifier+roll1d10();
+			maxHitPoint = getMaxHitPoint() + constitutionModifier + roll1d10();
 			setAttackBonus();
 		}
 	}
-	
+
 	/**
-	 * @author Munjed
-	 * This created at the beginning of each map. The Hitpoint 
+	 * @author Munjed This created at the beginning of each map. The Hitpoint
 	 * @param maxHitPoint
 	 */
-	public void setHitpoint(double maxHitPoint){
-		this.hitPoint=maxHitPoint;
+	public void setHitpoint(double maxHitPoint) {
+		this.hitPoint = maxHitPoint;
 	}
-	
+
 	/**
 	 * @author Munjed
 	 * @return HitPoint if zero the character dies
@@ -456,6 +434,7 @@ public class Character extends Observable implements Serializable {
 	public double getHitPoint() {
 		return hitPoint;
 	}
+
 	/**
 	 * @author Munjed This method, although gets the value for armor class, it
 	 *         also calculates it
@@ -473,7 +452,8 @@ public class Character extends Observable implements Serializable {
 			}
 		}
 	}
-	public static int getArmorClass(){
+
+	public static int getArmorClass() {
 		return armorClass;
 	}
 
@@ -534,11 +514,10 @@ public class Character extends Observable implements Serializable {
 	 */
 
 	public void setarmor(Item item) {
-		if (item.getItemType() == ItemType.ARMOR){
+		if (item.getItemType() == ItemType.ARMOR) {
 			this.armor = item;
 			setChanged();
-		}
-		else
+		} else
 			System.out.println("Inavalid type: item is not an armor");
 	}
 
@@ -556,11 +535,10 @@ public class Character extends Observable implements Serializable {
 	 */
 
 	public void setRing(Item item) {
-		if (item.getItemType() == ItemType.RING){
+		if (item.getItemType() == ItemType.RING) {
 			this.ring = item;
 			setChanged();
-		}
-		else
+		} else
 			System.out.println("Inavalid type: item is not an armor");
 	}
 
@@ -598,11 +576,10 @@ public class Character extends Observable implements Serializable {
 	 */
 
 	public void setBoots(Item item) {
-		if (item.getItemType() == ItemType.BOOTS){
+		if (item.getItemType() == ItemType.BOOTS) {
 			this.boots = item;
 			setChanged();
-		}
-		else
+		} else
 			System.out.println("Inavalid type: item is not boots");
 	}
 
@@ -618,11 +595,10 @@ public class Character extends Observable implements Serializable {
 	 *            the belt to set
 	 */
 	public void setBelt(Item item) {
-		if (item.getItemType() == ItemType.BELT){
+		if (item.getItemType() == ItemType.BELT) {
 			this.belt = item;
 			setChanged();
-		}
-		else
+		} else
 			System.out.println("Inavalid type: item is not a belt");
 	}
 
@@ -639,11 +615,10 @@ public class Character extends Observable implements Serializable {
 	 */
 
 	public void setWeapon(Item item) {
-		if (item.getItemType() == ItemType.WEAPON){
+		if (item.getItemType() == ItemType.WEAPON) {
 			this.weapon = item;
 			setChanged();
-		}
-		else
+		} else
 			System.out.println("Inavalid type: item is not a weapon");
 	}
 
@@ -660,11 +635,10 @@ public class Character extends Observable implements Serializable {
 	 */
 
 	public void setShield(Item item) {
-		if (item.getItemType() == ItemType.SHIELD){
+		if (item.getItemType() == ItemType.SHIELD) {
 			this.shield = item;
 			setChanged();
-		}
-		else
+		} else
 			System.out.println("Inavalid type: item is not a shield");
 	}
 
@@ -691,12 +665,13 @@ public class Character extends Observable implements Serializable {
 
 		return score;
 	}
-	public static int roll1d10(){
-		
+
+	public static int roll1d10() {
+
 		int score = (int) (Math.random() * 10) + 1;
-		
+
 		return score;
-		
+
 	}
 
 	/**
@@ -722,22 +697,22 @@ public class Character extends Observable implements Serializable {
 				+ multipleAttacks + ", armor=" + armor + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
 				+ ", belt=" + belt + ", weapon=" + weapon + ", shield=" + shield + "]";
 	}
-	
+
 	/**
 	 * This method set the type of Non Player Character on the map
+	 * 
 	 * @param npcType
 	 */
 	public void setNPCType(NPCType npcType) {
 		this.npcType = npcType;
 	}
-	
+
 	/**
 	 * This method get the Non Player CharacterType
 	 * 
 	 * @return NPCType
 	 */
-	public NPCType getNPCType()
-	{
+	public NPCType getNPCType() {
 		return this.npcType;
 	}
 }
