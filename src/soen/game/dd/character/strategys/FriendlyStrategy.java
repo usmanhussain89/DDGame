@@ -1,12 +1,9 @@
 package soen.game.dd.character.strategys;
 
 import soen.game.dd.models.GameEngine;
-import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.models.Character;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 
@@ -17,13 +14,13 @@ import java.util.Random;
  * @author khaled
  *
  */
-public class FriendlyNPCStrategy implements Strategy {
+public class FriendlyStrategy implements Strategy {
 
 	GameEngine gameEngine;
 	Character character;
 	Random rand;
 
-	public FriendlyNPCStrategy(Character c, GameEngine ge){
+	public FriendlyStrategy(Character c, GameEngine ge){
 		this.gameEngine = ge;
 		this.character = c;
 		this.rand = new Random();
