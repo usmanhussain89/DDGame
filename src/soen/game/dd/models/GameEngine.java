@@ -135,6 +135,13 @@ public class GameEngine extends Observable {
 		 		while(true){
 		 			for (Character character : characters){
 		 				character.getStrategy().turn();
+		 				notifyObservers();
+		 				try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 		 			}
 		 		}}
 		}).start();
@@ -427,9 +434,9 @@ public class GameEngine extends Observable {
 	}
 	
 	public boolean isMoveValid(Character character, int x, int y) {
-		if (x < 0 || x > getCurrentMap().mapWidth)
+		if (x < 0 || x >= getCurrentMap().mapWidth)
 			return false;
-		if (y < 0 || y > getCurrentMap().mapHeight)
+		if (y < 0 || y >= getCurrentMap().mapHeight)
 			return false;
 		if (getCurrentMap().mapGridSelection[x][y] != GameStatics.MAP_PATH_POINT){
 			return false;
