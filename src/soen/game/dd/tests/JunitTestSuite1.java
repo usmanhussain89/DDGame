@@ -12,7 +12,11 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({	TestMapValidation.class,
 				TestGameValidation.class,
 				TestItemValidation.class,
-				TestCharacterValidation.class})
+				TestCharacterValidation.class,
+				TestChestValidation.class,
+				TestCharacterStrategy.class,
+				TestDecoratorPattern.class,
+				TestCampaignValidation.class})
 public class JunitTestSuite1 {
 
 }

@@ -1,5 +1,7 @@
 package soen.game.dd.tests;
 
+import static org.junit.Assert.*;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -135,7 +137,7 @@ public class TestCharacterStrategy {
 	public void changeStrategy() {
 
 		redFeras.setStrategy(new Freezing());
-		System.out.println(redFeras.getStrategy() instanceof Freezing);
+		assertTrue("the Strataegy type Changed to Freezing",redFeras.getStrategy() instanceof Freezing);
 		redFeras.setStrategy(new Frightening(null));
 		System.out.println(redFeras.getStrategy());
 		redFeras.setStrategy(new HumanStrategy(null));

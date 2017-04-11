@@ -107,20 +107,7 @@ public class TestGameValidation {
 		chest.add(blackBelt);
 	}
 
-	/**
-	 * this test will test if we can add items to a chest
-	 */
-	@Test
-	public void Chest_add_Items_Test1(){
-		
-		chest2 = new ArrayList<Item>();
-		chest2.add(crazyHelmet);
-		chest2.add(blackBelt);
-		chest2.add(redBelt);
-		
-		assertTrue(chest2.size()==3);
-		
-	}
+
 	/**
 	 * Character move on the map
 	 */
@@ -170,53 +157,7 @@ public class TestGameValidation {
 		
 		assertEquals("Both Compaings are same",BlackCampaign, testEngine.getCampagin());
 	}
-	/**
-	 * this test will test if we can add items to a chest
-	 */
-	@Test
-	public void Chest_add_Items_Test2(){
-		
-		chest2 = new ArrayList<Item>();
-		chest2.add(crazyHelmet);
-		chest2.add(blackBelt);
-		chest2.add(redBelt);
-		
-		chest2.remove(crazyHelmet);
-		
-		assertTrue(chest.get(0).equals(crazyHelmet));
-		
-		
-		
-		
-	}
-	/**
-	 * this test will test if we can add items to a chest
-	 */
-	@Test
-	public void Chest_add_Items_Test3(){
-		
-		chest2 = new ArrayList<Item>();
-		chest2.add(crazyHelmet);
-		chest2.add(blackBelt);
-		chest2.add(redBelt);
-		
-		chest2.remove(crazyHelmet);
-		
-		assertTrue(chest.get(0).equals(crazyHelmet));
-		
-		assertTrue(chest2.size()==2);
-		boolean exist = false;
-		for(Item item : chest2){
-			if(item==crazyHelmet){
-				exist = true;
-				}
-		}
-		
-		assertFalse(exist);
-		
-		
-	}
-	
+
 
 	/**
 	 * THis test will test the dummy engine of the game campaign 
@@ -311,96 +252,7 @@ public class TestGameValidation {
 		assertEquals("This is not the Map",map, testEngine.getCampagin().getCampaignList().get(0));
 		
 	}
-	/**
-	 * This test will test create campaign
-	 */
-	@Test
-	public void campaign_Create_Test() {
-		Map map = new Map(5, 6);
-		Map map2 = new Map(8, 7);
-		Map map3 = new Map(10, 22);
-		Map map4 = new Map(22, 22);
 
-		Campaign RedCampaign = new Campaign();
-		RedCampaign.setCampaignList(map);
-		RedCampaign.setCampaignList(map2);
-		RedCampaign.setCampaignList(map3);
-		RedCampaign.setCampaignList(map4);
-
-	}
-
-
-	
-	/**
-	 * Test Campaign Name
-	 */
-	@Test
-	public void create_Campaign_Test1(){
-		
-		map.mapSelectedItem = chest;
-		map2.mapSelectedItem = chest;
-		map3.mapSelectedItem = chest;
-		map4.mapSelectedItem = chest;
-
-		BlackCampaign.setCampaignList(map);
-		BlackCampaign.setCampaignList(map2);
-		BlackCampaign.setCampaignList(map3);
-		BlackCampaign.setCampaignList(map4);
-		System.out.println("First flag");
-		
-		assertTrue(BlackCampaign.getCampaignName().equals("BlackCampaign"));
-	}
-	/**
-	 * Test Campaign map size
-	 */
-	@Test
-	public void create_Campaign_Test2(){
-		
-		map.mapSelectedItem = chest;
-		map2.mapSelectedItem = chest;
-		map3.mapSelectedItem = chest;
-		map4.mapSelectedItem = chest;
-
-		BlackCampaign.setCampaignList(map);
-		BlackCampaign.setCampaignList(map2);
-		BlackCampaign.setCampaignList(map3);
-		BlackCampaign.setCampaignList(map4);
-		System.out.println("First flag");
-		
-		assertTrue(BlackCampaign.getCampaignList().size()==4);
-		
-	}
-	
-	/**
-	 * Test Campaign map is map added
-	 */
-	@Test
-	public void create_Campaign_Test3(){
-		
-		map.mapSelectedItem = chest;
-		map2.mapSelectedItem = chest;
-		map3.mapSelectedItem = chest;
-		map4.mapSelectedItem = chest;
-
-		BlackCampaign.setCampaignList(map);
-		BlackCampaign.setCampaignList(map2);
-		BlackCampaign.setCampaignList(map3);
-		BlackCampaign.setCampaignList(map4);
-		System.out.println("First flag");
-		
-		
-		boolean found = false;
-		for(Map map : BlackCampaign.getCampaignList()){
-			if (map == map3){
-				found = true; 
-				System.out.println(map);
-				break;
-			}
-		}
-		assertTrue(found);
-	}
-	
-	
 	
 	/**
 	 * Test looting
