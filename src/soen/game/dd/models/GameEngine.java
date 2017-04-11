@@ -403,7 +403,7 @@ public class GameEngine extends Observable {
 	}
 
 	public Point getCharacterPosition() {
-		return characterPosition;
+		return getPositionOfCharacter(getCharacter());
 	}
 	
 	public Point getPositionOfCharacter(Character character) {

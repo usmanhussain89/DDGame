@@ -186,7 +186,7 @@ public class JPanelGameComponent {
 			int x = Integer.parseInt(coordinates[1]);
 			int y = Integer.parseInt(coordinates[2]);
 			
-			Point characterPosition = gameEngine.getCharacterPosition();
+			Point characterPosition = gameEngine.getPositionOfCharacter(gameEngine.getCharacter());
 			int xCharacter = (int) characterPosition.getX();
 			int yCharacter = (int) characterPosition.getY();
 
