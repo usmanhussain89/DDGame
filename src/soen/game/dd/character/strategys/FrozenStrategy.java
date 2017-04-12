@@ -28,6 +28,7 @@ public class FrozenStrategy implements Strategy, Serializable {
 	public FrozenStrategy(Character c, int remainingTurns) {
 		oldStrategy = c.getStrategy();
 		this.remainingTurns = remainingTurns;
+		this.character = c;
 	}
 
 	/**
@@ -35,10 +36,11 @@ public class FrozenStrategy implements Strategy, Serializable {
 	 */
 	@Override
 	public void turn() {
-		if (remainingTurns-- == 0) {
+		if (--remainingTurns == 0) {
 			character.setStrategy(oldStrategy);
 			character.setCharacterStatus(null);
 		}
+		System.out.println(remainingTurns);
 	}
 
 	/**

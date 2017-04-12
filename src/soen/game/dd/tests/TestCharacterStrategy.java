@@ -177,10 +177,8 @@ public class TestCharacterStrategy {
 		redFeras.getStrategy().turn();
 		redFeras.getStrategy().turn();
 		redFeras.getStrategy().turn();
-		redFeras.getStrategy().turn();
-		System.out.println(((FrozenStrategy) redFeras.getStrategy()).getOldStrategy().toString());
 		System.out.println(redFeras.getStrategy().toString());
-		Assert.assertEquals(FriendlyStrategy.class, ((FrozenStrategy) redFeras.getStrategy()).getOldStrategy().getClass());
+		Assert.assertEquals(FriendlyStrategy.class, ((redFeras.getStrategy()).getClass()));
 		
 	}
 	
