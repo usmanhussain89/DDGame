@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import soen.game.dd.character.strategys.HumanStrategy;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
@@ -33,7 +34,7 @@ import soen.game.dd.statics.content.GameStatics;
  */
 public class TestGameValidation {
 
-	private Map map = new Map(10, 10);
+	private Map map = new Map(5, 5);
 	private Map map2 = new Map(10, 10);
 	private Map map3 = new Map(10, 10);
 	private Map map4 = new Map(10, 10);
@@ -151,8 +152,14 @@ public class TestGameValidation {
 		map4.mapSelectedItem = chest;
 
 		map.mapGridSelection = new int[5][5];
-		map.mapGridSelection[1][1] = GameStatics.MAP_PATH_POINT;
 		map.mapGridSelection[0][0] = GameStatics.MAP_ENTRY_POINT;
+		map.mapGridSelection[0][1] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][2] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][3] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[2][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[3][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[4][4] = GameStatics.MAP_EXIT_POINT;
 
 		BlackCampaign.setCampaignList(map);
 		BlackCampaign.setCampaignList(map2);
@@ -178,15 +185,52 @@ public class TestGameValidation {
 		System.out.println(fighterBully);
 
 		GameEngine testEngine = new GameEngine(BlackCampaign, munjed);
-		System.out.println("First flag");
 		testEngine.setCurrentMap();
-		
-		testEngine.getCurrentMap().setMapGridSelection(int[][]);
 
 		testEngine.interactWith(1, 1);
-		assertTrue("", testEngine.getCharacterPosition().equals(new Point(1, 1)));
+		testEngine.resetCharacterPosition();
+		assertTrue("", testEngine.getCharacterPosition().equals(new Point(0, 0)));
 
 		assertEquals("Both Compaings are same", BlackCampaign, testEngine.getCampagin());
+	}
+
+	/**
+	 * Character move on the map
+	 */
+	@Test
+	public void setCharacter_Strategy_Playable_Test() {
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
+
+		map.mapGridSelection = new int[5][5];
+		map.mapGridSelection[0][0] = GameStatics.MAP_ENTRY_POINT;
+		map.mapGridSelection[0][1] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][2] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][3] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[2][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[3][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[4][4] = GameStatics.MAP_EXIT_POINT;
+
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		System.out.println("First flag");
+
+		Character munjed = new Character("Munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+
+		Point point = new Point(1, 1);
+
+		GameEngine testEngine = new GameEngine(BlackCampaign, munjed);
+		testEngine.setCurrentMap();
+
+		System.out.println(munjed.getStrategy());
+		assertTrue(munjed.getStrategy() instanceof HumanStrategy);
 	}
 
 	/**

@@ -28,6 +28,10 @@ public class FrozenStrategy implements Strategy {
 		}
 	}
 
+	public Strategy getOldStrategy() {
+		return oldStrategy;
+	}
+
 	@Override
 	public String toString() {
 		return "The Strategy is changed to " + "This is a Freezing Strategy";
