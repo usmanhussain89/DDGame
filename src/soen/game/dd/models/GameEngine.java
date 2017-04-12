@@ -1,6 +1,7 @@
 package soen.game.dd.models;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,8 +22,9 @@ import soen.game.dd.statics.content.GameStatics;
  * @author Usman
  *
  */
-public class GameEngine extends Observable {
+public class GameEngine extends Observable implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private Campaign campaign;
 	private Character character;
 	private Map currentMap;
@@ -31,6 +33,7 @@ public class GameEngine extends Observable {
 	private Point characterPosition;
 	private int characterMoved;
 	private HashMap<Character, Point> positions;
+	private String name;
 
 	/**
 	 * This is constructor of the class which initialize campaign and character
@@ -658,4 +661,21 @@ public class GameEngine extends Observable {
 		return new Point((int)p1.getX() + (int)p2.getX(), (int)p1.getY() + (int)p2.getY());
 	}
 	
+	/**
+	 * This method set the Game Engine Name
+	 * 
+	 * @param name
+	 */
+	public void setGameName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * This method return the Game Engine Name
+	 * 
+	 * @return
+	 */
+	public String getGameName() {
+		return this.name;
+	}
 }

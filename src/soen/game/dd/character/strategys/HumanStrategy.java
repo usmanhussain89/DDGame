@@ -1,5 +1,7 @@
 package soen.game.dd.character.strategys;
 
+import java.io.Serializable;
+
 import soen.game.dd.models.GameEngine;
 
 /**
@@ -8,8 +10,9 @@ import soen.game.dd.models.GameEngine;
  * @author fyounis
  *
  */
-public class HumanStrategy implements Strategy {
+public class HumanStrategy implements Strategy,Serializable {
 
+	private static final long serialVersionUID = 1L;
 	GameEngine gameEngine;
 
 	public HumanStrategy(GameEngine ge) {

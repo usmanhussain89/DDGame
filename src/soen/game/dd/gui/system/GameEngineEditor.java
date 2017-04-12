@@ -7,6 +7,8 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import soen.game.dd.gui.components.JMenuBarCharacterComponent;
+import soen.game.dd.gui.components.JMenuBarGameEngineComponent;
 import soen.game.dd.gui.components.JPanelGameComponent;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
@@ -67,7 +69,7 @@ public class GameEngineEditor extends JFrame implements Observer {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 		this.panelComponent = new JPanelGameComponent(gameEngine);
-		
+		this.setJMenuBar((new JMenuBarGameEngineComponent()).getGameEngineEditorJMenuBar(gameEngine, this));
 		this.setContentPane(this.panelComponent.getPanel());
 	}
 	

@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import soen.game.dd.fileio.CampaignIO;
 import soen.game.dd.fileio.CharacterIO;
+import soen.game.dd.fileio.GameEngineIO;
 import soen.game.dd.fileio.ItemIO;
 import soen.game.dd.fileio.MapIO;
 import soen.game.dd.gui.system.CampaignEditor;
@@ -32,6 +33,7 @@ import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Character;
+import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
@@ -363,7 +365,14 @@ public class JMenuBarComponent {
 				
 				//Load Game
 				else if (e.getSource().equals(menuLoadGame)) {
-					
+					GameEngine gameEngine = null;
+					gameEngine = new GameEngineIO().loadGame();
+
+					if (gameEngine != null) {
+						new GameEngineEditor(gameEngine);
+					} else {
+						JOptionPane.showMessageDialog(null, "No Save Game Found !");
+					}
 				}
 
 				else {

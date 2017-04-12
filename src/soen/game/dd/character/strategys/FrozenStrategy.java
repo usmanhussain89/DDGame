@@ -1,5 +1,7 @@
 package soen.game.dd.character.strategys;
 
+import java.io.Serializable;
+
 import soen.game.dd.models.Character;
 
 /**
@@ -10,8 +12,9 @@ import soen.game.dd.models.Character;
  * @author khaled
  *
  */
-public class FrozenStrategy implements Strategy {
+public class FrozenStrategy implements Strategy,Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int remainingTurns; // equal to the enchantment bonus of the weapon.
 	private Character character;
 	private Strategy oldStrategy;

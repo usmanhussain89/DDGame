@@ -1,6 +1,7 @@
 package soen.game.dd.character.strategys;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import soen.game.dd.models.Character;
 import soen.game.dd.models.GameEngine;
@@ -12,8 +13,9 @@ import soen.game.dd.models.GameEngine;
  * @author fyounis
  * @author khaled
  */
-public class FrightenedStrategy implements Strategy {
+public class FrightenedStrategy implements Strategy,Serializable {
 
+	private static final long serialVersionUID = 1L;
 	GameEngine gameEngine;
 	Character character;
 	int remainingTurns;

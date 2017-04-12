@@ -1,6 +1,7 @@
 package soen.game.dd.character.strategys;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -14,8 +15,9 @@ import soen.game.dd.models.Character;
  * @author fyounis
  * @author khaled
  */
-public class AggressiveNPCStrategy implements Strategy{
+public class AggressiveNPCStrategy implements Strategy,Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	GameEngine gameEngine;
 	Character character;
 	

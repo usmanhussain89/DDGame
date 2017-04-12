@@ -4,6 +4,7 @@ import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Character;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Random;
 
 
@@ -14,8 +15,9 @@ import java.util.Random;
  * @author khaled
  *
  */
-public class FriendlyStrategy implements Strategy {
+public class FriendlyStrategy implements Strategy,Serializable {
 
+	private static final long serialVersionUID = 1L;
 	GameEngine gameEngine;
 	Character character;
 	Random rand;
