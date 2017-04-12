@@ -8,13 +8,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Random;
 
 import soen.game.dd.character.strategys.AggressiveNPCStrategy;
+import soen.game.dd.character.strategys.DeadStrategy;
 import soen.game.dd.character.strategys.FriendlyStrategy;
+import soen.game.dd.character.strategys.FrightenedStrategy;
+import soen.game.dd.character.strategys.FrozenStrategy;
 import soen.game.dd.character.strategys.HumanStrategy;
+import soen.game.dd.logic.RangeDetection;
 import soen.game.dd.statics.content.GameStatics;
+import soen.game.dd.weapon.enchantments.EnchantmentTypes;
+import soen.game.dd.weapon.enchantments.Weapon;
 
 /**
  * This is Game Engine class
@@ -34,6 +41,8 @@ public class GameEngine extends Observable implements Serializable{
 	private int characterMoved;
 	private HashMap<Character, Point> positions;
 	private String name;
+	private int characterAttacked;
+	private int characterLooted;
 
 	/**
 	 * This is constructor of the class which initialize campaign and character
@@ -333,6 +342,7 @@ public class GameEngine extends Observable implements Serializable{
 		}
 
 		System.out.println("<Game Logging> : Can not Loot anymore! the backpack is full");
+		characterLooted++;
 		return character.getBackpack().size() == 10;
 		
 	}
@@ -438,11 +448,18 @@ public class GameEngine extends Observable implements Serializable{
 		}
 	}
 	
-	public boolean isMoveValid(int x, int y) {
+	public boolean isInsideMap(int x, int y) {
 		if (x < 0 || x >= getCurrentMap().mapWidth)
 			return false;
 		if (y < 0 || y >= getCurrentMap().mapHeight)
 			return false;
+		return true;
+	}
+	
+	public boolean isMoveValid(int x, int y) {
+		if (!isInsideMap(x, y)){
+			return false;
+		}
 		if (getCurrentMap().mapGridSelection[x][y] != GameStatics.MAP_PATH_POINT){
 			return false;
 		}
@@ -472,31 +489,56 @@ public class GameEngine extends Observable implements Serializable{
 	public Point getChestPosition(){
 		return getCurrentMap().getChestPoint();
 	}
-
-	/**
-	 * This method uses the hit method to calculate the hit points
-	 * 
-	 * @param playable
-	 * @param hostile
-	 * @return
-	 */
-	public int encounter(Character playable, Character hostile) {
-		System.out.println("<Game Logging> : Let the Encounter begain!");
-		System.out.println("<Game Logging> : Fight! Fight! Fight!");
-		System.out.println("<Game Logging> : The hostile: "+hostile.getName()+" HP before fight is: "+hostile.getHitPoint());
-		if (hostile.getHitPoint() > 0) {
-			hostile.hitPoint -= new Hit().getDamagePoint(playable, hostile, NPCType.HOSTILE, playable.getWeapon());
-			hostile.callSetChanged();
-			hostile.notifyObservers();
-			System.out.println("<Game Logging> : The "+hostile.getName()+" Got hit and his HP is now: "+hostile.getHitPoint());
-			if (hostile.getHitPoint() <= 0){
-				System.out.println("<Game Logging> : The "+hostile.getName()+" is Dead already and his HP now: "+hostile.getHitPoint());
-				return 0;
+	
+	public void attack(Character attacker, Character defender) {
+		RangeDetection range = new RangeDetection(this);
+		if(range.isEnemyWithinRange(attacker, defender)){
+			System.out.println("<Game Logging> : Let the Encounter begain!");
+			System.out.println("<Game Logging> : Fight! Fight! Fight!");
+			System.out.println("<Game Logging> : The defender: "+ defender.getName()+" HP before fight is: "+defender.getHitPoint());
+			if (defender.getHitPoint() > 0) {
+				defender.hitPoint -= new Hit().getDamagePoint(attacker, defender, attacker.getWeapon());
+				defender.callSetChanged();
+				defender.notifyObservers();
+				System.out.println("<Game Logging> : The "+defender.getName()+" Got hit and his HP is now: "+defender.getHitPoint());
+				if (defender.getHitPoint() <= 0){
+					defender.setStrategy(new DeadStrategy());
+					defender.setNPCType(NPCType.DEAD);
+					System.out.println("<Game Logging> : The "+defender.getName()+" is Dead already and his HP now: "+defender.getHitPoint());
+					return;
+				}
 			}
-			else
-				return (int) hostile.getHitPoint();
-		} else
-			return 0;
+			inflictEnchantments(attacker, defender);
+			if (defender.getStrategy() instanceof FriendlyStrategy){
+				defender.setStrategy(new AggressiveNPCStrategy(defender, this));
+			}
+			characterAttacked++;
+		}
+	}
+	
+	public void inflictEnchantments(Character attacker, Character defender) {
+		Weapon weapon = (Weapon) attacker.getWeapon();
+		for (EnchantmentTypes enchantment : weapon.getEnchantments()){
+			if (enchantment == EnchantmentTypes.Freezing) {
+				defender.setStrategy(new FrozenStrategy(defender, weapon.getBonusAmount()));
+				defender.setCharacterStatus(CharacterStatus.FROZEN);
+			}
+			if (enchantment == EnchantmentTypes.Frightening) {
+				defender.setStrategy(new FrightenedStrategy(defender, this, weapon.getBonusAmount()));
+				defender.setCharacterStatus(CharacterStatus.FRIGHTENED);
+			}
+			if (enchantment == EnchantmentTypes.Pacifying) {
+				defender.setStrategy(new FriendlyStrategy(defender, this));
+				defender.setCharacterStatus(CharacterStatus.PACIFIED);
+			}
+			if (enchantment == EnchantmentTypes.Burning) {
+				defender.setCharacterStatus(CharacterStatus.BURNED);
+				defender.setBurnedCounter(3);
+			}
+			if (enchantment == EnchantmentTypes.Slaying) {
+				defender.setHitpoint(0);
+			}
+		}
 	}
 
 	/**
@@ -660,6 +702,23 @@ public class GameEngine extends Observable implements Serializable{
 	public Point addPoints(Point p1, Point p2){
 		return new Point((int)p1.getX() + (int)p2.getX(), (int)p1.getY() + (int)p2.getY());
 	}
+
+	public void setCharacterLooted(int i) {
+		characterLooted = i;
+	}
+	
+	public void setCharacterAttacked(int i){
+		characterAttacked = i;
+	}
+	
+	public int getCharacterLooted(){
+		return characterLooted;
+	}
+	
+	public int getCharacterAttacked(){
+		return characterAttacked;
+	}
+
 	
 	/**
 	 * This method set the Game Engine Name

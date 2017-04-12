@@ -166,6 +166,9 @@ public class TestCharacterStrategy {
 		redFeras.setStrategy(new FrightenedStrategy(redFeras, selverEngine, 3));
 		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
 		redFeras.getStrategy().turn();
-
+		redFeras.getStrategy().turn();
+		redFeras.getStrategy().turn();
+		System.out.println(((FrozenStrategy) redFeras.getStrategy()).getOldStrategy().toString());
+		System.out.println(redFeras.getStrategy().toString());
 	}
 }

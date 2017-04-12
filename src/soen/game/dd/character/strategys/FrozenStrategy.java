@@ -28,7 +28,12 @@ public class FrozenStrategy implements Strategy,Serializable {
 	public void turn() {
 		if (remainingTurns-- == 0) {
 			character.setStrategy(oldStrategy);
+			character.setCharacterStatus(null);
 		}
+	}
+
+	public Strategy getOldStrategy() {
+		return oldStrategy;
 	}
 
 	@Override

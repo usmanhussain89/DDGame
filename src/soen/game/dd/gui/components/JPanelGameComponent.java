@@ -231,13 +231,8 @@ public class JPanelGameComponent {
 				} else {
 					Character hostileCharacter = gameEngine.getCurrentMap().getHostileCharacter();
 					
-					if (hostileCharacter != null) {
-						if (gameEngine.encounter(gameEngine.getCharacter(), hostileCharacter) == 0) {
-							hostileCharacter.setNPCType(NPCType.DEAD);
-							gameEngine.getCurrentMap().mapCharacters.set(gameEngine.getCurrentMap().getHostileCharacterIndex(), hostileCharacter);
-							JOptionPane.showMessageDialog(null, "Rest in peace....");
-							mapButtonsGrid2DArray[x][y].setText("Dead");
-						}
+					if (hostileCharacter != null && gameEngine.getCharacterAttacked() == 0) {
+						gameEngine.attack(gameEngine.getCharacter(), hostileCharacter);
 					}
 				}
 			}
@@ -253,8 +248,10 @@ public class JPanelGameComponent {
 			}
 			
 			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT) {
-				gameEngine.move(gameEngine.getCharacter(), x,y);			
-				gameEngine.notifyObservers();
+				if (gameEngine.getCharacterMoved() < 3){
+					gameEngine.move(gameEngine.getCharacter(), x,y);			
+					gameEngine.notifyObservers();
+				}
 			}
 			
 			

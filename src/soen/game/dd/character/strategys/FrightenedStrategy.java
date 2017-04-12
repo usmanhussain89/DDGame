@@ -39,6 +39,7 @@ public class FrightenedStrategy implements Strategy,Serializable {
 			}
 		} else {
 			character.setStrategy(oldStrategy);
+			character.setCharacterStatus(null);
 		}
 	}
 

@@ -64,6 +64,7 @@ public class Character extends Observable implements Serializable {
 
 	// Builder pattern:
 	private CharacterBuilder builder; // ADDED BUILD 2
+	private int burned;
 
 	public Character() {
 		backpack = new ArrayList<Item>(Arrays.asList());
@@ -786,6 +787,17 @@ public class Character extends Observable implements Serializable {
 
 	public void setCharacterStatus(CharacterStatus characterStatus) {
 		this.characterStatus = characterStatus;
+	}
+
+	public void setBurnedCounter(int i) {
+		this.burned = i;
+	}
+
+	public void decrementBurned() {
+		if(this.burned-- == 0){
+			this.characterStatus = null;
+		}
+		
 	}
 
 }

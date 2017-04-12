@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import soen.game.dd.models.GameEngine;
+import soen.game.dd.logic.RangeDetection;
 import soen.game.dd.models.Character;
 
 
@@ -40,10 +41,20 @@ public class AggressiveNPCStrategy implements Strategy,Serializable {
 				System.out.println("Taking chest");
 				gameEngine.interactWith(character, gameEngine.getChestPosition());
 			}
+			attackNearbyEnemies();
 		}
 
 	}
 	
+
+	private void attackNearbyEnemies() {
+		RangeDetection rangeDetection = new RangeDetection(gameEngine);
+		Character nearCharacter = rangeDetection.anyEnemyWithinRange(character);
+		if (nearCharacter != null) {
+			System.out.println("Aggressive is attacking");
+			gameEngine.attack(character, nearCharacter);
+		}
+	}
 
 	private boolean isNextToPlayer(){
 		Point playerPosition = getPlayerPosition();
