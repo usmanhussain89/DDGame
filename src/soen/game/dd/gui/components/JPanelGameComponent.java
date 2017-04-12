@@ -231,7 +231,7 @@ public class JPanelGameComponent {
 				} else {
 					Character hostileCharacter = gameEngine.getCurrentMap().getHostileCharacter();
 					
-					if (hostileCharacter != null) {
+					if (hostileCharacter != null && gameEngine.getCharacterAttacked() == 0) {
 						gameEngine.attack(gameEngine.getCharacter(), hostileCharacter);
 					}
 				}
@@ -248,8 +248,10 @@ public class JPanelGameComponent {
 			}
 			
 			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT) {
-				gameEngine.move(gameEngine.getCharacter(), x,y);			
-				gameEngine.notifyObservers();
+				if (gameEngine.getCharacterMoved() < 3){
+					gameEngine.move(gameEngine.getCharacter(), x,y);			
+					gameEngine.notifyObservers();
+				}
 			}
 			
 			
