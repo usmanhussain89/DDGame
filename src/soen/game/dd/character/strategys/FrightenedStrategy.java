@@ -13,7 +13,7 @@ import soen.game.dd.models.GameEngine;
  * @author fyounis
  * @author khaled
  */
-public class FrightenedStrategy implements Strategy,Serializable {
+public class FrightenedStrategy implements Strategy, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	GameEngine gameEngine;
@@ -21,6 +21,13 @@ public class FrightenedStrategy implements Strategy,Serializable {
 	int remainingTurns;
 	Strategy oldStrategy;
 
+	/**
+	 * This is the constructor of Frightened Strategy
+	 * 
+	 * @param c
+	 * @param ge
+	 * @param remainingTurns
+	 */
 	public FrightenedStrategy(Character c, GameEngine ge, int remainingTurns) {
 		this.gameEngine = ge;
 		this.character = c;
@@ -28,6 +35,9 @@ public class FrightenedStrategy implements Strategy,Serializable {
 		this.oldStrategy = c.getStrategy();
 	}
 
+	/**
+	 * This method apply turn mechanism for Frightened Strategy
+	 */
 	@Override
 	public void turn() {
 		if (remainingTurns-- > 0) {
@@ -43,14 +53,29 @@ public class FrightenedStrategy implements Strategy,Serializable {
 		}
 	}
 
+	/**
+	 * This method return frightened position
+	 * 
+	 * @return
+	 */
 	private Point getFrightenedPosition() {
 		return gameEngine.getPositionOfCharacter(character);
 	}
 
+	/**
+	 * This method return player position
+	 * 
+	 * @return
+	 */
 	private Point getPlayerPosition() {
 		return gameEngine.getPositionOfCharacter(gameEngine.getCharacter());
 	}
 
+	/**
+	 * This method return boolean value if move horizontal possible
+	 * 
+	 * @return
+	 */
 	private boolean moveHorizontal() {
 		int offset;
 		if (getFrightenedPosition().getX() - getPlayerPosition().getX() > 0) {
@@ -70,6 +95,11 @@ public class FrightenedStrategy implements Strategy,Serializable {
 		}
 	}
 
+	/**
+	 * This method return boolean value if move vertical possible
+	 * 
+	 * @return
+	 */
 	private boolean moveVertical() {
 		int offset;
 		if (getFrightenedPosition().getY() - getPlayerPosition().getY() > 0) {
@@ -89,6 +119,10 @@ public class FrightenedStrategy implements Strategy,Serializable {
 		}
 	}
 
+	/**
+	 * This method return String Value
+	 * 
+	 */
 	@Override
 	public String toString() {
 		return "The strategy changed to Frightening " + " I am so scared I am running away like a sissy";

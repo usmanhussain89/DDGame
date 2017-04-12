@@ -15,10 +15,19 @@ public class RangeDetection {
 	
 	private GameEngine gameEngine;
 	
+	/**
+	 * This is the constructor of Range detection passing passing GameEngine object
+	 * @param ge
+	 */
 	public RangeDetection(GameEngine ge){
 		this.gameEngine = ge;
 	}
 	
+	/**
+	 * Check if enemy is within the range
+	 * @param attacker
+	 * @return
+	 */
 	public Character anyEnemyWithinRange(Character attacker){
 		for (Character character : gameEngine.getPositions().keySet()){
 			if (character != attacker){
@@ -30,6 +39,12 @@ public class RangeDetection {
 		return null;
 	}
 	
+	/**
+	 * Check if enemy is within the range
+	 * @param attacker
+	 * @param defender
+	 * @return
+	 */
 	public boolean isEnemyWithinRange(Character attacker, Character defender) {
 		Point attackerPosition = gameEngine.getPositionOfCharacter(attacker);
 		Point  defenderPosition = gameEngine.getPositionOfCharacter(defender);
@@ -43,7 +58,15 @@ public class RangeDetection {
 		}
 		return checkHorizontal(attackerPosition, defenderPosition, attacker.getWeaponRange());
 	}
-
+	
+	/**
+	 * Check range vertically
+	 * 
+	 * @param attackerPosition
+	 * @param defenderPosition
+	 * @param attackerRange
+	 * @return
+	 */
 	private boolean checkVertical(Point attackerPosition, Point defenderPosition, int attackerRange) {
 		Point belowPoint;
 		Point abovePoint;
@@ -69,7 +92,14 @@ public class RangeDetection {
 		return false;
 	}
 
-
+	/**
+	 * Check range horizontally
+	 * 
+	 * @param attackerPosition
+	 * @param defenderPosition
+	 * @param attackerRange
+	 * @return
+	 */
 	private boolean checkHorizontal(Point attackerPosition, Point defenderPosition, int attackerRange) {
 		Point leftPoint;
 		Point rightPoint;

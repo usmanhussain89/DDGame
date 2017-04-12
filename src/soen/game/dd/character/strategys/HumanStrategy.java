@@ -10,17 +10,25 @@ import soen.game.dd.models.GameEngine;
  * @author fyounis
  *
  */
-public class HumanStrategy implements Strategy,Serializable {
+public class HumanStrategy implements Strategy, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	GameEngine gameEngine;
 	RangeDetection range;
 
+	/**
+	 * This is the constructor for Human Strategy
+	 * 
+	 * @param ge
+	 */
 	public HumanStrategy(GameEngine ge) {
 		this.gameEngine = ge;
 		this.range = new RangeDetection(ge);
 	}
 
+	/**
+	 * This method implement turn mechanism for human strategy
+	 */
 	@Override
 	public void turn() {
 		gameEngine.setCharacterMoved(0);
@@ -36,13 +44,25 @@ public class HumanStrategy implements Strategy,Serializable {
 		}
 	}
 
-	private boolean isRoundOver(){
-		boolean moveCompleted = gameEngine.getCharacterMoved() < 3;		
-		boolean attackCompleted = gameEngine.getCharacterAttacked() == 1 || range.anyEnemyWithinRange(gameEngine.getCharacter()) == null;
-		boolean lootCompleted = gameEngine.getCharacterLooted() == 1 || !gameEngine.withinOneSpace(gameEngine.getChestPosition(), gameEngine.getCharacterPosition());
+	/**
+	 * This method return round over
+	 * 
+	 * @return
+	 */
+	private boolean isRoundOver() {
+		boolean moveCompleted = gameEngine.getCharacterMoved() < 3;
+		boolean attackCompleted = gameEngine.getCharacterAttacked() == 1
+				|| range.anyEnemyWithinRange(gameEngine.getCharacter()) == null;
+		boolean lootCompleted = gameEngine.getCharacterLooted() == 1
+				|| !gameEngine.withinOneSpace(gameEngine.getChestPosition(), gameEngine.getCharacterPosition());
 		return moveCompleted && attackCompleted && lootCompleted;
 	}
-	
+
+	/**
+	 * This method return String
+	 * 
+	 * @return
+	 */
 	@Override
 	public String toString() {
 		return "HumanStrategy []" + " This is Human Strategy!";

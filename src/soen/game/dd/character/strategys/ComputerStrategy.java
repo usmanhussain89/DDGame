@@ -10,15 +10,20 @@ import soen.game.dd.models.GameEngine;
  * @author fyounis
  *
  */
-public class ComputerStrategy implements Strategy,Serializable {
+public class ComputerStrategy implements Strategy, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	GameEngine gameEngine;
 
-	public ComputerStrategy(GameEngine ge){
+	/**
+	 * This is the constructor of Computer Strategy
+	 * 
+	 * @param ge
+	 */
+	public ComputerStrategy(GameEngine ge) {
 		this.gameEngine = ge;
 	}
-	
+
 	@Override
 	public void turn() {
 	}

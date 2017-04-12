@@ -138,7 +138,11 @@ public class GameEngine extends Observable implements Serializable{
 			}
 		}
 	}
-
+	
+	/**
+	 * This method is start the game engine and call the characters using turn based mechanism
+	 *  
+	 */
 	public void startGame(){
 		System.out.println("<Game Logging> : The Game is STARTED GOOD LUCK!");
 		new Thread(new Runnable() {
@@ -151,14 +155,17 @@ public class GameEngine extends Observable implements Serializable{
 		 				try {
 							Thread.sleep(500);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 		 			}
 		 		}}
 		}).start();
 	}
-
+	
+	/**
+	 * This method set strategies for characters
+	 * 
+	 */
 	private void setStrategies() {
 		getCharacter().setStrategy(new HumanStrategy(this));
 		for (Character character : getCurrentMap().mapCharacters){
@@ -166,7 +173,11 @@ public class GameEngine extends Observable implements Serializable{
 		}
 		
 	}
-
+	
+	/**
+	 * This method set strategies for characters 
+	 * @param character
+	 */
 	private void setStrategyForCharacter(Character character) {
 		switch(character.getNPCType()){
 			case FRINDLY:
@@ -397,7 +408,11 @@ public class GameEngine extends Observable implements Serializable{
 	public boolean getMapObjective() {
 		return this.isMapObjFulfil;
 	}
-
+	
+	/**
+	 * This method move to next if the map objective is fulfill
+	 * @return boolean
+	 */
 	public boolean nextMap() {
 		currentMapIndex++;
 		setCurrentMap();
@@ -411,20 +426,35 @@ public class GameEngine extends Observable implements Serializable{
 			return false;
 		}
 	}
-
+	
+	/**
+	 * This method resetCharacterPosition
+	 */
 	public void resetCharacterPosition() {
 		setCurrentMap();
 		characterPosition = getCurrentMap().getEntryPoint();
 	}
-
+	
+	/**
+	 * This method get character Position
+	 */
 	public Point getCharacterPosition() {
 		return getPositionOfCharacter(getCharacter());
 	}
 	
+	/**
+	 * This method get character Position
+	 */
 	public Point getPositionOfCharacter(Character character) {
 		return positions.get(character);
 	}
 	
+	/**
+	 * This method checks if its within one space
+	 * @param point1
+	 * @param point2
+	 * @return
+	 */
 	public boolean withinOneSpace(Point point1, Point point2){
 		if ((Math.abs(point1.getX() - point2.getX()) == 1) && (point1.getY() == point2.getY())){
 			return true;
@@ -469,7 +499,13 @@ public class GameEngine extends Observable implements Serializable{
 	public boolean isMoveValid(Point p) {
 		return isMoveValid((int) p.getX(), (int) p.getY());
 	}
-
+	
+	/**
+	 * In this method player interact with chest and loot the items
+	 * @param character
+	 * @param x
+	 * @param y
+	 */
 	public void interactWith(Character character, int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
 		if (pathPoint == GameStatics.MAP_CHEST_POINT) {
@@ -482,10 +518,19 @@ public class GameEngine extends Observable implements Serializable{
 		setChanged();
 	}
 	
+	/**
+	 * This method interact with chest
+	 * @param c
+	 * @param p
+	 */
 	public void interactWith(Character c, Point p){
 		interactWith(c, p.x, p.y);
 	}
 	
+	/**
+	 * This method return chest position
+	 * @return
+	 */
 	public Point getChestPosition(){
 		return getCurrentMap().getChestPoint();
 	}
@@ -516,6 +561,11 @@ public class GameEngine extends Observable implements Serializable{
 		}
 	}
 	
+	/**
+	 * This method inflict method enchantment
+	 * @param attacker
+	 * @param defender
+	 */
 	public void inflictEnchantments(Character attacker, Character defender) {
 		Weapon weapon = (Weapon) attacker.getWeapon();
 		for (EnchantmentTypes enchantment : weapon.getEnchantments()){
