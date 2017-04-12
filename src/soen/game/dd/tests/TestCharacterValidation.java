@@ -1,26 +1,20 @@
 package soen.game.dd.tests;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import soen.game.dd.fileio.CharacterIO;
-import soen.game.dd.fileio.ItemIO;
-import soen.game.dd.fileio.MapIO;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.CharacterBuilder;
-import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Fighter;
 import soen.game.dd.models.FighterType;
 import soen.game.dd.models.Item;
@@ -37,7 +31,6 @@ import soen.game.dd.models.WeaponType;
  *
  */
 public class TestCharacterValidation {
-	
 
 	private Map map = new Map(10, 10);
 	private Map map2 = new Map(10, 10);
@@ -104,6 +97,7 @@ public class TestCharacterValidation {
 		chest.add(crazyHelmet);
 		chest.add(blackBelt);
 	}
+
 	/**
 	 * Create Character test
 	 */
@@ -115,8 +109,9 @@ public class TestCharacterValidation {
 		System.out.println(character);
 
 		assertTrue("<Info> : The Helmet is not valid", character.getHelmet().isValid());
-		
+
 	}
+
 	/**
 	 * this test will test the value of random attribute
 	 */
@@ -131,20 +126,23 @@ public class TestCharacterValidation {
 		assertTrue("<Info> : the multipleAttacks: " + character.getMultipleAttacks() + " is not  equal what was set",
 				character.getMultipleAttacks() == 10);
 	}
+
 	@Test
 	public void character_MAX_HP_Test() {
 
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		double beforeApplyingD10 = character.getMaxHitPoint();
-		System.out.println("<Infor> the vlue of MAX HP before applying d10 roll and constitution Modifier "+beforeApplyingD10);
+		System.out.println(
+				"<Infor> the vlue of MAX HP before applying d10 roll and constitution Modifier " + beforeApplyingD10);
 		character.setMaxHitPoint();
 		double afterApplyingD10 = character.getMaxHitPoint();
-		System.out.println("<Infor> the vlue of MAX HP after applying d10 roll and constitution Modifier "+afterApplyingD10);
+		System.out.println(
+				"<Infor> the vlue of MAX HP after applying d10 roll and constitution Modifier " + afterApplyingD10);
 
-
-		assertTrue(beforeApplyingD10!=afterApplyingD10);
+		assertTrue(beforeApplyingD10 != afterApplyingD10);
 	}
+
 	/**
 	 * @author fyounis This will test the creation of the
 	 *         characterBuilder_Create_Test
@@ -168,10 +166,11 @@ public class TestCharacterValidation {
 		fighterTank.setCharacterBuilder(tank);
 		fighterTank.createFighter(character);
 		System.out.println(fighterTank.getCharacter());
-		
+
 		assertTrue(fighterTank.getCharacter().getName().equalsIgnoreCase("feras"));
 
 	}
+
 	/**
 	 * This Test will test load a Character
 	 */
@@ -195,10 +194,10 @@ public class TestCharacterValidation {
 				break;
 
 			}
-			assertTrue("Not found",found);
+			assertTrue("Not found", found);
 		}
 	}
-	
+
 	/**
 	 * Character can not get wear more than one Item type
 	 */
@@ -211,12 +210,12 @@ public class TestCharacterValidation {
 		assertEquals("<Info> : This is not Helmot Type Item", redHelmet, blackFeras.getHelmet());
 
 	}
-	
-	
+
 	/**
-	 * this test will test wearing items should correctly influence the character’s abilities
+	 * this test will test wearing items should correctly influence the
+	 * character’s abilities
 	 */
-	
+
 	@Test
 	public void wearing_Items_Should_Correctly_Influence_Character_Abilities_Test() {
 
@@ -225,11 +224,10 @@ public class TestCharacterValidation {
 		jackTheGreate.setIntelligenceModifier(2.0);
 		jackTheGreate.setAbilityModifier();
 		jackTheGreate.setAttackBonus();
-		
+
 		int weakerItems = jackTheGreate.getAttackBonus();
-		System.out.println("The attack bonus is: "+weakerItems);
-		
-		
+		System.out.println("The attack bonus is: " + weakerItems);
+
 		jackTheGreate.setWeapon(crazyWeapon);
 		jackTheGreate.setBelt(blackBelt);
 		jackTheGreate.setHelmet(crazyHelmet);
@@ -238,14 +236,15 @@ public class TestCharacterValidation {
 
 		int strongerItems = jackTheGreate.getAttackBonus();
 
-		System.out.println("The attack bonus is: "+strongerItems);
-		
-		
+		System.out.println("The attack bonus is: " + strongerItems);
+
 		assertTrue((strongerItems > weakerItems));
-		
+
 	}
+
 	/**
-	 * This test to test wearing_Items_Should_Correctly_Influence_Character_Abilities_Test2
+	 * This test to test
+	 * wearing_Items_Should_Correctly_Influence_Character_Abilities_Test2
 	 */
 	@Test
 	public void wearing_Items_Should_Correctly_Influence_Character_Abilities_Test2() {
@@ -257,6 +256,7 @@ public class TestCharacterValidation {
 		jackTheGreate.setAttackBonus();
 
 		int weakerItems = jackTheGreate.getDamageBonus();
+		System.out.println("the armor bonus is :" + jackTheGreate.getArmorClass());
 		System.out.println("The attack bonus is: " + weakerItems);
 		System.out.println("the Damage bonus is :" + jackTheGreate.getDamageBonus());
 
@@ -269,11 +269,68 @@ public class TestCharacterValidation {
 		int strongerItems = jackTheGreate.getDamageBonus();
 
 		System.out.println("the armor bonus is :" + jackTheGreate.getArmorClass());
-
 		System.out.println("The attack bonus is: " + strongerItems);
 		System.out.println("the Damage bonus is :" + jackTheGreate.getDamageBonus());
 
 		assertTrue((strongerItems > weakerItems));
+
+	}
+
+	/**
+	 * will test the builder implementation
+	 */
+	@Test
+	public void builder_Pattern_Correctly_Assigns_Ability_Scores_Test() {
+		Character munjed = new Character("munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+
+		Character feras = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+
+		int munjedBeforFighter = munjed.getStrength();
+		fighterBully.setCharacterBuilder(bully);
+		System.out.println(munjed.getStrength());
+		fighterBully.createFighter(munjed);
+		System.out.println(fighterBully.getCharacter().getStrength());
+		assertTrue(munjed.getStrength() > munjedBeforFighter);
+
+	}
+
+	/**
+	 * will test the builder implementation
+	 */
+	@Test
+	public void builder_Pattern_Correctly_Assigns_Ability_Scores_Test2() {
+		Character munjed = new Character("munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+		System.out.println("First flag");
+
+		Character feras = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
+				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
+
+		Fighter fighterBully = new Fighter();
+		Fighter fighterTank = new Fighter();
+
+		CharacterBuilder bully = new BullyCharacterBuilder();
+
+		// Bully Strength, Constitution, Dexterity, Intelligence, Charisma,
+		// Wisdom
+		fighterBully.setCharacterBuilder(bully);
+		fighterBully.createFighter(munjed);
+		System.out.println(munjed.getStrength());
+		System.out.println("Strength: " + munjed.getStrength());
+		System.out.println("Constitution; " + munjed.getConstitution());
+		System.out.println("Dexterity: " + munjed.getDexterity());
+		System.out.println("Intelligence; " + munjed.getIntelligence());
+		System.out.println("Charisma: " + munjed.getCharisma());
+		System.out.println("Wisdom; " + munjed.getWisdom());
+		assertTrue(munjed.getStrength() >= munjed.getConstitution());
 
 	}
 
