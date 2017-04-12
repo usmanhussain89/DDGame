@@ -37,18 +37,19 @@ import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
  *
  */
 public class JPanelCharacterComponent {
-	
+
 	String characterName = "";
 	Character character;
-	
+
 	public Container getCharacterEditorGridPanel(Character pCharacter, E_CharacterEditorMode characterEditorMode,
 			JFrame frame, ArrayList<Character> characters) {
 		JPanel panel;
 		character = pCharacter;
 		ArrayList<Item> items = new ItemIO().loadItems();
-		
+
 		/**
 		 * This class is used to set ComboItem
+		 * 
 		 * @author Usman
 		 *
 		 */
@@ -74,9 +75,9 @@ public class JPanelCharacterComponent {
 			public String toString() {
 				return label;
 			}
-			
+
 		}
-		
+
 		/**
 		 * This class generate Comboitem list for generator
 		 * 
@@ -117,7 +118,7 @@ public class JPanelCharacterComponent {
 		JTextField txtCharacterName = new JTextField(30);
 		txtCharacterName.setBounds(160, 25, 150, 25);
 		panel.add(txtCharacterName);
-		
+
 		JComboBox<String> cbCharacterName = new JComboBox<String>();
 		cbCharacterName.setBounds(170, 30, 120, 25);
 		cbCharacterName.setEditable(true);
@@ -144,21 +145,20 @@ public class JPanelCharacterComponent {
 
 			panel.add(txtCharacterName);
 		}
-		
+
 		JLabel lblLevel = new JLabel("Level: ");
 		lblLevel.setBounds(40, 50, 100, 25);
 		panel.add(lblLevel);
-		
+
 		JTextField txtLevel = new JTextField();
 		txtLevel.setBounds(170, 50, 100, 25);
 		panel.add(txtLevel);
-		
+
 		JLabel lblFighterType = new JLabel("Fighter Type: ");
 		lblFighterType.setBounds(40, 75, 100, 25);
 		panel.add(lblFighterType);
 
-		JComboBox<FighterType> cbFighterType = new JComboBox<FighterType>(
-				FighterType.values());
+		JComboBox<FighterType> cbFighterType = new JComboBox<FighterType>(FighterType.values());
 		cbFighterType.setBounds(170, 75, 120, 25);
 		panel.add(cbFighterType);
 
@@ -179,18 +179,18 @@ public class JPanelCharacterComponent {
 				new ComboItemListGenerator(ItemType.ARMOR).generateList());
 		cbArmor.setBounds(170, 125, 120, 25);
 		panel.add(cbArmor);
-		
+
 		JButton attributeViewer = new JButton("Attribute Viewer");
 		attributeViewer.setBounds(300, 125, 200, 25);
 		panel.add(attributeViewer);
-		
-		attributeViewer.addActionListener(new ActionListener(){
+
+		attributeViewer.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new JFrameAttributeView(character);
 			}
-			
+
 		});
 
 		JLabel lblSelectShield = new JLabel("Shield: ");
@@ -201,18 +201,18 @@ public class JPanelCharacterComponent {
 				new ComboItemListGenerator(ItemType.SHIELD).generateList());
 		cbShield.setBounds(170, 150, 120, 25);
 		panel.add(cbShield);
-		
+
 		JButton inventoryViewer = new JButton("Inventory Viewer");
 		inventoryViewer.setBounds(300, 150, 200, 25);
 		panel.add(inventoryViewer);
-		
-		inventoryViewer.addActionListener(new ActionListener(){
+
+		inventoryViewer.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new JFrameInventoryView(character, true);
 			}
-			
+
 		});
 
 		JLabel lblSelectRing = new JLabel("Ring: ");
@@ -252,7 +252,7 @@ public class JPanelCharacterComponent {
 		panel.add(cbWeapon);
 
 		// Items
-		
+
 		JLabel lblSelectItem = new JLabel("Backpack: ");
 		lblSelectItem.setBounds(40, 275, 100, 25);
 		panel.add(lblSelectItem);
@@ -260,16 +260,16 @@ public class JPanelCharacterComponent {
 		List backpack_view = new List();
 		backpack_view.setBounds(170, 275, 150, 150);
 		panel.add(backpack_view);
-		
+
 		JComboBox<ItemComboItem> cbBackpack = new JComboBox<ItemComboItem>(
 				new ComboItemListGenerator(null).generateList());
 		cbBackpack.setBounds(40, 450, 120, 25);
 		panel.add(cbBackpack);
-		
+
 		JButton btnAddItem = new JButton("Add item");
 		btnAddItem.setBounds(170, 450, 90, 25);
 		panel.add(btnAddItem);
-		
+
 		JButton btnRemoveItem = new JButton("Remove item");
 		btnRemoveItem.setBounds(250, 450, 130, 25);
 		panel.add(btnRemoveItem);
@@ -277,11 +277,19 @@ public class JPanelCharacterComponent {
 		JButton btnSave = new JButton("Save");
 		btnSave.setBounds(40, 500, 100, 25);
 		panel.add(btnSave);
-		
-		
+
+		/**
+		 * This class Action listener for character loading
+		 * 
+		 * @author Usman
+		 *
+		 */
 		class CharacterLoader implements ActionListener {
-			
-			public void load(){
+
+			/**
+			 * This method load Character
+			 */
+			public void load() {
 				character = characters.get(cbCharacterName.getSelectedIndex());
 				txtLevel.setText(String.valueOf(character.getLevel()));
 				setSelectedItem(cbHelmet, character.getHelmet());
@@ -291,55 +299,69 @@ public class JPanelCharacterComponent {
 				setSelectedItem(cbRing, character.getRing());
 				setSelectedItem(cbShield, character.getShield());
 				backpack_view.removeAll();
-				for(Item item : character.getBackpack()){
+				for (Item item : character.getBackpack()) {
 					backpack_view.add(item.getName());
 				}
 				characterName = character.getName();
 			}
 
+			// Action Performed
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				load();
 			}
-			
-			private void setSelectedItem(JComboBox<ItemComboItem> comboBox, Item item){
-				for (int i = 0; i < comboBox.getItemCount(); ++i){
-					if (comboBox.getItemAt(i).getValue().getName().equals(item.getName())){
+
+			/**
+			 * This method set selected item
+			 * 
+			 * @param comboBox
+			 * @param item
+			 */
+			private void setSelectedItem(JComboBox<ItemComboItem> comboBox, Item item) {
+				for (int i = 0; i < comboBox.getItemCount(); ++i) {
+					if (comboBox.getItemAt(i).getValue().getName().equals(item.getName())) {
 						comboBox.setSelectedIndex(i);
 					}
 				}
 			}
-			
-		};
-		
+
+		}
+		;
+
 		if (E_CharacterEditorMode.Open == characterEditorMode) {
 			new CharacterLoader().load();
 		}
-		
+
+		/**
+		 * This class implement ActionListener for PanelAction
+		 * 
+		 * @author Usman
+		 *
+		 */
 		class PanelAction implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				if (e.getSource().equals(btnAddItem)) {
 					Item item = getItemFrom(cbBackpack);
-					if(character.addItemIntoBackpack(item)){
+					if (character.addItemIntoBackpack(item)) {
 						backpack_view.add(item.getName());
 					}
 				}
 
 				else if (e.getSource().equals(btnRemoveItem)) {
 					System.out.println(backpack_view.getSelectedIndex());
-					if (backpack_view.getSelectedIndex() >= 0){
+					if (backpack_view.getSelectedIndex() >= 0) {
 						int index = backpack_view.getSelectedIndex();
 						character.removeItemNameFromBackpack(backpack_view.getItem(index));
 						backpack_view.remove(index);
 					}
 				}
 			}
-			
-			private Item getItemFrom(JComboBox<ItemComboItem> comboBox){
-				if (comboBox.getSelectedItem() != null){
-					return ((ItemComboItem)comboBox.getSelectedItem()).getValue();
+
+			private Item getItemFrom(JComboBox<ItemComboItem> comboBox) {
+				if (comboBox.getSelectedItem() != null) {
+					return ((ItemComboItem) comboBox.getSelectedItem()).getValue();
 				} else {
 					return null;
 				}
@@ -350,8 +372,6 @@ public class JPanelCharacterComponent {
 		btnAddItem.addActionListener(new PanelAction());
 		btnRemoveItem.addActionListener(new PanelAction());
 
-
-		
 		cbCharacterName.addActionListener(new CharacterLoader());
 
 		btnSave.addActionListener(new ActionListener() {
@@ -362,7 +382,7 @@ public class JPanelCharacterComponent {
 				if (E_CharacterEditorMode.Create == characterEditorMode) {
 					characterName = txtCharacterName.getText();
 				}
-				
+
 				if (!characterName.equals("")) {
 					character.setName(characterName);
 					character.setLevel(Integer.parseInt(txtLevel.getText()));
@@ -375,10 +395,10 @@ public class JPanelCharacterComponent {
 					character.setWeapon(getItemFrom(cbWeapon));
 					character.setMaxHitPoint();
 					character.setHitpoint(character.getMaxHitPoint());
-					
+
 					if (cbFighterType.getSelectedItem() != null) {
 						Fighter fighter = new Fighter();
-						//Design builder implmentation heres
+						// Design builder implmentation heres
 						CharacterBuilder characterBuilder = null;
 						if (cbFighterType.getSelectedItem() == FighterType.BULLY) {
 							characterBuilder = new BullyCharacterBuilder();
@@ -394,39 +414,39 @@ public class JPanelCharacterComponent {
 						character = fighter.getCharacter();
 					}
 					character.notifyObservers();
-					
+
 					System.out.println(character);
-					if (E_CharacterEditorMode.Create == characterEditorMode){
+					if (E_CharacterEditorMode.Create == characterEditorMode) {
 						msg = new CharacterIO().saveCharacter(character);
 					} else {
 						characters.set(cbCharacterName.getSelectedIndex(), character);
 						msg = new CharacterIO().saveCharacters(characters);
 					}
 					if (msg.contains(GameStatics.STATUS_SUCCESS)) {
-					JOptionPane.showMessageDialog(null,
-							String.format(GameStatics.MSG_CHARACTER_FILE_LOADED_SAVED, "saved"));
+						JOptionPane.showMessageDialog(null,
+								String.format(GameStatics.MSG_CHARACTER_FILE_LOADED_SAVED, "saved"));
 						if (E_CharacterEditorMode.Create == characterEditorMode) {
 							txtCharacterName.setText("");
-						} 
-					} else if(msg.contains(GameStatics.STATUS_EXIST)) {
-					JOptionPane.showMessageDialog(null,
-							String.format(GameStatics.MSG_DUPLICATE_NAME, "Character name"));
+						}
+					} else if (msg.contains(GameStatics.STATUS_EXIST)) {
+						JOptionPane.showMessageDialog(null,
+								String.format(GameStatics.MSG_DUPLICATE_NAME, "Character name"));
 					} else {
 						System.out.println(msg);
 						JOptionPane.showMessageDialog(null, msg);
 					}
 				}
 			}
-			
-			private Item getItemFrom(JComboBox<ItemComboItem> comboBox){
-				if (comboBox.getSelectedItem() != null){
-					return ((ItemComboItem)comboBox.getSelectedItem()).getValue();
+
+			private Item getItemFrom(JComboBox<ItemComboItem> comboBox) {
+				if (comboBox.getSelectedItem() != null) {
+					return ((ItemComboItem) comboBox.getSelectedItem()).getValue();
 				} else {
 					return null;
 				}
 			}
 		});
-		
+
 		return panel;
 	}
 }

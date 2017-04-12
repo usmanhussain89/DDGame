@@ -181,10 +181,6 @@ public class JMenuBarComponent {
 					} else {
 						JOptionPane.showMessageDialog(null, GameStatics.MSG_MAP_NOT_FOUND);
 					}
-					// } else {
-					// JOptionPane.showMessageDialog(null,
-					// GameStatics.MSG_NO_FILE_SELECTED);
-					// }
 				}
 
 				else if (e.getSource().equals(menuItemCreateItem)) { // Create
@@ -192,24 +188,25 @@ public class JMenuBarComponent {
 
 					JComboBox cbItemType = new JComboBox(ItemType.values());
 					cbItemType.setBounds(170, 75, 120, 25);
-					
+
 					Object[] message = { "Item type:", cbItemType };
-					
+
 					int option = JOptionPane.showConfirmDialog(null, message, "Choose weapon type",
 							JOptionPane.OK_CANCEL_OPTION);
-					
-					if (option == JOptionPane.OK_OPTION){
+
+					if (option == JOptionPane.OK_OPTION) {
 						Item item;
-						ItemType itemType = (ItemType)cbItemType.getSelectedItem();
-						if(itemType == ItemType.WEAPON){
+						ItemType itemType = (ItemType) cbItemType.getSelectedItem();
+						if (itemType == ItemType.WEAPON) {
 							item = new WeaponBasic();
 						} else {
 							item = new Item();
 						}
-						item.setItemType((ItemType)cbItemType.getSelectedItem());
-					
-						new ItemEditor(item, new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-								GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Create, null);
+						item.setItemType((ItemType) cbItemType.getSelectedItem());
+
+						new ItemEditor(item, new_jframe, GameStatics.TITLE_ITEM_EDITOR,
+								GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+								E_ItemEditorMode.Create, null);
 					}
 				}
 
@@ -219,19 +216,20 @@ public class JMenuBarComponent {
 					items = new ItemIO().loadItems();
 
 					JComboBox cbItem = new JComboBox(items.toArray());
-										
+
 					cbItem.setBounds(170, 75, 120, 25);
-					
+
 					Object[] message = { "Which item do you want to modify", cbItem };
-					
+
 					int option = JOptionPane.showConfirmDialog(null, message, "Choose weapon type",
 							JOptionPane.OK_CANCEL_OPTION);
-					
-					if (option == JOptionPane.OK_OPTION){
-						Item item = (Item)cbItem.getSelectedItem();
-						if (item != null){
-							new ItemEditor(item, new_jframe, GameStatics.TITLE_ITEM_EDITOR, GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-									GameStatics.CHILD_POPUP_WINDOW_HEIGHT, E_ItemEditorMode.Open, null);
+
+					if (option == JOptionPane.OK_OPTION) {
+						Item item = (Item) cbItem.getSelectedItem();
+						if (item != null) {
+							new ItemEditor(item, new_jframe, GameStatics.TITLE_ITEM_EDITOR,
+									GameStatics.CHILD_POPUP_WINDOW_WIDTH, GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
+									E_ItemEditorMode.Open, null);
 						}
 					}
 				}
@@ -352,18 +350,13 @@ public class JMenuBarComponent {
 							}
 
 							if (campaign != null && character != null) {
-								// new MapEditor(new_jframe,
-								// GameStatics.TITLE_MAP_PlAY,
-								// GameStatics.CHILD_POPUP_WINDOW_WIDTH,
-								// GameStatics.CHILD_POPUP_WINDOW_HEIGHT,
-								// campaign, character, E_MapEditorMode.Play);
 								new GameEngineEditor(character, campaign);
 							}
 						}
 					}
 				}
-				
-				//Load Game
+
+				// Load Game
 				else if (e.getSource().equals(menuLoadGame)) {
 					GameEngine gameEngine = null;
 					gameEngine = new GameEngineIO().loadGame();

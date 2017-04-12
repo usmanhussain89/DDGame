@@ -11,7 +11,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import soen.game.dd.fileio.MapIO;
-import soen.game.dd.logic.MapValidation;
 import soen.game.dd.models.Map;
 import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.statics.content.GameEnums.E_MapEditorMode;
@@ -48,14 +47,10 @@ public class JMenuBarMapComponent {
 					String MapValidationStatus = "";
 
 					if (E_MapEditorMode.Create == mapEditorMode) {
-						// MapValidationStatus = (new
-						// MapValidation()).mapValidations(new_mapModel);
 						MapValidationStatus = null;
 					}
 
 					else {
-						// MapValidationStatus = (new
-						// MapValidation()).mapValidations(maps.get(index));
 						MapValidationStatus = null;
 					}
 

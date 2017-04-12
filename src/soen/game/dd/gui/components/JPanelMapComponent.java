@@ -54,6 +54,17 @@ public class JPanelMapComponent {
 		return createPanel(new_mapModel, new_mode, maps, null, null, index);
 	}
 
+	/**
+	 * This method create JPanel for Map
+	 * 
+	 * @param new_mapModel
+	 * @param new_mode
+	 * @param maps
+	 * @param character
+	 * @param campaign
+	 * @param index
+	 * @return
+	 */
 	public JPanel createPanel(Map new_mapModel, E_MapEditorMode new_mode, ArrayList<Map> maps, Character character,
 			Campaign campaign, int index) {
 		mapEditorMode = new_mode;
@@ -208,13 +219,6 @@ public class JPanelMapComponent {
 				}
 				// If the last point was an Character Point
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHARACTER_POINT) {
-					/*
-					 * new_mapModel.mapGridSelection[_i][_j] =
-					 * GameStatics.MAP_WALL_POINT;
-					 * btn.setBackground(Color.gray); btn.setText("");
-					 * new_mapModel.isCharacterDone = false; jButtonCharacter =
-					 * null;
-					 */
 					if (JOptionPane.showConfirmDialog(null, "Do you want to change character ?", "WARNING",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
@@ -267,13 +271,6 @@ public class JPanelMapComponent {
 				}
 				// If the last point was an Opponent Point
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_OPPONENT_POINT) {
-					/*
-					 * new_mapModel.mapGridSelection[_i][_j] =
-					 * GameStatics.MAP_WALL_POINT;
-					 * btn.setBackground(Color.gray); btn.setText("");
-					 * new_mapModel.isOpponentDone = false; jButtonOpponent =
-					 * null;
-					 */
 					if (JOptionPane.showConfirmDialog(null, "Do you want to change character ?", "WARNING",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
@@ -328,15 +325,6 @@ public class JPanelMapComponent {
 				else if (new_mapModel.mapGridSelection[_i][_j] == GameStatics.MAP_CHEST_POINT) {
 					if (JOptionPane.showConfirmDialog(null, "Do you want to edit items in the chest", "WARNING",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
-						/*
-						 * new_mapModel.mapGridSelection[_i][_j] =
-						 * GameStatics.MAP_WALL_POINT;
-						 * btn.setBackground(Color.gray); btn.setText("");
-						 * new_mapModel.isChestDone = false;
-						 * new_mapModel.setChestPoint(null);
-						 * new_mapModel.mapSelectedItem.clear(); jButtonChest =
-						 * null;
-						 */
 					} else {
 						ArrayList<Item> items = new ArrayList<Item>();
 

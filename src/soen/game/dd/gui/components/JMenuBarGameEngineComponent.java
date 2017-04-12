@@ -2,7 +2,6 @@ package soen.game.dd.gui.components;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -10,12 +9,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import soen.game.dd.fileio.CampaignIO;
 import soen.game.dd.fileio.GameEngineIO;
-import soen.game.dd.models.Campaign;
 import soen.game.dd.models.GameEngine;
 import soen.game.dd.statics.content.GameStatics;
-import soen.game.dd.statics.content.GameEnums.E_CampaignEditorMode;
 
 /**
  * This class class create JMenuBar for Campaign

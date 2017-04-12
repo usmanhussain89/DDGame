@@ -63,13 +63,14 @@ public class JPanelChestComponent {
 		JButton btnRemoveItem = new JButton("Remove Item");
 		btnRemoveItem.setBounds(150, 245, 120, 25);
 		panel.add(btnRemoveItem);
-		
-		if(new_mapModel.mapSelectedItem != null) {
-			for(Item i : new_mapModel.mapSelectedItem) {
+
+		if (new_mapModel.mapSelectedItem != null) {
+			for (Item i : new_mapModel.mapSelectedItem) {
 				mapList.add(i.getName());
 			}
 		}
 
+		// ActionListener for Remove items
 		btnRemoveItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -109,6 +110,7 @@ public class JPanelChestComponent {
 			}
 		});
 
+		// Action Listener for Add items
 		btnAddItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -120,15 +122,13 @@ public class JPanelChestComponent {
 					else {
 						Item i = items.get(cbItemName.getSelectedIndex());
 						new_mapModel.isChestDone = true;
-						System.out.println(cbItemName.getSelectedIndex() + " " + items.get(cbItemName.getSelectedIndex()));
+						System.out.println(
+								cbItemName.getSelectedIndex() + " " + items.get(cbItemName.getSelectedIndex()));
 						new_mapModel.mapSelectedItem.add(items.get(cbItemName.getSelectedIndex()));
 					}
 				}
 			}
 		});
-		
-
-
 		return panel;
 	}
 }
