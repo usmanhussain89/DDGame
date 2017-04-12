@@ -1,6 +1,7 @@
 package soen.game.dd.logic;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import soen.game.dd.models.Character;
 import soen.game.dd.models.GameEngine;
@@ -14,8 +15,12 @@ import soen.game.dd.statics.content.GameStatics;
  * @author khaledel-badawi
  *
  */
-public class RangeDetection {
+public class RangeDetection implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GameEngine gameEngine;
 
 	/**
@@ -55,7 +60,6 @@ public class RangeDetection {
 	public boolean isEnemyWithinRange(Character attacker, Character defender) {
 		Point attackerPosition = gameEngine.getPositionOfCharacter(attacker);
 		Point defenderPosition = gameEngine.getPositionOfCharacter(defender);
-		System.out.println(attackerPosition);
 
 		boolean sameX = attackerPosition.x == defenderPosition.x;
 		boolean sameY = attackerPosition.y == defenderPosition.y;
@@ -63,7 +67,6 @@ public class RangeDetection {
 			return false;
 		}
 		if (sameX) {
-			System.out.println(defenderPosition);
 
 			return checkVertical(attackerPosition, defenderPosition, attacker.getWeaponRange());
 		}

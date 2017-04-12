@@ -31,6 +31,7 @@ public class GameEngineEditor extends JFrame implements Observer {
 	 * This Constructor initialize Game Engine object
 	 * 
 	 * @param character
+	 *
 	 * @param campaign
 	 */
 	public GameEngineEditor(Character character, Campaign campaign) {
@@ -39,7 +40,6 @@ public class GameEngineEditor extends JFrame implements Observer {
 		this.gameEngine.addObserver(this);
 		initializeFrame();
 		currentPanel = null;
-		refreshPanel();
 	}
 
 	/**
@@ -54,7 +54,6 @@ public class GameEngineEditor extends JFrame implements Observer {
 		this.gameEngine.addObserver(this);
 		initializeFrame();
 		currentPanel = null;
-		refreshPanel();
 	}
 
 	/**
