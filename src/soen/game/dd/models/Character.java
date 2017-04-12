@@ -421,6 +421,7 @@ public class Character extends Observable implements Serializable {
 			maxHitPoint = getMaxHitPoint() + constitutionModifier + roll1d10();
 			setAttackBonus();
 		}
+
 	}
 
 	/**

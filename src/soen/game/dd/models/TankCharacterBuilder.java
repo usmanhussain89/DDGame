@@ -34,15 +34,14 @@ public class TankCharacterBuilder extends CharacterBuilder {
 			die[index]=temp;
 		}
 		average=average/6;
-		fighterTypeProduct.constitution = die[0]*18/die[0];
-		fighterTypeProduct.dexterity = die[1]*18/die[0];
-		fighterTypeProduct.strength= die[2]*18/die[0];
-		fighterTypeProduct.intelligence = die[3]*18/die[0];
-		fighterTypeProduct.charisma = die[4]*18/die[0];
-		fighterTypeProduct.wisdom = die[5]*18/die[0];
+		fighterTypeProduct.constitution = die[0];
+		fighterTypeProduct.dexterity = die[1];
+		fighterTypeProduct.strength= die[2];
+		fighterTypeProduct.intelligence = die[3];
+		fighterTypeProduct.charisma = die[4];
+		fighterTypeProduct.wisdom = die[5];
 		//checking for item enhancements
 		List<Item> listItem = fighterTypeProduct.getEquippedItems();
-		//ArrayList<Item> listItem = (ArrayList<Item>) fighterTypeProduct.getEquippedItems();
 		
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.CHARISMA) {
