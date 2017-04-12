@@ -38,6 +38,7 @@ public class AggressiveNPCStrategy implements Strategy{
 				System.out.println("Taking chest");
 				gameEngine.interactWith(character, gameEngine.getChestPosition());
 			}
+			
 		}
 
 	}

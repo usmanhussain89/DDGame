@@ -232,12 +232,7 @@ public class JPanelGameComponent {
 					Character hostileCharacter = gameEngine.getCurrentMap().getHostileCharacter();
 					
 					if (hostileCharacter != null) {
-						if (gameEngine.encounter(gameEngine.getCharacter(), hostileCharacter) == 0) {
-							hostileCharacter.setNPCType(NPCType.DEAD);
-							gameEngine.getCurrentMap().mapCharacters.set(gameEngine.getCurrentMap().getHostileCharacterIndex(), hostileCharacter);
-							JOptionPane.showMessageDialog(null, "Rest in peace....");
-							mapButtonsGrid2DArray[x][y].setText("Dead");
-						}
+						gameEngine.attack(gameEngine.getCharacter(), hostileCharacter);
 					}
 				}
 			}

@@ -37,6 +37,7 @@ public class FrightenedStrategy implements Strategy {
 			}
 		} else {
 			character.setStrategy(oldStrategy);
+			character.setCharacterStatus(null);
 		}
 	}
 
