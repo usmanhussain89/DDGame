@@ -57,7 +57,7 @@ public class FrozenStrategy implements Strategy, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "The Strategy is changed to " + "This is a Freezing Strategy";
+		return "Freezing Strategy: Shit I can not move!";
 	}
 
 }

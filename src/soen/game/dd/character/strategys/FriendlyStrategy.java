@@ -188,4 +188,13 @@ public class FriendlyStrategy implements Strategy, Serializable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "FriendlyStrategy: I love you all PEACE OUT";
+	}
+	
+
 }

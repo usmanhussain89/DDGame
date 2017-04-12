@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
+import soen.game.dd.character.strategys.FriendlyStrategy;
 import soen.game.dd.character.strategys.FrightenedStrategy;
 import soen.game.dd.character.strategys.FrozenStrategy;
 import soen.game.dd.models.BullyCharacterBuilder;
@@ -23,7 +25,11 @@ import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
 import soen.game.dd.models.NPCType;
 import soen.game.dd.models.WeaponType;
-
+/**
+ * This class will test the different Character Strategies 
+ * @author fyounis
+ *
+ */
 public class TestCharacterStrategy {
 
 	private Map map = new Map(10, 10);
@@ -132,8 +138,11 @@ public class TestCharacterStrategy {
 		GameEngine selverEngine = new GameEngine(redFeras, BlackCampaign);
 	}
 
+	/**
+	 * test if frozen strategy work
+	 */
 	@Test
-	public void changeStrategy1() {
+	public void set_Strategy_Test() {
 
 		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
 		assertTrue("the Strataegy type Changed to Freezing", redFeras.getStrategy() instanceof FrozenStrategy);
@@ -141,7 +150,7 @@ public class TestCharacterStrategy {
 	}
 
 	@Test
-	public void changeStrategy2() {
+	public void set_Strategy_Test2() {
 
 		redFeras.setStrategy(new FrightenedStrategy(redFeras, selverEngine, 3));
 		assertTrue("the Strataegy type Changed to Freezing", redFeras.getStrategy() instanceof FrightenedStrategy);
@@ -149,7 +158,7 @@ public class TestCharacterStrategy {
 	}
 
 	@Test
-	public void changeStrategy3() {
+	public void changeStrategy_Test() {
 		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
 		redFeras.setStrategy(new FrightenedStrategy(redFeras, selverEngine, 3));
 		redFeras.setNPCType(NPCType.PLAYABALE);
@@ -163,12 +172,16 @@ public class TestCharacterStrategy {
 	@Test
 	public void changeStrategy4() {
 
-		redFeras.setStrategy(new FrightenedStrategy(redFeras, selverEngine, 3));
+		redFeras.setStrategy(new FriendlyStrategy(redFeras, selverEngine));
 		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
+		redFeras.getStrategy().turn();
 		redFeras.getStrategy().turn();
 		redFeras.getStrategy().turn();
 		redFeras.getStrategy().turn();
 		System.out.println(((FrozenStrategy) redFeras.getStrategy()).getOldStrategy().toString());
 		System.out.println(redFeras.getStrategy().toString());
+		Assert.assertEquals(FriendlyStrategy.class, ((FrozenStrategy) redFeras.getStrategy()).getOldStrategy().getClass());
+		
 	}
+	
 }
