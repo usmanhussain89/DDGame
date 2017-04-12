@@ -65,7 +65,7 @@ public class HumanStrategy implements Strategy, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "HumanStrategy []" + " This is Human Strategy!";
+		return "Human Strategy!";
 	}
 
 }
