@@ -36,11 +36,15 @@ public class FrozenStrategy implements Strategy, Serializable {
 	 */
 	@Override
 	public void turn() {
+		
 		if (--remainingTurns == 0) {
+			System.out.println("<Game Logging> : Still forzen for this turn. turns left: "+remainingTurns);
 			character.setStrategy(oldStrategy);
 			character.setCharacterStatus(null);
 		}
-		System.out.println(remainingTurns);
+		if(remainingTurns!=0){
+		System.out.println("<Game Logging> : Still forzen for this turn. turns left: "+remainingTurns);
+		}
 	}
 
 	/**

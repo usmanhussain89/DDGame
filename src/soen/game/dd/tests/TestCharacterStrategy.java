@@ -12,6 +12,7 @@ import junit.framework.Assert;
 import soen.game.dd.character.strategys.FriendlyStrategy;
 import soen.game.dd.character.strategys.FrightenedStrategy;
 import soen.game.dd.character.strategys.FrozenStrategy;
+import soen.game.dd.character.strategys.Strategy;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
@@ -148,6 +149,9 @@ public class TestCharacterStrategy {
 		assertTrue("the Strataegy type Changed to Freezing", redFeras.getStrategy() instanceof FrozenStrategy);
 
 	}
+	/**
+	 * test if FrightenedStrategy
+	 */
 
 	@Test
 	public void set_Strategy_Test2() {
@@ -157,6 +161,9 @@ public class TestCharacterStrategy {
 
 	}
 
+	/**
+	 * test if we can change strategy
+	 */
 	@Test
 	public void changeStrategy_Test() {
 		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
@@ -177,8 +184,20 @@ public class TestCharacterStrategy {
 		redFeras.getStrategy().turn();
 		redFeras.getStrategy().turn();
 		redFeras.getStrategy().turn();
-		System.out.println(redFeras.getStrategy().toString());
 		Assert.assertEquals(FriendlyStrategy.class, ((redFeras.getStrategy()).getClass()));
+		
+	}
+	/**
+	 * @author f_youni test if the frozen strategy old strategy is saved 
+	 */
+	@Test
+	public void changeStrategy5() {
+
+		redFeras.setStrategy(new FriendlyStrategy(redFeras, selverEngine));
+		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
+		redFeras.getStrategy().turn();
+		redFeras.getStrategy().turn();
+		Assert.assertEquals(FriendlyStrategy.class, ((FrozenStrategy) redFeras.getStrategy()).getOldStrategy().getClass());
 		
 	}
 	

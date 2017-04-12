@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import soen.game.dd.character.strategys.HumanStrategy;
@@ -34,7 +35,7 @@ import soen.game.dd.statics.content.GameStatics;
  */
 public class TestGameValidation {
 
-	private Map map = new Map(5, 5);
+	private Map map;
 	private Map map2 = new Map(10, 10);
 	private Map map3 = new Map(10, 10);
 	private Map map4 = new Map(10, 10);
@@ -56,21 +57,23 @@ public class TestGameValidation {
 	private ArrayList<Item> chest2;
 
 	public Map addComponentsToMap(Map map) {
-		Map editMap = map;
+		
 
 		Point point = new Point(1, 1);
-		editMap.setEntryPoint(point);
+		map.setEntryPoint(point);
 
 		point.setLocation(10, 10);
-		editMap.setExitPoint(point);
+		map.setExitPoint(point);
 
 		point.setLocation(1, 1);
-		editMap.setCharacterPoint(point);
+		map.setCharacterPoint(point);
 
 		point.setLocation(5, 5);
-		editMap.setChestPoint(point);
+		map.setChestPoint(point);
+		
+		
 
-		return editMap;
+		return map;
 
 	}
 
@@ -109,6 +112,8 @@ public class TestGameValidation {
 		chest.add(blackBelt);
 		chest.add(crazyHelmet);
 		chest.add(blackBelt);
+		
+		map = new Map(5, 5);
 	}
 
 	/**
@@ -116,6 +121,7 @@ public class TestGameValidation {
 	 *         play first
 	 */
 	@Test
+	@Ignore
 	public void turn_Sorting_Test() {
 		Character munjed = new Character("munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
@@ -132,13 +138,43 @@ public class TestGameValidation {
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		zombi1.setNPCType(NPCType.HOSTILE);
 
-		List<Character> fightersList = new ArrayList<Character>();
+		
+		map.mapSelectedItem = chest;
+		map2.mapSelectedItem = chest;
+		map3.mapSelectedItem = chest;
+		map4.mapSelectedItem = chest;
 
-		fightersList.add(feras);
-		fightersList.add(munjed);
-		fightersList.add(zombi1);
-		fightersList.add(zombi2);
+		map.mapGridSelection = new int[5][5];
+		map.mapGridSelection[0][0] = GameStatics.MAP_ENTRY_POINT;
+		map.mapGridSelection[0][1] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][2] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][3] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[1][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[2][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[3][4] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[4][4] = GameStatics.MAP_EXIT_POINT;
 
+		BlackCampaign.setCampaignList(map);
+		BlackCampaign.setCampaignList(map2);
+		BlackCampaign.setCampaignList(map3);
+		BlackCampaign.setCampaignList(map4);
+		
+		
+		map.mapCharacters.add(feras);
+		map.mapCharacters.add(munjed);
+		map.mapCharacters.add(zombi1);
+		map.mapCharacters.add(zombi2);
+		
+		
+
+		GameEngine testEngine = new GameEngine(BlackCampaign, munjed);
+		testEngine.setCurrentMap();
+		testEngine.resetCharacterPosition();
+		List<Character> fightersList =testEngine.getOrderedCharacters();
+		System.out.println(fightersList.toString());
+		
+		
+		
 	}
 
 	/**
@@ -165,7 +201,7 @@ public class TestGameValidation {
 		BlackCampaign.setCampaignList(map2);
 		BlackCampaign.setCampaignList(map3);
 		BlackCampaign.setCampaignList(map4);
-		System.out.println("First flag");
+		
 
 		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
@@ -190,7 +226,7 @@ public class TestGameValidation {
 		testEngine.resetCharacterPosition();
 		assertTrue("", testEngine.getCharacterPosition().equals(new Point(0, 0)));
 
-		assertEquals("Both Compaings are same", BlackCampaign, testEngine.getCampagin());
+		
 	}
 
 	/**
@@ -282,7 +318,7 @@ public class TestGameValidation {
 	}
 
 	/**
-	 * THis test will test the dummy engine of the game campaign
+	 * THis test will test the  engine of the game campaign
 	 * 
 	 */
 	@Test
@@ -326,6 +362,10 @@ public class TestGameValidation {
 		assertEquals("Both Compaings are same", BlackCampaign, testEngine.getCampagin());
 
 	}
+	/**
+	 * Test Map validation from the engine
+	 * Engine.setMap
+	 */
 
 	public void engine_Map_Validation_Test() {
 

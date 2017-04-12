@@ -96,6 +96,9 @@ public class TestDecoratorPattern {
 		chest.add(blackBelt);
 	}
 
+	/**
+	 * will test create a decortor Item
+	 */
 	@Test
 	public void CreateDecortorItem() {
 		Weapon crazyDarkWeapon = new PacifyingDecorator(
@@ -105,6 +108,9 @@ public class TestDecoratorPattern {
 		assertEquals("[Pacifying, Slaying, Pacifying]", crazyDarkWeapon.getEnchantments().toString());
 	}
 
+	/**
+	 * will test create a decortor Item
+	 */
 	@Test
 	public void CreateDecortorItem2() {
 		Weapon knightsSlayerWeapon = new BurningDecorator(
@@ -116,7 +122,9 @@ public class TestDecoratorPattern {
 		assertEquals("[Slaying, Freezing, Burning]", knightsSlayerWeapon.getEnchantments().toString());
 
 	}
-
+	/**
+	 * will test create a decortor Item and the size of list inside of this weapon
+	 */
 	@Test
 	public void CreateDecortorItem3() {
 		Weapon hopeDestroyerWeapon = new BurningDecorator(
