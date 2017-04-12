@@ -166,7 +166,6 @@ public class JPanelItemComponent {
 				if (!itemName.equals("")) {
 					WeaponType weaponType = null;
 					if (item.getItemType() == ItemType.WEAPON){
-						weaponType = (WeaponType)cbWeaponType.getSelectedItem();
 						Weapon weaponBasic = (WeaponBasic) item;
 						if (cbFrightening.isSelected()){
 							weaponBasic = new FrighteningDecorator(weaponBasic);
@@ -185,7 +184,7 @@ public class JPanelItemComponent {
 						}
 						weaponBasic.setItemType(ItemType.WEAPON);
 						item = weaponBasic;
-							
+						weaponType = (WeaponType)cbWeaponType.getSelectedItem();
 					}
 					else
 						weaponType = WeaponType.NotAWeapon;

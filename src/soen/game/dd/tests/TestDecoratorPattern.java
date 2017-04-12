@@ -1,14 +1,12 @@
 package soen.game.dd.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
@@ -104,25 +102,30 @@ public class TestDecoratorPattern {
 				new SlayingDecorator(new PacifyingDecorator(new WeaponBasic())));
 		crazyDarkWeapon.setName("crazyDarkWeapon");
 		System.out.println(crazyDarkWeapon.getEnchantments().toString());
-		assertEquals("[Pacifying, Slaying, Pacifying]", crazyDarkWeapon.getEnchantments().toString(),"<Error>");
+		assertEquals("[Pacifying, Slaying, Pacifying]", crazyDarkWeapon.getEnchantments().toString());
 	}
-	
+
 	@Test
-	public void CreateDecortorItem2(){
-		Weapon knightsSlayerWeapon = new BurningDecorator(new FreezingDecorator( new SlayingDecorator(new WeaponBasic())));
+	public void CreateDecortorItem2() {
+		Weapon knightsSlayerWeapon = new BurningDecorator(
+				new FreezingDecorator(new SlayingDecorator(new WeaponBasic())));
 		knightsSlayerWeapon.setName("knightsSlayerWeapon");
 		System.out.println(knightsSlayerWeapon.getEnchantments().toString());
- 		System.out.println("Test what enchantments were created or added to the Weapon: "+knightsSlayerWeapon.getName());
+		System.out.println(
+				"Test what enchantments were created or added to the Weapon: " + knightsSlayerWeapon.getName());
 		assertEquals("[Slaying, Freezing, Burning]", knightsSlayerWeapon.getEnchantments().toString());
 
 	}
+
 	@Test
-	public void CreateDecortorItem3(){
-		Weapon hopeDestroyerWeapon = new BurningDecorator(new FreezingDecorator( new SlayingDecorator(new WeaponBasic())));
+	public void CreateDecortorItem3() {
+		Weapon hopeDestroyerWeapon = new BurningDecorator(
+				new FreezingDecorator(new SlayingDecorator(new WeaponBasic())));
 		hopeDestroyerWeapon.setName("hopeDestroyerWeapon");
 		System.out.println(hopeDestroyerWeapon.getEnchantments().toString());
 		System.out.println(hopeDestroyerWeapon.getEnchantments().size());
-		System.out.println("Test how many enchantments were created or added to the Weapon: "+hopeDestroyerWeapon.getName());
+		System.out.println(
+				"Test how many enchantments were created or added to the Weapon: " + hopeDestroyerWeapon.getName());
 		assertEquals(3, hopeDestroyerWeapon.getEnchantments().size());
 
 	}

@@ -172,4 +172,12 @@ public class Item implements Serializable {
 				this.weaponType == other.weaponType;
 	}
 
+	public int getRange() {
+		if (weaponType == WeaponType.MELEE){
+			return 1;
+		} else {
+			return 5;
+		}
+	}
+
 }

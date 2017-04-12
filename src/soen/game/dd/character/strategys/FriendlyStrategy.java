@@ -1,12 +1,9 @@
 package soen.game.dd.character.strategys;
 
 import soen.game.dd.models.GameEngine;
-import soen.game.dd.statics.content.GameStatics;
 import soen.game.dd.models.Character;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 
@@ -17,13 +14,13 @@ import java.util.Random;
  * @author khaled
  *
  */
-public class FriendlyNPCStrategy implements Strategy {
+public class FriendlyStrategy implements Strategy {
 
 	GameEngine gameEngine;
 	Character character;
 	Random rand;
 
-	public FriendlyNPCStrategy(Character c, GameEngine ge){
+	public FriendlyStrategy(Character c, GameEngine ge){
 		this.gameEngine = ge;
 		this.character = c;
 		this.rand = new Random();
@@ -97,7 +94,7 @@ public class FriendlyNPCStrategy implements Strategy {
 	private boolean moveLeft(){
 		int x = (int) getFriendlyPosition().getX() - 1;
 		int y = (int) getFriendlyPosition().getY();
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -108,7 +105,7 @@ public class FriendlyNPCStrategy implements Strategy {
 	private boolean moveRight(){
 		int x = (int) getFriendlyPosition().getX() + 1;
 		int y = (int) getFriendlyPosition().getY();
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -119,7 +116,7 @@ public class FriendlyNPCStrategy implements Strategy {
 	private boolean moveUp(){
 		int x = (int) getFriendlyPosition().getX();
 		int y = (int) getFriendlyPosition().getY() + 1;
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -130,7 +127,7 @@ public class FriendlyNPCStrategy implements Strategy {
 	private boolean moveDown(){
 		int x = (int) getFriendlyPosition().getX();
 		int y = (int) getFriendlyPosition().getY() - 1;
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
