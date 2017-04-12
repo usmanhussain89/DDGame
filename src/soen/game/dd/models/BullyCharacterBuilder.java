@@ -1,14 +1,18 @@
 package soen.game.dd.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class set ability score for BullyCharacter
+ * 
  * @author Usman
  *
  */
 public class BullyCharacterBuilder extends CharacterBuilder {
+
+	/**
+	 * This set the Ability scores for Bully character
+	 */
 	public void setAbilityScores() {
 		// The following loop is made sort the scores retrieved from 4d6 dices
 		// from
@@ -17,10 +21,10 @@ public class BullyCharacterBuilder extends CharacterBuilder {
 		// preference
 
 		int[] die = new int[6];
-		int average=0;
-		for (int i = 0; i < 6; i++){
+		int average = 0;
+		for (int i = 0; i < 6; i++) {
 			die[i] = roll4d6();
-			average+=die[i];
+			average += die[i];
 		}
 		for (int i = 0; i < 6; i++) {
 			int max = die[i];
@@ -35,16 +39,15 @@ public class BullyCharacterBuilder extends CharacterBuilder {
 			die[i] = max;
 			die[index] = temp;
 		}
-		average=average/3;
-		fighterTypeProduct.strength = die[0]*18/die[0];
-		fighterTypeProduct.constitution = die[1]*18/die[0];
-		fighterTypeProduct.dexterity = die[2]*18/die[0];
-		fighterTypeProduct.intelligence = die[3]*18/die[0];
-		fighterTypeProduct.charisma = die[4]*18/die[0];
-		fighterTypeProduct.wisdom = die[5]*18/die[0];
-		
+		average = average / 3;
+		fighterTypeProduct.strength = die[0] * 18 / die[0];
+		fighterTypeProduct.constitution = die[1] * 18 / die[0];
+		fighterTypeProduct.dexterity = die[2] * 18 / die[0];
+		fighterTypeProduct.intelligence = die[3] * 18 / die[0];
+		fighterTypeProduct.charisma = die[4] * 18 / die[0];
+		fighterTypeProduct.wisdom = die[5] * 18 / die[0];
+
 		List<Item> listItem = fighterTypeProduct.getEquippedItems();
-		//ArrayList<Item> listItem = (ArrayList<Item>) fighterTypeProduct.getEquippedItems();
 
 		for (Item item : listItem) {
 			if (item.getEnhancedAttribute() == CharacterAttribute.CHARISMA) {

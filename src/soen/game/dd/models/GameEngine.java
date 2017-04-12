@@ -29,7 +29,7 @@ import soen.game.dd.weapon.enchantments.Weapon;
  * @author Usman
  *
  */
-public class GameEngine extends Observable implements Serializable{
+public class GameEngine extends Observable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Campaign campaign;
@@ -112,82 +112,94 @@ public class GameEngine extends Observable implements Serializable{
 			setHitPoints();
 			setStrategies();
 			setPositions();
-			System.out.println("<Game Logging> : Get Ready... We are setting this Map: "+this.currentMap.getMapName());
+			System.out
+					.println("<Game Logging> : Get Ready... We are setting this Map: " + this.currentMap.getMapName());
 		}
 
 		else
 			this.currentMap = null;
 	}
-	
-	public HashMap<Character, Point> getPositions(){
+
+	/**
+	 * This method return position hashmap
+	 * 
+	 * @return
+	 */
+	public HashMap<Character, Point> getPositions() {
 		return positions;
 	}
-	
+
+	/**
+	 * This method set position of characters
+	 */
 	public void setPositions() {
 		for (int i = 0; i < this.currentMap.getMapHeight(); i++) {
 			for (int j = 0; j < this.currentMap.getMapWidth(); j++) {
-				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT){
-					positions.put(getCharacter(), new Point(i,j));
+				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT) {
+					positions.put(getCharacter(), new Point(i, j));
 				}
-				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT){
-					positions.put(this.currentMap.getFriendlyCharacter(), new Point(i,j));
+				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT) {
+					positions.put(this.currentMap.getFriendlyCharacter(), new Point(i, j));
 				}
-				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT){
-					positions.put(this.currentMap.getHostileCharacter(), new Point(i,j));
+				if (this.currentMap.mapGridSelection[i][j] == GameStatics.MAP_OPPONENT_POINT) {
+					positions.put(this.currentMap.getHostileCharacter(), new Point(i, j));
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * This method is start the game engine and call the characters using turn based mechanism
-	 *  
+	 * This method is start the game engine and call the characters using turn
+	 * based mechanism
+	 * 
 	 */
-	public void startGame(){
+	public void startGame() {
 		System.out.println("<Game Logging> : The Game is STARTED GOOD LUCK!");
 		new Thread(new Runnable() {
-		     public void run() {
-		    	List<Character> characters = getOrderedCharacters();
-		 		while(true){
-		 			for (Character character : characters){
-		 				character.getStrategy().turn();
-		 				notifyObservers();
-		 				try {
+			public void run() {
+				List<Character> characters = getOrderedCharacters();
+				while (true) {
+					for (Character character : characters) {
+						character.getStrategy().turn();
+						notifyObservers();
+						try {
 							Thread.sleep(500);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-		 			}
-		 		}}
+					}
+				}
+			}
 		}).start();
 	}
-	
+
 	/**
 	 * This method set strategies for characters
 	 * 
 	 */
 	private void setStrategies() {
 		getCharacter().setStrategy(new HumanStrategy(this));
-		for (Character character : getCurrentMap().mapCharacters){
+		for (Character character : getCurrentMap().mapCharacters) {
 			setStrategyForCharacter(character);
 		}
-		
+
 	}
-	
+
 	/**
-	 * This method set strategies for characters 
+	 * This method set strategies for characters
+	 * 
 	 * @param character
 	 */
 	private void setStrategyForCharacter(Character character) {
-		switch(character.getNPCType()){
-			case FRINDLY:
-				character.setStrategy(new FriendlyStrategy(character, this));
-				break;
-			case HOSTILE:
-				character.setStrategy(new AggressiveNPCStrategy(character, this));
-				break;
-			default:
-				break;
+		switch (character.getNPCType()) {
+		case FRINDLY:
+			character.setStrategy(new FriendlyStrategy(character, this));
+			break;
+		case HOSTILE:
+			character.setStrategy(new AggressiveNPCStrategy(character, this));
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -224,7 +236,7 @@ public class GameEngine extends Observable implements Serializable{
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(1);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(1);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(1);
-				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Player Level: " + playerCharacterLevel);
 				System.out.println("<Game Logging> : The Map Level is set to 1");
 			}
 			if (playerCharacterLevel >= 5 && playerCharacterLevel <= 8) {
@@ -235,7 +247,7 @@ public class GameEngine extends Observable implements Serializable{
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(2);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(2);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(2);
-				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Player Level: " + playerCharacterLevel);
 				System.out.println("<Game Logging> : The Map Level is set to 2");
 			}
 			if (playerCharacterLevel >= 9 && playerCharacterLevel <= 12) {
@@ -246,7 +258,7 @@ public class GameEngine extends Observable implements Serializable{
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(3);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(3);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(3);
-				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Player Level: " + playerCharacterLevel);
 				System.out.println("<Game Logging> : The Map Level is set to 3");
 			}
 			if (playerCharacterLevel >= 13 && playerCharacterLevel <= 16) {
@@ -257,7 +269,7 @@ public class GameEngine extends Observable implements Serializable{
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(4);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(4);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(4);
-				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Player Level: " + playerCharacterLevel);
 				System.out.println("<Game Logging> : The Map Level is set to 4");
 			}
 			if (playerCharacterLevel >= 17) {
@@ -268,7 +280,7 @@ public class GameEngine extends Observable implements Serializable{
 				this.currentMap.mapCharacters.get(indexCharacter).getBelt().setBonusAmount(5);
 				this.currentMap.mapCharacters.get(indexCharacter).getWeapon().setBonusAmount(5);
 				this.currentMap.mapCharacters.get(indexCharacter).getShield().setBonusAmount(5);
-				System.out.println("<Game Logging> : The Player Level: "+playerCharacterLevel);
+				System.out.println("<Game Logging> : The Player Level: " + playerCharacterLevel);
 				System.out.println("<Game Logging> : The Map Level is set to 5");
 			}
 
@@ -348,14 +360,14 @@ public class GameEngine extends Observable implements Serializable{
 			if (character.getBackpack().size() < 10) {
 				character.addItemIntoBackpack(item);
 				character.notifyObservers();
-				System.out.println("<Game Logging> : Looting this item: "+item.getName());	
+				System.out.println("<Game Logging> : Looting this item: " + item.getName());
 			}
 		}
 
 		System.out.println("<Game Logging> : Can not Loot anymore! the backpack is full");
 		characterLooted++;
 		return character.getBackpack().size() == 10;
-		
+
 	}
 
 	/**
@@ -370,24 +382,27 @@ public class GameEngine extends Observable implements Serializable{
 		int index;
 		Character npCharacter = getCurrentMap().getFriendlyCharacter();
 
-		System.out.println("<Game Logging> : you: "+this.character.getName()+" are Exchanging with NPC: "+npCharacter.getName());
+		System.out.println("<Game Logging> : you: " + this.character.getName() + " are Exchanging with NPC: "
+				+ npCharacter.getName());
 
 		index = randomGenerator.nextInt(npCharacter.getBackpack().size());
 		Item itemToGive = npCharacter.getBackpack().get(index);
 
 		this.character.addItemIntoBackpack(itemToGive);
-		System.out.println("<Game Logging> : you gave this Item: "+itemToGive.getName()+" to the NPC: "+npCharacter.getName());
+		System.out.println("<Game Logging> : you gave this Item: " + itemToGive.getName() + " to the NPC: "
+				+ npCharacter.getName());
 		this.character.removeItemFromBackpack(playerExchangeItem);
 
 		npCharacter.addItemIntoBackpack(playerExchangeItem);
-		System.out.println("<Game Logging> : you got this Item: "+playerExchangeItem.getName()+" From the NPC: "+npCharacter.getName());
+		System.out.println("<Game Logging> : you got this Item: " + playerExchangeItem.getName() + " From the NPC: "
+				+ npCharacter.getName());
 		npCharacter.removeItemFromBackpack(itemToGive);
 
 		setChanged();
 		this.character.notifyObservers();
 		npCharacter.notifyObservers();
-		System.out.println("<Game Logging> : "+playerExchangeItem.getName()+" Says: Thank you and GoodBye");
-		System.out.println("<Game Logging> : "+npCharacter.getName()+" The NPC ansert: You are welcome GoodBye");
+		System.out.println("<Game Logging> : " + playerExchangeItem.getName() + " Says: Thank you and GoodBye");
+		System.out.println("<Game Logging> : " + npCharacter.getName() + " The NPC ansert: You are welcome GoodBye");
 
 	}
 
@@ -408,9 +423,10 @@ public class GameEngine extends Observable implements Serializable{
 	public boolean getMapObjective() {
 		return this.isMapObjFulfil;
 	}
-	
+
 	/**
 	 * This method move to next if the map objective is fulfill
+	 * 
 	 * @return boolean
 	 */
 	public boolean nextMap() {
@@ -426,7 +442,7 @@ public class GameEngine extends Observable implements Serializable{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * This method resetCharacterPosition
 	 */
@@ -434,50 +450,66 @@ public class GameEngine extends Observable implements Serializable{
 		setCurrentMap();
 		characterPosition = getCurrentMap().getEntryPoint();
 	}
-	
+
 	/**
 	 * This method get character Position
 	 */
 	public Point getCharacterPosition() {
 		return getPositionOfCharacter(getCharacter());
 	}
-	
+
 	/**
 	 * This method get character Position
 	 */
 	public Point getPositionOfCharacter(Character character) {
 		return positions.get(character);
 	}
-	
+
 	/**
 	 * This method checks if its within one space
+	 * 
 	 * @param point1
 	 * @param point2
 	 * @return
 	 */
-	public boolean withinOneSpace(Point point1, Point point2){
-		if ((Math.abs(point1.getX() - point2.getX()) == 1) && (point1.getY() == point2.getY())){
+	public boolean withinOneSpace(Point point1, Point point2) {
+		if ((Math.abs(point1.getX() - point2.getX()) == 1) && (point1.getY() == point2.getY())) {
 			return true;
 		}
-		if ((Math.abs(point1.getY() - point2.getY()) == 1) && (point1.getX() == point2.getX())){
+		if ((Math.abs(point1.getY() - point2.getY()) == 1) && (point1.getX() == point2.getX())) {
 			return true;
-		}	
+		}
 		return false;
 	}
-	
+
+	/**
+	 * This method move the character on to the map
+	 * 
+	 * @param character
+	 * @param x
+	 * @param y
+	 */
 	public void move(Character character, int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
-		if (pathPoint == GameStatics.MAP_PATH_POINT){
-			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))){
+		if (pathPoint == GameStatics.MAP_PATH_POINT) {
+			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))) {
 				positions.put(character, new Point(x, y));
 				setChanged();
 				characterMoved++;
-				System.out.println("<Game Logging> : The "+character.getName()+" moved to the point"+positions.toString());
+				System.out.println(
+						"<Game Logging> : The " + character.getName() + " moved to the point" + positions.toString());
 				getCurrentMap().moveCharacter(character, new Point(x, y));
 			}
 		}
 	}
-	
+
+	/**
+	 * This method check if its inside map
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isInsideMap(int x, int y) {
 		if (x < 0 || x >= getCurrentMap().mapWidth)
 			return false;
@@ -485,23 +517,37 @@ public class GameEngine extends Observable implements Serializable{
 			return false;
 		return true;
 	}
-	
+
+	/**
+	 * This method check if it is valid move
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isMoveValid(int x, int y) {
-		if (!isInsideMap(x, y)){
+		if (!isInsideMap(x, y)) {
 			return false;
 		}
-		if (getCurrentMap().mapGridSelection[x][y] != GameStatics.MAP_PATH_POINT){
+		if (getCurrentMap().mapGridSelection[x][y] != GameStatics.MAP_PATH_POINT) {
 			return false;
 		}
 		return true;
 	}
-	
+
+	/**
+	 * This method check if it is valid move point
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public boolean isMoveValid(Point p) {
 		return isMoveValid((int) p.getX(), (int) p.getY());
 	}
-	
+
 	/**
 	 * In this method player interact with chest and loot the items
+	 * 
 	 * @param character
 	 * @param x
 	 * @param y
@@ -509,7 +555,7 @@ public class GameEngine extends Observable implements Serializable{
 	public void interactWith(Character character, int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
 		if (pathPoint == GameStatics.MAP_CHEST_POINT) {
-			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))){
+			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))) {
 				System.out.println("<Game Logging> : Let the Loot begins");
 				lootChestItems(character, getCurrentMap().mapSelectedItem);
 				getCurrentMap().mapSelectedItem = new ArrayList<Item>();
@@ -517,58 +563,70 @@ public class GameEngine extends Observable implements Serializable{
 		}
 		setChanged();
 	}
-	
+
 	/**
 	 * This method interact with chest
+	 * 
 	 * @param c
 	 * @param p
 	 */
-	public void interactWith(Character c, Point p){
+	public void interactWith(Character c, Point p) {
 		interactWith(c, p.x, p.y);
 	}
-	
+
 	/**
 	 * This method return chest position
+	 * 
 	 * @return
 	 */
-	public Point getChestPosition(){
+	public Point getChestPosition() {
 		return getCurrentMap().getChestPoint();
 	}
-	
+
+	/**
+	 * This method implement attack mechanism
+	 * 
+	 * @param attacker
+	 * @param defender
+	 */
 	public void attack(Character attacker, Character defender) {
 		RangeDetection range = new RangeDetection(this);
-		if(range.isEnemyWithinRange(attacker, defender)){
+		if (range.isEnemyWithinRange(attacker, defender)) {
 			System.out.println("<Game Logging> : Let the Encounter begain!");
 			System.out.println("<Game Logging> : Fight! Fight! Fight!");
-			System.out.println("<Game Logging> : The defender: "+ defender.getName()+" HP before fight is: "+defender.getHitPoint());
+			System.out.println("<Game Logging> : The defender: " + defender.getName() + " HP before fight is: "
+					+ defender.getHitPoint());
 			if (defender.getHitPoint() > 0) {
 				defender.hitPoint -= new Hit().getDamagePoint(attacker, defender, attacker.getWeapon());
 				defender.callSetChanged();
 				defender.notifyObservers();
-				System.out.println("<Game Logging> : The "+defender.getName()+" Got hit and his HP is now: "+defender.getHitPoint());
-				if (defender.getHitPoint() <= 0){
+				System.out.println("<Game Logging> : The " + defender.getName() + " Got hit and his HP is now: "
+						+ defender.getHitPoint());
+				if (defender.getHitPoint() <= 0) {
 					defender.setStrategy(new DeadStrategy());
 					defender.setNPCType(NPCType.DEAD);
-					System.out.println("<Game Logging> : The "+defender.getName()+" is Dead already and his HP now: "+defender.getHitPoint());
+					System.out.println("<Game Logging> : The " + defender.getName()
+							+ " is Dead already and his HP now: " + defender.getHitPoint());
 					return;
 				}
 			}
 			inflictEnchantments(attacker, defender);
-			if (defender.getStrategy() instanceof FriendlyStrategy){
+			if (defender.getStrategy() instanceof FriendlyStrategy) {
 				defender.setStrategy(new AggressiveNPCStrategy(defender, this));
 			}
 			characterAttacked++;
 		}
 	}
-	
+
 	/**
 	 * This method inflict method enchantment
+	 * 
 	 * @param attacker
 	 * @param defender
 	 */
 	public void inflictEnchantments(Character attacker, Character defender) {
 		Weapon weapon = (Weapon) attacker.getWeapon();
-		for (EnchantmentTypes enchantment : weapon.getEnchantments()){
+		for (EnchantmentTypes enchantment : weapon.getEnchantments()) {
 			if (enchantment == EnchantmentTypes.Freezing) {
 				defender.setStrategy(new FrozenStrategy(defender, weapon.getBonusAmount()));
 				defender.setCharacterStatus(CharacterStatus.FROZEN);
@@ -592,8 +650,8 @@ public class GameEngine extends Observable implements Serializable{
 	}
 
 	/**
-	 * This method is to set Hit points
-	 * no need for logging it is done from the character class
+	 * This method is to set Hit points no need for logging it is done from the
+	 * character class
 	 */
 	public void setHitPoints() {
 		for (Character character : getCharacters()) {
@@ -601,60 +659,63 @@ public class GameEngine extends Observable implements Serializable{
 			character.setHitpoint(character.getMaxHitPoint());
 		}
 	}
-	
+
 	public List<Character> getCharacters() {
 		List<Character> characters = new ArrayList<Character>();
 		characters = (List<Character>) this.getCurrentMap().mapCharacters.clone();
 		characters.add(getCharacter());
 		return characters;
 	}
-	
+
 	/**
 	 * Get map character using D20roll
+	 * 
 	 * @return list of characters
 	 */
-	public List<Character> getOrderedCharacters(){
+	public List<Character> getOrderedCharacters() {
 		List<Character> characters = new ArrayList<Character>();
 
 		HashMap<Integer, Character> charactersMap = new HashMap<Integer, Character>();
 		Integer[] d20Dies = new Integer[getCharacters().size()];
 		int index = 0;
-		
+
 		for (Character c : getCharacters()) {
 			boolean diceStatus = true;
 			while (diceStatus) {
-				System.out.println("<Game Logging> : Roll the d20 Dic to determine the order of: "+c.getName()+" and his type is: "+c.getNPCType());
+				System.out.println("<Game Logging> : Roll the d20 Dic to determine the order of: " + c.getName()
+						+ " and his type is: " + c.getNPCType());
 				int d20 = d20Dice();
-				if (checkUniqueDice(d20 + (int)c.getDexterityModifier(), d20Dies)) {
-					d20Dies[index] = d20  + (int)c.getDexterityModifier();
-					charactersMap.put(d20  + (int)c.getDexterityModifier(), c);
+				if (checkUniqueDice(d20 + (int) c.getDexterityModifier(), d20Dies)) {
+					d20Dies[index] = d20 + (int) c.getDexterityModifier();
+					charactersMap.put(d20 + (int) c.getDexterityModifier(), c);
 					diceStatus = false;
 					index++;
-					System.out.println("<Game Logging> : Rolled the Dic and after applying d20 roles his value is: "+d20);
-					
+					System.out.println(
+							"<Game Logging> : Rolled the Dic and after applying d20 roles his value is: " + d20);
+
 				}
 			}
 		}
-		
+
 		Arrays.sort(d20Dies, Collections.reverseOrder());
-		
+
 		for (Integer i : d20Dies) {
 			characters.add(charactersMap.get(i));
 		}
 		/**
-		 * @author fyounis
-		 * to print out the Characters order after applying the d20 rolls 
+		 * @author fyounis to print out the Characters order after applying the
+		 *         d20 rolls
 		 */
-		
+
 		int index2 = 0;
 		for (Character character : characters) {
 			index2++;
-			System.out.println("<Game Logging> : This player"+character.getName()+" will play "+index2);
+			System.out.println("<Game Logging> : This player" + character.getName() + " will play " + index2);
 		}
-		
+
 		return characters;
 	}
-	
+
 	/**
 	 * Generate random score
 	 * 
@@ -662,11 +723,11 @@ public class GameEngine extends Observable implements Serializable{
 	 */
 	private int d20Dice() {
 		int score = (int) (Math.random() * 20) + 1;
-		System.out.println("<Game Logging> : the d20 Dice was played and it was = "+score);
+		System.out.println("<Game Logging> : the d20 Dice was played and it was = " + score);
 
 		return score;
 	}
-	
+
 	/**
 	 * This method checks unique dice
 	 * 
@@ -676,8 +737,7 @@ public class GameEngine extends Observable implements Serializable{
 	 */
 	private boolean checkUniqueDice(int dice, Integer[] d20Dices) {
 		boolean status = true;
-		
-		
+
 		for (Integer d : d20Dices) {
 			if (d != null) {
 				if (dice == d) {
@@ -685,7 +745,7 @@ public class GameEngine extends Observable implements Serializable{
 				}
 			}
 		}
-		
+
 		return status;
 	}
 
@@ -699,7 +759,7 @@ public class GameEngine extends Observable implements Serializable{
 
 		for (Item item : items) {
 			if (character.getBackpack().size() < 10) {
-				System.out.println("<Game Logging> : Looting this item: "+item);
+				System.out.println("<Game Logging> : Looting this item: " + item);
 				this.character.addItemIntoBackpack(item);
 				this.character.notifyObservers();
 			}
@@ -709,67 +769,108 @@ public class GameEngine extends Observable implements Serializable{
 		return character.getBackpack().size() == 10;
 	}
 
+	/**
+	 * This methos set character moved
+	 * 
+	 * @param i
+	 */
 	public void setCharacterMoved(int i) {
 		characterMoved = 0;
 	}
 
+	/**
+	 * This method return character moved
+	 * 
+	 * @return
+	 */
 	public int getCharacterMoved() {
 		return characterMoved;
 	}
 
+	/**
+	 * This method check point if its danger or not
+	 * 
+	 * @return
+	 */
 	public List<Point> getDangerPoints() {
 		List<Point> dangerPoints = new ArrayList<Point>();
 		Point point = getCharacterPosition();
-		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
-			if (!isMoveValid(addPoints(point, new Point(0,i)))){
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i) {
+			if (!isMoveValid(addPoints(point, new Point(0, i)))) {
 				break;
 			}
-			dangerPoints.add(addPoints(point, new Point(0,i)));
+			dangerPoints.add(addPoints(point, new Point(0, i)));
 		}
-		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
-			if (!isMoveValid(addPoints(point, new Point(i,0)))){
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i) {
+			if (!isMoveValid(addPoints(point, new Point(i, 0)))) {
 				break;
 			}
-			dangerPoints.add(addPoints(point, new Point(i,0)));
+			dangerPoints.add(addPoints(point, new Point(i, 0)));
 		}
-		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
-			if (!isMoveValid(addPoints(point, new Point(-i,0)))){
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i) {
+			if (!isMoveValid(addPoints(point, new Point(-i, 0)))) {
 				break;
 			}
-			dangerPoints.add(addPoints(point, new Point(-i,0)));
+			dangerPoints.add(addPoints(point, new Point(-i, 0)));
 
 		}
-		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
-			if (!isMoveValid(addPoints(point, new Point(0,-i)))){
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i) {
+			if (!isMoveValid(addPoints(point, new Point(0, -i)))) {
 				break;
 			}
-			dangerPoints.add(addPoints(point, new Point(0,-i)));
+			dangerPoints.add(addPoints(point, new Point(0, -i)));
 
 		}
 		return dangerPoints;
 	}
-	
-	public Point addPoints(Point p1, Point p2){
-		return new Point((int)p1.getX() + (int)p2.getX(), (int)p1.getY() + (int)p2.getY());
+
+	/**
+	 * This method add points
+	 * 
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
+	public Point addPoints(Point p1, Point p2) {
+		return new Point((int) p1.getX() + (int) p2.getX(), (int) p1.getY() + (int) p2.getY());
 	}
 
+	/**
+	 * This method is called when character is looted
+	 * 
+	 * @param i
+	 */
 	public void setCharacterLooted(int i) {
 		characterLooted = i;
 	}
-	
-	public void setCharacterAttacked(int i){
+
+	/**
+	 * This method is called when character attacked
+	 * 
+	 * @param i
+	 */
+	public void setCharacterAttacked(int i) {
 		characterAttacked = i;
 	}
-	
-	public int getCharacterLooted(){
+
+	/**
+	 * This method is called when character looted
+	 * 
+	 * @return
+	 */
+	public int getCharacterLooted() {
 		return characterLooted;
 	}
-	
-	public int getCharacterAttacked(){
+
+	/**
+	 * This method return attacked characer value
+	 * 
+	 * @return
+	 */
+	public int getCharacterAttacked() {
 		return characterAttacked;
 	}
 
-	
 	/**
 	 * This method set the Game Engine Name
 	 * 

@@ -66,12 +66,35 @@ public class Character extends Observable implements Serializable {
 	private CharacterBuilder builder; // ADDED BUILD 2
 	private int burned;
 
+	/**
+	 * No argument constructor of Character class
+	 */
 	public Character() {
 		backpack = new ArrayList<Item>(Arrays.asList());
 		setMaxHitPoint();
 		setHitpoint(getMaxHitPoint());
 	}
 
+	/**
+	 * This is Constructor of Character class
+	 * 
+	 * @param name
+	 * @param description
+	 * @param fighterType
+	 * @param level
+	 * @param hitPoint
+	 * @param armorClass
+	 * @param attackBonus
+	 * @param damageBonus
+	 * @param multipleAttacks
+	 * @param armor
+	 * @param ring
+	 * @param helmet
+	 * @param boots
+	 * @param belt
+	 * @param weapon
+	 * @param shield
+	 */
 	public Character(String name, String description, FighterType fighterType, int level, int hitPoint, int armorClass,
 			int attackBonus, int damageBonus, int multipleAttacks, Item armor, Item ring, Item helmet, Item boots,
 			Item belt, Item weapon, Item shield) {
@@ -216,7 +239,7 @@ public class Character extends Observable implements Serializable {
 	public int getLevel() {
 		return level;
 	}
-	
+
 	/**
 	 * @return range
 	 */
@@ -231,37 +254,76 @@ public class Character extends Observable implements Serializable {
 	public void setLevel(int level) {
 		this.level = level;
 		System.out.println("<Info> : LEVEL of this character: " + name + " set to: " + level + ".");
-		// setAbilityScores();
 	}
 
+	/**
+	 * This method return constitution
+	 * 
+	 * @return
+	 */
 	public int getConstitution() {
 		return constitution;
 	}
 
+	/**
+	 * This method set the constitution
+	 * 
+	 * @param constitution
+	 */
 	public void setConstitution(int constitution) {
 		this.constitution = constitution;
 	}
 
+	/**
+	 * This method set attack bonus
+	 * 
+	 * @param attackBonus
+	 */
 	public void setAttackBonus(int attackBonus) {
 		this.attackBonus = attackBonus;
 	}
 
+	/**
+	 * This method set Damage bonus
+	 * 
+	 * @param damageBonus
+	 */
 	public void setDamageBonus(int damageBonus) {
 		this.damageBonus = damageBonus;
 	}
 
+	/**
+	 * This method set Strength
+	 * 
+	 * @param strength
+	 */
 	public void setStrength(int strength) {
 		this.strength = strength;
 	}
 
+	/**
+	 * This method set Wisdom
+	 * 
+	 * @param wisdom
+	 */
 	public void setWisdom(int wisdom) {
 		this.wisdom = wisdom;
 	}
 
+	/**
+	 * This method set Intelligence
+	 * 
+	 * @param intelligence
+	 */
 	public void setIntelligence(int intelligence) {
 		this.intelligence = intelligence;
 	}
 
+	/**
+	 * This method set Charisma
+	 * 
+	 * @param charisma
+	 */
 	public void setCharisma(int charisma) {
 		this.charisma = charisma;
 	}
@@ -275,19 +337,22 @@ public class Character extends Observable implements Serializable {
 		return fighterType;
 	}
 
+	/**
+	 * This method return list of items in back pack
+	 * 
+	 * @return
+	 */
 	public List<Item> getBackpack() {
 		return backpack;
 	}
 
-	// Builder Pattern methods:
-
+	/**
+	 * This method set Builder
+	 * 
+	 * @param newCharacterBuilder
+	 */
 	public void setBuilder(CharacterBuilder newCharacterBuilder) {
 		builder = newCharacterBuilder;
-	}
-
-	public void constructCharacterBuild() {
-		// builder.createNewCharacter();
-		// builder.setAbilityScores();
 	}
 
 	/**
@@ -332,31 +397,65 @@ public class Character extends Observable implements Serializable {
 	 * setChanged(); }
 	 */
 
+	/**
+	 * This method return Strength
+	 * 
+	 * @return
+	 */
 	public int getStrength() {
 		return this.strength;
 	}
 
+	/**
+	 * This method return Constitution
+	 * 
+	 * @return
+	 */
 	public int getConsitution() {
 		return this.constitution;
 	}
 
+	/**
+	 * This method return Wisdom
+	 * 
+	 * @return
+	 */
 	public int getWisdom() {
 		return this.wisdom;
 	}
-	
 
+	/**
+	 * This method set dexterity
+	 * 
+	 * @param dexterity
+	 */
 	public void setDexterity(int dexterity) {
 		this.dexterity = dexterity;
 	}
-	
+
+	/**
+	 * This method return dexterity
+	 * 
+	 * @return
+	 */
 	public int getDexterity() {
 		return this.dexterity;
 	}
 
+	/**
+	 * This method return intelligence
+	 * 
+	 * @return
+	 */
 	public int getIntelligence() {
 		return this.intelligence;
 	}
 
+	/**
+	 * This method return charisma
+	 * 
+	 * @return
+	 */
 	public int getCharisma() {
 		return this.charisma;
 	}
@@ -384,50 +483,110 @@ public class Character extends Observable implements Serializable {
 		System.out.println("<Info> : The dexterityModifier was set to: " + dexterityModifier);
 	}
 
+	/**
+	 * This method return StrengthModifier
+	 * 
+	 * @return
+	 */
 	public double getStrengthModifier() {
 		return strengthModifier;
 	}
 
+	/**
+	 * This method set StrengthModifier
+	 * 
+	 * @param strengthModifier
+	 */
 	public void setStrengthModifier(double strengthModifier) {
 		this.strengthModifier = strengthModifier;
 	}
 
+	/**
+	 * This method return Constitution Modifier
+	 * 
+	 * @return
+	 */
 	public double getConstitutionModifier() {
 		return constitutionModifier;
 	}
 
+	/**
+	 * This method set Constitution Modifier
+	 * 
+	 * @param constitutionModifier
+	 */
 	public void setConstitutionModifier(double constitutionModifier) {
 		this.constitutionModifier = constitutionModifier;
 	}
 
+	/**
+	 * This method return Wisdom Modifier
+	 * 
+	 * @return
+	 */
 	public double getWisdomModifier() {
 		return wisdomModifier;
 	}
 
+	/**
+	 * This method set Wisdom Modifier
+	 * 
+	 * @param wisdomModifier
+	 */
 	public void setWisdomModifier(double wisdomModifier) {
 		this.wisdomModifier = wisdomModifier;
 	}
 
+	/**
+	 * This method return dexterity modifier
+	 * 
+	 * @return
+	 */
 	public double getDexterityModifier() {
 		return dexterityModifier;
 	}
 
+	/**
+	 * This method set Dexterity Modifier
+	 * 
+	 * @param dexterityModifier
+	 */
 	public void setDexterityModifier(double dexterityModifier) {
 		this.dexterityModifier = dexterityModifier;
 	}
 
+	/**
+	 * This method return Intelligence Modifier
+	 * 
+	 * @return
+	 */
 	public double getIntelligenceModifier() {
 		return intelligenceModifier;
 	}
 
+	/**
+	 * This method set Intelligence Modifers
+	 * 
+	 * @param intelligenceModifier
+	 */
 	public void setIntelligenceModifier(double intelligenceModifier) {
 		this.intelligenceModifier = intelligenceModifier;
 	}
 
+	/**
+	 * This method return CharismaModifier
+	 * 
+	 * @return
+	 */
 	public double getCharismaModifier() {
 		return charismaModifier;
 	}
 
+	/**
+	 * This method set CharismaModifier
+	 * 
+	 * @param charismaModifier
+	 */
 	public void setCharismaModifier(double charismaModifier) {
 		this.charismaModifier = charismaModifier;
 	}
@@ -789,15 +948,22 @@ public class Character extends Observable implements Serializable {
 		this.characterStatus = characterStatus;
 	}
 
+	/**
+	 * This method set Burned Counter
+	 * 
+	 * @param i
+	 */
 	public void setBurnedCounter(int i) {
 		this.burned = i;
 	}
 
+	/**
+	 * This method decrement Burned
+	 */
 	public void decrementBurned() {
-		if(this.burned-- == 0){
+		if (this.burned-- == 0) {
 			this.characterStatus = null;
 		}
-		
-	}
 
+	}
 }

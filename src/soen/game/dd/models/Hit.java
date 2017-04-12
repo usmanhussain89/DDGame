@@ -41,8 +41,7 @@ public class Hit extends Observable {
 			System.out.println("<Game Logging> : encounter ENTERED");
 			if (die != 20) {
 				if (weapon.getWeaponType() == WeaponType.MELEE) {
-					attackScore = (int) (die + playableCharacter.attackBonus
-							+ playableCharacter.getStrengthModifier());
+					attackScore = (int) (die + playableCharacter.attackBonus + playableCharacter.getStrengthModifier());
 					System.out.println("<Game Logging> : The attack score: " + attackScore);
 				} else if (weapon.getWeaponType() == WeaponType.RANGED) {
 					attackScore = (int) (die + playableCharacter.attackBonus
@@ -67,13 +66,11 @@ public class Hit extends Observable {
 				}
 
 			}
-			if (NPC.characterStatus == CharacterStatus.BURNED){
+			if (NPC.characterStatus == CharacterStatus.BURNED) {
 				damagePoint += playableCharacter.getWeapon().getBonusAmount() * 5;
 				NPC.decrementBurned();
 			}
-			// NPC.hitPoint-=damagePoint;
 		}
-
 
 		setChanged();
 		System.out.println("<Game Logging> : The damagePoint score: " + damagePoint);

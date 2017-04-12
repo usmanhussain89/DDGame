@@ -71,7 +71,7 @@ public class MapEditor extends JFrame {
 		// load Map Grid from Component
 		this.setContentPane((new JPanelMapComponent()).getMapEditorGridPanel(map, null, mapEditorMode, maps, index));
 	}
-	
+
 	/**
 	 * This is the constructor of class which initiate map frame for Play mode
 	 * 
@@ -82,15 +82,16 @@ public class MapEditor extends JFrame {
 	 * @param campaign
 	 * @param character
 	 */
-	public MapEditor(JFrame frame, String title, int width, int height, Campaign campaign, Character character, E_MapEditorMode mapEditorMode) {
+	public MapEditor(JFrame frame, String title, int width, int height, Campaign campaign, Character character,
+			E_MapEditorMode mapEditorMode) {
 		if (frame != null) {
 			Dimension frameSize = frame.getSize();
 			Point p = frame.getLocation();
 			setLocation(p.x + frameSize.width / 4, p.y + frameSize.height / 4);
 		}
-		
+
 		this.mapEditorMode = mapEditorMode;
-		
+
 		if (E_MapEditorMode.Create == this.mapEditorMode) {
 			title += " " + GameStatics.MAP_MODE_CREATE;
 		} else {
