@@ -1,6 +1,6 @@
 package soen.game.dd.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import soen.game.dd.character.strategys.FrozenStrategy;
 import soen.game.dd.character.strategys.FrightenedStrategy;
-import soen.game.dd.character.strategys.HumanStrategy;
+import soen.game.dd.character.strategys.FrozenStrategy;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
@@ -134,18 +133,39 @@ public class TestCharacterStrategy {
 	}
 
 	@Test
-	public void changeStrategy() {
+	public void changeStrategy1() {
 
-		//redFeras.setStrategy(new FrozenStrategy()));
-		//assertTrue("the Strataegy type Changed to Freezing",redFeras.getStrategy() instanceof FrozenStrategy);
-		//redFeras.setStrategy(new Frightening(selverEngine));
-		//System.out.println(redFeras.getStrategy());
-		redFeras.setStrategy(new HumanStrategy(selverEngine));
-		System.out.println(redFeras.getStrategy());
-		redFeras.getStrategy().turn();
-		redFeras.setNPCType(NPCType.PLAYABALE);
-		System.out.println(redFeras.getNPCType().toString());
+		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
+		assertTrue("the Strataegy type Changed to Freezing", redFeras.getStrategy() instanceof FrozenStrategy);
 
 	}
 
+	@Test
+	public void changeStrategy2() {
+
+		redFeras.setStrategy(new FrightenedStrategy(redFeras, selverEngine, 3));
+		assertTrue("the Strataegy type Changed to Freezing", redFeras.getStrategy() instanceof FrightenedStrategy);
+
+	}
+
+	@Test
+	public void changeStrategy3() {
+		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
+		redFeras.setStrategy(new FrightenedStrategy(redFeras, selverEngine, 3));
+		redFeras.setNPCType(NPCType.PLAYABALE);
+		assertTrue("the Strataegy type Changed to Freezing", redFeras.getStrategy() instanceof FrightenedStrategy);
+	}
+
+	/**
+	 * @author f_youni test if the frozen strategy is moved back to the old
+	 *         strategy after 3 trun()s
+	 */
+	@Test
+	public void changeStrategy4() {
+
+		redFeras.setStrategy(new FrightenedStrategy(redFeras, selverEngine, 3));
+		redFeras.setStrategy(new FrozenStrategy(redFeras, 3));
+		redFeras.getStrategy().turn();
+
+	}
 }

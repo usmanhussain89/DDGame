@@ -27,7 +27,7 @@ public class Character extends Observable implements Serializable {
 	private NPCType npcType;
 
 	// Strategy type
-	private Strategy strategy;	// ADDED BUILD 3
+	private Strategy strategy; // ADDED BUILD 3
 
 	public double hitPoint;
 	public static int armorClass;
@@ -107,7 +107,7 @@ public class Character extends Observable implements Serializable {
 	 */
 	public void setStrategy(Strategy strategy) {
 		this.strategy = strategy;
-		System.out.println("<Info> : The Character: " + name + " Strategy got set to: " + getStrategy());
+		System.out.println("<Game Logging> : The Character: " + name + " Strategy got set to: " + getStrategy());
 	}
 
 	/**
@@ -233,6 +233,38 @@ public class Character extends Observable implements Serializable {
 		// setAbilityScores();
 	}
 
+	public int getConstitution() {
+		return constitution;
+	}
+
+	public void setConstitution(int constitution) {
+		this.constitution = constitution;
+	}
+
+	public void setAttackBonus(int attackBonus) {
+		this.attackBonus = attackBonus;
+	}
+
+	public void setDamageBonus(int damageBonus) {
+		this.damageBonus = damageBonus;
+	}
+
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+
+	public void setWisdom(int wisdom) {
+		this.wisdom = wisdom;
+	}
+
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
+
+	public void setCharisma(int charisma) {
+		this.charisma = charisma;
+	}
+
 	/**
 	 * 
 	 * @return fighterType Nimble, Tank, or Bully
@@ -258,9 +290,10 @@ public class Character extends Observable implements Serializable {
 	}
 
 	/**
-	 * @author Munjed This (BUILD 1 method is OBSELETE) calculates all ability scores at random using
-	 *         4d6. If fighter type is different then attributes will be
-	 *         randomized with a little bit of bias toward players' preference.
+	 * @author Munjed This (BUILD 1 method is OBSELETE) calculates all ability
+	 *         scores at random using 4d6. If fighter type is different then
+	 *         attributes will be randomized with a little bit of bias toward
+	 *         players' preference.
 	 * @param abilityScores
 	 *            the abilityScores to set
 	 */
@@ -309,7 +342,12 @@ public class Character extends Observable implements Serializable {
 	public int getWisdom() {
 		return this.wisdom;
 	}
+	
 
+	public void setDexterity(int dexterity) {
+		this.dexterity = dexterity;
+	}
+	
 	public int getDexterity() {
 		return this.dexterity;
 	}
@@ -402,7 +440,8 @@ public class Character extends Observable implements Serializable {
 	 */
 	public void setMaxHitPoint() {
 		maxHitPoint = 10 + constitutionModifier;
-		System.out.println("<Game Logging> : The Max HP is: "+ maxHitPoint+" after applying constitution Modifier + 10" );
+		System.out.println(
+				"<Game Logging> : The Max HP is: " + maxHitPoint + " after applying constitution Modifier + 10");
 		for (int i = 1; i < level; i++) {
 			maxHitPoint += constitutionModifier + roll1d10();
 		}
@@ -708,7 +747,8 @@ public class Character extends Observable implements Serializable {
 				+ multipleAttacks + ", armor=" + armor + ", ring=" + ring + ", helmet=" + helmet + ", boots=" + boots
 				+ ", belt=" + belt + ", weapon=" + weapon + ", shield=" + shield + "]";
 	}
-	//BUILD 2 Setter and Getter
+
+	// BUILD 2 Setter and Getter
 	/**
 	 * This method set the type of Non Player Character on the map
 	 * 
@@ -727,25 +767,25 @@ public class Character extends Observable implements Serializable {
 		return this.npcType;
 	}
 
-	//BUILD 3 Setter and Getter
+	// BUILD 3 Setter and Getter
 	/**
 	 * @author Munjed This method gets the Character Status
-	 * @return characterStatus is an ENUM that could be either FROZEN, BURNED, SLAYED, FRIGHTENED, 
-	 * 			OR Pacified
+	 * @return characterStatus is an ENUM that could be either FROZEN, BURNED,
+	 *         SLAYED, FRIGHTENED, OR Pacified
 	 */
 	public CharacterStatus getCharacterStatus() {
 		return characterStatus;
 	}
+
 	/**
 	 * @author Munjed This method sets the Character Status upon attack
-	 * @param characterStatuss is an ENUM that could be either FROZEN, BURNED, SLAYED, FRIGHTENED, 
-	 * 			OR Pacified
+	 * @param characterStatuss
+	 *            is an ENUM that could be either FROZEN, BURNED, SLAYED,
+	 *            FRIGHTENED, OR Pacified
 	 */
 
 	public void setCharacterStatus(CharacterStatus characterStatus) {
 		this.characterStatus = characterStatus;
 	}
-	
-	
-	
+
 }
