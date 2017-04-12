@@ -244,7 +244,14 @@ public class Map implements Serializable {
 	 * @return chestPoint chest point on the map
 	 */
 	public Point getChestPoint() {
-		return chestPoint;
+		for (int i = 0; i < mapWidth; ++i){
+			for (int j = 0; j < mapHeight; ++j){
+				if (mapGridSelection[i][j] == GameStatics.MAP_CHEST_POINT){
+					return new Point(i, j);
+				}
+			}
+		}
+		return null;
 	}
 	
 	/**

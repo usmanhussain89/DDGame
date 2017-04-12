@@ -163,6 +163,8 @@ public class GameEngine extends Observable {
 			case HOSTILE:
 				character.setStrategy(new AggressiveNPCStrategy(character, this));
 				break;
+			default:
+				break;
 		}
 	}
 
@@ -317,12 +319,12 @@ public class GameEngine extends Observable {
 	 * @param item
 	 * @return backpack status
 	 */
-	public boolean lootChestItems(List<Item> items) {
+	public boolean lootChestItems(Character character, List<Item> items) {
 
 		for (Item item : items) {
 			if (character.getBackpack().size() < 10) {
-				this.character.addItemIntoBackpack(item);
-				this.character.notifyObservers();
+				character.addItemIntoBackpack(item);
+				character.notifyObservers();
 				System.out.println("<Game Logging> : Looting this item: "+item.getName());	
 			}
 		}
@@ -345,7 +347,7 @@ public class GameEngine extends Observable {
 		Character npCharacter = getCurrentMap().getFriendlyCharacter();
 
 		System.out.println("<Game Logging> : you: "+this.character.getName()+" are Exchanging with NPC: "+npCharacter.getName());
-		
+
 		index = randomGenerator.nextInt(npCharacter.getBackpack().size());
 		Item itemToGive = npCharacter.getBackpack().get(index);
 
@@ -448,16 +450,24 @@ public class GameEngine extends Observable {
 		return isMoveValid((int) p.getX(), (int) p.getY());
 	}
 
-	public void interactWith(int x, int y) {
+	public void interactWith(Character character, int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
 		if (pathPoint == GameStatics.MAP_CHEST_POINT) {
 			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))){
 				System.out.println("<Game Logging> : Let the Loot begins");
-				lootChestItems(getCurrentMap().mapSelectedItem);
+				lootChestItems(character, getCurrentMap().mapSelectedItem);
 				getCurrentMap().mapSelectedItem = new ArrayList<Item>();
 			}
 		}
 		setChanged();
+	}
+	
+	public void interactWith(Character c, Point p){
+		interactWith(c, p.x, p.y);
+	}
+	
+	public Point getChestPosition(){
+		return getCurrentMap().getChestPoint();
 	}
 
 	/**

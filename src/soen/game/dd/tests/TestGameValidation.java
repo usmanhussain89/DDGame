@@ -190,7 +190,7 @@ public class TestGameValidation {
 		System.out.println("First flag");
 		testEngine.setCurrentMap();
 
-		testEngine.interactWith(1, 1);
+		testEngine.interactWith(character, 1, 1);
 		assertTrue("", testEngine.getCharacterPosition().equals(new Point(1,1)));
 		
 
@@ -339,7 +339,7 @@ public class TestGameValidation {
 		/*chest.add(crazyHelmet);
 		chest.add(blackBelt);*/
 		System.out.println("<Info> : the size of the backpack before looting: "+munjed.getBackpack().size());
-		testEngine.lootChestItems(chest);
+		testEngine.lootChestItems(munjed, chest);
 		List<Item> lootedItem =  munjed.getItemIntoBackpack();
 		System.out.println("<Info> : the size of the backpack after looting:  "+munjed.getBackpack().size());
 		boolean found = false;

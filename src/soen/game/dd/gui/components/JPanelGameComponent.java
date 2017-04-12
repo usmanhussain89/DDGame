@@ -245,7 +245,7 @@ public class JPanelGameComponent {
 			}
 			
 			if (new_mapModel.mapGridSelection[x][y] == GameStatics.MAP_CHEST_POINT) {
-				gameEngine.interactWith(x,y);			
+				gameEngine.interactWith(gameEngine.getCharacter(), x,y);			
 				gameEngine.notifyObservers();
 			}
 			

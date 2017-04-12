@@ -24,15 +24,18 @@ public class FriendlyStrategy implements Strategy {
 		this.gameEngine = ge;
 		this.character = c;
 		this.rand = new Random();
-
 	}
 	
 	@Override
 	public void turn() {
 		for (int i = 0; i < 3; ++i){
 			moveRandom();
+			if (gameEngine.withinOneSpace(getFriendlyPosition(), gameEngine.getChestPosition())){
+				System.out.println("Taking chest");
+				gameEngine.interactWith(character, gameEngine.getChestPosition());
+			}
 		}
-			
+
 	}
 	
 	private Point getFriendlyPosition(){
