@@ -30,6 +30,7 @@ public class GameStatics {
 	public static final String MENU_ITEM_SAVE = "SAVE";
 	public static final String MENU_CHARACTER_EXIT = "EXIT";
 	public static final String MENU_CHARACTER_SAVE = "SAVE";
+	public static final String MENU_ITEM_LOAD_GAME = "LOAD GAME";
 
 	// Popup Title
 	public static final String TITLE_MSG_SET_SIZE_OF_MAP = "SET SIZE OF MAP";
@@ -59,6 +60,8 @@ public class GameStatics {
 	public static final int MAP_CHARACTER_POINT = 4;
 	public static final int MAP_OPPONENT_POINT = 5;
 	public static final int MAP_CHEST_POINT = 6;
+	public static final int MAP_PLAYER_POINT = 8;
+
 
 	// Map Chest Items
 	public static final String TITLE_ADD_CHEST_ITEMS = "Add Chest Items";

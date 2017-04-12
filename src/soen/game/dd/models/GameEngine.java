@@ -11,7 +11,7 @@ import java.util.Observable;
 import java.util.Random;
 
 import soen.game.dd.character.strategys.AggressiveNPCStrategy;
-import soen.game.dd.character.strategys.FriendlyNPCStrategy;
+import soen.game.dd.character.strategys.FriendlyStrategy;
 import soen.game.dd.character.strategys.HumanStrategy;
 import soen.game.dd.statics.content.GameStatics;
 
@@ -158,7 +158,7 @@ public class GameEngine extends Observable {
 	private void setStrategyForCharacter(Character character) {
 		switch(character.getNPCType()){
 			case FRINDLY:
-				character.setStrategy(new FriendlyNPCStrategy(character, this));
+				character.setStrategy(new FriendlyStrategy(character, this));
 				break;
 			case HOSTILE:
 				character.setStrategy(new AggressiveNPCStrategy(character, this));
@@ -403,7 +403,7 @@ public class GameEngine extends Observable {
 	}
 
 	public Point getCharacterPosition() {
-		return characterPosition;
+		return getPositionOfCharacter(getCharacter());
 	}
 	
 	public Point getPositionOfCharacter(Character character) {
@@ -428,12 +428,12 @@ public class GameEngine extends Observable {
 				setChanged();
 				characterMoved++;
 				System.out.println("<Game Logging> : The "+character.getName()+" moved to the point"+positions.toString());
-
+				getCurrentMap().moveCharacter(character, new Point(x, y));
 			}
 		}
 	}
 	
-	public boolean isMoveValid(Character character, int x, int y) {
+	public boolean isMoveValid(int x, int y) {
 		if (x < 0 || x >= getCurrentMap().mapWidth)
 			return false;
 		if (y < 0 || y >= getCurrentMap().mapHeight)
@@ -443,26 +443,20 @@ public class GameEngine extends Observable {
 		}
 		return true;
 	}
+	
+	public boolean isMoveValid(Point p) {
+		return isMoveValid((int) p.getX(), (int) p.getY());
+	}
 
 	public void interactWith(int x, int y) {
 		int pathPoint = getCurrentMap().mapGridSelection[x][y];
-		if (pathPoint == GameStatics.MAP_PATH_POINT){
-			characterPosition = new Point(x, y); 
-			System.out.println("<Game Logging> : Moved to the point"+positions.toString());
+		if (pathPoint == GameStatics.MAP_CHEST_POINT) {
+			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))){
+				System.out.println("<Game Logging> : Let the Loot begins");
+				lootChestItems(getCurrentMap().mapSelectedItem);
+				getCurrentMap().mapSelectedItem = new ArrayList<Item>();
+			}
 		}
-		
-		else if (pathPoint == GameStatics.MAP_CHEST_POINT) {
-			System.out.println("<Game Logging> : Let the Loot begins");
-			lootChestItems(getCurrentMap().mapSelectedItem);
-			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
-
-		}
-		/*
-		 * else if (pathPoint == GameStatics.MAP_OPPONENT_POINT &&
-		 * getCurrentMap().){ lootChestItems(getCurrentMap().mapSelectedItem);
-		 * getCurrentMap().mapSelectedItem = new ArrayList<Item>(); }
-		 */
-		characterMoved++;
 		setChanged();
 	}
 
@@ -526,9 +520,9 @@ public class GameEngine extends Observable {
 			while (diceStatus) {
 				System.out.println("<Game Logging> : Roll the d20 Dic to determine the order of: "+c.getName()+" and his type is: "+c.getNPCType());
 				int d20 = d20Dice();
-				if (checkUniqueDice(d20, d20Dies)) {
-					d20Dies[index] = d20;
-					charactersMap.put(d20, c);
+				if (checkUniqueDice(d20 + (int)c.getDexterityModifier(), d20Dies)) {
+					d20Dies[index] = d20  + (int)c.getDexterityModifier();
+					charactersMap.put(d20  + (int)c.getDexterityModifier(), c);
 					diceStatus = false;
 					index++;
 					System.out.println("<Game Logging> : Rolled the Dic and after applying d20 roles his value is: "+d20);
@@ -617,4 +611,41 @@ public class GameEngine extends Observable {
 	public int getCharacterMoved() {
 		return characterMoved;
 	}
+
+	public List<Point> getDangerPoints() {
+		List<Point> dangerPoints = new ArrayList<Point>();
+		Point point = getCharacterPosition();
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(0,i)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(0,i)));
+		}
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(i,0)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(i,0)));
+		}
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(-i,0)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(-i,0)));
+
+		}
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(0,-i)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(0,-i)));
+
+		}
+		return dangerPoints;
+	}
+	
+	public Point addPoints(Point p1, Point p2){
+		return new Point((int)p1.getX() + (int)p2.getX(), (int)p1.getY() + (int)p2.getY());
+	}
+	
 }

@@ -70,7 +70,7 @@ public class AggressiveNPCStrategy implements Strategy{
 	
 		int x = (int) getAggressivePosition().getX() + offset;
 		int y = (int) getAggressivePosition().getY();
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -88,7 +88,7 @@ public class AggressiveNPCStrategy implements Strategy{
 	
 		int x = (int) getAggressivePosition().getX();
 		int y = (int) getAggressivePosition().getY() + offset;
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {

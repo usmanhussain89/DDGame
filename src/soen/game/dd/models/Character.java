@@ -215,6 +215,13 @@ public class Character extends Observable implements Serializable {
 	public int getLevel() {
 		return level;
 	}
+	
+	/**
+	 * @return range
+	 */
+	public int getWeaponRange() {
+		return weapon.getRange();
+	}
 
 	/**
 	 * @param level

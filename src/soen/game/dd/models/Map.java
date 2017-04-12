@@ -185,22 +185,38 @@ public class Map implements Serializable {
 	 *            character point on the map
 	 */
 	public void setCharacterPoint(Point new_characterPoint) {
-		/*int x = (int) new_characterPoint.getX();
-		int y = (int) new_characterPoint.getY();
-
-		if (mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT){
-			this.characterPoint = new_characterPoint;
-			System.out.println(new_characterPoint);
-			for (int i = 0; i < mapHeight; i++){
-				for (int j = 0; j < mapWidth; j++){
-					if (mapGridSelection[i][j] == GameStatics.MAP_CHARACTER_POINT){
-						mapGridSelection[i][j] = GameStatics.MAP_PATH_POINT;
-					}
+		this.characterPoint.add(new_characterPoint);
+	}
+	
+	public void moveCharacter(Character character, Point point) {
+		int x = (int) point.getX();
+		int y = (int) point.getY();
+		
+		int pointType = GameStatics.MAP_PLAYER_POINT;
+		if (character == getFriendlyCharacter()){
+			pointType = GameStatics.MAP_CHARACTER_POINT;
+		}
+		if (character == getHostileCharacter()){
+			pointType = GameStatics.MAP_OPPONENT_POINT;
+		}
+		
+		for (int i = 0; i < mapHeight; i++){
+			for (int j = 0; j < mapWidth; j++){
+				if (mapGridSelection[i][j] == pointType){
+					mapGridSelection[i][j] = GameStatics.MAP_PATH_POINT;
 				}
 			}
-			mapGridSelection[(int) new_characterPoint.getX()][(int) new_characterPoint.getY()] = GameStatics.MAP_CHARACTER_POINT;
-		}*/
-		this.characterPoint.add(new_characterPoint);
+		}
+		
+		if (mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT){
+			if (character == getFriendlyCharacter()){
+				mapGridSelection[x][y] = GameStatics.MAP_CHARACTER_POINT;
+			}
+			if (character == getHostileCharacter()){
+				mapGridSelection[x][y] = GameStatics.MAP_OPPONENT_POINT;
+			}
+
+		}
 	}
 
 	/**

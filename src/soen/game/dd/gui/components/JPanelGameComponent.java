@@ -127,8 +127,9 @@ public class JPanelGameComponent {
 				} else {
 					mapButtonsGrid2DArray[i][j].setBackground(Color.gray);
 				}
-				
 
+
+				
 				
 				mapButtonsGrid2DArray[i][j].setOpaque(true);
 				mapButtonsGrid2DArray[i][j].setBorderPainted(false);
@@ -137,6 +138,9 @@ public class JPanelGameComponent {
 				mapButtonsGrid2DArray[i][j].addMouseListener(new InteractionListener());
 			}
 			
+		}
+		for (Point point : gameEngine.getDangerPoints()){
+			mapButtonsGrid2DArray[point.x][point.y].setBackground(Color.MAGENTA);
 		}
 		HashMap<Character, Point> positions = gameEngine.getPositions();
 		for (Entry<Character, Point> entry : positions.entrySet()) {
@@ -159,12 +163,8 @@ public class JPanelGameComponent {
 				mapButtonsGrid2DArray[(int) value1.getX()][(int) value1.getY()].setText("Dead");
 		    }
 		}
-//		Point characterPosition = gameEngine.getCharacterPosition();
-//		int x = (int) characterPosition.getX();
-//		int y = (int) characterPosition.getY();
-//		mapButtonsGrid2DArray[x][y].setBackground(Color.CYAN);
-//		mapButtonsGrid2DArray[x][y].setText("YOU");
 		
+
 		this.panel.revalidate();
 		this.panel.repaint();
 	}
@@ -186,7 +186,7 @@ public class JPanelGameComponent {
 			int x = Integer.parseInt(coordinates[1]);
 			int y = Integer.parseInt(coordinates[2]);
 			
-			Point characterPosition = gameEngine.getCharacterPosition();
+			Point characterPosition = gameEngine.getPositionOfCharacter(gameEngine.getCharacter());
 			int xCharacter = (int) characterPosition.getX();
 			int yCharacter = (int) characterPosition.getY();
 

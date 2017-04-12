@@ -41,6 +41,20 @@ public class GameEngineEditor extends JFrame implements Observer {
 	}
 	
 	/**
+	 * This Constructor initialize Game Engine object by passing passing GameEgine
+	 * 
+	 * @param GameEngine
+	 */
+	public GameEngineEditor(GameEngine gameEngine){
+		this.gameEngine = gameEngine;
+		this.gameEngine.setCurrentMap();
+		this.gameEngine.addObserver(this);
+		initializeFrame();
+		currentPanel = null;
+		refreshPanel();
+	}
+	
+	/**
 	 * This method initialize frame of map
 	 */
 	public void initializeFrame() {
