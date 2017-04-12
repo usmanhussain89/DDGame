@@ -25,6 +25,7 @@ public class FrozenStrategy implements Strategy {
 	public void turn() {
 		if (remainingTurns-- == 0) {
 			character.setStrategy(oldStrategy);
+			character.setCharacterStatus(null);
 		}
 	}
 
