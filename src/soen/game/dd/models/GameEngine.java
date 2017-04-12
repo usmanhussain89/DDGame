@@ -449,13 +449,14 @@ public class GameEngine extends Observable {
 	}
 
 	public void interactWith(int x, int y) {
-		int pathPoint = getCurrentMap().mapGridSelection[x][y];		
+		int pathPoint = getCurrentMap().mapGridSelection[x][y];
 		if (pathPoint == GameStatics.MAP_CHEST_POINT) {
-			System.out.println("<Game Logging> : Let the Loot begins");
-			lootChestItems(getCurrentMap().mapSelectedItem);
-			getCurrentMap().mapSelectedItem = new ArrayList<Item>();
+			if (withinOneSpace(getPositionOfCharacter(character), new Point(x, y))){
+				System.out.println("<Game Logging> : Let the Loot begins");
+				lootChestItems(getCurrentMap().mapSelectedItem);
+				getCurrentMap().mapSelectedItem = new ArrayList<Item>();
+			}
 		}
-		characterMoved++;
 		setChanged();
 	}
 
@@ -614,17 +615,31 @@ public class GameEngine extends Observable {
 	public List<Point> getDangerPoints() {
 		List<Point> dangerPoints = new ArrayList<Point>();
 		Point point = getCharacterPosition();
-		if (isMoveValid(addPoints(point, new Point(0,1)))){
-			dangerPoints.add(addPoints(point, new Point(0,1)));
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(0,i)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(0,i)));
 		}
-		if (isMoveValid(addPoints(point, new Point(1,0)))){
-			dangerPoints.add(addPoints(point, new Point(1,0)));
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(i,0)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(i,0)));
 		}
-		if (isMoveValid(addPoints(point, new Point(-1,0)))){
-			dangerPoints.add(addPoints(point, new Point(-1,0)));
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(-i,0)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(-i,0)));
+
 		}
-		if (isMoveValid(addPoints(point, new Point(0,-1)))){
-			dangerPoints.add(addPoints(point, new Point(0,-1)));
+		for (int i = 1; i < getCharacter().getWeaponRange() + 1; ++i){
+			if (!isMoveValid(addPoints(point, new Point(0,-i)))){
+				break;
+			}
+			dangerPoints.add(addPoints(point, new Point(0,-i)));
+
 		}
 		return dangerPoints;
 	}
