@@ -363,7 +363,7 @@ public class TestGameValidation {
 		 * chest.add(crazyHelmet); chest.add(blackBelt);
 		 */
 		System.out.println("<Info> : the size of the backpack before looting: " + munjed.getBackpack().size());
-		testEngine.lootChestItems(chest);
+		testEngine.lootChestItems(munjed, chest);
 		List<Item> lootedItem = munjed.getItemIntoBackpack();
 		System.out.println("<Info> : the size of the backpack after looting:  " + munjed.getBackpack().size());
 		boolean found = false;

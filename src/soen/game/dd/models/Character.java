@@ -233,6 +233,38 @@ public class Character extends Observable implements Serializable {
 		// setAbilityScores();
 	}
 
+	public int getConstitution() {
+		return constitution;
+	}
+
+	public void setConstitution(int constitution) {
+		this.constitution = constitution;
+	}
+
+	public void setAttackBonus(int attackBonus) {
+		this.attackBonus = attackBonus;
+	}
+
+	public void setDamageBonus(int damageBonus) {
+		this.damageBonus = damageBonus;
+	}
+
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+
+	public void setWisdom(int wisdom) {
+		this.wisdom = wisdom;
+	}
+
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
+
+	public void setCharisma(int charisma) {
+		this.charisma = charisma;
+	}
+
 	/**
 	 * 
 	 * @return fighterType Nimble, Tank, or Bully
@@ -310,7 +342,12 @@ public class Character extends Observable implements Serializable {
 	public int getWisdom() {
 		return this.wisdom;
 	}
+	
 
+	public void setDexterity(int dexterity) {
+		this.dexterity = dexterity;
+	}
+	
 	public int getDexterity() {
 		return this.dexterity;
 	}

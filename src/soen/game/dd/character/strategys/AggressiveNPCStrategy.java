@@ -34,9 +34,15 @@ public class AggressiveNPCStrategy implements Strategy{
 					moveVertical();
 				}
 			}
+			if (gameEngine.withinOneSpace(getAggressivePosition(), gameEngine.getChestPosition())){
+				System.out.println("Taking chest");
+				gameEngine.interactWith(character, gameEngine.getChestPosition());
+			}
 		}
+
 	}
 	
+
 	private boolean isNextToPlayer(){
 		Point playerPosition = getPlayerPosition();
 		Point aggressivePosition = getAggressivePosition();
