@@ -94,7 +94,7 @@ public class FriendlyStrategy implements Strategy {
 	private boolean moveLeft(){
 		int x = (int) getFriendlyPosition().getX() - 1;
 		int y = (int) getFriendlyPosition().getY();
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -105,7 +105,7 @@ public class FriendlyStrategy implements Strategy {
 	private boolean moveRight(){
 		int x = (int) getFriendlyPosition().getX() + 1;
 		int y = (int) getFriendlyPosition().getY();
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -116,7 +116,7 @@ public class FriendlyStrategy implements Strategy {
 	private boolean moveUp(){
 		int x = (int) getFriendlyPosition().getX();
 		int y = (int) getFriendlyPosition().getY() + 1;
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -127,7 +127,7 @@ public class FriendlyStrategy implements Strategy {
 	private boolean moveDown(){
 		int x = (int) getFriendlyPosition().getX();
 		int y = (int) getFriendlyPosition().getY() - 1;
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {

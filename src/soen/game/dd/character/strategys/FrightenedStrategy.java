@@ -59,7 +59,7 @@ public class FrightenedStrategy implements Strategy{
 	
 		int x = (int) getFrightenedPosition().getX() + offset;
 		int y = (int) getFrightenedPosition().getY();
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
@@ -77,7 +77,7 @@ public class FrightenedStrategy implements Strategy{
 	
 		int x = (int) getFrightenedPosition().getX();
 		int y = (int) getFrightenedPosition().getY() + offset;
-		if (gameEngine.isMoveValid(character, x, y)){
+		if (gameEngine.isMoveValid(x, y)){
 			gameEngine.move(character, x, y);
 			return true;
 		} else {
