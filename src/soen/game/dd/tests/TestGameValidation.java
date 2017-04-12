@@ -1,41 +1,34 @@
 package soen.game.dd.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import soen.game.dd.fileio.CharacterIO;
-import soen.game.dd.fileio.ItemIO;
-import soen.game.dd.fileio.MapIO;
 import soen.game.dd.models.BullyCharacterBuilder;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
 import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.CharacterBuilder;
-import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Fighter;
 import soen.game.dd.models.FighterType;
+import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.ItemType;
 import soen.game.dd.models.Map;
 import soen.game.dd.models.NPCType;
-import soen.game.dd.models.TankCharacterBuilder;
 import soen.game.dd.models.WeaponType;
 import soen.game.dd.statics.content.GameStatics;
 
 /**
  * 
- * @author fyounis This is the second test class
- * here will test Campaign and game
+ * @author fyounis This is the second test class here will test Campaign and
+ *         game
  *
  */
 public class TestGameValidation {
@@ -60,7 +53,6 @@ public class TestGameValidation {
 	private Character redFeras;
 	private ArrayList<Item> chest;
 	private ArrayList<Item> chest2;
-
 
 	public Map addComponentsToMap(Map map) {
 		Map editMap = map;
@@ -117,30 +109,30 @@ public class TestGameValidation {
 		chest.add(crazyHelmet);
 		chest.add(blackBelt);
 	}
-	
+
 	/**
-	 * @author fyounis
-	 * test the d20 sorting for the turn() to determine who will play first
+	 * @author fyounis test the d20 sorting for the turn() to determine who will
+	 *         play first
 	 */
 	@Test
-	public void turn_Sorting_Test(){
+	public void turn_Sorting_Test() {
 		Character munjed = new Character("munjed", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		munjed.setNPCType(NPCType.FRINDLY);
-		
+
 		Character feras = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		feras.setNPCType(NPCType.PLAYABALE);
-		
+
 		Character zombi1 = new Character("zombi1", "The Greater", FighterType.BULLY, 9, 8, 6, 10, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		zombi1.setNPCType(NPCType.HOSTILE);
 		Character zombi2 = new Character("zombi2", "The Greater", FighterType.BULLY, 9, 6, 8, 9, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		zombi1.setNPCType(NPCType.HOSTILE);
-		
+
 		List<Character> fightersList = new ArrayList<Character>();
-		
+
 		fightersList.add(feras);
 		fightersList.add(munjed);
 		fightersList.add(zombi1);
@@ -152,7 +144,7 @@ public class TestGameValidation {
 	 * Character move on the map
 	 */
 	@Test
-	public void character_Move(){
+	public void character_Move() {
 		map.mapSelectedItem = chest;
 		map2.mapSelectedItem = chest;
 		map3.mapSelectedItem = chest;
@@ -161,7 +153,7 @@ public class TestGameValidation {
 		map.mapGridSelection = new int[5][5];
 		map.mapGridSelection[1][1] = GameStatics.MAP_PATH_POINT;
 		map.mapGridSelection[0][0] = GameStatics.MAP_ENTRY_POINT;
-		
+
 		BlackCampaign.setCampaignList(map);
 		BlackCampaign.setCampaignList(map2);
 		BlackCampaign.setCampaignList(map3);
@@ -171,7 +163,7 @@ public class TestGameValidation {
 		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		System.out.println("First flag");
-		
+
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		Point point = new Point(1, 1);
@@ -180,37 +172,34 @@ public class TestGameValidation {
 		Fighter fighterTank = new Fighter();
 
 		CharacterBuilder bully = new BullyCharacterBuilder();
-		
 
 		fighterBully.setCharacterBuilder(bully);
 		fighterBully.createFighter(character);
 		System.out.println(fighterBully);
 
-		GameEngine testEngine = new GameEngine(munjed, BlackCampaign);
+		GameEngine testEngine = new GameEngine(BlackCampaign, munjed);
 		System.out.println("First flag");
 		testEngine.setCurrentMap();
+		
+		testEngine.getCurrentMap().setMapGridSelection(int[][]);
 
 		testEngine.interactWith(1, 1);
-		assertTrue("", testEngine.getCharacterPosition().equals(new Point(1,1)));
-		
+		assertTrue("", testEngine.getCharacterPosition().equals(new Point(1, 1)));
 
-		
-		assertEquals("Both Compaings are same",BlackCampaign, testEngine.getCampagin());
+		assertEquals("Both Compaings are same", BlackCampaign, testEngine.getCampagin());
 	}
 
-
 	/**
-	 * THis test will test the dummy engine of the game campaign 
+	 * THis test will test the dummy engine of the game campaign
 	 * 
 	 */
 	@Test
 	public void engine_Create_Test() {
 
-		/*addComponentsToMap(map);
-		addComponentsToMap(map2);
-		addComponentsToMap(map3);
-		addComponentsToMap(map4);
-*/
+		/*
+		 * addComponentsToMap(map); addComponentsToMap(map2);
+		 * addComponentsToMap(map3); addComponentsToMap(map4);
+		 */
 		map.mapSelectedItem = chest;
 		map2.mapSelectedItem = chest;
 		map3.mapSelectedItem = chest;
@@ -225,7 +214,7 @@ public class TestGameValidation {
 		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		System.out.println("First flag");
-		
+
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		Point point = new Point(1, 1);
@@ -234,7 +223,6 @@ public class TestGameValidation {
 		Fighter fighterTank = new Fighter();
 
 		CharacterBuilder bully = new BullyCharacterBuilder();
-		
 
 		fighterBully.setCharacterBuilder(bully);
 		fighterBully.createFighter(character);
@@ -243,20 +231,16 @@ public class TestGameValidation {
 		GameEngine testEngine = new GameEngine(munjed, BlackCampaign);
 		System.out.println("First flag");
 
-		
-		assertEquals("Both Compaings are same",BlackCampaign, testEngine.getCampagin());
-		
-
+		assertEquals("Both Compaings are same", BlackCampaign, testEngine.getCampagin());
 
 	}
 
 	public void engine_Map_Validation_Test() {
 
-		/*addComponentsToMap(map);
-		addComponentsToMap(map2);
-		addComponentsToMap(map3);
-		addComponentsToMap(map4);
-*/
+		/*
+		 * addComponentsToMap(map); addComponentsToMap(map2);
+		 * addComponentsToMap(map3); addComponentsToMap(map4);
+		 */
 		map.mapSelectedItem = chest;
 		map2.mapSelectedItem = chest;
 		map3.mapSelectedItem = chest;
@@ -271,7 +255,7 @@ public class TestGameValidation {
 		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		System.out.println("First flag");
-		
+
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 
@@ -279,7 +263,6 @@ public class TestGameValidation {
 		Fighter fighterTank = new Fighter();
 
 		CharacterBuilder bully = new BullyCharacterBuilder();
-		
 
 		fighterBully.setCharacterBuilder(bully);
 		fighterBully.createFighter(character);
@@ -288,23 +271,20 @@ public class TestGameValidation {
 		GameEngine testEngine = new GameEngine(BlackCampaign, character);
 		System.out.println("First flag");
 
-		
-		assertEquals("This is not the Map",map, testEngine.getCampagin().getCampaignList().get(0));
-		
+		assertEquals("This is not the Map", map, testEngine.getCampagin().getCampaignList().get(0));
+
 	}
 
-	
 	/**
 	 * Test looting
 	 */
 	@Test
 	public void loot_Test() {
 
-		/*addComponentsToMap(map);
-		addComponentsToMap(map2);
-		addComponentsToMap(map3);
-		addComponentsToMap(map4);
-*/
+		/*
+		 * addComponentsToMap(map); addComponentsToMap(map2);
+		 * addComponentsToMap(map3); addComponentsToMap(map4);
+		 */
 		map.mapSelectedItem = chest;
 		map2.mapSelectedItem = chest;
 		map3.mapSelectedItem = chest;
@@ -319,7 +299,7 @@ public class TestGameValidation {
 		Character munjed = new Character("Feras", "The Greater", FighterType.BULLY, 7, 7, 7, 7, 7, 10, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 		System.out.println("2 flag");
-		
+
 		Character character = new Character("Feras", "The Greater", FighterType.BULLY, 10, 10, 10, 10, 5, 5, redArmor,
 				redRing, redHelmet, redBoots, redBelt, redWeapon, redShield);
 
@@ -327,7 +307,6 @@ public class TestGameValidation {
 		Fighter fighterTank = new Fighter();
 
 		CharacterBuilder bully = new BullyCharacterBuilder();
-		
 
 		fighterBully.setCharacterBuilder(bully);
 		fighterBully.createFighter(character);
@@ -335,29 +314,26 @@ public class TestGameValidation {
 
 		GameEngine testEngine = new GameEngine(munjed, BlackCampaign);
 		System.out.println("3 flag");
-		
-		/*chest.add(crazyHelmet);
-		chest.add(blackBelt);*/
-		System.out.println("<Info> : the size of the backpack before looting: "+munjed.getBackpack().size());
+
+		/*
+		 * chest.add(crazyHelmet); chest.add(blackBelt);
+		 */
+		System.out.println("<Info> : the size of the backpack before looting: " + munjed.getBackpack().size());
 		testEngine.lootChestItems(chest);
-		List<Item> lootedItem =  munjed.getItemIntoBackpack();
-		System.out.println("<Info> : the size of the backpack after looting:  "+munjed.getBackpack().size());
+		List<Item> lootedItem = munjed.getItemIntoBackpack();
+		System.out.println("<Info> : the size of the backpack after looting:  " + munjed.getBackpack().size());
 		boolean found = false;
-		for(Item item : lootedItem){
+		for (Item item : lootedItem) {
 			found = false;
-			if(item.getName().equalsIgnoreCase("crazyHelmet"));
+			if (item.getName().equalsIgnoreCase("crazyHelmet"))
+				;
 			found = true;
-			System.out.println("Found the Item: "+item.getName());
+			System.out.println("Found the Item: " + item.getName());
 			break;
 		}
-		
 
-		
 		assertTrue(found);
-		
-
 
 	}
-	
 
 }
