@@ -83,7 +83,7 @@ public class TestGameValidation {
 		redArmor = new Item("redArmor", ItemType.ARMOR, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.NotAWeapon);
 		redRing = new Item("redRing", ItemType.RING, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.NotAWeapon);
 		redBoots = new Item("redBoots", ItemType.BOOTS, CharacterAttribute.INTELLIGENCE, 2, 5, WeaponType.NotAWeapon);
-		redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 1, 1, WeaponType.MELEE);
+		redWeapon = new Item("redWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 1, 1, WeaponType.RANGED);
 		crazyWeapon = new Item("crazyWeapon", ItemType.WEAPON, CharacterAttribute.INTELLIGENCE, 5, 5, WeaponType.MELEE);
 		redShield = new Item("redShield", ItemType.SHIELD, CharacterAttribute.INTELLIGENCE, 2, 5,
 				WeaponType.NotAWeapon);
@@ -171,8 +171,7 @@ public class TestGameValidation {
 	}
 
 	/**
-	 * @author fyounis test the d20 sorting for the turn() to determine who will
-	 *         play first
+	 * @author fyounis effective Range of the weapon
 	 */
 	@Test
 
@@ -201,6 +200,8 @@ public class TestGameValidation {
 		map.mapGridSelection[0][0] = GameStatics.MAP_ENTRY_POINT;
 		map.mapGridSelection[0][1] = GameStatics.MAP_PATH_POINT;
 		map.mapGridSelection[1][2] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[2][2] = GameStatics.MAP_PATH_POINT;
+		map.mapGridSelection[2][1] = GameStatics.MAP_PATH_POINT;
 		map.mapGridSelection[1][3] = GameStatics.MAP_PATH_POINT;
 		map.mapGridSelection[1][4] = GameStatics.MAP_PATH_POINT;
 		map.mapGridSelection[2][4] = GameStatics.MAP_PATH_POINT;
@@ -220,7 +221,7 @@ public class TestGameValidation {
 		testEngine.setCurrentMap();
 		testEngine.resetCharacterPosition();
 		testEngine.getPositions().put(feras, new Point(1, 1));
-		testEngine.getPositions().put(munjed, new Point(2, 3));
+		testEngine.getPositions().put(munjed, new Point(2, 2));
 		testEngine.getPositions().put(zombi1, new Point(2, 1));
 		List<Character> fightersList = testEngine.getOrderedCharacters();
 
