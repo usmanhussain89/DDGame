@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -17,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -25,6 +27,7 @@ import soen.game.dd.gui.system.JFrameAttributeView;
 import soen.game.dd.gui.system.JFrameInventoryView;
 import soen.game.dd.models.Campaign;
 import soen.game.dd.models.Character;
+import soen.game.dd.models.CharacterAttribute;
 import soen.game.dd.models.GameEngine;
 import soen.game.dd.models.Item;
 import soen.game.dd.models.Map;
@@ -261,6 +264,92 @@ public class JPanelGameComponent {
 				if (hostileCharacter.getNPCType() == NPCType.DEAD) {
 					JOptionPane.showMessageDialog(null, "Congrats you achieve the map objective");
 					gameEngine.getCharacter().levelUp();
+					if(gameEngine.getCharacter().getLevel() == 4 || gameEngine.getCharacter().getLevel() == 6 || gameEngine.getCharacter().getLevel() == 8 || gameEngine.getCharacter().getLevel() == 12 || gameEngine.getCharacter().getLevel() == 14 || gameEngine.getCharacter().getLevel() == 16 || gameEngine.getCharacter().getLevel() == 19 ) {
+						JList<CharacterAttribute> list = new JList(new CharacterAttribute[] {CharacterAttribute.DEXTERITY, CharacterAttribute.WISDOM, CharacterAttribute.STRENGTH, CharacterAttribute.ATTACK_BONUS, CharacterAttribute.CONSTITUTION, CharacterAttribute.CHARISMA});
+						boolean flag = true;
+						while(flag) {
+							JOptionPane.showMessageDialog(
+									  null, list, "Multi-Select Example", JOptionPane.PLAIN_MESSAGE);
+							System.out.println(Arrays.toString(list.getSelectedIndices()));
+							if(list.getSelectedIndices().length>0 && list.getSelectedIndices().length <= 2) {
+								flag = false;
+								if(list.getSelectedIndices().length == 1) {
+									for (int index : list.getSelectedIndices()) {
+										switch(index) {
+										case 0:
+											System.out.println("Dexterity Before : " + gameEngine.getCharacter().getDexterity());
+											gameEngine.getCharacter().setDexterity(gameEngine.getCharacter().getDexterity() + 2);
+											System.out.println("Dexterity After : " + gameEngine.getCharacter().getDexterity());
+											break;
+										case 1:
+											System.out.println("Wisdom Before : " + gameEngine.getCharacter().getWisdom());
+											gameEngine.getCharacter().setWisdom(gameEngine.getCharacter().getWisdom() + 2);
+											System.out.println("Wisdom After : " + gameEngine.getCharacter().getWisdom());
+											break;
+										case 2:
+											System.out.println("Strength Before : " + gameEngine.getCharacter().getStrength());
+											gameEngine.getCharacter().setStrength(gameEngine.getCharacter().getStrength() + 2);
+											System.out.println("Strength Before : " + gameEngine.getCharacter().getStrength());
+											break;
+										case 3:
+											System.out.println("AttackBonus Before : " + gameEngine.getCharacter().getAttackBonus());
+											gameEngine.getCharacter().setAttackBonus(gameEngine.getCharacter().getAttackBonus() + 2);
+											System.out.println("AttackBonus Before : " + gameEngine.getCharacter().getAttackBonus());
+											break;
+										case 4:
+											System.out.println("Constitution Before : " + gameEngine.getCharacter().getConstitution());
+											gameEngine.getCharacter().setConstitution(gameEngine.getCharacter().getConstitution() + 2);
+											System.out.println("Constitution Before : " + gameEngine.getCharacter().getConstitution());
+											break;
+										case 5:
+											System.out.println("Charisma Before : " + gameEngine.getCharacter().getCharisma());
+											gameEngine.getCharacter().setCharisma(gameEngine.getCharacter().getCharisma() + 2);
+											System.out.println("Charisma Before : " + gameEngine.getCharacter().getCharisma());
+											break;
+										}
+									}
+								}
+								if(list.getSelectedIndices().length == 2) {
+									for (int index : list.getSelectedIndices()) {
+										switch(index) {
+										case 0:
+											System.out.println("Dexterity Before : " + gameEngine.getCharacter().getDexterity());
+											gameEngine.getCharacter().setDexterity(gameEngine.getCharacter().getDexterity() + 1);
+											System.out.println("Dexterity After : " + gameEngine.getCharacter().getDexterity());
+											break;
+										case 1:
+											System.out.println("Wisdom Before : " + gameEngine.getCharacter().getWisdom());
+											gameEngine.getCharacter().setWisdom(gameEngine.getCharacter().getWisdom() + 1);
+											System.out.println("Wisdom After : " + gameEngine.getCharacter().getWisdom());
+											break;
+										case 2:
+											System.out.println("Strength Before : " + gameEngine.getCharacter().getStrength());
+											gameEngine.getCharacter().setStrength(gameEngine.getCharacter().getStrength() + 1);
+											System.out.println("Strength Before : " + gameEngine.getCharacter().getStrength());
+											break;
+										case 3:
+											System.out.println("AttackBonus Before : " + gameEngine.getCharacter().getAttackBonus());
+											gameEngine.getCharacter().setAttackBonus(gameEngine.getCharacter().getAttackBonus() + 1);
+											System.out.println("AttackBonus Before : " + gameEngine.getCharacter().getAttackBonus());
+											break;
+										case 4:
+											System.out.println("Constitution Before : " + gameEngine.getCharacter().getConstitution());
+											gameEngine.getCharacter().setConstitution(gameEngine.getCharacter().getConstitution() + 1);
+											System.out.println("Constitution Before : " + gameEngine.getCharacter().getConstitution());
+											break;
+										case 5:
+											System.out.println("Charisma Before : " + gameEngine.getCharacter().getCharisma());
+											gameEngine.getCharacter().setCharisma(gameEngine.getCharacter().getCharisma() + 1);
+											System.out.println("Charisma Before : " + gameEngine.getCharacter().getCharisma());
+											break;
+										}
+									}
+								}
+							} else {
+								System.out.println("Select only one or two attributes");
+							}
+						}
+					}
 					if (!gameEngine.nextMap()) {
 						JOptionPane.showMessageDialog(null, "Campaign end....");
 					}
