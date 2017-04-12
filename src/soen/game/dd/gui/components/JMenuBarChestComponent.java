@@ -9,6 +9,7 @@ import soen.game.dd.statics.content.GameStatics;
 
 /**
  * This class class create JMenuBar for Chest
+ * 
  * @author Usman
  *
  */

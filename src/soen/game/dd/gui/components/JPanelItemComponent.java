@@ -31,20 +31,22 @@ import soen.game.dd.statics.content.GameEnums.E_ItemEditorMode;
 
 /**
  * This class create jpanel for Items
+ * 
  * @author Usman
  *
  */
 public class JPanelItemComponent {
-	
+
 	String itemName = "";
 	private E_ItemEditorMode itemEditorMode;
 	List<Item> items;
 	Item item;
 	Weapon weapon;
-	
+
 	/**
 	 * This method create the JPanel for the Item Editor and return JPanel which
 	 * set Content Pane for the frame
+	 * 
 	 * @param new_mode
 	 * 
 	 * @return JPanel
@@ -65,17 +67,16 @@ public class JPanelItemComponent {
 		JTextField txtItemName = new JTextField(40);
 		txtItemName.setBounds(170, 30, 120, 25);
 		panel.add(txtItemName);
-		if (itemEditorMode == E_ItemEditorMode.Open){
+		if (itemEditorMode == E_ItemEditorMode.Open) {
 			txtItemName.setEditable(false);
 			txtItemName.setText(item.getName());
 		}
-		
+
 		JLabel lblItemType = new JLabel("Item Type: " + item.getItemType().toString());
 		lblItemType.setBounds(40, 75, 200, 25);
 		panel.add(lblItemType);
 
 		JComboBox cbWeaponType = new JComboBox();
-
 
 		JLabel lblCharacterAttr = new JLabel("Character Attribute: ");
 		lblCharacterAttr.setBounds(40, 120, 120, 25);
@@ -99,51 +100,49 @@ public class JPanelItemComponent {
 		JCheckBox cbSlaying = new JCheckBox("Slaying");
 		JCheckBox cbFrightening = new JCheckBox("Frightening");
 
-		
-		if (item.getItemType() == ItemType.WEAPON){
-			
+		if (item.getItemType() == ItemType.WEAPON) {
+
 			Weapon weapon = (Weapon) item;
-			
+
 			JLabel lblWeaponType = new JLabel("Weapon Type :");
 			lblWeaponType.setBounds(40, 210, 90, 25);
 			panel.add(lblWeaponType);
-	
+
 			cbWeaponType.addItem(WeaponType.MELEE);
 			cbWeaponType.addItem(WeaponType.RANGED);
 			cbWeaponType.setBounds(170, 210, 120, 25);
 			panel.add(cbWeaponType);
-			
+
 			cbFreezing.setBounds(40, 240, 100, 25);
 			panel.add(cbFreezing);
-			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Freezing) >= 0){
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Freezing) >= 0) {
 				cbFreezing.setSelected(true);
 			}
-			
+
 			cbBurning.setBounds(170, 240, 100, 25);
 			panel.add(cbBurning);
-			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Burning) >= 0){
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Burning) >= 0) {
 				cbFreezing.setSelected(true);
 			}
-			
+
 			cbPacifying.setBounds(300, 240, 100, 25);
 			panel.add(cbPacifying);
-			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Pacifying) >= 0){
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Pacifying) >= 0) {
 				cbFreezing.setSelected(true);
 			}
-			
+
 			cbSlaying.setBounds(40, 270, 100, 25);
 			panel.add(cbSlaying);
-			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Slaying) >= 0){
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Slaying) >= 0) {
 				cbFreezing.setSelected(true);
 			}
-			
+
 			cbFrightening.setBounds(170, 270, 100, 25);
 			panel.add(cbFrightening);
-			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Frightening) >= 0){
+			if (weapon.getEnchantments().indexOf(EnchantmentTypes.Frightening) >= 0) {
 				cbFreezing.setSelected(true);
 			}
 		}
-
 
 		JButton btnAddItem = new JButton("Save Item");
 		btnAddItem.setBounds(40, 300, 120, 25);
@@ -153,8 +152,7 @@ public class JPanelItemComponent {
 		cbBonusAmount.setSelectedItem(item.getBonusAmount());
 		itemName = item.getName();
 
-		
-		//action listener for Add item
+		// action listener for Add item
 		btnAddItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -165,29 +163,27 @@ public class JPanelItemComponent {
 
 				if (!itemName.equals("")) {
 					WeaponType weaponType = null;
-					if (item.getItemType() == ItemType.WEAPON){
-						weaponType = (WeaponType)cbWeaponType.getSelectedItem();
+					if (item.getItemType() == ItemType.WEAPON) {
 						Weapon weaponBasic = (WeaponBasic) item;
-						if (cbFrightening.isSelected()){
+						if (cbFrightening.isSelected()) {
 							weaponBasic = new FrighteningDecorator(weaponBasic);
 						}
-						if (cbSlaying.isSelected()){
+						if (cbSlaying.isSelected()) {
 							weaponBasic = new SlayingDecorator(weaponBasic);
 						}
-						if (cbPacifying.isSelected()){
+						if (cbPacifying.isSelected()) {
 							weaponBasic = new PacifyingDecorator(weaponBasic);
 						}
-						if (cbBurning.isSelected()){
+						if (cbBurning.isSelected()) {
 							weaponBasic = new BurningDecorator(weaponBasic);
 						}
-						if (cbFreezing.isSelected()){
+						if (cbFreezing.isSelected()) {
 							weaponBasic = new FreezingDecorator(weaponBasic);
 						}
 						weaponBasic.setItemType(ItemType.WEAPON);
 						item = weaponBasic;
-							
-					}
-					else
+						weaponType = (WeaponType) cbWeaponType.getSelectedItem();
+					} else
 						weaponType = WeaponType.NotAWeapon;
 
 					item.setName(itemName);
@@ -197,8 +193,8 @@ public class JPanelItemComponent {
 					if (item.isValid()) {
 						String msg = "";
 						if (E_ItemEditorMode.Open == new_mode) {
-							for (int i = 0; i < items.size(); ++i){
-								if (items.get(i).getName() == item.getName()){
+							for (int i = 0; i < items.size(); ++i) {
+								if (items.get(i).getName() == item.getName()) {
 									items.set(i, item);
 									break;
 								}
@@ -215,7 +211,7 @@ public class JPanelItemComponent {
 							if (E_ItemEditorMode.Create == new_mode) {
 								txtItemName.setText("");
 							}
-						} else if(msg.contains(GameStatics.STATUS_EXIST)) {
+						} else if (msg.contains(GameStatics.STATUS_EXIST)) {
 							JOptionPane.showMessageDialog(null,
 									String.format(GameStatics.MSG_DUPLICATE_NAME, "Item name"));
 						} else {

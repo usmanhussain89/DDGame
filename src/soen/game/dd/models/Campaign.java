@@ -50,7 +50,7 @@ public class Campaign implements Serializable {
 	 */
 	public void setCampaignList(Map map) {
 		listMap.add(map);
-		System.out.println("added this map "+map);
+		System.out.println("added this map " + map);
 	}
 
 	/**

@@ -37,6 +37,11 @@ public enum ItemType {
 		allowedAttributes = aA;
 	}
 
+	/**
+	 * This method return Allowed Attributes
+	 * 
+	 * @return
+	 */
 	public List<CharacterAttribute> getAllowedAttributes() {
 		return allowedAttributes;
 	}

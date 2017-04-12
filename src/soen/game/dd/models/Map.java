@@ -53,6 +53,12 @@ public class Map implements Serializable {
 
 	}
 
+	/**
+	 * This is the constructor of map class taking two parameters
+	 * 
+	 * @param mapWidth
+	 * @param mapHeight
+	 */
 	public Map(int mapWidth, int mapHeight) {
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
@@ -78,6 +84,8 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * This method return mapName
+	 * 
 	 * @return the mapName
 	 */
 	public String getMapName() {
@@ -85,6 +93,8 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * This method set map name
+	 * 
 	 * @param mapName
 	 *            the mapName to set
 	 */
@@ -93,14 +103,17 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * This method return Width
+	 * 
 	 * @return the width
 	 */
 	public int getMapWidth() {
 		return mapWidth;
 	}
 
-
 	/**
+	 * This method set map width
+	 * 
 	 * @param width
 	 *            the width to set
 	 */
@@ -109,6 +122,8 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * This method return height
+	 * 
 	 * @return the height
 	 */
 	public int getMapHeight() {
@@ -116,6 +131,8 @@ public class Map implements Serializable {
 	}
 
 	/**
+	 * This method set map height
+	 * 
 	 * @param height
 	 *            the height to set
 	 */
@@ -130,10 +147,10 @@ public class Map implements Serializable {
 	 */
 	public Point getEntryPoint() {
 
-		for (int i = 0; i < mapHeight; i++){
-			for (int j = 0; j < mapWidth; j++){
-				if (mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT){
-					return new Point(i,j);
+		for (int i = 0; i < mapHeight; i++) {
+			for (int j = 0; j < mapWidth; j++) {
+				if (mapGridSelection[i][j] == GameStatics.MAP_ENTRY_POINT) {
+					return new Point(i, j);
 				}
 			}
 		}
@@ -187,32 +204,38 @@ public class Map implements Serializable {
 	public void setCharacterPoint(Point new_characterPoint) {
 		this.characterPoint.add(new_characterPoint);
 	}
-	
+
+	/**
+	 * This method set character move
+	 * 
+	 * @param character
+	 * @param point
+	 */
 	public void moveCharacter(Character character, Point point) {
 		int x = (int) point.getX();
 		int y = (int) point.getY();
-		
+
 		int pointType = GameStatics.MAP_PLAYER_POINT;
-		if (character == getFriendlyCharacter()){
+		if (character == getFriendlyCharacter()) {
 			pointType = GameStatics.MAP_CHARACTER_POINT;
 		}
-		if (character == getHostileCharacter()){
+		if (character == getHostileCharacter()) {
 			pointType = GameStatics.MAP_OPPONENT_POINT;
 		}
-		
-		for (int i = 0; i < mapHeight; i++){
-			for (int j = 0; j < mapWidth; j++){
-				if (mapGridSelection[i][j] == pointType){
+
+		for (int i = 0; i < mapHeight; i++) {
+			for (int j = 0; j < mapWidth; j++) {
+				if (mapGridSelection[i][j] == pointType) {
 					mapGridSelection[i][j] = GameStatics.MAP_PATH_POINT;
 				}
 			}
 		}
-		
-		if (mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT){
-			if (character == getFriendlyCharacter()){
+
+		if (mapGridSelection[x][y] == GameStatics.MAP_PATH_POINT) {
+			if (character == getFriendlyCharacter()) {
 				mapGridSelection[x][y] = GameStatics.MAP_CHARACTER_POINT;
 			}
-			if (character == getHostileCharacter()){
+			if (character == getHostileCharacter()) {
 				mapGridSelection[x][y] = GameStatics.MAP_OPPONENT_POINT;
 			}
 
@@ -244,48 +267,58 @@ public class Map implements Serializable {
 	 * @return chestPoint chest point on the map
 	 */
 	public Point getChestPoint() {
-		return chestPoint;
+		for (int i = 0; i < mapWidth; ++i) {
+			for (int j = 0; j < mapHeight; ++j) {
+				if (mapGridSelection[i][j] == GameStatics.MAP_CHEST_POINT) {
+					return new Point(i, j);
+				}
+			}
+		}
+		return null;
 	}
-	
+
 	/**
 	 * This method return the friend character on the map
+	 * 
 	 * @return
 	 */
-	public Character getFriendlyCharacter(){
-		for (Character character : mapCharacters){
-			if (character.getNPCType() == NPCType.FRINDLY){
+	public Character getFriendlyCharacter() {
+		for (Character character : mapCharacters) {
+			if (character.getNPCType() == NPCType.FRINDLY) {
 				return character;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This method return the hostile character on the map
+	 * 
 	 * @return
 	 */
-	public Character getHostileCharacter(){
-		for (Character character : mapCharacters){
-			if (character.getNPCType() == NPCType.HOSTILE || character.getNPCType() == NPCType.DEAD){
+	public Character getHostileCharacter() {
+		for (Character character : mapCharacters) {
+			if (character.getNPCType() == NPCType.HOSTILE || character.getNPCType() == NPCType.DEAD) {
 				return character;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This method return the hostile character index on the map
+	 * 
 	 * @return
 	 */
-	public int getHostileCharacterIndex(){
+	public int getHostileCharacterIndex() {
 		int index = 0;
-		for (Character character : mapCharacters){
-			if (character.getNPCType() == NPCType.HOSTILE){
+		for (Character character : mapCharacters) {
+			if (character.getNPCType() == NPCType.HOSTILE) {
 				return index;
 			}
 			index++;
 		}
-		return index-1;
+		return index - 1;
 	}
 
 	/**

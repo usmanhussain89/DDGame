@@ -18,9 +18,20 @@ public class Item implements Serializable {
 	private int itemStat; // for weapon base attack and Armor wearable "armor
 							// value"
 	private WeaponType weaponType; // this to determine if its a melee or ranged
-								// weapon if the item type is a Weapon o.w. its
-								// NULL
+									// weapon if the item type is a Weapon o.w.
+									// its
+									// NULL
 
+	/**
+	 * This is the constructor of Item class
+	 * 
+	 * @param name
+	 * @param itemType
+	 * @param enhancedAttribute
+	 * @param bonusAmount
+	 * @param itemStat
+	 * @param weaponType
+	 */
 	public Item(String name, ItemType itemType, CharacterAttribute enhancedAttribute, int bonusAmount, int itemStat,
 			WeaponType weaponType) {
 		this.itemType = itemType;
@@ -31,6 +42,9 @@ public class Item implements Serializable {
 		this.weaponType = weaponType;
 	}
 
+	/**
+	 * This is the no argument constructor of item class
+	 */
 	public Item() {
 	}
 
@@ -56,6 +70,8 @@ public class Item implements Serializable {
 	}
 
 	/**
+	 * This method return Itemtype
+	 * 
 	 * @return the itemType
 	 */
 	public ItemType getItemType() {
@@ -63,6 +79,8 @@ public class Item implements Serializable {
 	}
 
 	/**
+	 * This method return enhancedAttribute
+	 * 
 	 * @return the enhancedAttribute
 	 */
 	public CharacterAttribute getEnhancedAttribute() {
@@ -70,6 +88,8 @@ public class Item implements Serializable {
 	}
 
 	/**
+	 * This method return bonus amount
+	 * 
 	 * @return the bonusAmount
 	 */
 	public int getBonusAmount() {
@@ -77,17 +97,26 @@ public class Item implements Serializable {
 	}
 
 	/**
+	 * This method return Name
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * This method set the name of item
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
+	 * This method return item stat
+	 * 
 	 * @author Munjed
 	 * @return itemStat
 	 */
@@ -132,44 +161,58 @@ public class Item implements Serializable {
 		return "Item [itemType=" + itemType + ", enhancedAttribute=" + enhancedAttribute + ", bonusAmount="
 				+ bonusAmount + ", name=" + name + "]";
 	}
-	
+
 	/**
 	 * This method set bonus amount
+	 * 
 	 * @param bonusAmount
 	 */
 	public void setBonusAmount(Integer bonusAmount) {
 		this.bonusAmount = bonusAmount;
 
 	}
-	
+
 	/**
 	 * This method set character attribute
+	 * 
 	 * @param bonusAmount
 	 */
 	public void setCharacterAttribute(CharacterAttribute characterAttribute) {
 		this.enhancedAttribute = characterAttribute;
 
 	}
-	
+
 	/**
 	 * This method set item type
+	 * 
 	 * @param bonusAmount
 	 */
 	public void setItemType(ItemType itemType) {
 		this.itemType = itemType;
 	}
-	
+
 	/**
 	 * This method implement equal
+	 * 
 	 * @param bonusAmount
 	 */
-	public boolean equals(Item other){
-		return this.bonusAmount == other.bonusAmount &&
-				this.enhancedAttribute == other.enhancedAttribute &&
-				this.itemStat == other.itemStat &&
-				this.itemType == other.itemType &&
-				this.name == other.name &&
-				this.weaponType == other.weaponType;
+	public boolean equals(Item other) {
+		return this.bonusAmount == other.bonusAmount && this.enhancedAttribute == other.enhancedAttribute
+				&& this.itemStat == other.itemStat && this.itemType == other.itemType && this.name == other.name
+				&& this.weaponType == other.weaponType;
+	}
+
+	/**
+	 * This method return range
+	 * 
+	 * @return
+	 */
+	public int getRange() {
+		if (weaponType == WeaponType.MELEE) {
+			return 1;
+		} else {
+			return 5;
+		}
 	}
 
 }

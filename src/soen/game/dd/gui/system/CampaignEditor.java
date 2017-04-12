@@ -67,7 +67,7 @@ public class CampaignEditor extends JFrame {
 				campaigns, index));
 
 		// load Campaign Grid from Component
-		this.setContentPane((new JPanelCampaignComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode, this, maps,
-				campaigns, index));
+		this.setContentPane((new JPanelCampaignComponent()).getCampaignEditorGridPanel(campaign, campaignEditorMode,
+				this, maps, campaigns, index));
 	}
 }

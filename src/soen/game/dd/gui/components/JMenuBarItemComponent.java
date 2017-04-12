@@ -13,11 +13,12 @@ import soen.game.dd.statics.content.GameStatics;
 
 /**
  * This class class create JMenuBar for Item
+ * 
  * @author Usman
  *
  */
 public class JMenuBarItemComponent {
-	
+
 	/**
 	 * This method create Menu for Item Editor Window
 	 * 

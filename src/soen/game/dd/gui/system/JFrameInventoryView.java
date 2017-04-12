@@ -21,6 +21,7 @@ import soen.game.dd.models.ItemType;
 
 /**
  * This class create Inventory view
+ * 
  * @author Usman
  *
  */
@@ -30,14 +31,14 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 	Character character;
 	JPanel panel;
 	boolean enabled;
-	
+
 	/**
 	 * this constructor initialize inventory view object
 	 * 
 	 * @param character
 	 * @param enabled
 	 */
-	public JFrameInventoryView(Character character, boolean enabled){
+	public JFrameInventoryView(Character character, boolean enabled) {
 		this.character = character;
 		this.enabled = enabled;
 		character.addObserver(this);
@@ -45,7 +46,7 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 		initializeFrame();
 		refreshJPanel();
 	}
-	
+
 	/**
 	 * this method initialize Jpanel
 	 */
@@ -53,7 +54,7 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 		panel = new JPanel();
 		panel.setLayout(null);
 	}
-	
+
 	/**
 	 * this method initialize Frame
 	 */
@@ -66,10 +67,10 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
-		
+
 		this.setContentPane(panel);
 	}
-	
+
 	/**
 	 * update is called when notifyobservers will call
 	 */
@@ -77,17 +78,19 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 	public void update(Observable o, Object arg) {
 		refreshJPanel();
 	}
-	
+
 	/**
 	 * the method return panel
+	 * 
 	 * @return
 	 */
 	public JPanel getJPanel() {
 		return this.panel;
 	}
-	
+
 	/**
 	 * the method refresh jpanel
+	 * 
 	 * @return
 	 */
 	public void refreshJPanel() {
@@ -100,51 +103,54 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 		panel.add(getEquipmentDropdown(ItemType.BOOTS, character.getBoots(), 140));
 		panel.add(getEquipmentDropdown(ItemType.BELT, character.getBelt(), 170));
 		panel.add(getEquipmentDropdown(ItemType.RING, character.getRing(), 200));
-		
+
 		panel.add(getBackpackList());
 		panel.revalidate();
 		panel.repaint();
 	}
-	
+
 	/**
 	 * the method return jpanel of getEquipmentDropdown
+	 * 
 	 * @return
 	 */
-	private JPanel getEquipmentDropdown(ItemType itemtype, Item equippedItem, int yPos){
+	private JPanel getEquipmentDropdown(ItemType itemtype, Item equippedItem, int yPos) {
 		JPanel subpanel = new JPanel();
 		subpanel.setLayout(null);
 		JLabel label = new JLabel(itemtype.toString());
 		label.setBounds(0, 0, 125, 25);
 		subpanel.add(label);
-		
+
 		List<ItemComboBox> selectableChoices = new ArrayList<ItemComboBox>();
-		if (equippedItem != null){
+		if (equippedItem != null) {
 			selectableChoices.add(new ItemComboBox(equippedItem));
 		}
-		for (Item item : character.getBackpack()){
-			if (item.getItemType() == itemtype){
+		for (Item item : character.getBackpack()) {
+			if (item.getItemType() == itemtype) {
 				selectableChoices.add(new ItemComboBox(item));
 			}
 		}
-		JComboBox<ItemComboBox> jComboBox = new JComboBox<ItemComboBox>(selectableChoices.toArray(new ItemComboBox[selectableChoices.size()]));
+		JComboBox<ItemComboBox> jComboBox = new JComboBox<ItemComboBox>(
+				selectableChoices.toArray(new ItemComboBox[selectableChoices.size()]));
 		jComboBox.setBounds(150, 0, 120, 25);
 		jComboBox.setEnabled(enabled);
-		
+
 		jComboBox.addActionListener(new EquipmentChangeActionListener());
-		
+
 		subpanel.add(jComboBox);
 
 		subpanel.setBounds(40, yPos, 300, 30);
 		return subpanel;
 	}
-	
+
 	/**
 	 * This method return backpack item
+	 * 
 	 * @return
 	 */
-	private JList<ItemComboBox> getBackpackList(){
+	private JList<ItemComboBox> getBackpackList() {
 		DefaultListModel<ItemComboBox> backpackItems = new DefaultListModel<ItemComboBox>();
-		for (Item item : character.getBackpack()){
+		for (Item item : character.getBackpack()) {
 			backpackItems.addElement(new ItemComboBox(item));
 		}
 		JList<ItemComboBox> backpack = new JList<ItemComboBox>(backpackItems);
@@ -152,9 +158,10 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 		backpack.setBounds(40, 230, 300, 300);
 		return backpack;
 	}
-	
+
 	/**
 	 * This class implements ActionListener for EquipmentChange
+	 * 
 	 * @author Usman
 	 *
 	 */
@@ -164,10 +171,10 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 		public void actionPerformed(ActionEvent e) {
 			@SuppressWarnings("unchecked")
 			JComboBox<ItemComboBox> jComboBox = (JComboBox<ItemComboBox>) e.getSource();
-			Item itemToEquip = ((ItemComboBox)jComboBox.getSelectedItem()).getValue();
+			Item itemToEquip = ((ItemComboBox) jComboBox.getSelectedItem()).getValue();
 			System.out.println(itemToEquip);
 			ItemType itemType = itemToEquip.getItemType();
-			switch(itemType){
+			switch (itemType) {
 			case HELMET:
 				character.addItemIntoBackpack(character.getHelmet());
 				character.setHelmet(itemToEquip);
@@ -200,16 +207,17 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 			character.removeItemFromBackpack(itemToEquip);
 			character.notifyObservers();
 		}
-		
+
 	}
-	
+
 	/**
 	 * This class is for ItemcomboBox
+	 * 
 	 * @author Usman
 	 *
 	 */
 	class ItemComboBox {
-		
+
 		private Item value;
 		private String label;
 
@@ -230,8 +238,7 @@ public class JFrameInventoryView extends javax.swing.JFrame implements Observer 
 		public String toString() {
 			return label;
 		}
-		
+
 	}
 
-	
 }

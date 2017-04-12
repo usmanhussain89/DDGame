@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class NPC extends Character{
-	private NPCType NPCType; 
-	//private Character playable;
-	//private int damagePoint;
-	//private Item item;
+	private NPCType NPCType;
 	
 	/**
 	 * @author Munjed

@@ -12,11 +12,12 @@ import soen.game.dd.statics.content.GameEnums.E_CharacterEditorMode;
 
 /**
  * This class class create JMenuBar for Character
+ * 
  * @author Usman
  *
  */
 public class JMenuBarCharacterComponent {
-	
+
 	/**
 	 * This mehtod create menu bar for character editor
 	 * 
@@ -25,7 +26,8 @@ public class JMenuBarCharacterComponent {
 	 * @param characterEditorMode
 	 * @return
 	 */
-	public JMenuBar getCharacterEditorJMenuBar(Character character, CharacterEditor characterEditor, E_CharacterEditorMode characterEditorMode) {
+	public JMenuBar getCharacterEditorJMenuBar(Character character, CharacterEditor characterEditor,
+			E_CharacterEditorMode characterEditorMode) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(GameStatics.MENU_FILE);
 		JMenuItem menuItemExit = new JMenuItem(GameStatics.MENU_CHARACTER_EXIT);
@@ -34,7 +36,7 @@ public class JMenuBarCharacterComponent {
 		menuBar.add(menuFile);
 		return menuBar;
 	}
-	
+
 	/**
 	 * This method closes the frame of the application
 	 * 

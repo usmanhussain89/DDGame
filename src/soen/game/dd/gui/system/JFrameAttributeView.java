@@ -3,8 +3,6 @@ package soen.game.dd.gui.system;
 import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -79,6 +77,9 @@ public class JFrameAttributeView extends JFrame implements Observer {
 		panel.add(getAttrLabel("Dexterity", character.getDexterity(), 100));
 		panel.add(getAttrLabel("Intelligence", character.getIntelligence(), 120));
 		panel.add(getAttrLabel("Charisma", character.getCharisma(), 140));
+		if (character.getCharacterStatus() != null){
+			panel.add(getAttrLabel("Status Effect", character.getCharacterStatus().toString(), 160));
+		}
 		
 		panel.repaint();
 	}

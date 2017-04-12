@@ -3,7 +3,6 @@ package soen.game.dd.gui.system;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
-import java.awt.Frame;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
